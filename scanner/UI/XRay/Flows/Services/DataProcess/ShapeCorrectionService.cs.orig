@@ -1,0 +1,300 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using UI.Common.Tracers;
+using UI.XRay.Business.DataAccess.Config;
+using System.IO;
+using UI.XRay.Business.Entities;
+
+namespace UI.XRay.Flows.Services.DataProcess
+{
+    public class ShapeCorrectionService
+    {
+        public ShapeCorrectionService()
+        {
+            try
+            {
+                LoadSettings();
+            }
+            catch (Exception exception)
+            {
+                Tracer.TraceException(exception);
+            }
+        }
+
+        private int _view1DataLength;
+        private int _view2DataLength;
+        private int[] View1_F1;
+        private int[] View1_F2;
+        private double[] View1_t;
+        private int[] View2_F1;
+        private int[] View2_F2;
+        private double[] View2_t;
+
+        ushort[] RawDataView1_High = null;
+        ushort[] RawDataView1_Low = null;
+        ushort[] RawDataView2_High = null;
+        ushort[] RawDataView2_Low = null;
+
+        private bool _initSuccess_ce = false;
+        private bool _initSuccess_zheng = false;
+
+
+        public void ScanlineCorrection(ScanlineDataBundle bundle)
+        {
+            if (!_initSuccess_ce) return;
+
+            if (bundle.View1LineData != null)
+            {
+                _view1DataLength = bundle.View1LineData.High.Length;
+                if (RawDataView1_High == null)
+                    RawDataView1_High = new ushort[_view1DataLength];
+                if (RawDataView1_Low == null)
+                    RawDataView1_Low = new ushort[_view1DataLength];
+
+                Buffer.BlockCopy(bundle.View1LineData.High, 0, RawDataView1_High, 0, _view1DataLength * sizeof(ushort));
+                Buffer.BlockCopy(bundle.View1LineData.Low, 0, RawDataView1_Low, 0, _view1DataLength * sizeof(ushort));
+
+                int length = Math.Min(View1_F1.Length, _view1DataLength);
+                for (int i = 0; i < length; i++)
+                {
+                    if (View1_F1[i] >= 0 && View1_F1[i] < length && View1_F2[i] >= 0 && View1_F2[i] < length)
+                    {
+                        if (View1_F2[i] == 0)
+                        {
+                            bundle.View1LineData.High[i] = (ushort)(RawDataView1_High[View1_F1[i]]);
+                            bundle.View1LineData.Low[i] = (ushort)(RawDataView1_Low[View1_F1[i]]);
+                        }
+                        else
+                        {
+                            bundle.View1LineData.High[i] = (ushort)(RawDataView1_High[View1_F1[i]] * View1_t[i] + RawDataView1_High[View1_F2[i]] * (1 - View1_t[i]));
+                            bundle.View1LineData.Low[i] = (ushort)(RawDataView1_Low[View1_F1[i]] * View1_t[i] + RawDataView1_Low[View1_F2[i]] * (1 - View1_t[i]));
+                        }
+                    }
+                }
+            }
+            if (!_initSuccess_zheng) return;
+            if (bundle.View2LineData != null)
+            {
+                _view2DataLength = bundle.View2LineData.High.Length;
+                if (RawDataView2_High == null)
+                    RawDataView2_High = new ushort[_view2DataLength];
+                if (RawDataView2_Low == null)
+                    RawDataView2_Low = new ushort[_view2DataLength];
+
+                Buffer.BlockCopy(bundle.View2LineData.High, 0, RawDataView2_High, 0, _view2DataLength * sizeof(ushort));
+                Buffer.BlockCopy(bundle.View2LineData.Low, 0, RawDataView2_Low, 0, _view2DataLength * sizeof(ushort));
+
+                int length = Math.Min(View2_F1.Length, _view2DataLength);
+                for (int i = 0; i < length; i++)
+                {
+                    if (View2_F1[i] >= 0 && View2_F1[i] < length && View2_F2[i] >= 0 && View2_F2[i] < length)
+                    {
+                        if (View2_F2[i] == 0)
+                        {
+                            bundle.View2LineData.High[i] = (ushort)(RawDataView2_High[View2_F1[i]]);
+                            bundle.View2LineData.Low[i] = (ushort)(RawDataView2_Low[View2_F1[i]]);
+                        }
+                        else
+                        {
+                            bundle.View2LineData.High[i] = (ushort)(RawDataView2_High[View2_F1[i]] * View2_t[i] + RawDataView2_High[View2_F2[i]] * (1 - View2_t[i]));
+                            bundle.View2LineData.Low[i] = (ushort)(RawDataView2_Low[View2_F1[i]] * View2_t[i] + RawDataView2_Low[View2_F2[i]] * (1 - View2_t[i]));
+                        }
+                    }
+                }
+            }
+        }
+
+        public void DisplayScanlineCorrection(DisplayScanlineDataBundle bundle)
+        {
+            if (!_initSuccess_ce) return;
+
+            if (bundle.View1Data != null)
+            {
+                if (RawDataView1_High == null)
+                    RawDataView1_High = new ushort[bundle.View1Data.XRayData.Length];
+
+                Buffer.BlockCopy(bundle.View1Data.XRayData, 0, RawDataView1_High, 0, _view1DataLength * sizeof(ushort));
+                int length = Math.Min(View1_F1.Length, bundle.View1Data.XRayData.Length);
+                for (int i = 0; i < length; i++)
+                {
+                    if (View1_F1[i] >= 0 && View1_F1[i] <= length && View1_F2[i] >= 0 && View1_F2[i] <= length)
+                    {
+                        if (View1_F2[i] == 0)
+                        {
+                            bundle.View1Data.XRayData[i] = (ushort)(RawDataView1_High[View1_F1[i]]);
+                        }
+                        else
+                        {
+                            bundle.View1Data.XRayData[i] = (ushort)(RawDataView1_High[View1_F1[i]] * View1_t[i] + RawDataView1_High[View1_F2[i]] * (1 - View1_t[i]));
+                        }
+                    }
+                }
+            }
+            if (!_initSuccess_zheng) return;
+            if (bundle.View2Data != null)
+            {
+                if (RawDataView2_High == null)
+                    RawDataView2_High = new ushort[bundle.View2Data.XRayData.Length];
+
+                Buffer.BlockCopy(bundle.View2Data.XRayData, 0, RawDataView2_High, 0, _view2DataLength * sizeof(ushort));
+
+                int length = Math.Min(View2_F1.Length, bundle.View2Data.XRayData.Length);
+                for (int i = 0; i < length; i++)
+                {
+                    if (View2_F1[i] >= 0 && View2_F1[i] <= length && View2_F2[i] >= 0 && View2_F2[i] < length)
+                    {
+                        if (View2_F2[i] == 0)
+                        {
+                            bundle.View2Data.XRayData[i] = (ushort)(RawDataView2_High[View2_F1[i]]);
+                        }
+                        else
+                        {
+                            bundle.View2Data.XRayData[i] = (ushort)(RawDataView2_High[View2_F1[i]] * View2_t[i] + RawDataView2_High[View2_F2[i]] * (1 - View2_t[i]));
+                        }
+                    }
+                }
+            }
+        }
+
+        private void LoadSettings()
+        {
+            try
+            {
+                string cefile = "ce.csv";
+                string zhengfile = "zheng.csv";
+                if (ReadCeFile(cefile))
+                {
+                    _initSuccess_ce = true;
+                }
+                else
+                {
+                    _initSuccess_ce = false;
+                }
+                if (ReadZhengFile(zhengfile))
+                {
+                    _initSuccess_zheng = true;
+                }
+                else
+                {
+                    _initSuccess_zheng = false;
+                }
+            }
+            catch (Exception e)
+            {
+                _initSuccess_ce = false;
+                _initSuccess_zheng = false;
+                Tracer.TraceError(e.ToString());
+            }
+        }
+        bool ReadCeFile(string file)
+        {
+            try
+            {
+                if (File.Exists(file))
+                {
+                    FileStream fs = new FileStream(file, FileMode.Open);
+                    StreamReader reader = new StreamReader(fs);
+
+                    string sStuName = string.Empty;
+                    List<string> strList = new List<string>();
+                    while ((sStuName = reader.ReadLine()) != null)
+                    {
+                        strList.Add(sStuName.Trim().ToString());
+                    }
+
+                    _view1DataLength = strList.Count;
+
+                    View1_t = new double[_view1DataLength];
+                    View1_F1 = new int[_view1DataLength];
+                    View1_F2 = new int[_view1DataLength];
+                    for (int i = 0; i < _view1DataLength; i++)
+                    {
+                        string[] strArray = strList[i].Split(',');
+                        if (strArray.Length == 3)
+                        {
+                            View1_t[i] = double.Parse(strArray[0]);
+                            View1_F1[i] = int.Parse(strArray[1]);
+                            View1_F2[i] = int.Parse(strArray[2]);
+                        }
+                        else
+                        {
+                            View1_t[i] = 0;
+                            View1_F1[i] = 0;
+                            View1_F2[i] = 0;
+                        }
+                    }
+
+                    reader.Close();
+                    fs.Close();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                Tracer.TraceException(e);
+                return false;
+            }
+        }
+
+        bool ReadZhengFile(string file)
+        {
+            try
+            {
+                if (File.Exists(file))
+                {
+                    FileStream fs = new FileStream(file, FileMode.Open);
+                    StreamReader reader = new StreamReader(fs);
+
+                    string sStuName = string.Empty;
+                    List<string> strList = new List<string>();
+                    while ((sStuName = reader.ReadLine()) != null)
+                    {
+                        strList.Add(sStuName.Trim().ToString());
+                    }
+
+                    _view2DataLength = strList.Count;
+
+                    View2_t = new double[_view2DataLength];
+                    View2_F1 = new int[_view2DataLength];
+                    View2_F2 = new int[_view2DataLength];
+                    for (int i = 0; i < _view2DataLength; i++)
+                    {
+                        string[] strArray = strList[i].Split(',');
+                        if (strArray.Length == 3)
+                        {
+                            View2_t[i] = double.Parse(strArray[0]);
+                            View2_F1[i] = int.Parse(strArray[1]);
+                            View2_F2[i] = int.Parse(strArray[2]);
+                        }
+                        else
+                        {
+                            View2_t[i] = 0;
+                            View2_F1[i] = 0;
+                            View2_F2[i] = 0;
+                        }
+                    }
+
+                    reader.Close();
+                    fs.Close();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                Tracer.TraceException(e);
+                return false;
+            }
+        }
+    }
+}

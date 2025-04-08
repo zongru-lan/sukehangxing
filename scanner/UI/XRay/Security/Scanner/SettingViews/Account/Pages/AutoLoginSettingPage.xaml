@@ -1,0 +1,48 @@
+﻿<Page x:Class="UI.XRay.Security.Scanner.SettingViews.Account.Pages.AutoLoginSettingPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+      xmlns:command="http://www.galasoft.ch/mvvmlight"
+      xmlns:framework="clr-namespace:UI.XRay.Gui.Framework;assembly=UI.XRay.Gui.Framework"
+      mc:Ignorable="d" FontSize="{StaticResource PageFontSize}" 
+      d:DesignHeight="300" d:DesignWidth="600" DataContext="{Binding AutoLoginPage, Source={StaticResource Locator}}"
+	Title="AutoLoginPage">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+        <StackPanel Margin="{StaticResource PageContentMargin}" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <StackPanel Orientation="Horizontal" Margin="0,15,0,0">
+                <TextBlock Text="{framework:LanguageResource Auto Login}" VerticalAlignment="Center"/>
+                <controls:ToggleSwitch Name="AutoLoginToggleButton" Margin="10,0,0,0"
+                      FontSize="{Binding Path=FontSize,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}}"
+                      OnLabel="{framework:LanguageResource On}" OffLabel="{framework:LanguageResource Off}"  ContentDirection="RightToLeft"
+                      CheckChangedCommand="{Binding IsAutoLoginCheckedChangedEventCommand}" IsChecked="{Binding IsAutoLoginChecked}"
+                      HorizontalAlignment="Left" VerticalAlignment="Top"></controls:ToggleSwitch>
+            </StackPanel>
+
+            <StackPanel Name="LoginIdPanel" Visibility="Visible" Orientation="Horizontal">
+                <TextBlock Margin="0,15,0,10"
+                       Text="{framework:LanguageResource Login with account when system starts}"></TextBlock>
+                <ComboBox MaxWidth="150" MinWidth="100" HorizontalAlignment="Left" FontSize="{StaticResource PageFontSize}"
+                          ItemsSource="{Binding Accounts}" VerticalAlignment="Center" Margin="10,0,0,0"
+                          SelectedValue="{Binding SelectedAccountId}" DisplayMemberPath="AccountId" SelectedValuePath="AccountId">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <command:EventToCommand Command="{Binding SelectionChangedEventCommand}" PassEventArgsToCommand="False"></command:EventToCommand>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <ComboBox.Style>
+                        <Style BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="ComboBox">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=AutoLoginToggleButton, Path=IsChecked}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ComboBox.Style>
+                </ComboBox>
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

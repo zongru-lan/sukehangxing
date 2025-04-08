@@ -1,0 +1,52 @@
+﻿<controls:MetroWindow x:Class="UI.XRay.Security.Scanner.RegularRemindWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:command="http://www.galasoft.ch/mvvmlight"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:framework="clr-namespace:UI.XRay.Gui.Framework;assembly=UI.XRay.Gui.Framework"
+        FontSize="19" DataContext="{Binding RegularRemindWindow, Source={StaticResource Locator}}"
+        BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="1" Background="LightGray"
+        ShowMaxRestoreButton="False" ShowSystemMenuOnRightClick="False" 
+        ShowMinButton="False" IsWindowDraggable="True"  ShowCloseButton="True" ResizeMode="NoResize"
+        WindowTransitionsEnabled="False"  ShowInTaskbar="False"
+        InputMethod.IsInputMethodEnabled="False"
+        Title="{framework:LanguageResource ViewSection=RegularRemind, Source=Reminder Messages}"
+                      ShowTitleBar="True" WindowStartupLocation="Manual">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="PreviewKeyDown">
+            <command:EventToCommand Command="{Binding PreviewKeyDownEventCommand}" PassEventArgsToCommand="True"></command:EventToCommand>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" VerticalAlignment="Center">
+
+        <Grid Margin="50,10" VerticalAlignment="Top" HorizontalAlignment="Stretch" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+            </Grid.RowDefinitions>
+      <StackPanel Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" Height="48" Orientation="Horizontal" >
+        <Image Source="Icons/Warning.png" Width="40" Height="40"/>
+        <TextBlock Text="{framework:LanguageResource ViewSection=RegularRemind, Source=Please Check}" VerticalAlignment="Center" Margin="15,0,0,0"
+                           FontSize="24"/>
+      </StackPanel>
+
+      <Button Grid.Row="1" Margin="0,50,0,0"  MinWidth="130" Name="CloseButton"
+                    HorizontalAlignment="Center" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center"
+                             Style="{StaticResource AccentedSquareButtonStyle}" FontSize="20" Click="CloseButton_OnClick">
+        <Button.Content>
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition></ColumnDefinition>
+              <ColumnDefinition Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock TextWrapping="Wrap" Text="{framework:LanguageResource Close}" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                  ></TextBlock>
+            <TextBlock Grid.Column="1" Margin="15,0,0,0" Text="[F3]" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+          </Grid>
+        </Button.Content>
+      </Button>
+    </Grid>
+    </ScrollViewer>
+</controls:MetroWindow>

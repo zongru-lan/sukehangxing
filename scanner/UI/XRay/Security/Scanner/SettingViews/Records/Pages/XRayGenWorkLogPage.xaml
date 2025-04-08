@@ -1,0 +1,106 @@
+﻿<Page x:Class="UI.XRay.Security.Scanner.SettingViews.Records.Pages.XRayGenWorkLogPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:framework="clr-namespace:UI.XRay.Gui.Framework;assembly=UI.XRay.Gui.Framework"
+      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+      xmlns:converters="clr-namespace:UI.XRay.Security.Scanner.Converters"
+      xmlns:command="http://www.galasoft.ch/mvvmlight"
+      mc:Ignorable="d" 
+      FontSize="{StaticResource PageFontSize}"
+      DataContext="{Binding Source={StaticResource Locator}, Path=XRayGenWorkLogPage}"
+      d:DesignHeight="300" d:DesignWidth="600"
+	Title="RadiationRecordsPage">
+   <Page.Resources>
+         <!--<Style BasedOn="{StaticResource {x:Type DataGridCell}}" TargetType="{x:Type DataGridCell}">
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+        </Style>
+        <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="HorizontalContentAlignment" Value="Right"/>
+        </Style>-->
+        <converters:Date2StringConverter x:Key="Date2StringConverter"/>
+        <converters:Hours2StringConverter x:Key="Hour2StringConverter"/>
+        <converters:DateTime2StringConverter x:Key="DateTime2StringConverter"/>
+    </Page.Resources>
+    <Grid Margin="{StaticResource PageContentMargin}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Name="OperateGrid" HorizontalAlignment="Left" Margin="0,10,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.Resources>
+                <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
+                    <Setter Property="Margin" Value="10,5"></Setter>
+                    <Setter Property="MinWidth" Value="120"></Setter>
+                    <Setter Property="VerticalAlignment" Value="Center"></Setter>
+                </Style>
+            </Grid.Resources>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="{framework:LanguageResource Statistical Period}" VerticalAlignment="Center"></TextBlock>
+            <ComboBox Grid.Row="0" Grid.Column="2" ItemsSource="{Binding YearsList}" SelectedItem="{Binding SelectedYear}">
+            </ComboBox>
+            <DatePicker Name="UserDefinedDatePicker" Grid.Row="0" Grid.Column="3" Margin="10,5" SelectedDate="{Binding UserDefinedDate}">
+                <DatePicker.Style>
+                    <Style BasedOn="{StaticResource {x:Type DatePicker}}" TargetType="DatePicker">
+                        <Style.Setters>
+                            <Setter Property="Visibility" Value="Collapsed"></Setter>
+                        </Style.Setters>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=PeriodComboBox, Path=SelectedValue}" Value="Hourly">
+                                <Setter Property="Visibility" Value="Visible"></Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </DatePicker.Style>
+            </DatePicker>
+            <ComboBox Grid.Row="0" Grid.Column="1" Name="PeriodComboBox" ItemsSource="{Binding PeriodList}" SelectedValue="{Binding SelectedPeriod}" 
+                      DisplayMemberPath="Str" SelectedValuePath="Value">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <command:EventToCommand Command="{Binding PeriodSelectionChangedEventCommand}" PassEventArgsToCommand="False">
+                        </command:EventToCommand>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ComboBox>
+            <ComboBox Grid.Row="0" Grid.Column="3" ItemsSource="{Binding MonthsList}" DisplayMemberPath="Str" SelectedValuePath="Value" SelectedValue="{Binding SelectedMonth}">
+                <ComboBox.Style>
+                    <Style BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="ComboBox">
+                        <Style.Setters>
+                            <Setter Property="Visibility" Value="Collapsed"></Setter>
+                        </Style.Setters>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=PeriodComboBox, Path=SelectedValue}" Value="Dayly">
+                                <Setter Property="Visibility" Value="Visible"></Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ComboBox.Style>
+            </ComboBox>
+
+            <UniformGrid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" Columns="2" Margin="0,15,0,0" HorizontalAlignment="Left">
+                <Button Margin="0,5,15,5" Content="{framework:LanguageResource Find}" MinWidth="100" Command="{Binding FindCommand}"></Button>
+                <Button Margin="0,5,15,5" Content="{framework:LanguageResource Export}" Command="{Binding ExportCommand}" Visibility="{Binding RecordsListVisibility}"></Button>
+            </UniformGrid>
+        </Grid>
+        <DataGrid Grid.Row="1" ScrollViewer.VerticalScrollBarVisibility="Auto" Visibility="{Binding RecordsListVisibility}" CanUserAddRows="False" CanUserDeleteRows="False"
+                  GridLinesVisibility="All" IsReadOnly="True" AutoGenerateColumns="False" FontSize="14" SelectionMode="Extended"
+                  Margin="0,15,0,15" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="DarkGray" BorderThickness="2"
+                  ItemsSource="{Binding StatisticResults}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="{framework:LanguageResource Time}" Binding="{Binding Path=Date, Converter={StaticResource Date2StringConverter}}"></DataGridTextColumn>
+                <DataGridTextColumn Header="{framework:LanguageResource Working Hours}" Binding="{Binding Path=Hours, Converter={StaticResource Hour2StringConverter}}"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Page>

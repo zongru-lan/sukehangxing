@@ -1,0 +1,124 @@
+﻿<Page x:Class="UI.XRay.Security.Scanner.SettingViews.About.Pages.AboutPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:about="clr-namespace:UI.XRay.Security.Scanner.ViewModel.Setting.About"
+      xmlns:converters="clr-namespace:UI.XRay.Security.Scanner.Converters"
+      xmlns:framework="clr-namespace:UI.XRay.Gui.Framework;assembly=UI.XRay.Gui.Framework"
+      mc:Ignorable="d" 
+      DataContext="{Binding Source={StaticResource Locator}, Path=AboutPage}"
+      d:DesignHeight="600" d:DesignWidth="600"
+      d:DataContext="{d:DesignInstance Type=about:AboutPageViewModel, IsDesignTimeCreatable=True}"
+      FontSize="{StaticResource PageFontSize}"
+	  Title="AboutPage">
+    <Page.Resources>
+        <converters:Hours2StringConverter x:Key="Hours2StringConverter"/>
+    </Page.Resources>
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+        <StackPanel  Margin="{StaticResource PageContentMargin}" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <StackPanel Name="MachineInfoPanel" Orientation="Vertical">
+                <TextBlock Style="{StaticResource PageSectionHeaderTextBlockStyle}" 
+                           Text="{framework:LanguageResource Machine Information}"></TextBlock>               
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{framework:LanguageResource Machine Number:}"></TextBlock>
+                    <TextBlock Text="{Binding MachineNumber}" Margin="10,0,0,0" FontWeight="Bold" Focusable="True" Foreground="{StaticResource AccentColorBrush}"></TextBlock>
+                </StackPanel>
+                 <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{framework:LanguageResource Production Date:}"></TextBlock>
+                    <TextBlock Text="{Binding ProductionDate}" Margin="10,0,0,0" FontWeight="Bold" Focusable="True" Foreground="{StaticResource AccentColorBrush}"></TextBlock>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{framework:LanguageResource Machine Type:}"></TextBlock>
+                    <TextBlock Text="{Binding MachineType}" Margin="10,0,0,0" FontWeight="Bold" Foreground="{StaticResource AccentColorBrush}"></TextBlock>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Name="DiskSpacePanel" Orientation="Vertical">
+                <TextBlock Style="{StaticResource PageSectionHeaderTextBlockStyle}" 
+                           Text="{framework:LanguageResource Disk Space}"></TextBlock>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{framework:LanguageResource Image Storage Disk:}"></TextBlock>
+                    <TextBlock Text="{Binding ImageStoreDiskName}" Margin="10,0,0,0" FontWeight="Bold" Foreground="{StaticResource AccentColorBrush}"></TextBlock>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding DiskSpaceUsedGB, StringFormat='F'}" FontWeight="Bold" Foreground="{StaticResource AccentColorBrush}"></TextBlock>
+                    <TextBlock Text="GB" Margin="5,0,0,0" ></TextBlock>
+                    <TextBlock Text="{framework:LanguageResource Already Used}" Margin="5,0,0,0"></TextBlock>
+                    <TextBlock Text=", "></TextBlock>
+                    <TextBlock Text="{framework:LanguageResource Total}"></TextBlock>
+                    <TextBlock Text="{Binding DiskSpaceSizeGB, StringFormat='F'}" Margin="5,0,0,0" FontWeight="Bold" Foreground="{StaticResource AccentColorBrush}"></TextBlock>
+                    <TextBlock Text="GB" Margin="5,0,0,0"></TextBlock>
+                </StackPanel>
+                <ProgressBar Margin="0,10,0,0" Minimum="0" Maximum="100" Value="{Binding DiskUsedRatio}" Height="20"></ProgressBar>
+            </StackPanel>
+            <StackPanel Name="ImagesCountPanel" Orientation="Vertical">
+                <TextBlock Style="{StaticResource PageSectionHeaderTextBlockStyle}" 
+                           Text="{framework:LanguageResource Images Count}"></TextBlock>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{framework:LanguageResource Count of images in storage}"></TextBlock>
+                    <TextBlock Text="{Binding TotalImagesCountInStorage}" Margin="10,0,0,0" FontWeight="Bold" Foreground="{StaticResource AccentColorBrush}"></TextBlock>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{framework:LanguageResource Count of images since installed}"></TextBlock>
+                    <TextBlock Text="{Binding TotalImagesCountSinceInstall}" Margin="10,0,0,0" FontWeight="Bold" Foreground="{StaticResource AccentColorBrush}"></TextBlock>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Name="WorkHoursPanel" Orientation="Vertical">
+                <TextBlock Style="{StaticResource PageSectionHeaderTextBlockStyle}" 
+                           Text="{framework:LanguageResource Device Work Hours}"></TextBlock>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{framework:LanguageResource Total Work Hours of Machine}"></TextBlock>
+                    <TextBlock Text="{Binding Path=TotalMachineWorkHours, Converter={StaticResource Hours2StringConverter}}" Margin="10,0,0,0" FontWeight="Bold" Foreground="{StaticResource AccentColorBrush}"></TextBlock>
+                    <!--<TextBlock Text="h" Margin="5,0,0,0"></TextBlock>-->
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{framework:LanguageResource Work Hours of Machine Since Boot}"></TextBlock>
+                    <TextBlock Text="{Binding Path=MachineWorkHoursSinceBoot, Converter={StaticResource Hours2StringConverter}}" Margin="10,0,0,0" FontWeight="Bold" Foreground="{StaticResource AccentColorBrush}"></TextBlock>
+                    <!--<TextBlock Text="h" Margin="5,0,0,0"></TextBlock>-->
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{framework:LanguageResource XRay Generator1 Total Work Hours}"></TextBlock>
+                    <TextBlock Text="{Binding Path=TotalXRayGenWorkHours, Converter={StaticResource Hours2StringConverter}}" Margin="10,0,0,0" FontWeight="Bold" Foreground="{StaticResource AccentColorBrush}"></TextBlock>
+                    <!--<TextBlock Text="h" Margin="5,0,0,0"></TextBlock>-->
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{framework:LanguageResource XRay Generator1 Work Hours Since Boot}"></TextBlock>
+                    <TextBlock Text="{Binding Path=XRayGenWorkHoursSinceBoot, Converter={StaticResource Hours2StringConverter}}" Margin="10,0,0,0" FontWeight="Bold" Foreground="{StaticResource AccentColorBrush}"></TextBlock>
+                    <!--<TextBlock Text="h" Margin="5,0,0,0"></TextBlock>-->
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{framework:LanguageResource XRay Generator1 Total Usage Count}"></TextBlock>
+                    <TextBlock Text="{Binding Path=XrayGenTotalUsageCount}" Margin="10,0,0,0" FontWeight="Bold" Foreground="{StaticResource AccentColorBrush}"></TextBlock>
+                    <!--<TextBlock Text="h" Margin="5,0,0,0"></TextBlock>-->
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{framework:LanguageResource XRay Generator1 Usage Count Since Boot}"></TextBlock>
+                    <TextBlock Text="{Binding Path=XRayGenUsageCountSinceBoot}" Margin="10,0,0,0" FontWeight="Bold" Foreground="{StaticResource AccentColorBrush}"></TextBlock>
+                    <!--<TextBlock Text="h" Margin="5,0,0,0"></TextBlock>-->
+                </StackPanel>
+                <StackPanel Visibility="{Binding Gen2Visibility}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{framework:LanguageResource XRay Generator2 Total Work Hours}"></TextBlock>
+                        <TextBlock Text="{Binding Path=TotalXRayGenWorkHours, Converter={StaticResource Hours2StringConverter}}" Margin="10,0,0,0" FontWeight="Bold" Foreground="{StaticResource AccentColorBrush}"></TextBlock>
+                        <!--<TextBlock Text="h" Margin="5,0,0,0"></TextBlock>-->
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{framework:LanguageResource XRay Generator2 Work Hours Since Boot}"></TextBlock>
+                        <TextBlock Text="{Binding Path=XRayGenWorkHoursSinceBoot, Converter={StaticResource Hours2StringConverter}}" Margin="10,0,0,0" FontWeight="Bold" Foreground="{StaticResource AccentColorBrush}"></TextBlock>
+                        <!--<TextBlock Text="h" Margin="5,0,0,0"></TextBlock>-->
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{framework:LanguageResource XRay Generator2 Total Usage Count}"></TextBlock>
+                        <TextBlock Text="{Binding Path=XrayGenTotalUsageCount}" Margin="10,0,0,0" FontWeight="Bold" Foreground="{StaticResource AccentColorBrush}"></TextBlock>
+                        <!--<TextBlock Text="h" Margin="5,0,0,0"></TextBlock>-->
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{framework:LanguageResource XRay Generator2 Usage Count Since Boot}"></TextBlock>
+                        <TextBlock Text="{Binding Path=XRayGenUsageCountSinceBoot}" Margin="10,0,0,0" FontWeight="Bold" Foreground="{StaticResource AccentColorBrush}"></TextBlock>
+                        <!--<TextBlock Text="h" Margin="5,0,0,0"></TextBlock>-->
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

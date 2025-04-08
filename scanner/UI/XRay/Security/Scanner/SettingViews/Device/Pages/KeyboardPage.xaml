@@ -1,0 +1,141 @@
+﻿<Page x:Class="UI.XRay.Security.Scanner.SettingViews.Device.Pages.KeyboardPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:framework="clr-namespace:UI.XRay.Gui.Framework;assembly=UI.XRay.Gui.Framework"
+      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+      xmlns:widgets="clr-namespace:UI.XRay.Gui.Widgets;assembly=UI.XRay.Gui.Widgets"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="900"
+      DataContext="{Binding Source={StaticResource Locator}, Path=KeyboardPage}"
+      FontSize="{StaticResource PageFontSize}"
+	    Title="KeyboardPage">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" IsTabStop="False">
+        <StackPanel Margin="{StaticResource PageContentMargin}" HorizontalAlignment="Left">
+            <TextBlock Margin="0,15,0,0" Text="{framework:LanguageResource Is Conveyor Direction Key Reversed}" VerticalAlignment="Bottom"/>
+            <controls:ToggleSwitch OnLabel="{framework:LanguageResource Yes}" OffLabel="{framework:LanguageResource No}" Margin="-5,5,0,0"
+                                   CheckChangedCommand="{Binding IsDirectionKeyChangedEventCommand}"
+                                   ContentDirection="RightToLeft" HorizontalAlignment="Left" IsChecked="{Binding IsConveyorKeyReversed}"/>
+            <TextBlock Margin="0,15,0,0" Text="{framework:LanguageResource Is Keyboard Direction Reversed}" VerticalAlignment="Bottom"/>
+            
+            <controls:ToggleSwitch OnLabel="{framework:LanguageResource Yes}" OffLabel="{framework:LanguageResource No}" Margin="-5,5,0,0"
+                                 CheckChangedCommand="{Binding IsDirectionKeyChangedEventCommand}"
+                                 ContentDirection="RightToLeft" HorizontalAlignment="Left" IsChecked="{Binding IsKeyboardReversed}"/>
+            <TextBlock Margin="0,15,0,0" Text="{framework:LanguageResource Enable Bidirection Scan}" VerticalAlignment="Bottom"/>
+            <controls:ToggleSwitch OnLabel="{framework:LanguageResource Yes}" OffLabel="{framework:LanguageResource No}" Margin="-5,5,0,0"
+                                   CheckChangedCommand="{Binding IsBiDirectionScanEventCommand}"
+                                   ContentDirection="RightToLeft" HorizontalAlignment="Left" IsChecked="{Binding EnableBidirectionScan}"/>
+            <!--#region Continuous Scan-->
+            <TextBlock Margin="0,15,0,0" Text="{framework:LanguageResource Enable Continuous Scan}" VerticalAlignment="Bottom"/>
+            <controls:ToggleSwitch OnLabel="{framework:LanguageResource Yes}" OffLabel="{framework:LanguageResource No}" Margin="-5,5,0,0"
+                                   CheckChangedCommand="{Binding IsEnableContinuousScanEventCommand}"
+                                   ContentDirection="RightToLeft" HorizontalAlignment="Left" IsChecked="{Binding IsEnableContinuousScan}"/>
+            <!--#endregion-->
+
+            <TextBlock Margin="0,15,0,0" Text="{framework:LanguageResource Beeper Test}" VerticalAlignment="Bottom"/>
+            <Button Content="{framework:LanguageResource Beep}" HorizontalAlignment="Left" Margin="0,5,0,0" Command="{Binding BeepCommand}"></Button>
+
+            <Viewbox MaxWidth="650" Margin="0,20,0,0">
+                <Canvas Height="540" Width="880">
+                    <Rectangle Height="540" Width="880" Canvas.Top="0" Canvas.Left="0" Fill="LightGray"/>
+                    <widgets:KeyWidget KeyStates="{Binding ShutdownKeyStates}" KeyText="Power" Canvas.Left="257" Canvas.Top="38"/>
+
+                    <StackPanel x:Name="TopLeftPanel" Height="64" Width="276" Orientation="Horizontal" Canvas.Top="152" Canvas.Left="25" >
+                        <widgets:KeyWidget KeyStates="{Binding InverseKeyStates}" KeyText="" Margin="10,0"/>
+                        <widgets:KeyWidget KeyStates="{Binding IncreaseAbsorbKeyStates}" KeyText="" Margin="10,0"/>
+                        <widgets:KeyWidget KeyStates="{Binding DecreaseAbsorbKeyStates}" KeyText="" Margin="10,0"/>
+                        <widgets:KeyWidget KeyStates="{Binding HpKeyStates}" KeyText="" Margin="10,0"/>
+                    </StackPanel>
+                    <StackPanel x:Name="BotLeftPanel" Height="64" Width="276" Orientation="Horizontal" Canvas.Top="239" Canvas.Left="25" >
+                        <widgets:KeyWidget KeyStates="{Binding BWKeyStates}" KeyText="" Margin="10,0"/>
+                        <widgets:KeyWidget KeyStates="{Binding OsKeyStates}" KeyText="" Margin="10,0"/>
+                        <widgets:KeyWidget KeyStates="{Binding MsKeyStates}" KeyText="" Margin="10,0"/>
+                        <widgets:KeyWidget KeyStates="{Binding SenKeyStates}" KeyText="" Margin="10,0"/>
+                    </StackPanel>
+                    <StackPanel x:Name="TopRightPanel" Height="64" Width="480" Orientation="Horizontal" Canvas.Top="152" Canvas.Left="330" >
+                        <widgets:KeyWidget KeyStates="{Binding ShiftKeyStates}" KeyText="Shift" Margin="10,0"/>
+                        <widgets:KeyWidget KeyStates="{Binding AutoKeyStates}" KeyText="Auto" Margin="10,0"/>
+                        <widgets:KeyWidget KeyStates="{Binding MarkKeyStates}" KeyText="" Margin="10,0"/>
+                        <widgets:KeyWidget KeyStates="{Binding SaveKeyStates}" KeyText="" Margin="10,0"/>
+                        <widgets:KeyWidget KeyStates="{Binding ContinuousKeyStates}" KeyText="" Margin="10,0"/>
+                        <widgets:KeyWidget KeyStates="{Binding ImsKeyStates}" KeyText="" Margin="10,0"/>
+                        <widgets:KeyWidget KeyStates="{Binding MenuKeyStates}" KeyText="" Margin="10,0"/>
+                    </StackPanel>
+                    <StackPanel x:Name="BotRightPanel" Height="64" Width="480" Orientation="Horizontal" Canvas.Top="239" Canvas.Left="330" >
+                        <widgets:KeyWidget KeyStates="{Binding EscKeyStates}" KeyText="" Margin="10,0"/>
+                        <widgets:KeyWidget KeyStates="{Binding Z789KeyStates}" KeyText="" Margin="10,0"/>
+                        <widgets:KeyWidget KeyStates="{Binding FlipKeyStates}" KeyText="" Margin="10,0"/>
+                        <widgets:KeyWidget KeyStates="{Binding GrayScaleTransformKeyStates}" KeyText="" Margin="10,0"/>
+                        <widgets:KeyWidget KeyStates="{Binding Zoom1XKeyStates}" KeyText="" Margin="10,0"/>
+                        <widgets:KeyWidget KeyStates="{Binding ZoomOutKeyStates}" KeyText="-" Margin="10,0"/>
+                        <widgets:KeyWidget KeyStates="{Binding ZoomInKeyStates}" KeyText="+" Margin="10,0"/>
+                    </StackPanel>
+
+                    <StackPanel x:Name="FunctionPanel" Height="64" Width="209" Orientation="Horizontal" Canvas.Top="378" Canvas.Left="57" >
+                        <widgets:KeyWidget KeyStates="{Binding F1KeyStates}" Margin="10,0" KeyText="F1"/>
+                        <widgets:KeyWidget KeyStates="{Binding F2KeyStates}" Margin="10,0" KeyText="F2"/>
+                        <Border BorderThickness="2" BorderBrush="Fuchsia" Margin="10,0" VerticalAlignment="Center">
+                            <widgets:KeyWidget KeyStates="{Binding F3KeyStates}" KeyText="F3"/>
+                        </Border>
+
+                    </StackPanel>
+                    <StackPanel x:Name="ConveyorPanel" Height="64" Width="209" Orientation="Horizontal" Canvas.Top="378" Canvas.Left="330" >
+                        <Border BorderThickness="2" BorderBrush="Fuchsia" Margin="10,0" VerticalAlignment="Center">
+                            <widgets:KeyWidget KeyStates="{Binding ConveyorBackKeyState}"  KeyText="{framework:LanguageResource Left}"/>
+                        </Border>
+                        <Border BorderThickness="2" BorderBrush="Fuchsia" Margin="10,0" VerticalAlignment="Center">
+                            <widgets:KeyWidget KeyStates="{Binding ConveyorStopKeyStates}" KeyText="{framework:LanguageResource Stop}"/>
+                        </Border>
+                        <Border BorderThickness="2" BorderBrush="Fuchsia" Margin="10,0" VerticalAlignment="Center">
+                            <widgets:KeyWidget KeyStates="{Binding ConveyorForwKeyStates}" KeyText="{framework:LanguageResource Right}"/>
+                        </Border>
+                    </StackPanel>
+                    <TextBlock Text="{framework:LanguageResource Conveyor Keys}" Canvas.Top="442" Canvas.Left="383"></TextBlock>
+                    <Grid x:Name="DirectionPanel" Canvas.Top="340" Canvas.Left="701" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <widgets:KeyWidget KeyStates="{Binding LeftKeyStates}" Grid.Row="1" Grid.Column="0" Margin="2,2" KeyText="←"/>
+                        <widgets:KeyWidget KeyStates="{Binding RightKeyStates}" Grid.Row="1" Grid.Column="2" Margin="2,2" KeyText="→"/>
+                        <widgets:KeyWidget KeyStates="{Binding UpKeyStates}" Grid.Row="0" Grid.Column="1" Margin="2,2" KeyText="↑"/>
+                        <widgets:KeyWidget KeyStates="{Binding DownKeyStates}" Grid.Row="2" Grid.Column="1" Margin="2,2" KeyText="↓"/>
+                    </Grid>
+                    <!--<widgets:KeySwitchWidget IsSwitchOn="{Binding IsKeySwitchOn}" Height="96" Canvas.Left="25" Canvas.Top="23" Width="96"/>-->
+                    <widgets:IndicatorLightWidget IsLightOn="{Binding IsKeySwitchLedOn}" Name="PowerKeySwitchLedWidget" Height="24" Width="24" Canvas.Left="126" Canvas.Top="65"></widgets:IndicatorLightWidget>
+                    <widgets:IndicatorLightWidget IsLightOn="{Binding IsPowerLedOn}" Name="PowerLedWidget" Height="24" Width="24" Canvas.Left="330" Canvas.Top="36"></widgets:IndicatorLightWidget>
+                    <Label Content="POWER [F9]" Canvas.Left="353" Canvas.Top="36"/>
+
+                    <widgets:IndicatorLightWidget Name="PostLedWidget" Height="24" Width="24" Canvas.Left="330" Canvas.Top="65"></widgets:IndicatorLightWidget>
+                    <Label Content="POST" Canvas.Left="353" Canvas.Top="62"/>
+
+                    <widgets:IndicatorLightWidget IsLightOn="{Binding IsXRay1LedOn}" Name="XRayLed1Widget" Height="24" Width="24" Canvas.Left="459" Canvas.Top="65"></widgets:IndicatorLightWidget>
+                    <widgets:IndicatorLightWidget IsLightOn="{Binding IsXRay2LedOn}" Name="XRayLed2Widget" Height="24" Width="24" Canvas.Left="515" Canvas.Top="65"></widgets:IndicatorLightWidget>
+                    <!--<Button Content="Beep" Command="{Binding BeepCommand}" Canvas.Left="829" Canvas.Top="36" />-->
+                    <Label Content="X RAY" Canvas.Left="471" Canvas.Top="36"/>
+                    <Label Content="1" Canvas.Left="491" Canvas.Top="208"/>
+                    <Label Content="2" Canvas.Left="559" Canvas.Top="208"/>
+                    <Label Content="3" Canvas.Left="626" Canvas.Top="208"/>
+                    <Label Content="4" Canvas.Left="694" Canvas.Top="208"/>
+                    <Label Content="5" Canvas.Left="763" Canvas.Top="208"/>
+                    <Label Content="6" Canvas.Left="353" Canvas.Top="294"/>
+                    <Label Content="7" Canvas.Left="423" Canvas.Top="294"/>
+                    <Label Content="8" Canvas.Left="491" Canvas.Top="294"/>
+                    <Label Content="9" Canvas.Left="559" Canvas.Top="294"/>
+                    <Label Content="0" Canvas.Left="626" Canvas.Top="294"/>
+                    <Label Content="[F11]" Canvas.Left="453" Canvas.Top="93" RenderTransformOrigin="-0.031,0.503"/>
+                    <Label Content="[F12]" Canvas.Left="508" Canvas.Top="93"/>
+                    <Label Content="[F8]" Canvas.Left="154" Canvas.Top="65"/>
+                </Canvas>
+            </Viewbox>
+            <TextBlock Margin="0,10,0,0" Text="{framework:LanguageResource Source=To Test conveyor keys and F3\, press down Auto key first.}"></TextBlock>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

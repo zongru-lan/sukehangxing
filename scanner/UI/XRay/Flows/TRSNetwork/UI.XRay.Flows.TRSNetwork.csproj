@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B0D9DEFC-EE80-4D0B-AFE1-A159C1303F8C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>UI.XRay.Flows.TRSNetwork</RootNamespace>
+    <AssemblyName>UI.XRay.Flows.TRSNetwork</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\..\bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="HiWing.Net.Sockets">
+      <HintPath>..\..\..\..\Lib\NetService\HiWing.Net.Sockets.dll</HintPath>
+    </Reference>
+    <Reference Include="HwiLogDll">
+      <HintPath>..\..\..\..\Lib\NetService\HwiLogDll.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UI.XRay.ControlWorkflows">
+      <HintPath>..\..\..\..\Lib\UIControl_x86\UI.XRay.ControlWorkflows.dll</HintPath>
+    </Reference>
+    <Reference Include="UI.XRay.ImagePlant">
+      <HintPath>..\..\..\..\Lib\RenderEngine\UI.XRay.ImagePlant.dll</HintPath>
+    </Reference>
+    <Reference Include="UI.XRay.RenderEngine">
+      <HintPath>..\..\..\..\Lib\RenderEngine\UI.XRay.RenderEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UI.XRay.ScannerControlClr">
+      <HintPath>..\..\..\..\Lib\UIControl_x86\UI.XRay.ScannerControlClr.dll</HintPath>
+    </Reference>
+    <Reference Include="XRayNetEntities">
+      <HintPath>..\..\..\..\Lib\NetService\XRayNetEntities.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\AccountCommandType.cs" />
+    <Compile Include="Models\AccountCommand.cs" />
+    <Compile Include="Models\App.cs" />
+    <Compile Include="Models\DcsBagInfoDto.cs" />
+    <Compile Include="Models\Global.cs" />
+    <Compile Include="Models\NetWorkCommandType.cs" />
+    <Compile Include="Models\ScannerSystemConfig.cs" />
+    <Compile Include="Models\TIPCommand.cs" />
+    <Compile Include="Models\TIPCommandType.cs" />
+    <Compile Include="Models\TipLogStatisticResult.cs" />
+    <Compile Include="NetCommandService.cs" />
+    <Compile Include="ScannerStatusMonitor.cs" />
+    <Compile Include="XrayStartInfo.cs" />
+    <Compile Include="TRSNetWorkService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Business\DataAccess\UI.XRay.Business.DataAccess.csproj">
+      <Project>{7042e2b9-a05e-4a94-9d67-3e27693fb770}</Project>
+      <Name>UI.XRay.Business.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Business\Entities\UI.XRay.Business.Entities.csproj">
+      <Project>{f86ffdd2-6658-466c-b9c8-b8c45f8ec48c}</Project>
+      <Name>UI.XRay.Business.Entities</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

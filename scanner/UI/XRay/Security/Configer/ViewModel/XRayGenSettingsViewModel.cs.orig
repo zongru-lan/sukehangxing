@@ -1,0 +1,506 @@
+﻿using GalaSoft.MvvmLight;
+using System;
+using System.Collections.Generic;
+using System.IO.Ports;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using GalaSoft.MvvmLight.Command;
+using UI.Common.Tracers;
+using UI.XRay.Business.DataAccess.Config;
+using UI.XRay.Business.Entities;
+using UI.XRay.Control;
+using UI.XRay.Flows.Services;
+
+namespace UI.XRay.Security.Configer.ViewModel
+{
+    /// <summary>
+    /// 射线源设置视图的ViewModel
+    /// </summary>
+    public class XRayGenSettingsViewModel : ViewModelBase, IViewModel
+    {
+        private XRayGeneratorType _xrayGenType = XRayGeneratorType.XRayGen_Spellman160;
+
+        /// <summary>
+        /// 射线源类型
+        /// </summary>
+        public XRayGeneratorType XRayGenType
+        {
+            get { return _xrayGenType; }
+            set
+            {
+                _xrayGenType = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// 可用射线源类型列表，用于UI绑定
+        /// </summary>
+        public List<XRayGeneratorType> XRayGenTypes { get; set; }
+
+        private int _waitTimeout;
+        /// <summary>
+        /// 与控制板网络连接超时 默认为100ms，超群可单独设置
+        /// </summary>
+        public int WaitTimeout
+        {
+            get { return _waitTimeout; }
+            set { _waitTimeout = value; RaisePropertyChanged(); }
+        }
+
+        private Visibility _timeoutVisible;
+
+        public Visibility TimeoutVisible
+        {
+            get { return _timeoutVisible; }
+            set { _timeoutVisible = value; RaisePropertyChanged(); }
+        }
+
+        private float _voltage;
+
+        /// <summary>
+        /// KV，射线源高压，单位KV
+        /// </summary>
+        public float Voltage
+        {
+            get { return _voltage; }
+            set
+            {
+                _voltage = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private float _current;
+
+        /// <summary>
+        /// MA，射线源束流，单位没mA
+        /// </summary>
+        public float Current
+        {
+            get { return _current; }
+            set
+            {
+                _current = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private float _voltage2;
+        public float Voltage2
+        {
+            get { return _voltage2; }
+            set
+            {
+                _voltage2 = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private float _current2;
+
+        /// <summary>
+        /// MA，射线源束流，单位没mA
+        /// </summary>
+        public float Current2
+        {
+            get { return _current2; }
+            set
+            {
+                _current2 = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private float _risingTimespan;
+
+        /// <summary>
+        /// 射线源上升沿时间，单位s，当打开射线源，过了上升沿之后射线源才稳定，并且高压和束流达到要求
+        /// </summary>
+        public float RisingTimespan
+        {
+            get { return _risingTimespan; }
+            set
+            {
+                _risingTimespan = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private int _xrayGenCount = 1;
+
+        /// <summary>
+        /// 射线源数量，可取1或者2
+        /// </summary>
+        public int XRayGenCount
+        {
+            get { return _xrayGenCount; }
+            set
+            {
+                _xrayGenCount = value;
+                if (_xrayGenCount == 1)
+                    XGen2SettingVisibility = Visibility.Collapsed;
+                else
+                    XGen2SettingVisibility = Visibility.Visible;
+                RaisePropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// 射线源数量列表，用于UI绑定
+        /// </summary>
+        public List<int> XRayGenCountSource { get; set; }
+
+        private bool _alwaysWarmup;
+
+        /// <summary>
+        /// 是否进行强制预热，当为true时进行强制预热，每次开机即使不存在预热方案也会进行预热，使用的是默认的预热方案
+        /// </summary>
+        public bool AlwaysWarmup
+        {
+            get { return _alwaysWarmup; }
+            set
+            {
+                _alwaysWarmup = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private bool _pcControlXRays;
+
+        private Visibility _pcConnectXRayGensSettingsVisibility = Visibility.Collapsed;
+
+        public Visibility PcConnectXRayGensSettingsVisibility
+        {
+            get { return _pcConnectXRayGensSettingsVisibility; }
+            set
+            {
+                _pcConnectXRayGensSettingsVisibility = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private Visibility _image2ComSettingVisibility = Visibility.Collapsed;
+
+        public Visibility Image2ComSettingVisibility
+        {
+            get { return _image2ComSettingVisibility; }
+            set
+            {
+                _image2ComSettingVisibility = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private Visibility _XGen2SettingVisibility = Visibility.Collapsed;
+
+        public Visibility XGen2SettingVisibility
+        {
+            get { return _XGen2SettingVisibility; }
+            set
+            {
+                _XGen2SettingVisibility = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private List<string> _coms = new List<string>();
+
+        public List<string> Coms
+        {
+            get { return _coms; }
+            set
+            {
+                _coms = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private string _image1Com;
+
+        public string Image1Com
+        {
+            get { return _image1Com; }
+            set
+            {
+                _image1Com = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private string _image2Com;
+
+        public string Image2Com
+        {
+            get { return _image2Com; }
+            set
+            {
+                _image2Com = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public RelayCommand TestConnectionCommand { get; private set; }
+
+        public RelayCommand XraySelectionChangedEventCommand { get; private set; }
+
+        /// <summary>
+        /// 构造函数，暂时只是初始化各种选择列表
+        /// </summary>
+        public XRayGenSettingsViewModel()
+        {
+            TestConnectionCommand = new RelayCommand(TestConnectionCommandExe);
+
+            XraySelectionChangedEventCommand = new RelayCommand(XraySelectionChangedEventCommandExe);
+
+            //获取串口s
+            Coms = SerialPort.GetPortNames().ToList();
+            Coms.Sort();
+
+            XRayGenTypes = new List<XRayGeneratorType>
+            {
+                XRayGeneratorType.XRayGen_KWA,
+                XRayGeneratorType.XRayGen_KWD,
+                XRayGeneratorType.XRayGen_Spellman80,
+                XRayGeneratorType.XRayGen_Spellman160,
+                XRayGeneratorType.XRayGen_VJ160,
+                XRayGeneratorType.XRayGen_VJ200,
+                XRayGeneratorType.XRayGen_SAXG200,
+                XRayGeneratorType.XRayGen_SAXG110
+            };
+
+            // 最多支持两个射线源，最少一个
+            XRayGenCountSource = new List<int> { 1, 2 };
+
+            try
+            {
+                LoadSettings();
+
+                //初始化串口
+                InitComs();
+            }
+            catch (Exception exception)
+            {
+                Tracer.TraceException(exception);
+            }
+        }
+
+        private void TestConnectionCommandExe()
+        {
+            var xrayGensControlService = new XRayGenControlServices();
+
+            if (!xrayGensControlService.InitXRayGenSetting(XRayGenCount,XRayGenType,Voltage,Current))
+            {
+                MessageBox.Show("XRay Generator type is not supported!.", "", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+
+                xrayGensControlService.Dispose();
+                return;
+            }
+
+            if (!xrayGensControlService.InitPort(XRayGeneratorIndex.XRayGenerator1,Image1Com))
+            {
+                MessageBox.Show("XRay Generator 1 port settings is not right!.", "", MessageBoxButton.OK,MessageBoxImage.Error);
+                xrayGensControlService.Dispose();
+                
+                return;
+            }
+
+            if (!xrayGensControlService.InitPort(XRayGeneratorIndex.XRayGenerator2, Image2Com))
+            {
+                MessageBox.Show("XRay Generator 2 port settings is not right!.", "", MessageBoxButton.OK, MessageBoxImage.Error);
+                xrayGensControlService.Dispose();
+               
+                return;
+            }
+
+            bool sucessed = true;
+
+            if (!xrayGensControlService.TestConnection(XRayGeneratorIndex.XRayGenerator1))
+            {
+                sucessed = false;
+                xrayGensControlService.Dispose();
+
+                MessageBox.Show("Can not connect to XRay Generator 1 !", "", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+            if (XRayGenCount == 2 && !xrayGensControlService.TestConnection(XRayGeneratorIndex.XRayGenerator2))
+            {
+                sucessed = false;
+                xrayGensControlService.Dispose();
+
+                MessageBox.Show("Can not connect to XRay Generator 2 !", "", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+            if (sucessed)
+            {
+                MessageBox.Show("Connect to XRay Generators successully.", "", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+
+            xrayGensControlService.Dispose();
+        }
+
+        private void InitComs()
+        {
+            if (_pcControlXRays)
+            {
+                PcConnectXRayGensSettingsVisibility = Visibility.Visible;
+
+                if (XRayGenCount == 2)
+                {
+                    Image2ComSettingVisibility = Visibility.Visible;
+                }
+            }
+            if (XRayGenCount == 2)
+            {
+                XGen2SettingVisibility = Visibility.Visible;
+            }
+            else
+            {
+                XGen2SettingVisibility = Visibility.Collapsed;
+            }
+        }
+
+        /// <summary>
+        /// 保存配置，同时写入硬件
+        /// </summary>
+        public void SaveSettings()
+        {
+            Tracer.TraceEnterFunc("XRayGenSettingsViewModel.SaveSettings.");
+
+            //if (XRayGenType != XRayGeneratorType.XRayGen_SAXG)
+            //{
+            //    _waitTimeout = 100;
+            //}
+
+            ScannerConfig.Write(ConfigPath.XRayGenType, _xrayGenType);
+            ScannerConfig.Write(ConfigPath.XRayGenWaitTimeout, _waitTimeout);
+            ScannerConfig.Write(ConfigPath.XRayGenKV, _voltage);
+            ScannerConfig.Write(ConfigPath.XRayGenMA, _current);
+            ScannerConfig.Write(ConfigPath.XRayGenKV2, _voltage2);
+            ScannerConfig.Write(ConfigPath.XRayGenMA2, _current2);
+            ScannerConfig.Write(ConfigPath.XRayGenRisingTimespan, _risingTimespan);
+            ScannerConfig.Write(ConfigPath.XRayGenCount, _xrayGenCount);
+            ScannerConfig.Write(ConfigPath.XRayGenAlwaysWarmup, _alwaysWarmup);
+
+            if (_pcControlXRays)
+            {
+                ScannerConfig.Write(ConfigPath.XRayGen1ComName, _image1Com);
+                ScannerConfig.Write(ConfigPath.XRayGen2ComName, _image2Com);
+            }
+
+            if (!ControlSystemUpdater.Update())
+            {
+                MessageBox.Show("Failed to save settings into Control Board System.", "Error",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else
+            {
+                MessageBox.Show("New settings have been saved into Control Board System successfylly.", "",
+                    MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+
+        /// <summary>
+        /// 加载当前的配置
+        /// </summary>
+        public void LoadSettings()
+        {
+            Tracer.TraceEnterFunc("XRayGenSettingsViewModel.LoadSettings.");
+
+            XRayGeneratorType xrayGenType;
+            if (ScannerConfig.Read(ConfigPath.XRayGenType, out xrayGenType))
+            {
+                XRayGenType = xrayGenType;
+            }
+
+            //if (XRayGenType == XRayGeneratorType.XRayGen_SAXG)
+            //{
+            TimeoutVisible = Visibility.Visible;
+            //}
+            //else
+            //{
+            //    TimeoutVisible = Visibility.Collapsed;
+            //}
+
+            int waitTimeout;
+
+            if (ScannerConfig.Read(ConfigPath.XRayGenWaitTimeout, out waitTimeout))
+            {
+                WaitTimeout = waitTimeout;
+            }
+
+            float floatResult;
+
+            if (ScannerConfig.Read(ConfigPath.XRayGenKV, out floatResult))
+            {
+                Voltage = floatResult;
+            }
+
+            if (ScannerConfig.Read(ConfigPath.XRayGenMA, out floatResult))
+            {
+                Current = floatResult;
+            }
+            if (ScannerConfig.Read(ConfigPath.XRayGenKV2, out floatResult))
+            {
+                Voltage2 = floatResult;
+            }
+
+            if (ScannerConfig.Read(ConfigPath.XRayGenMA2, out floatResult))
+            {
+                Current2 = floatResult;
+            }
+
+            if (ScannerConfig.Read(ConfigPath.XRayGenRisingTimespan, out floatResult))
+            {
+                RisingTimespan = floatResult;
+            }
+
+            int xrayGenCount;
+            if (ScannerConfig.Read(ConfigPath.XRayGenCount, out xrayGenCount))
+            {
+                XRayGenCount = xrayGenCount;
+            }
+
+            bool pcControlXRayGen;
+            if (ScannerConfig.Read(ConfigPath.PcControlXRayGen,out pcControlXRayGen))
+            {
+                _pcControlXRays = pcControlXRayGen;
+            }
+
+            string image1Com;
+            if (ScannerConfig.Read(ConfigPath.XRayGen1ComName,out image1Com))
+            {
+                Image1Com = image1Com;
+            }
+
+            string image2Com;
+            if (ScannerConfig.Read(ConfigPath.XRayGen2ComName, out image2Com))
+            {
+                Image2Com = image2Com;
+            }
+
+            bool isCoerceWarmup;
+            if (ScannerConfig.Read(ConfigPath.XRayGenAlwaysWarmup, out isCoerceWarmup))
+            {
+                AlwaysWarmup = isCoerceWarmup;
+            }
+
+            Tracer.TraceExitFunc("XRayGenSettingsViewModel.LoadSettings.");
+        }
+
+        private void XraySelectionChangedEventCommandExe()
+        {
+            //if (XRayGenType == XRayGeneratorType.XRayGen_SAXG)
+            //{
+            //    TimeoutVisible = Visibility.Visible;
+            //}
+            //else
+            //{
+            //    TimeoutVisible = Visibility.Collapsed;
+            //}
+        }
+    }
+}

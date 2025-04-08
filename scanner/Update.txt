@@ -1,0 +1,123 @@
+Software Version Update:
+
+2016.9.18
+
+Software Version changed from V1.0.16.0330 to V1.0.16.0918£¬main change is£º
+
+1. After exiting the software, the windows would automatically lock the     desktop to the windows lock interface; 
+2. Add "local zoom" function;
+3. Add "energy saving light barrier" funtion;
+4. Add Log funtion;
+5. Add automatically save common format image funtion;
+6. Add simulate data funtion, only for testing;
+
+////////////////////////////////////////////////////////////////////////
+
+2016.10.21
+
+1. Add Error code after the error message;
+2. Add Soft encryption;
+3. Mark region color can be changed.
+
+////////////////////////////////////////////////////////////////////////
+
+2016.10.25
+
+1. Show system workmode in UI;
+2. Show motor direction in UI;
+3. Create two images when dump Dual-View machine image when checking image;
+4. High authority role can change low authority role's password;
+
+////////////////////////////////////////////////////////////////////////
+
+2016.11.4
+
+1.Add all Equipment model to all software version;
+2.Add audible and visual alarm after press Emergency button;
+
+////////////////////////////////////////////////////////////////////////
+
+2016.11.22
+
+1. Add "Interrupt and match image" funtion;
+2. Solve mark region show in wrong place when review the image problem;
+3. Upgrade the softlocker, the softlocker will run with the red lock;
+4. Change the method of two view data synchronous to solve object image lack of data problem;
+5. Change Softlock test method for dual network interface card;
+
+////////////////////////////////////////////////////////////////////////
+
+2017.2.10
+
+1. Close the thumbnail image window, only show it when drag the image;
+2. More logs were added to control part;
+3. Change the disk cleanup policy;
+4. Image color was Optimized£»
+5. Add 6 color mode£»
+6. Different view use different material classification table£»
+
+////////////////////////////////////////////////////////////////////////
+
+2017.5.8
+
+1. Add DT UDP mode acquisition board; 
+2. Xray generator setting window do not show oil tempurature;
+3. Add machine and xray generator work time in about window;
+4. Add list view mode in image manager window;
+5. Modify date format for russian;
+6. Drag and explosives are detected seperately;
+7. can modify system time;
+8. change xray generator warm up strategy!
+
+/////////////////////////////////////////////////////////////////////////
+
+2017.11.9
+
+1. Modify the wrong background update upper limit in the configuration;
+2. Update the contents of the Render;
+3. The image display depends on the command of the upper computer, and the state of the optical machine 
+	depends on the actual state of the optical machine;
+4. Add the dynamic mode for update background data;
+5. PC can control the xray machine;
+6. Add the function of manually removing bad channels;
+7. Line data objects can be serialized;
+8. A fixed maintenance account has been added;
+9. Modify the code for country box;
+
+//////////////////////////////////////////////////////////////////////////
+
+2018.5.11
+
+1. Replace the new encryption lock;
+2. Change the license key format;
+3. The new software can set the trial time;
+4. Add the model profile of 6550D and 5565B
+5. Update Russian translation file;
+6. Modified edge enhancement algorithm to solve the problem of texture weight;
+7. Solve the problem of two perspectives of vertical flip being out of sync;
+
+////////////////////////////////////////////////////////////////////////////
+
+2018.7.18
+
+1. Fixed the problem of two perspective switch;
+2. Add the function of delay diaplay image, and turn off by default;
+3. Add the model profile of 100100ds;
+4. Change the installation path of OEM;
+5. Change the background image of the software home page;
+
+/////////////////////////////////////////////////////////////////////////////
+
+2018.11.7
+
+1. Fixed the problem of image carton in training mode;
+2. Add the model profile of 10080D;
+3. Change the name rule of machine model in the russian version;
+
+/////////////////////////////////////////////////////////////////////////////
+
+2018.12.08
+
+1. Changed the model profile of 100100DS;
+2. The screen displays a prompt message when the emergency stop button is triggered;
+3. Create a new version 1.0.18.1208;

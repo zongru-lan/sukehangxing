@@ -1,0 +1,76 @@
+﻿<UserControl x:Class="UI.XRay.Security.Configer.UserControl.KeyboardSettingsUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:framework="clr-namespace:UI.XRay.Gui.Framework;assembly=UI.XRay.Gui.Framework"
+             mc:Ignorable="d" HorizontalAlignment="Left" VerticalAlignment="Top"
+             DataContext="{Binding Source={StaticResource Locator}, Path=KeyboardSettings}"
+             d:DesignHeight="400" d:DesignWidth="900">
+    <UserControl.Resources>
+        <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="FontSize" Value="{StaticResource PageFontSize}"></Setter>
+            <Setter Property="Margin" Value="3,0"></Setter>
+        </Style>
+    </UserControl.Resources>
+    <StackPanel Margin="20">
+        <Label Content="{framework:LanguageResource ViewSection=Configer, Source=Keyboard COM Name}" VerticalAlignment="Bottom"/>
+        <ComboBox ItemsSource="{Binding ComNames}" SelectedItem="{Binding ComName}"/>
+        <Label Margin="0,15,0,0" Content="{framework:LanguageResource ViewSection=Configer, Source=Automatically restart keyboard if disconnected}" VerticalAlignment="Bottom"/>
+        <controls:ToggleSwitch IsChecked="{Binding AutoRestart}" HorizontalAlignment="Left" ContentDirection="RightToLeft" OnLabel="{framework:LanguageResource Yes}" OffLabel="{framework:LanguageResource No}"/>
+        <!--<Label Margin="0,15,0,0" Content="Is Conveyor Key Reversed" VerticalAlignment="Bottom"/>
+        <controls:ToggleSwitch OnLabel="{framework:LanguageResource Yes}" OffLabel="{framework:LanguageResource No}" ContentDirection="RightToLeft" HorizontalAlignment="Left" IsChecked="{Binding IsConveyorKeyReversed}"/>
+
+        <Label Margin="0,15,0,0" Content="Function Key Definitions" VerticalAlignment="Bottom"/>
+        <Border BorderThickness="1" BorderBrush="{StaticResource AccentColorBrush}" Padding="10" Margin="5">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="60"></ColumnDefinition>
+                    <ColumnDefinition Width="160"></ColumnDefinition>
+                    <ColumnDefinition Width="160"></ColumnDefinition>
+                    <ColumnDefinition Width="140"></ColumnDefinition>
+                    <ColumnDefinition Width="140"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="0" Grid.Column="1" Content="Color Mode" HorizontalAlignment="Center"></Label>
+                <Label Grid.Row="0" Grid.Column="2" Content="Penetration" HorizontalAlignment="Center"></Label>
+                <Label Grid.Row="0" Grid.Column="3" Content="Inversed" HorizontalAlignment="Center"></Label>
+                <Label Grid.Row="0" Grid.Column="4" Content="SuperEnhance" HorizontalAlignment="Center"></Label>
+                <Label Content="F1" Grid.Row="1" Grid.Column="0" VerticalAlignment="Bottom"/>
+                <Label Content="F2" Grid.Row="2" Grid.Column="0" VerticalAlignment="Bottom"/>
+                <Label Content="F3" Grid.Row="3" Grid.Column="0" VerticalAlignment="Bottom"/>
+                <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding ColorModesList}"
+                          DisplayMemberPath="EnumString" SelectedValuePath="EnumValue" SelectedValue="{Binding F1EffectsComposition.ColorMode}"/>
+                <ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding ColorModesList}"
+                          DisplayMemberPath="EnumString" SelectedValuePath="EnumValue" SelectedValue="{Binding F2EffectsComposition.ColorMode}"/>
+                <ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding ColorModesList}"
+                          DisplayMemberPath="EnumString" SelectedValuePath="EnumValue" SelectedValue="{Binding F3EffectsComposition.ColorMode}"/>
+                <ComboBox Grid.Row="1" Grid.Column="2" ItemsSource="{Binding PenetrationList}"
+                          DisplayMemberPath="EnumString" SelectedValuePath="EnumValue" SelectedValue="{Binding F1EffectsComposition.Penetration}"/>
+                <ComboBox Grid.Row="2" Grid.Column="2" ItemsSource="{Binding PenetrationList}"
+                          DisplayMemberPath="EnumString" SelectedValuePath="EnumValue" SelectedValue="{Binding F2EffectsComposition.Penetration}"/>
+                <ComboBox Grid.Row="3" Grid.Column="2" ItemsSource="{Binding PenetrationList}"
+                          DisplayMemberPath="EnumString" SelectedValuePath="EnumValue" SelectedValue="{Binding F3EffectsComposition.Penetration}"/>
+                <ComboBox Grid.Row="1" Grid.Column="3" ItemsSource="{Binding BoolList}"
+                          DisplayMemberPath="EnumString" SelectedValuePath="EnumValue" SelectedValue="{Binding F1EffectsComposition.IsInversed}"/>
+                <ComboBox Grid.Row="2" Grid.Column="3" ItemsSource="{Binding BoolList}"
+                          DisplayMemberPath="EnumString" SelectedValuePath="EnumValue" SelectedValue="{Binding F2EffectsComposition.IsInversed}"/>
+                <ComboBox Grid.Row="3" Grid.Column="3" ItemsSource="{Binding BoolList}"
+                          DisplayMemberPath="EnumString" SelectedValuePath="EnumValue" SelectedValue="{Binding F3EffectsComposition.IsInversed}"/>
+                <ComboBox Grid.Row="1" Grid.Column="4" ItemsSource="{Binding BoolList}"
+                          DisplayMemberPath="EnumString" SelectedValuePath="EnumValue" SelectedValue="{Binding F1EffectsComposition.IsSenEnabled}"/>
+                <ComboBox Grid.Row="2" Grid.Column="4" ItemsSource="{Binding BoolList}"
+                          DisplayMemberPath="EnumString" SelectedValuePath="EnumValue" SelectedValue="{Binding F2EffectsComposition.IsSenEnabled}"/>
+                <ComboBox Grid.Row="3" Grid.Column="4" ItemsSource="{Binding BoolList}"
+                          DisplayMemberPath="EnumString" SelectedValuePath="EnumValue" SelectedValue="{Binding F3EffectsComposition.IsSenEnabled}"/>
+            </Grid>
+        </Border>-->
+    </StackPanel>
+</UserControl>

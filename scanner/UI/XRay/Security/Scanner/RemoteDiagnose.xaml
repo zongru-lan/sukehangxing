@@ -1,0 +1,22 @@
+﻿<controls:MetroWindow  xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls" x:Class="UI.XRay.Security.Scanner.RemoteDiagnose"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:command="http://www.galasoft.ch/mvvmlight"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:framework="clr-namespace:UI.XRay.Gui.Framework;assembly=UI.XRay.Gui.Framework"
+        FontSize="20" 
+        BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="1" Background="LightGray"
+        ShowMaxRestoreButton="False" ShowSystemMenuOnRightClick="False" 
+        ShowMinButton="False"  ShowCloseButton="false" IsWindowDraggable="False"
+        WindowTransitionsEnabled="False"  ShowInTaskbar="False"
+        InputMethod.IsInputMethodEnabled="False" 
+        Title="Remote Diagnose" Height="200" Width="800" ShowTitleBar="False" WindowStyle="None" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+ >
+    <Grid>
+        
+    <TextBlock HorizontalAlignment="Left" Margin="100,55,0,0" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Top" Width="598" Height="71"><Run Language="zh-cn" FontSize="50" Text="{framework:LanguageResource Remote Diagnosing}"/><LineBreak/><Run Language="zh-cn"/></TextBlock>
+     
+    </Grid>
+
+
+ </controls:MetroWindow>

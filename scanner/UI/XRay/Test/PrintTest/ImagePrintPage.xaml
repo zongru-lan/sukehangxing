@@ -1,0 +1,11 @@
+﻿<FixedPage 
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" 
+      d:DesignHeight="1123" d:DesignWidth="794">
+    <Grid FixedPage.Left="70" FixedPage.Top="96" Width="654" Height="931">
+        <Image Name="Image"  Stretch="Uniform" Width="654" Height="931"></Image>
+    </Grid>
+</FixedPage>

@@ -1,0 +1,600 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C7BEB2A7-B882-4280-8A60-CBA9C7B8126A}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>UI.XRay.Security.Scanner</RootNamespace>
+    <AssemblyName>UI.XRay.Security.Scanner</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>f95a4780</NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\..\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\..\bin\</OutputPath>
+    <DefineConstants>TRACE;RELEASE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>appicon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;RELEASE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AddAccountWindow.xaml.cs">
+      <DependentUpon>AddAccountWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ChangeSysDateTimeWindow.xaml.cs">
+      <DependentUpon>ChangeSysDateTimeWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\Bitmap2BitmapImageConvertor.cs" />
+    <Compile Include="Converters\BoolVisibilityConvertor.cs" />
+    <Compile Include="Converters\DateFormatHelper.cs" />
+    <Compile Include="Converters\PositiveIntBoolConverter.cs" />
+    <Compile Include="ImageGeneralSetting.cs" />
+    <Compile Include="ImageRetrievalWindow.xaml.cs">
+      <DependentUpon>ImageRetrievalWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CalibrateWindow.xaml.cs">
+      <DependentUpon>CalibrateWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MetroDialogs\ImageBadChannelManual.xaml.cs">
+      <DependentUpon>ImageBadChannelManual.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MetroDialogs\ImageMetroDialog.xaml.cs">
+      <DependentUpon>ImageMetroDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MetroDialogs\InputMetroDialog.xaml.cs">
+      <DependentUpon>InputMetroDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ConveyorKeyEventsConvertor.cs" />
+    <Compile Include="MetroDialogs\PasswordMetroDialog.xaml.cs">
+      <DependentUpon>PasswordMetroDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MetroDialogs\MessageMetroDialog.xaml.cs">
+      <DependentUpon>MessageMetroDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MetroDialogs\MetroDialogExtensions.cs" />
+    <Compile Include="Converters\NotNullEmptyStringBoolConverter.cs" />
+    <Compile Include="Printing\ImagePrinter.cs" />
+    <Compile Include="RegularRemindWindow.xaml.cs">
+      <DependentUpon>RegularRemindWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ScreenImagesOperationWindow.xaml.cs">
+      <DependentUpon>ScreenImagesOperationWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ScrollViewerMonitor.cs" />
+    <Compile Include="SettingViews\About\AboutMenu.xaml.cs">
+      <DependentUpon>AboutMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\About\Pages\AboutPage.xaml.cs">
+      <DependentUpon>AboutPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Account\ChangePasswordEmptyMenuPage.xaml.cs">
+      <DependentUpon>ChangePasswordEmptyMenuPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Account\Pages\AccountPage.xaml.cs">
+      <DependentUpon>AccountPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Account\Pages\ManageOtherAccountsPage.xaml.cs">
+      <DependentUpon>ManageOtherAccountsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Device\DeviceMenu.xaml.cs">
+      <DependentUpon>DeviceMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Device\Pages\ConveyorPESensorPage.xaml.cs">
+      <DependentUpon>ConveyorPESensorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Device\Pages\DetectorsPage.xaml.cs">
+      <DependentUpon>DetectorsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Device\Pages\KeyboardPage.xaml.cs">
+      <DependentUpon>KeyboardPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Device\Pages\DiagnosisPage.xaml.cs">
+      <DependentUpon>DiagnosisPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\EmergencyWindow.xaml.cs">
+      <DependentUpon>EmergencyWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Image\Pages\ImsListPage.xaml.cs">
+      <DependentUpon>ImsListPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Records\Pages\ConveyorWorkLogPage.xaml.cs">
+      <DependentUpon>ConveyorWorkLogPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Records\Pages\OperationLogPage.xaml.cs">
+      <DependentUpon>OperationLogPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Device\Pages\ControlSystemPage.xaml.cs">
+      <DependentUpon>ControlSystemPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Setting\Pages\FunctionKeysPage.xaml.cs">
+      <DependentUpon>FunctionKeysPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Device\Pages\XRayGenPage.xaml.cs">
+      <DependentUpon>XRayGenPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Image\ImageMenu.xaml.cs">
+      <DependentUpon>ImageMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Image\Pages\ImageSettingPage.xaml.cs">
+      <DependentUpon>ImageSettingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Records\Pages\XRayGenWorkLogPage.xaml.cs">
+      <DependentUpon>XRayGenWorkLogPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Records\Pages\LoginLogPage.xaml.cs">
+      <DependentUpon>LoginLogPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Records\Pages\BootLogPage.xaml.cs">
+      <DependentUpon>BootLogPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Records\RecordsMenu.xaml.cs">
+      <DependentUpon>RecordsMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Menu\SystemMenu.xaml.cs">
+      <DependentUpon>SystemMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Setting\Pages\IntelliSensePage.xaml.cs">
+      <DependentUpon>IntelliSensePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Setting\Pages\DiskSpaceManagePage.xaml.cs">
+      <DependentUpon>DiskSpaceManagePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Setting\Pages\ObjectCounterPage.xaml.cs">
+      <DependentUpon>ObjectCounterPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Setting\SettingMenu.xaml.cs">
+      <DependentUpon>SettingMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Records\Pages\TipExamLogPage.xaml.cs">
+      <DependentUpon>TipExamLogPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Tip\Pages\TipImagesPage.xaml.cs">
+      <DependentUpon>TipImagesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Tip\Pages\TipPlansPage.xaml.cs">
+      <DependentUpon>TipPlansPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Tip\TipMenu.xaml.cs">
+      <DependentUpon>TipMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Training\Pages\TrainingImagesManagementPage.xaml.cs">
+      <DependentUpon>TrainingImagesManagementPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Training\Pages\TrainingSettingPage.xaml.cs">
+      <DependentUpon>TrainingSettingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Training\TrainingMenu.xaml.cs">
+      <DependentUpon>TrainingMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SkinPaths.cs" />
+    <Compile Include="SystemBarControl.xaml.cs">
+      <DependentUpon>SystemBarControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SystemBarControlTouch.xaml.cs">
+      <DependentUpon>SystemBarControlTouch.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TimeRangeEnumString.cs" />
+    <Compile Include="ViewModel\AddAccountViewModel.cs" />
+    <Compile Include="ViewModel\ChangeSysDateTimeWindowViewModel.cs" />
+    <Compile Include="ViewModel\ImageRetrievalViewModel.cs" />
+    <Compile Include="ViewModel\LoginViewModel.cs" />
+    <Compile Include="ViewModel\CalibrateWindowViewModel.cs" />
+    <Compile Include="ViewModel\ImageBadChannelManualViewModel.cs" />
+    <Compile Include="ViewModel\PageViewModelBase.cs" />
+    <Compile Include="ViewModel\RegularRemindViewModel.cs" />
+    <Compile Include="ViewModel\ScreenImagesOperationWindowViewModel.cs" />
+    <Compile Include="ViewModel\Setting\About\AboutPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Account\AccountPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Account\AccountMenuPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Account\AutoLoginPageViewModel.cs" />
+    <Compile Include="SettingViews\Account\AccountMenuPage.xaml.cs">
+      <DependentUpon>AccountMenuPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Account\Pages\AutoLoginSettingPage.xaml.cs">
+      <DependentUpon>AutoLoginSettingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Account\Pages\ChangePasswordSettingPage.xaml.cs">
+      <DependentUpon>ChangePasswordSettingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Image\Pages\ImsPage.xaml.cs">
+      <DependentUpon>ImsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\Setting\Account\ChangePasswordPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Account\AccountRoleStringsProvider.cs" />
+    <Compile Include="ViewModel\Setting\Account\ManageOtherAccountsViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Device\ControlSystemPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Device\ConveyorPESensorPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Device\DetectorsPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Device\DeviceMenuViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Device\KeyboardPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Device\DiagnosisPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Image\ImageMenuPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Image\ImsListPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Records\ConveyorWorkLogPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Records\OperationLogPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Records\TipExamLogPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Setting\DiskspaceManagePageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Setting\FunctionKeysPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Device\XRayGenPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Image\ImageSettingPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Image\ImsPageDesignTimeViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Image\ImsPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Menu\SystemMenuPageViewModel.cs" />
+    <Compile Include="ViewModel\SettingWindowViewModel.cs" />
+    <Compile Include="LoginWindow.xaml.cs">
+      <DependentUpon>LoginWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Menu\Pages\MenuPage.xaml.cs">
+      <DependentUpon>MenuPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingWindow.xaml.cs">
+      <DependentUpon>SettingWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Records\XRayGenWorkLogPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Records\RecordsMenuViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Records\LoginLogsPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Records\BootLogsPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Setting\IntelliSensePageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Setting\ObjectCounterPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Setting\SettingMenuPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Tip\TipImagesPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Tip\TipMenuViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Tip\TipPlansPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Training\TrainingImagesManagementPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Training\TrainingMenuViewModel.cs" />
+    <Compile Include="ViewModelLocator.cs" />
+    <Compile Include="ViewModel\Setting\Training\TrainingSettingPageViewModel.cs" />
+    <Compile Include="ViewModel\SystemBarTouchViewModel.cs" />
+    <Compile Include="ViewModel\SystemBarViewModel.cs" />
+    <Compile Include="ViewModel\XRayGenWarmupWindowViewModel.cs" />
+    <Compile Include="WindowFocusHelper.cs" />
+    <Compile Include="XRayGenWarmupWindow.xaml.cs">
+      <DependentUpon>XRayGenWarmupWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="app.manifest" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Business\DataAccess\UI.XRay.Business.DataAccess.csproj">
+      <Project>{7042e2b9-a05e-4a94-9d67-3e27693fb770}</Project>
+      <Name>UI.XRay.Business.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Business\Entities\UI.XRay.Business.Entities.csproj">
+      <Project>{f86ffdd2-6658-466c-b9c8-b8c45f8ec48c}</Project>
+      <Name>UI.XRay.Business.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\Utilities\UI.XRay.Common.Utilities.csproj">
+      <Project>{018f1171-500a-436e-affe-2c27fc7d0373}</Project>
+      <Name>UI.XRay.Common.Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Flows\Controllers\UI.XRay.Flows.Controllers.csproj">
+      <Project>{7be8e8f6-0a3f-4ccf-bf7a-f26968344d33}</Project>
+      <Name>UI.XRay.Flows.Controllers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Flows\Services\UI.XRay.Flows.Services.csproj">
+      <Project>{eab046cc-8fdd-4735-a403-946154efb6e8}</Project>
+      <Name>UI.XRay.Flows.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Gui\Framework\UI.XRay.Gui.Framework.csproj">
+      <Project>{84e722d4-99d8-408d-b8aa-3551cd65e758}</Project>
+      <Name>UI.XRay.Gui.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Gui\Widgets\UI.XRay.Gui.Widgets.csproj">
+      <Project>{6f351d43-1d65-4608-96ca-163cf89daa18}</Project>
+      <Name>UI.XRay.Gui.Widgets</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Parts\Keyboard\UI.XRay.Parts.Keyboard.csproj">
+      <Project>{4caec812-cd4b-48c2-b42a-ddbc0deb90cd}</Project>
+      <Name>UI.XRay.Parts.Keyboard</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\..\..\..\packages\System.Data.SQLite.Core.1.0.98.1\build\net451\System.Data.SQLite.Core.targets" Condition="Exists('..\..\..\..\packages\System.Data.SQLite.Core.1.0.98.1\build\net451\System.Data.SQLite.Core.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\..\..\packages\System.Data.SQLite.Core.1.0.98.1\build\net451\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\packages\System.Data.SQLite.Core.1.0.98.1\build\net451\System.Data.SQLite.Core.targets'))" />
+  </Target>
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /r /y "$(SolutionDir)lib\DTCapture_x86\*" "$(SolutionDir)\bin"
+xcopy /r /y "$(SolutionDir)lib\UIControl_x86\*" "$(SolutionDir)\bin"
+xcopy /r /y "$(SolutionDir)lib\Trace\*" "$(SolutionDir)\bin"
+xcopy /r /y "$(SolutionDir)Installation\Class\*" "$(SolutionDir)\bin"
+</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ItemGroup>
+    <ReferencePath Include="D:\6550DA\XRayScanner 0630\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll" />
+    <ReferencePath Include="D:\6550DA\XRayScanner 0630\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll" />
+    <ReferencePath Include="D:\6550DA\XRayScanner 0630\packages\MvvmLightLibs.5.2.0.0\lib\net45\GalaSoft.MvvmLight.dll" />
+    <ReferencePath Include="D:\6550DA\XRayScanner 0630\packages\MvvmLightLibs.5.2.0.0\lib\net45\GalaSoft.MvvmLight.Extras.dll" />
+    <ReferencePath Include="D:\6550DA\XRayScanner 0630\packages\MvvmLightLibs.5.2.0.0\lib\net45\GalaSoft.MvvmLight.Platform.dll" />
+    <ReferencePath Include="D:\6550DA\XRayScanner 0630\packages\MahApps.Metro.1.1.3-ALPHA174\lib\net45\MahApps.Metro.dll" />
+    <ReferencePath Include="D:\6550DA\XRayScanner 0630\bin\Microsoft.Practices.ServiceLocation.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\mscorlib.dll" />
+    <ReferencePath Include="D:\6550DA\DemoAirportDemo\DemoAirportDemo\libs\Newtonsoft.Json.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\PresentationCore.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\PresentationFramework.dll" />
+    <ReferencePath Include="D:\6550DA\XRayScanner 0630\Lib\Smart3XEncrypt_x86\SmartX3.net.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\System.ComponentModel.DataAnnotations.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\System.Core.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\System.Data.DataSetExtensions.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\System.Data.dll" />
+    <ReferencePath Include="D:\6550DA\XRayScanner 0630\packages\System.Data.SQLite.Core.1.0.98.1\lib\net451\System.Data.SQLite.dll" />
+    <ReferencePath Include="D:\6550DA\XRayScanner 0630\packages\System.Data.SQLite.EF6.1.0.98.1\lib\net451\System.Data.SQLite.EF6.dll" />
+    <ReferencePath Include="D:\6550DA\XRayScanner 0630\packages\System.Data.SQLite.Linq.1.0.98.1\lib\net451\System.Data.SQLite.Linq.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\System.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\System.Drawing.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\System.Printing.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\System.Windows.Forms.dll" />
+    <ReferencePath Include="D:\6550DA\XRayScanner 0630\packages\MvvmLightLibs.5.2.0.0\lib\net45\System.Windows.Interactivity.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\System.Xaml.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\System.Xml.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\System.Xml.Linq.dll" />
+    <ReferencePath Include="D:\6550DA\XRayScanner 0630\Lib\NetWork\UI.AI.Detect.FtpService.dll" />
+    <ReferencePath Include="D:\6550DA\XRayScanner 0630\Lib\Trace\UI.Common.Tracers.dll" />
+    <ReferencePath Include="D:\6550DA\XRayScanner 0630\bin\UI.XRay.Business.DataAccess.dll" />
+    <ReferencePath Include="D:\6550DA\XRayScanner 0630\bin\UI.XRay.Business.Entities.dll" />
+    <ReferencePath Include="D:\6550DA\XRayScanner 0630\bin\UI.XRay.Common.Utilities.dll" />
+    <ReferencePath Include="D:\6550DA\XRayScanner 0630\Lib\UIControl_x86\UI.XRay.ControlWorkflows.dll" />
+    <ReferencePath Include="D:\6550DA\XRayScanner 0630\Lib\Smart3XEncrypt_x86\UI.XRay.EncryptLock.Smart3XServiceLibrary.dll" />
+    <ReferencePath Include="D:\6550DA\XRayScanner 0630\bin\UI.XRay.Flows.Controllers.dll" />
+    <ReferencePath Include="D:\6550DA\XRayScanner 0630\bin\UI.XRay.Flows.Services.dll" />
+    <ReferencePath Include="D:\6550DA\XRayScanner 0630\bin\UI.XRay.Gui.Framework.dll" />
+    <ReferencePath Include="D:\6550DA\XRayScanner 0630\bin\UI.XRay.Gui.Widgets.dll" />
+    <ReferencePath Include="D:\6550DA\XRayScanner 0630\Lib\RenderEngine\UI.XRay.ImagePlant.dll" />
+    <ReferencePath Include="D:\6550DA\XRayScanner 0630\bin\UI.XRay.Parts.Keyboard.dll" />
+    <ReferencePath Include="D:\6550DA\XRayScanner 0630\Lib\RenderEngine\UI.XRay.RenderEngine.dll" />
+    <ReferencePath Include="D:\6550DA\XRayScanner 0630\Lib\UIControl_x86\UI.XRay.ScannerControlClr.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\UIAutomationProvider.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\WindowsBase.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\WindowsFormsIntegration.dll" />
+    <ReferencePath Include="D:\6550DA\XRayScanner 0630\packages\Extended.Wpf.Toolkit.3.0\lib\net40\Xceed.Wpf.AvalonDock.dll" />
+    <ReferencePath Include="D:\6550DA\XRayScanner 0630\packages\Extended.Wpf.Toolkit.3.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll" />
+    <ReferencePath Include="D:\6550DA\XRayScanner 0630\packages\Extended.Wpf.Toolkit.3.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll" />
+    <ReferencePath Include="D:\6550DA\XRayScanner 0630\packages\Extended.Wpf.Toolkit.3.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll" />
+    <ReferencePath Include="D:\6550DA\XRayScanner 0630\packages\Extended.Wpf.Toolkit.3.0\lib\net40\Xceed.Wpf.DataGrid.dll" />
+    <ReferencePath Include="D:\6550DA\XRayScanner 0630\packages\Extended.Wpf.Toolkit.3.0\lib\net40\Xceed.Wpf.Toolkit.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.Collections.Concurrent.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.Collections.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.ComponentModel.Annotations.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.ComponentModel.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.ComponentModel.EventBasedAsync.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.Diagnostics.Contracts.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.Diagnostics.Debug.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.Diagnostics.Tools.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.Diagnostics.Tracing.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.Dynamic.Runtime.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.Globalization.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.IO.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.Linq.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.Linq.Expressions.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.Linq.Parallel.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.Linq.Queryable.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.Net.NetworkInformation.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.Net.Primitives.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.Net.Requests.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.ObjectModel.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.Reflection.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.Reflection.Emit.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.Reflection.Emit.ILGeneration.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.Reflection.Emit.Lightweight.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.Reflection.Extensions.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.Reflection.Primitives.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.Resources.ResourceManager.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.Runtime.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.Runtime.Extensions.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.Runtime.InteropServices.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.Runtime.InteropServices.WindowsRuntime.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.Runtime.Numerics.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.Runtime.Serialization.Json.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.Runtime.Serialization.Primitives.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.Runtime.Serialization.Xml.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.Security.Principal.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.ServiceModel.Duplex.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.ServiceModel.Http.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.ServiceModel.NetTcp.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.ServiceModel.Primitives.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.ServiceModel.Security.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.Text.Encoding.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.Text.Encoding.Extensions.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.Text.RegularExpressions.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.Threading.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.Threading.Tasks.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.Threading.Tasks.Parallel.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.Threading.Timer.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.Xml.ReaderWriter.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.Xml.XDocument.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.Xml.XmlSerializer.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\AddAccountWindow.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\ChangeSysDateTimeWindow.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\ImageRetrievalWindow.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\CalibrateWindow.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\MetroDialogs\ImageBadChannelManual.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\MetroDialogs\ImageMetroDialog.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\MetroDialogs\InputMetroDialog.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\MetroDialogs\PasswordMetroDialog.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\MetroDialogs\MessageMetroDialog.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\RegularRemindWindow.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\ScreenImagesOperationWindow.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\SettingViews\About\AboutMenu.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\SettingViews\About\Pages\AboutPage.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\SettingViews\Account\AccountMenuPage.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\SettingViews\Account\ChangePasswordEmptyMenuPage.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\SettingViews\Account\Pages\AccountPage.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\SettingViews\Account\Pages\AutoLoginSettingPage.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\SettingViews\Account\Pages\ChangePasswordSettingPage.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\SettingViews\Account\Pages\ManageOtherAccountsPage.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\SettingViews\Device\DeviceMenu.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\SettingViews\Device\Pages\ConveyorPESensorPage.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\SettingViews\Device\Pages\DetectorsPage.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\SettingViews\Device\Pages\KeyboardPage.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\SettingViews\Device\Pages\DiagnosisPage.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\SettingViews\EmergencyWindow.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\SettingViews\Image\Pages\ImsListPage.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\SettingViews\Records\Pages\ConveyorWorkLogPage.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\SettingViews\Records\Pages\OperationLogPage.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\SettingViews\Device\Pages\ControlSystemPage.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\SettingViews\Setting\Pages\FunctionKeysPage.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\SettingViews\Device\Pages\XRayGenPage.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\SettingViews\Image\ImageMenu.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\SettingViews\Image\Pages\ImageSettingPage.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\SettingViews\Image\Pages\ImsPage.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\LoginWindow.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\SettingViews\Records\Pages\XRayGenWorkLogPage.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\SettingViews\Records\Pages\LoginLogPage.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\SettingViews\Records\Pages\BootLogPage.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\SettingViews\Records\RecordsMenu.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\SettingViews\Menu\Pages\MenuPage.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\SettingViews\Menu\SystemMenu.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\SettingViews\Records\Pages\TipExamLogPage.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\SettingViews\Setting\Pages\DiskSpaceManagePage.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\SettingViews\Tip\Pages\TipImagesPage.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\SettingViews\Tip\Pages\TipPlansPage.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\SettingViews\Tip\TipMenu.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\SettingViews\Training\Pages\TrainingImagesManagementPage.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\SettingViews\Training\Pages\TrainingSettingPage.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\SettingViews\Training\TrainingMenu.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\SettingWindow.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\MainWindow.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\SettingViews\Setting\Pages\IntelliSensePage.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\SettingViews\Setting\Pages\ObjectCounterPage.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\SettingViews\Setting\SettingMenu.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\SystemBarControl.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\SystemBarControlTouch.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\XRayGenWarmupWindow.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\App.g.cs" />
+    <Compile Include="D:\6550DA\XRayScanner 0630\UI\XRay\Security\Scanner\obj\Release\GeneratedInternalTypeHelper.g.cs" />
+  </ItemGroup>
+</Project>

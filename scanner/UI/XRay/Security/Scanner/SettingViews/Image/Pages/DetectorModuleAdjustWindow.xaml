@@ -1,0 +1,101 @@
+﻿<Window x:Class="UI.XRay.Security.Scanner.SettingViews.Image.Pages.DetectorModuleAdjustWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UI.XRay.Security.Scanner.SettingViews.Image.Pages"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:conver="clr-namespace:UI.XRay.Security.Scanner.Converters"
+        mc:Ignorable="d"
+        Title="探测器错位调整窗口" FontSize="18" Height="900" Width="1200" Topmost="True">
+    <Window.Resources>
+        <conver:Bitmap2BitmapImageConvertor x:Key="Bitmap2Bitmapimage"/>
+    </Window.Resources>
+    <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled" IsTabStop="False" >
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="0,0">
+                <TextBlock Text="设备型号：" FontSize="18" Name="MessageBlock"></TextBlock>
+                <TextBlock Name="ScanTimeTextBlock" Margin="10,0" FontSize="18" Text="{Binding MachineType}"></TextBlock>
+            </StackPanel>
+            <!--图像-->
+            <Grid Grid.Row="1" Grid.Column="0">
+                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                    <Border BorderThickness="4" BorderBrush="Blue">
+                        <Grid Background="Black" Margin="10">
+                            <Image Name="XRayImage" Source="{Binding ShowBitmap,Converter={StaticResource Bitmap2Bitmapimage}}" VerticalAlignment="Top">
+                                <Image.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform x:Name="Imgstf"></ScaleTransform>
+                                        <TranslateTransform x:Name="Imgttf"></TranslateTransform>
+                                    </TransformGroup>
+                                </Image.RenderTransform>
+                            </Image>
+                            <Canvas x:Name="ImgCanvas" Height="{Binding Path=ActualHeight,ElementName=XRayImage}" Width="{Binding Path=ActualWidth,ElementName=XRayImage}" VerticalAlignment="Top">
+                                <Canvas.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform x:Name="Canvasstf"></ScaleTransform>
+                                        <TranslateTransform x:Name="Canvasttf"></TranslateTransform>
+                                    </TransformGroup>
+                                </Canvas.RenderTransform>
+                            </Canvas>
+                        </Grid>
+                    </Border>
+                </ScrollViewer>
+            </Grid>
+            <!--偏移区域-->
+            <Grid Grid.Row="1" Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition/>
+                    <RowDefinition Height="80"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="视角：" FontSize="18" VerticalAlignment="Center"></TextBlock>
+                    <ComboBox Grid.Column="1" x:Name="ComboBoxStyle"  FontSize="18" InputMethod.IsInputMethodEnabled="False" VerticalAlignment="Center" 
+                              ItemsSource="{Binding ViewList}" SelectedIndex="{Binding SelectedView}" HorizontalAlignment="Center" >
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding ImageViewChangedEventCommand}"/>
+                                <!--<command:EventToCommand Command="{Binding ImageViewChangedEventCommand}" PassEventArgsToCommand="False"></command:EventToCommand>-->
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ComboBox>
+                </Grid>
+                <ListBox x:Name="DetectorModuleListbox" Grid.Row="1" Margin="10,10,10,10" ItemsSource="{Binding ListModulesInfo}" BorderBrush="Gray" BorderThickness="2"  SelectionMode="Single" FontSize="18">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDoubleClick">
+                            <i:InvokeCommandAction Command="{Binding SelectionChangedCommand}" CommandParameter="{Binding Path=SelectedItem,ElementName=DetectorModuleListbox}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="60"/>
+                                    <ColumnDefinition Width="40"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="模块" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="1" Text="{Binding Path=ModuleId,Mode=TwoWay}" VerticalAlignment="Center"/>
+                                <TextBox Grid.Column="2" Text="{Binding Path=ModuleOffset,Mode=TwoWay}" Width="80" VerticalAlignment="Center"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <Button Grid.Row="2" Height="60" Margin="5,5,5,5" Content="保存偏移量文件" Command="{Binding SaveModuleOffsetCommand}"/>
+            </Grid>
+        </Grid>
+    </ScrollViewer>
+</Window>

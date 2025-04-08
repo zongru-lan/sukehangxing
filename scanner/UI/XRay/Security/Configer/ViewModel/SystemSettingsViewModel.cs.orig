@@ -1,0 +1,563 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Forms;
+using GalaSoft.MvvmLight;
+using UI.XRay.Business.DataAccess.Config;
+using UI.XRay.Business.Entities;
+using GalaSoft.MvvmLight.Command;
+using UI.Common.Tracers;
+using UI.XRay.Flows.Services;
+using UI.XRay.Gui.Framework;
+
+namespace UI.XRay.Security.Configer.ViewModel
+{
+    /// <summary>
+    /// 系统设置试图的ViewModel
+    /// </summary>
+    public class SystemSettingsViewModel : ViewModelBase, IViewModel
+    {
+        private string _language = "English";
+        /// <summary>
+        /// 系统语言，默认是英语
+        /// </summary>
+        public string Language
+        {
+            get { return _language; }
+            set
+            {
+                _language = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private List<string> _availableLanguages;
+
+        /// <summary>
+        /// 可用系统语言列表，用于UI绑定
+        /// </summary>
+        public List<string> AvailableLanguages
+        {
+            get { return _availableLanguages; }
+            set
+            {
+                _availableLanguages = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private string _imageStorePath = @"D:\";
+        /// <summary>
+        /// 图像保存路径
+        /// </summary>
+        public string ImageStorePath
+        {
+            get { return _imageStorePath; }
+            set
+            {
+                _imageStorePath = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private string _companyName;
+        /// <summary>
+        /// 公司名称，默认是UI，可设置是用于OEM
+        /// </summary>
+        public string CompanyName
+        {
+            get { return _companyName; }
+            set
+            {
+                _companyName = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private string _machineNumber;
+        /// <summary>
+        /// 设备编号
+        /// </summary>
+        public string MachineNumber
+        {
+            get { return _machineNumber; }
+            set
+            {
+                _machineNumber = value;
+                _machineNumber = _machineNumber.Replace("_", "");
+                RaisePropertyChanged();
+            }
+        }
+        
+        private string _productionDate;
+
+        public string ProductionDate
+        {
+            get { return _productionDate; }
+            set { _productionDate = value; RaisePropertyChanged();}
+        }
+        
+        
+        private string _model;
+        /// <summary>
+        /// 设备类型
+        /// </summary>
+        public string Model
+        {
+            get { return _model; }
+            set { _model = value; RaisePropertyChanged(); }
+        }
+
+        private string _description;
+        /// <summary>
+        /// 设备描述
+        /// </summary>
+        public string Description
+        {
+            get { return _description; }
+            set
+            {
+                _description = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// 软件是否开机自动启动
+        /// </summary>
+        private bool _isAutoStartupEnabled;
+
+        /// <summary>
+        /// 选择图像保存路径命令，用于UIb绑定
+        /// </summary>
+        public RelayCommand ChangeImageStorePathCommand { get; set; }
+
+        /// <summary>
+        /// 软件是否开机自动启动
+        /// </summary>
+        public bool IsAutoStartupEnabled
+        {
+            get { return _isAutoStartupEnabled; }
+            set { _isAutoStartupEnabled = value; RaisePropertyChanged(); }
+        }
+
+        private bool _isUsingTouchUI;
+
+        public bool IsUsingTouchUI
+        {
+            get { return _isUsingTouchUI; }
+            set { _isUsingTouchUI = value; RaisePropertyChanged(); }
+        }
+
+        private bool _isAutoSaveUpfImage = false;
+
+        /// <summary>
+        /// 是否自动保存通用格式图像（Universal Picture Format）
+        /// </summary>
+        public bool IsAutoSaveUpfImage
+        {
+            get { return _isAutoSaveUpfImage; }
+            set
+            {
+                _isAutoSaveUpfImage = value;
+                ShowUpfImageStoreSetting = _isAutoSaveUpfImage ? Visibility.Visible : Visibility.Collapsed;
+                RaisePropertyChanged();
+            }
+        }
+
+        private Visibility _showUpfImageStoreSetting = Visibility.Collapsed;
+        /// <summary>
+        /// 是否显示通用图像格式保存设置，只有在电机了自动保存
+        /// </summary>
+        public Visibility ShowUpfImageStoreSetting
+        {
+            get { return _showUpfImageStoreSetting; }
+            set { _showUpfImageStoreSetting = value;RaisePropertyChanged(); }
+        }
+
+        private string _upfImageStorePath;
+        /// <summary>
+        /// 通用图像格式保存路径
+        /// </summary>
+        public string UpfImageStorePath
+        {
+            get{ return _upfImageStorePath;}
+            set { _upfImageStorePath = value;RaisePropertyChanged(); }
+        }
+        public RelayCommand ChangeUpfImageStorePathCommand { get; set; }
+
+        private List<string> _upfImageStoreStrategies;
+        /// <summary>
+        /// 通用图像保存策略
+        /// </summary>
+        public List<string> UpfImageStoreStrategies
+        {
+            get { return _upfImageStoreStrategies; }
+            set { _upfImageStoreStrategies = value;RaisePropertyChanged(); }
+        }
+
+        private string _upfImageStoreStrategy;
+        /// <summary>
+        /// 当前选定的策略项
+        /// </summary>
+        public string UpfImageStoreStrategy
+        {
+            get { return _upfImageStoreStrategy; }
+            set { _upfImageStoreStrategy = value;RaisePropertyChanged(); }
+        }
+
+        /// <summary>
+        /// 直接使用翻译类库
+        /// </summary>
+        private readonly string _suspiciousStr = TranslationService.FindTranslation("Configer","Suspicious");
+        private readonly string _allStr = TranslationService.FindTranslation("Configer", "All");
+
+        /// <summary>
+        /// 界面显示用翻译语言，但是保存到配置中要用原始语言
+        /// </summary>
+        private Dictionary<string,string> TransToSource = new Dictionary<string, string>(); 
+
+        private List<string> _upfImageStoreFormats;
+        /// <summary>
+        /// 通用图像保存格式
+        /// </summary>
+        public List<string> UpfImageStoreFormats
+        {
+            get { return _upfImageStoreFormats; }
+            set { _upfImageStoreFormats = value; RaisePropertyChanged(); }
+        }
+
+        private string _upfImageStoreFormat;
+        /// <summary>
+        /// 当前选定的图像保存格式
+        /// </summary>
+        public string UpfImageStoreFormat
+        {
+            get { return _upfImageStoreFormat; }
+            set { _upfImageStoreFormat = value; RaisePropertyChanged(); }
+        }
+
+        private Visibility _showMergeTwoViewImage;
+        /// <summary>
+        /// 是否显示拼接两视角图像选项，只有在双视角模式下显示
+        /// </summary>
+        public Visibility ShowMergeTwoViewImage
+        {
+            get { return _showMergeTwoViewImage; }
+            set { _showMergeTwoViewImage = value;RaisePropertyChanged(); }
+        }
+
+        private bool _isMergeTwoViewImage = false;
+
+        /// <summary>
+        /// 是否合并两个视角的图像
+        /// </summary>
+        public bool IsMergeTwoViewImage
+        {
+            get { return _isMergeTwoViewImage; }
+            set
+            {
+                _isMergeTwoViewImage = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private bool _isAutoStoreXrayImage = false;
+        /// <summary>
+        /// 是否自动保存Xray图像
+        /// </summary>
+        public bool IsAutoStoreXrayImage
+        {
+            get { return _isAutoStoreXrayImage; }
+            set { _isAutoStoreXrayImage = value; RaisePropertyChanged(); }
+        }
+
+        private bool _isLimitAutoStoreUpfImageCount = false;
+
+        /// <summary>
+        /// 是否限制自动保存图像个数
+        /// </summary>
+        public bool IsLimitAutoStoreUpfImageCount
+        {
+            get { return _isLimitAutoStoreUpfImageCount; }
+            set
+            {
+                _isLimitAutoStoreUpfImageCount = value;
+                ShowUpfImageCountLimit = _isLimitAutoStoreUpfImageCount ? Visibility.Visible : Visibility.Collapsed;
+                RaisePropertyChanged();
+            }
+        }
+
+        private int _upfImageCountUpperLimit;
+        /// <summary>
+        /// 保存图像数量的上限
+        /// </summary>
+        public int UpfImageCountUpperLimit
+        {
+            get { return _upfImageCountUpperLimit; }
+            set { _upfImageCountUpperLimit = value;RaisePropertyChanged(); }
+        }
+
+        private Visibility _showUpfImageCountLimit = Visibility.Collapsed;
+        /// <summary>
+        /// 是否显示图像数量阈值
+        /// </summary>
+        public Visibility ShowUpfImageCountLimit
+        {
+            get { return _showUpfImageCountLimit; }
+            set { _showUpfImageCountLimit = value;RaisePropertyChanged(); }
+        }
+
+        private bool _sendLines;
+        public bool SendLines
+        {
+            get { return _sendLines; }
+            set
+            {
+                _sendLines = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        public SystemSettingsViewModel()
+        {
+            LoadAvailableLanguages();
+            //AvailableLanguages = new List<string> { "English", "Chinese", "Russian"};
+            ChangeImageStorePathCommand = new RelayCommand(ChangeImageStorePathCommandExecute);
+
+            try
+            {
+                LoadSettings();
+            }
+            catch (Exception exception)
+            {
+                Tracer.TraceException(exception, "Failed to load settings for SystemSettingsViewModel");
+            }
+
+            //初始化自动保存通用格式图像的功能
+            InitialAutoSaveUpfImage();
+        }
+
+
+        private void InitialAutoSaveUpfImage()
+        {
+            try
+            {
+                TransToSource.Add(_allStr,"All");
+                TransToSource.Add(_suspiciousStr, "Suspicious");
+
+                //保存路径
+                string outTemp;
+                ScannerConfig.Read(ConfigPath.AutoStoreUpfImagePath, out outTemp);
+                UpfImageStorePath = outTemp;
+
+                ChangeUpfImageStorePathCommand = new RelayCommand(ChangeUpfImageStorePathCommandExe);
+
+                //保存策略
+                UpfImageStoreStrategies = new List<string> { _suspiciousStr, _allStr };
+                ScannerConfig.Read(ConfigPath.AutoStoreUpfImageStrategy, out outTemp);
+                UpfImageStoreStrategy = TranslationService.FindTranslation("Configer", outTemp);
+
+                //保存格式
+                UpfImageStoreFormats = new List<string> { "jpg", "bmp", "png", "tiff" };
+                ScannerConfig.Read(ConfigPath.AutoStoreUpfImageFormat, out outTemp);
+                UpfImageStoreFormat = outTemp;
+
+                //是否合并双视角图像
+                int viewCount;
+                ScannerConfig.Read(ConfigPath.MachineViewsCount, out viewCount);
+                if (viewCount == 2)
+                {
+                    //如果是双视角
+                    ShowMergeTwoViewImage = Visibility.Visible;
+                    bool mergeTwoView;
+                    ScannerConfig.Read(ConfigPath.MergeTwoViewImage, out mergeTwoView);
+                    IsMergeTwoViewImage = mergeTwoView;
+                }
+                else
+                {
+                    ShowMergeTwoViewImage = Visibility.Collapsed;
+                }
+
+                bool autoStoreXray;
+                ScannerConfig.Read(ConfigPath.AutoStoreXrayImage, out autoStoreXray);
+                IsAutoStoreXrayImage = autoStoreXray;
+
+                //读取功能开关
+                bool isAutoStoreUpfImage;
+                ScannerConfig.Read(ConfigPath.AutoStoreUpfImage, out isAutoStoreUpfImage);
+                IsAutoSaveUpfImage = isAutoStoreUpfImage;
+
+                ScannerConfig.Read(ConfigPath.LimitAutoStoreUpfImageCount, out _isLimitAutoStoreUpfImageCount);
+
+                ShowUpfImageCountLimit = _isLimitAutoStoreUpfImageCount ? Visibility.Visible : Visibility.Collapsed;
+
+                ScannerConfig.Read(ConfigPath.AutoStoreUpfImageCount, out _upfImageCountUpperLimit);
+            }
+            catch (Exception e)
+            {
+                Tracer.TraceException(e);
+                IsAutoSaveUpfImage = false;
+            }
+        }
+
+        private void ChangeUpfImageStorePathCommandExe()
+        {
+            var selectFolderDialog = new FolderBrowserDialog();
+
+            if (selectFolderDialog.ShowDialog() == DialogResult.OK)
+            {
+                UpfImageStorePath = selectFolderDialog.SelectedPath;
+            }
+        }
+
+        /// <summary>
+        /// 从bin上层目录中的language文件夹中，加载所有语言文件。
+        /// </summary>
+        private void LoadAvailableLanguages()
+        {
+            var path = AppDomain.CurrentDomain.BaseDirectory;
+            path = Path.Combine(path, "../Language");
+
+            var filePaths = Directory.GetFiles(path, "*.xml", SearchOption.TopDirectoryOnly);
+
+            AvailableLanguages = new List<string>(3);
+
+            foreach (var filePath in filePaths)
+            {
+                AvailableLanguages.Add(Path.GetFileNameWithoutExtension(filePath));   
+            }
+        }
+
+        /// <summary>
+        /// 选择图像保存路径命令执行体
+        /// </summary>
+        private void ChangeImageStorePathCommandExecute()
+        {
+            var selectFolderDialog = new FolderBrowserDialog();
+
+            if(selectFolderDialog.ShowDialog() == DialogResult.OK)
+            {
+                ImageStorePath = selectFolderDialog.SelectedPath;
+            }
+        }
+
+        /// <summary>
+        /// 保存系统设置到本地
+        /// </summary>
+        public void SaveSettings()
+        {
+            ScannerConfig.Write(ConfigPath.SystemLanguage, _language);
+            //根据不同语言采用不同的日期格式
+            int index = 0;
+            switch (_language)
+            {
+                case "Chinese":
+                    index = 2;
+                    break;
+                case "English":
+                    index = 0;
+                    break;
+                case "Russian":
+                    index = 1;
+                    break;
+                default:
+                    index = 0;
+                    break;
+            }
+
+            //写入日期格式标示
+            ScannerConfig.Write(ConfigPath.SystemDateFormat, index);
+
+            ScannerConfig.Write(ConfigPath.SystemImageStorePath, _imageStorePath);
+            ScannerConfig.Write(ConfigPath.SystemCompanyName, _companyName);
+            ScannerConfig.Write(ConfigPath.SystemMachineNum, _machineNumber);
+            ScannerConfig.Write(ConfigPath.SystemMachineDate, _productionDate);
+            ScannerConfig.Write(ConfigPath.SystemModel, _model);
+            ScannerConfig.Write(ConfigPath.SystemDescription, _description);
+
+            SystemStartShutdownService.EnabledAutoStartup(IsAutoStartupEnabled);
+
+            SaveAutoStoreUpfImageSetting();
+        }
+
+        private void SaveAutoStoreUpfImageSetting()
+        {
+            ScannerConfig.Write(ConfigPath.AutoStoreUpfImage, _isAutoSaveUpfImage);
+            ScannerConfig.Write(ConfigPath.AutoStoreUpfImagePath, _upfImageStorePath);
+            ScannerConfig.Write(ConfigPath.AutoStoreUpfImageStrategy, TransToSource[_upfImageStoreStrategy]);
+            ScannerConfig.Write(ConfigPath.AutoStoreUpfImageFormat, _upfImageStoreFormat);
+            ScannerConfig.Write(ConfigPath.MergeTwoViewImage, _isMergeTwoViewImage);
+            ScannerConfig.Write(ConfigPath.AutoStoreXrayImage, _isAutoStoreXrayImage);
+            ScannerConfig.Write(ConfigPath.LimitAutoStoreUpfImageCount, _isLimitAutoStoreUpfImageCount);
+            ScannerConfig.Write(ConfigPath.AutoStoreUpfImageCount, _upfImageCountUpperLimit);
+            ScannerConfig.Write(ConfigPath.SystemTouchUI, IsUsingTouchUI);
+
+            ScannerConfig.Write(ConfigPath.AutoDetectionEnable, _sendLines);
+        }
+
+        /// <summary>
+        /// 从本地加在系统设置
+        /// </summary>
+        public void LoadSettings()
+        {
+            string result;
+
+            if (ScannerConfig.Read(ConfigPath.SystemLanguage, out result))
+            {
+                Language = result;
+            }
+
+            if (ScannerConfig.Read(ConfigPath.SystemImageStorePath, out result))
+            {
+                ImageStorePath = result;
+            }
+
+            if (ScannerConfig.Read(ConfigPath.SystemCompanyName, out result))
+            {
+                CompanyName = result;
+            }
+
+            if (ScannerConfig.Read(ConfigPath.SystemMachineNum, out result))
+            {
+                MachineNumber = result;
+            }
+
+            if (ScannerConfig.Read(ConfigPath.SystemMachineDate, out result))
+            {
+                ProductionDate = result;
+            }
+
+            if (ScannerConfig.Read(ConfigPath.SystemModel, out result))
+            {
+                Model = result;
+            }
+
+            if (ScannerConfig.Read(ConfigPath.SystemDescription, out result))
+            {
+                Description = result;
+            }
+
+            IsAutoStartupEnabled = SystemStartShutdownService.IsAutoStartupEnabled();
+
+
+            if (!ScannerConfig.Read(ConfigPath.SystemTouchUI, out _isUsingTouchUI))
+            {
+                _isUsingTouchUI = false;
+            }
+
+            if (!ScannerConfig.Read(ConfigPath.AutoDetectionEnable, out _sendLines))
+            {
+                _sendLines = false;
+            }
+        }
+    }
+}

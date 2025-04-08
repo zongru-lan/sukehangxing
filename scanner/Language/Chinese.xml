@@ -1,0 +1,2925 @@
+﻿<?xml version="1.0"?>
+<ArrayOfTranslationSection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <TranslationSection SectionName="Common" Description="This section contains common translation strings for the app.">
+    <TranslationElements Source="Remote Diagnosing">
+      <Translation>远程诊断中</Translation>
+    </TranslationElements>
+    <TranslationElements Source="WorkTiming">
+      <Translation>工作时间</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Ok">
+      <Translation>确定</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Cancel">
+      <Translation>取消</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ExportToNet">
+      <Translation>导出到网络</Translation>
+    </TranslationElements>
+	  <TranslationElements Source="Group">
+		  <Translation>组别</Translation>
+	  </TranslationElements>
+	  
+    <TranslationElements Source="Save Group">
+	  <Translation>保存分组</Translation>
+    </TranslationElements>
+	  <TranslationElements Source="On" Comment="On state of toggle switch">
+      <Translation>开</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Off" Comment="Off state of toggle switch">
+      <Translation>关</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Yes">
+      <Translation>是</Translation>
+    </TranslationElements>
+    <TranslationElements Source="No">
+      <Translation>否</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Rotate">
+      <Translation>旋转</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Confirm">
+      <Translation>确认</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Close">
+      <Translation>关闭</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Delete">
+      <Translation>删除</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Select">
+      <Translation>选择</Translation>
+    </TranslationElements>
+    <TranslationElements Source="SelectTipLib">
+      <Translation>选择Tip图像</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Add">
+      <Translation>添加</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Save">
+      <Translation>保存</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Open">
+      <Translation>打开</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Change">
+      <Translation>更改</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Reset">
+      <Translation>重置</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Continue">
+      <Translation>继续</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Default">
+      <Translation>默认</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Error">
+      <Translation>错误</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Exception">
+      <Translation>异常</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Warning">
+      <Translation>警告</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Cancelled">
+      <Translation>取消</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Waiting">
+      <Translation>等待</Translation>
+    </TranslationElements>
+    <!--Main Menu Page-->
+    <TranslationElements Source="System Date And Time Setting">
+      <Translation>系统日期时间设置</Translation>
+    </TranslationElements>
+    <TranslationElements Source="System">
+      <Translation>系统</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image">
+      <Translation>图像</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Accounts">
+      <Translation>帐户</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Device">
+      <Translation>设备</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Logs">
+      <Translation>日志</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Setting">
+      <Translation>设置</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Training">
+      <Translation>培训</Translation>
+    </TranslationElements>
+    <TranslationElements Source="TIP" Comment="Threatening Image Projection">
+      <Translation>危险品注入</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Calibrate" Comment="Calibrate imaging system">
+      <Translation>图像标定</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Logout" Comment="Logout user account">
+      <Translation>注销</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Login" Comment="Login user account">
+      <Translation>登录</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Shutdown" Comment="Shutdown scanner and computer">
+      <Translation>关机</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Exit" Comment="Exit to windows desktop">
+      <Translation>退出</Translation>
+    </TranslationElements>
+    <TranslationElements Source="About" Comment="About of the system">
+      <Translation>关于</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Do you want to shutdown scanner now?">
+      <Translation>您确定要关机吗？</Translation>
+    </TranslationElements>
+	<TranslationElements Source="You been working for">
+		<Translation>您已工作 </Translation>
+	</TranslationElements>
+	<TranslationElements Source="minutes!">
+		<Translation> 分钟!</Translation>
+	</TranslationElements>
+	  <TranslationElements Source="Turn on shift change alerts">
+		  <Translation>开启换班提醒</Translation>
+	  </TranslationElements>
+	  <TranslationElements Source="Change Shifts Message interval (H)">
+		  <Translation>换班提醒间隔(单位:小时)</Translation>
+	  </TranslationElements>
+	  <TranslationElements Source="Change Shifts Remind">
+		  <Translation>换班提醒</Translation>
+	  </TranslationElements>
+	  <TranslationElements Source="It's time for you to change shifts">
+		  <Translation>你该换班了</Translation>
+	  </TranslationElements>
+
+	  <!--Login Window-->
+    <TranslationElements Source="Failed to login because of exception.">
+      <Translation>由于发生异常，无法登录</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Login Failed">
+      <Translation>登录失败</Translation>
+    </TranslationElements>
+    <TranslationElements Source="The account has been disabled. Please ask Administrator to activate it.">
+      <Translation>帐户已经被禁用，请先联系管理员激活此帐户。</Translation>
+    </TranslationElements>
+    <TranslationElements Source="The password you typed is incorrect.">
+      <Translation>您输入的密码不正确。</Translation>
+    </TranslationElements>
+    <TranslationElements Source="The account you typed does not exist.">
+      <Translation>您输入的帐户不存在。</Translation>
+    </TranslationElements>
+    <TranslationElements Source="The account does not have permission to login to this position.">
+      <Translation>帐户没有登录此岗位的权限。</Translation>
+    </TranslationElements>
+
+    <!--About Page-->
+    <TranslationElements Source="Machine Information">
+      <Translation>设备信息</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Machine Number:">
+      <Translation>设备编号</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Production Date:">
+      <Translation>设备生产日期</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Machine Type:">
+      <Translation>设备类型</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Software Version:">
+      <Translation>软件版本</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Algorithm Version:">
+      <Translation>算法版本</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Control Version:">
+      <Translation>控制系统版本</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Disk Space" Comment="hard disk space">
+      <Translation>磁盘空间</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image Storage Disk:">
+      <Translation>图像存储磁盘:</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Already Used" Comment="disk space already used">
+      <Translation>已使用</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Total">
+      <Translation>总计</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Images Count">
+      <Translation>图像计数</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Capture Board Count">
+      <Translation>采集板数量</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Count of images in storage" Comment="Count of images stored in disk now">
+      <Translation>当前存储的图像总计</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Count of images since installed">
+      <Translation>自运行以来图像总计</Translation>
+    </TranslationElements>
+    <!--Work hours in About page-->
+    <TranslationElements Source="Device Work Hours">
+      <Translation>系统工作时间</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Calculating">
+      <Translation>计算中</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Total Work Hours of Machine">
+      <Translation>系统总工作时间</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Work Hours of Machine Since Boot">
+      <Translation>系统本次开机时间</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XRay Generator1 Total Work Hours">
+      <Translation>X射线产生装置#1总工作时间</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XRay Generator2 Total Work Hours">
+      <Translation>X射线产生装置#2总工作时间</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XRay Generator1 Work Hours Since Boot">
+      <Translation>X射线产生装置#1开机工作时间</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XRay Generator2 Work Hours Since Boot">
+      <Translation>X射线产生装置#2开机工作时间</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XRay Generator1 Usage Count Since Boot">
+      <Translation>X射线产生装置#1开机工作次数</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XRay Generator2 Usage Count Since Boot">
+      <Translation>X射线产生装置#2开机工作次数</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XRay Generator1 Total Usage Count">
+      <Translation>X射线产生装置#1总工作次数</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XRay Generator2 Total Usage Count">
+      <Translation>X射线产生装置#2总工作次数</Translation>
+    </TranslationElements>
+    <!--Account Management menu-->
+
+    <TranslationElements Source="Account Information" Comment="Menu item for browsing account information">
+      <Translation>帐户信息</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Manage Other Accounts" Comment="Menu item for managing other accounts">
+      <Translation>管理其他帐户</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Auto Login Setting" Comment="Menu item for auto-login setting">
+      <Translation>自动登录设置</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Auto Login" Comment="automatically login default account when software starts">
+      <Translation>自动登录</Translation>
+    </TranslationElements>
+	  <TranslationElements Source="Operator can export the image" Comment="Whether the Operator can export the image">
+		  <Translation>操机员能否将图像导出</Translation>
+	  </TranslationElements>
+
+
+    <!--Account Information-->
+    <TranslationElements Source="Role" Comment="account role, including admin, system and operator">
+      <Translation>角色</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Login Time" Comment="time when user login">
+      <Translation>登录时间</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Logout Time" Comment="time when user logout">
+      <Translation>注销时间</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Boot Time" Comment="time when machine boot">
+      <Translation>开机时间</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Shutdown Time" Comment="time when machine shut down">
+      <Translation>关机时间</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="Change your password" Comment="Change password of current account">
+      <Translation>更改您的密码</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Login with account when system starts" Comment="When system starts, use specified account to login automatically">
+      <Translation>系统启动后登录帐户</Translation>
+    </TranslationElements>
+
+    <!--Add New Account Window-->
+    <TranslationElements Source="Account Role" Comment="Role of the account">
+      <Translation>帐户角色</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Name">
+      <Translation>姓名</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Enter New Account Information">
+      <Translation>输入新帐户信息</Translation>
+    </TranslationElements>
+    <TranslationElements Source="The entered account id already exists!">
+      <Translation>您输入的帐户名已经存在！</Translation>
+    </TranslationElements>
+
+    <!--Select TipLib Window-->
+    <TranslationElements Source="Tip Lib Setting">
+      <Translation>Tip图像库选择</Translation>
+    </TranslationElements>
+
+    <!--Manage Other account page-->
+    <TranslationElements Source="Accounts List">
+      <Translation>帐户列表</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Account Id" Comment="Id of the account">
+      <Translation>帐户名</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Password">
+      <Translation>密码</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Network">
+      <Translation>网络</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Local">
+      <Translation>本地</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Login Mode">
+      <Translation>登录模式</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Is Active" Comment="Is the account enabled">
+      <Translation>是否有效</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Deletion" Comment="operation to delete account">
+      <Translation>删除操作</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Add New Account">
+      <Translation>添加新帐户</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Commit Changes" Comment="save all changes made">
+      <Translation>提交更改</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Discard Changes" Comment="discard all changed made">
+      <Translation>放弃更改</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Click grid cell to edit.">
+      <Translation>单击单元格进行编辑</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Permission Management">
+      <Translation>权限管理</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Can Training">
+      <Translation>培训模式</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Can Change Image Settings">
+      <Translation>更改图像设置</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Can Manage Disk">
+      <Translation>管理磁盘</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Can Manage Log">
+      <Translation>管理日志</Translation>
+    </TranslationElements>
+    <TranslationElements Source="The account id already exists!">
+      <Translation>帐户名已经存在！</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Account id can not be empty!">
+      <Translation>帐户名不能为空！</Translation>
+    </TranslationElements>
+	<TranslationElements Source="Account id and password can only contain numbers and letters!">
+      <Translation>帐户名和密码只能包含数字和字母！</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Account id and password must contain less than 16 characters!">
+      <Translation>帐户名和密码长度必须小于16位！</Translation>
+    </TranslationElements>
+
+    <!--Change password-->
+    <TranslationElements Source="New Password" Comment="new password of the account">
+      <Translation>新密码</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Confirm Password" Comment="Confirm the new password">
+      <Translation>确认密码</Translation>
+    </TranslationElements>
+    <TranslationElements Source="The password you entered is incorrect!">
+      <Translation>您输入的密码不正确！</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Password can not be empty!">
+      <Translation>密码不能为空！</Translation>
+    </TranslationElements>
+    <TranslationElements Source="The passwords you entered do not match!" Comment="When changing password, the typed New Password and Confirm Password do not match">
+      <Translation>您两次输入的密码不一致！</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Change Password">
+      <Translation>更改密码</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Please input your new password and confirm">
+      <Translation>请输入您的新密码并确认</Translation>
+    </TranslationElements>
+	<TranslationElements Source="Password can only contain numbers and letters!">
+	  <Translation>密码只能包含数字和字母！</Translation>
+	</TranslationElements>
+	<TranslationElements Source="Password must contain less than 16 characters!">
+	  <Translation>密码长度必须小于16位！</Translation>
+	</TranslationElements>
+
+    <!--Device setting-->
+    <TranslationElements Source="Detectors" Comment="X-Ray detectors">
+      <Translation>X射线探测器</Translation>
+    </TranslationElements>
+    <TranslationElements Source="X-Ray Generators">
+      <Translation>X射线产生装置</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Conveyor and PESensor" Comment="Conveyor and PhotoElectric Sensor">
+      <Translation>输送机与光电传感器</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Keyboard">
+      <Translation>键盘</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Diagnosis">
+      <Translation>诊断</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Diagnose">
+      <Translation>诊断</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Diagnosing">
+      <Translation>在诊断中</Translation>
+    </TranslationElements>    
+    
+    <TranslationElements Source="Function Key Definition" Comment="Define functions for function keys, including F1, F2, and F3">
+      <Translation>功能键定义</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Is Conveyor Direction Key Reversed" Comment="By default, pressing Conveyor-Right key will make conveyor moving forward. If conveyor direction key is reversed, pressing Conveyor-Right key will make conveyor moving backward.">
+      <Translation>输送机方向键功能反转</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Is Keyboard Direction Reversed">
+      <Translation>键盘方向键方向反转</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Enable Bidirection Scan">
+      <Translation>启用双向扫描</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Enable Continuous Scan">
+      <Translation>启用连续扫描</Translation>
+    </TranslationElements>
+    
+
+    <!--Detectors Page-->
+    <TranslationElements Source="Curves Pattern" Comment="showing dynamic data curve or static data curve">
+      <Translation>曲线模式</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Exchange Views Order" Comment="In dual-view machine, exchange the views logic order(data order) to confirm with physical order (refer to conveyor direction).">
+      <Translation>交换探测视角顺序</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Channel" Comment="detector channel. one channel corresponds to one pixel on image.">
+      <Translation>通道</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Is Bad" Comment="is the detect channel bad">
+      <Translation>是否坏点</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="Color Mode" Comment="Display color mode of image, such as grey or colorized">
+      <Translation>颜色模式</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Penetration" Comment="Penetration mode of image, such as high penetration">
+      <Translation>穿透增强</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Inversed" Comment="is grey of image is inversed">
+      <Translation>反色</Translation>
+    </TranslationElements>
+    <TranslationElements Source="SuperEnhance" Comment="An image enhancement method, to get a best contrast">
+      <Translation>超级增强</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Absorbtivity" Comment="An image enhancement method, to enhance interested grey levels">
+      <Translation>吸收率</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Dynamic GST" Comment="Dynamic Grayscale Transformation, an image enhancement method, dynamically change grayscales of image">
+      <Translation>动态灰度变换</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="Image Process Recommend">
+      <Translation>图像推荐算法</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Raw Image">
+      <Translation>图像还原</Translation>
+    </TranslationElements>
+    <TranslationElements Source="TurnOn Image Correction">
+      <Translation>开启畸变校正</Translation>
+    </TranslationElements>
+    <TranslationElements Source="TurnOff Image Correction">
+      <Translation>关闭畸变校正</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image Brighter">
+      <Translation>图像变亮</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image Darker">
+      <Translation>图像变暗</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Action">
+      <Translation>行为</Translation>
+    </TranslationElements>
+
+
+
+    <!--X-Ray Generator Page-->
+    <TranslationElements Source="X-Ray Operation" Comment="To open or close x-ray">
+      <Translation>X射线产生装置操作</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XrayGen Statement">
+      <Translation>X射线产生装置状态</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Static">
+      <Translation>冻结</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Dynamic">
+      <Translation>动态</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Detection View" Comment="view1, view2">
+      <Translation>探测视角</Translation>
+    </TranslationElements>
+    <TranslationElements Source="X-Ray Generator Information">
+      <Translation>X射线产生装置基本信息</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image1 Serial Port">
+      <Translation>图像1串口</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image2 Serial Port">
+      <Translation>图像2串口</Translation>
+    </TranslationElements>
+    <TranslationElements Source="X-Ray Generator Type">
+      <Translation>X射线产生装置类型</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Oil Temperature">
+      <Translation>油温</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Working Value" Comment="current working values">
+      <Translation>工作值</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Current Setting" Comment="present settings">
+      <Translation>当前设置</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Change Setting">
+      <Translation>更改设置</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XrayGenerator Infomation">
+      <Translation>X射线产生装置信息</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Xray Error Info">
+      <Translation>错误信息</Translation>
+    </TranslationElements>
+    <TranslationElements Source="New Setting">
+      <Translation>新设置</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Set">
+      <Translation>设置</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Emit X-Ray">
+      <Translation>发射射线</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Close X-Ray">
+      <Translation>关闭射线</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Could not change X-Ray generator settings, please check the Control System connection state!">
+      <Translation>无法更改X射线产生装置设置，请检查控制系统连接状态！</Translation>
+    </TranslationElements>
+
+    <!--Conveyor and PESensor Test Page-->
+    <TranslationElements Source="Conveyor Test">
+      <Translation>输送机测试</Translation>
+    </TranslationElements>
+    <TranslationElements Source="PhotoElectric Sensors Test">
+      <Translation>光电传感器测试</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Power On">
+      <Translation>开启</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Power Off">
+      <Translation>关闭</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Move Left" Comment="move towards left">
+      <Translation>左</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Move Right" Comment="move towards right">
+      <Translation>右</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Stop">
+      <Translation>停止</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Emergency window">
+      <Translation>急停按钮触发</Translation>
+    </TranslationElements>
+
+
+    <!--Keyboard Page-->
+    <TranslationElements Source="To Test conveyor keys and F3, press down Auto key first.">
+      <Translation>如果需要测试F3、输送机按键，请先按下Auto键。</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Conveyor Keys" Comment="Keys on keyboard to control conveyor">
+      <Translation>输送机按键</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Beeper Test">
+      <Translation>蜂鸣器测试</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Beep" Comment="Make beeper in keyboard beeps">
+      <Translation>蜂鸣</Translation>
+    </TranslationElements>
+
+    <!--Object Counter setting Page-->
+
+    <TranslationElements Source="Total Counter" Comment="counter to count all images">
+      <Translation>总计数器</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Session Counter" Comment="counter to count images scanned during current login">
+      <Translation>临时会话计数器</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Scanned object count of current session">
+      <Translation>当前会话期间扫描物体计数</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Reset session counter when user login">
+      <Translation>当用户登录后重置临时会话计数器</Translation>
+    </TranslationElements>
+
+    <!--Diskspace manage setting Page-->
+    <TranslationElements Source="Disk Space Management">
+      <Translation>磁盘空间管理</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Old images auto cleanup service">
+      <Translation>旧图像自动删除服务</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Save Image Disk Space Information">
+      <Translation>保存图像磁盘空间信息</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Old images auto cleanup service settings">
+      <Translation>旧图像自动删除服务设置</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Start Cleaning Disk">
+      <Translation>开始磁盘清理</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Stop Cleaning Disk">
+      <Translation>结束磁盘清理</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Start cleanup service time daily">
+      <Translation>每天开始磁盘清理服务的时间</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Stop cleanup service time daily">
+      <Translation>每天停止磁盘清理服务的时间</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Emergency free disk space ratio to start cleanup service (10%~90%)">
+      <Translation>紧急开启删除服务的磁盘剩余可用空间值（有效范围：10%~90%）</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Value of free disk space ratio to stop cleanup service (10%~90%)">
+      <Translation>停止删除服务的磁盘剩余可用空间值（有效范围：10%~90%）</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Minimum value of free disk space ratio to start cleanup service (10%~90%)">
+      <Translation>启动删除服务的磁盘剩余可用空间最小值（有效范围：10%~90%）</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Count of old images to delete (10~1000)">
+      <Translation>每次删除旧图像的数量（有效范围：10~1000）</Translation>
+    </TranslationElements>
+
+    <!--Intellisense setting Page-->
+
+    <TranslationElements Source="High Density Object IntelliSense" Comment="Automatically detect High Density objects">
+      <Translation>高密度物体智能探测</Translation>
+    </TranslationElements>
+    <TranslationElements Source="IntelliSense Sensitivity">
+      <Translation>探测灵敏度</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Drugs IntelliSense">
+      <Translation>毒品智能探测</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Explosives IntelliSense">
+      <Translation>爆炸物质和装置智能探测</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Extenal Device IntelliSense">
+      <Translation>使用外部设备智能探测</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Automatically Stops The Conveyor" Comment="Automatically Stops The Conveyor when IntelliSense detects contrabands">
+      <Translation>自动停止输送机</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Enable Audible Alarm Feature" Comment="If enabled, when contraband detected, the beeper in keyboard will beep">
+      <Translation>启用声音报警功能</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Enable Light Alarm Feature" Comment="If enabled, when contraband detected, x-ray lamp will flicker">
+      <Translation>启用光报警功能</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Mark Region Border Color" Comment="Mark Region Border Color">
+      <Translation>探测区域边框颜色</Translation>
+    </TranslationElements>
+
+    <!--ImsPage-->
+    <TranslationElements Source="Image Management">
+      <Translation>图像管理</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Change conditions and retrieve more images">
+      <Translation>更改条件并获取更多图像</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Retrieve more images">
+      <Translation>获取更多图像</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Processing...">
+      <Translation>处理中...</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Thumbnail View">
+      <Translation>缩略图视图</Translation>
+    </TranslationElements>
+    <TranslationElements Source="List View">
+      <Translation>列表视图</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Loading...">
+      <Translation>加载中</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image retrieval results,">
+      <Translation>图像检索结果,</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Select All">
+      <Translation>全选</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Anti-Select">
+      <Translation>反选</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Playback" Comment="replay selected images">
+      <Translation>回放</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Dump" Comment="export images or logs to other disk">
+      <Translation>转存</Translation>
+    </TranslationElements>
+    <TranslationElements Source="DumpToNet" Comment="export images or logs to other disk">
+      <Translation>转存到网络</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Print">
+      <Translation>打印</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Lock" Comment="Image Lock operation: locked images will not be deteted automatically">
+      <Translation>锁定</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Unlock" Comment="unlock an image">
+      <Translation>解锁</Translation>
+    </TranslationElements>
+    <TranslationElements Source="RemoveBadChannel" Comment="Remove bad channels manually">
+      <Translation>剔除不稳定点</Translation>
+    </TranslationElements>
+	  <TranslationElements Source="Print" Comment="Remove bad channels manually">
+		  <Translation>打印</Translation>
+	  </TranslationElements>
+    <TranslationElements Source="Open the first selected image">
+      <Translation>打开第一幅被选中的图像</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Delete all selected images">
+      <Translation>删除所有选中的图像</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Selected images">
+      <Translation>选择选中的图像</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Playback all selected images">
+      <Translation>回放所有选中的图像</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Select all images in the list">
+      <Translation>选择列表中所有的图像</Translation>
+    </TranslationElements>
+	  <TranslationElements Source="Channal Id:">
+		  <Translation>通道编号:</Translation>
+	  </TranslationElements>
+    <TranslationElements Source="Anti-Select images">
+      <Translation>反选图像</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Delete the selected images permanently?">
+      <Translation>永久删除所选中的图像吗？</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Locked image can't be deleted">
+      <Translation>锁定的图像不能被删除</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Images dump completed" Comment="Images exportation is completed">
+      <Translation>图像导出完毕</Translation>
+    </TranslationElements>
+	<TranslationElements Source="Saved, no need to repeat" Comment="Images exportation is completed">
+		  <Translation>已保存，无需重复</Translation>
+	  </TranslationElements>
+    <TranslationElements Source="Dump completely">
+      <Translation>导出完毕</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Dump to network completely">
+      <Translation>导出到网络完成</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Images have saved to">
+      <Translation>图像保存到</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Sending">
+      <Translation>正在发送</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Send Failed">
+      <Translation>导出到网络失败</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Import completely">
+      <Translation>导入完毕</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Images upload to network completed" Comment="Images upload to network completed">
+      <Translation>图像上传网络完毕</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Screen Images Manipulation">
+      <Translation>屏幕图像操作</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Screen Images List">
+      <Translation>屏幕图像列表</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Save Images Successfully">
+      <Translation>保存图像成功</Translation>
+    </TranslationElements>
+    <TranslationElements Source="accounts updated">
+      <Translation>更新帐户完成</Translation>
+    </TranslationElements>
+    <TranslationElements Source="tipimages updated">
+      <Translation>更新TIP图像完成</Translation>
+    </TranslationElements>
+    <TranslationElements Source="tipplans updated">
+      <Translation>更新TIP计划完成</Translation>
+    </TranslationElements>
+    <TranslationElements Source="In the process of diagnosis, the ray will turn on and the conveyor will move back, please ensure the safety of personnel and luggage.">
+      <Translation>诊断过程中，射线会开启，输送机会后退，请确保人员和行李安全</Translation>
+    </TranslationElements>
+	<TranslationElements Source="Can't diagnose because of emergency stop!">
+	  <Translation>急停状态中，无法诊断</Translation>
+	</TranslationElements>
+    <!--Image Setting Page-->
+    <TranslationElements Source="Image Setting">
+      <Translation>图像设置</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Remove Blank Space Between Bags" Comment="do not show blank space between bag images, so more bag images can be visiable on the same time">
+      <Translation>不显示物体图像间空白</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Show Unpenetratable in Red" Comment="show unpenetratable materials in red">
+      <Translation>穿不透区域显示为红色</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Default Absorbtivity">
+      <Translation>默认吸收率</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Belt Margin Pixels Setting" Comment="belt margin pixels count setting: ">
+      <Translation>皮带边缘空白像素设置</Translation>
+    </TranslationElements>
+    <TranslationElements Source="View1" Comment="The first detection view">
+      <Translation>视角1</Translation>
+    </TranslationElements>
+    <TranslationElements Source="View2" Comment="The second detection view">
+      <Translation>视角2</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Margin Pixels At Begin" Comment="Belt margin pixels at beginning">
+      <Translation>前空白像素数</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Margin Pixels At End" Comment="Belt margin pixels at end">
+      <Translation>后空白像素数</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image1">
+      <Translation>图像1</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image2">
+      <Translation>图像2</Translation>
+    </TranslationElements>
+    <TranslationElements Source="EdgeEnhance">
+      <Translation>边缘增强</Translation>
+    </TranslationElements>
+    <TranslationElements Source="PenetrationEnhance">
+      <Translation>穿透增强</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image Default Effects" Comment="Default enhancement effects of image">
+      <Translation>图像默认特效</Translation>
+    </TranslationElements>
+
+    <!--System setting menu-->
+    <TranslationElements Source="Object Counter" Comment="scanning objects counter">
+      <Translation>物体计数器</Translation>
+    </TranslationElements>
+    <TranslationElements Source="IntelliSense" Comment="Function to auto-recognize High density object, drugs and explosives.">
+      <Translation>智能识别</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Function Keys" Comment="F1, F2, and F3">
+      <Translation>功能键</Translation>
+    </TranslationElements>
+
+    <!--Training setting menu-->
+    <TranslationElements Source="Training is Ongoing Now">
+      <Translation>培训正在进行中</Translation>
+    </TranslationElements>
+    <TranslationElements Source="End Training" Comment="End the training process">
+      <Translation>结束培训</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Start Training">
+      <Translation>开始培训</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Simulating Image Loop Mode" Comment="Training images generating mode">
+      <Translation>模拟图像循环模式</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Simulating Image Interval (S)" Comment="timespan in seconds between two training images">
+      <Translation>模拟图像间隔（单位：秒）</Translation>
+    </TranslationElements>
+
+    <!--System Bar-->
+    <TranslationElements Source="Emergency switch is off">
+      <Translation>紧急停止开关已被关闭(0x1001)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Interlock switch is off">
+      <Translation>安全连锁装置已被关闭(0x1002)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="X-Ray Gen 1 is dead" Comment="Could not detect x-ray generator 1">
+      <Translation>X射线产生装置#1无法接通(0x1003)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="X-Ray Gen 2 is dead">
+      <Translation>X射线产生装置#2无法接通(0x1004)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Unable to access Control Board" Comment="Could not communicate with control board">
+      <Translation>无法接通主控制板(0x1005)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Unable to access Image Acquisition Board" Comment="Could not receive image data from Image Acquisition Board">
+      <Translation>无法接通图像采集板(0x1006)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="The system works properly">
+      <Translation>系统工作正常</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Regular Mode">
+      <Translation>常规工作模式</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Maintenance Mode">
+      <Translation>维护调试模式</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Continuous Mode">
+      <Translation>连续扫描工作模式</Translation>
+    </TranslationElements>
+    <TranslationElements Source="AutoReturn Mode">
+      <Translation>自动返回工作模式</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Remainder Time">
+      <Translation>剩余时间</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Hours">
+      <Translation>小时</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Network State">
+      <Translation>数据网络状态</Translation>
+    </TranslationElements>
+
+    <!--Image Viewer-->
+    <TranslationElements Source="Scan Time">
+      <Translation>扫描时间</Translation>
+    </TranslationElements>
+    <TranslationElements Source="OriginalImage">
+      <Translation>原图片</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ImageWithLines">
+      <Translation>标线图</Translation>
+    </TranslationElements>
+    <TranslationElements Source="InterpolationImage">
+      <Translation>插值图</Translation>
+    </TranslationElements>
+    <TranslationElements Source="CurrentPoint">
+      <Translation>当前位置</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ImageShowMode">
+      <Translation>图片模式</Translation>
+    </TranslationElements>
+
+    <!--Password Dialog-->
+    <TranslationElements Source="Please input password and continue">
+      <Translation>请输入密码并继续</Translation>
+    </TranslationElements>
+
+
+    <TranslationElements Source="Starting Conveyor to Clean Passage">
+      <Translation>启动输送机来清空通道</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Clean Passage">
+      <Translation>清空通道</Translation>
+    </TranslationElements>
+    
+    <!--X-Ray generator warmup window-->
+    <TranslationElements Source="Warming up X-Ray Generator">
+      <Translation>预热X射线产生装置</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Remaining Time">
+      <Translation>剩余时间</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Seconds" Comment="Time in seconds">
+      <Translation>秒</Translation>
+    </TranslationElements>
+
+    <!--Image Retrieval Condition Window-->
+    <TranslationElements Source="Set Image Retrieval Conditions">
+      <Translation>设置图像检索条件</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Specify Account Id">
+      <Translation>指定用户名</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Time Range">
+      <Translation>时间范围</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Retrieve Save Assumes Images">
+      <Translation>检索已另存的图像</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Retrieve Marked Images">
+      <Translation>检索被标注的图像</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Start Time">
+      <Translation>开始时间</Translation>
+    </TranslationElements>
+    <TranslationElements Source="End Time">
+      <Translation>结束时间</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Hour">
+      <Translation>时</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Minute">
+      <Translation>分</Translation>
+    </TranslationElements>
+
+    <!--Tip Plans Page-->
+    <TranslationElements Source="Tip Plans">
+      <Translation>计划</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Tip Images Library">
+      <Translation>图像库</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Tip Examination Records">
+      <Translation>考核记录</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Id">
+      <Translation>编号</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Alias">
+      <Translation>计划别名</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Probability">
+      <Translation>几率</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Is Enabled">
+      <Translation>已启用</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Online Recognization Max Seconds" Comment="When TIP injected, the operator must act within the given time">
+      <Translation>在线判读最长时间（秒）</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Offline Recognization Max Seconds" Comment="When operator find TIP and stop the conveyor, the operator must press Mark key within the given time">
+      <Translation>停机判读最长时间（秒）</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Knives Weight" Comment="Knives TIP objects injection weight">
+      <Translation>管制器具权重</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Guns Weight">
+      <Translation>枪支权重</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Explosives Weight">
+      <Translation>爆炸物质和装置权重</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Others Weight" Comment="Other TIP objects injection weight">
+      <Translation>其他权重</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Didn't select images but weight doesn't equals 0, this may reduce injection rate!">
+      <Translation>未选择图像但权重不为0，可能导致注入率降低！</Translation>
+    </TranslationElements>
+
+    <!--Tip Images Page-->
+    <TranslationElements Source="Import">
+      <Translation>导入</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Select Tip Images Library">
+      <Translation>选择危险品注入图像库</Translation>
+    </TranslationElements>
+    <TranslationElements Source="UnSelect Tip Images">
+      <Translation>未选择危险品注入图像</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Select Tip Images">
+      <Translation>已选择危险品注入图像</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Guns">
+      <Translation>枪支</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Knives">
+      <Translation>管制器具</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Explosives">
+      <Translation>爆炸物质和装置</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Others">
+      <Translation>其他</Translation>
+    </TranslationElements>
+
+    <!--<TranslationElements Source="Congratulations, you have recognized simulated dangerous goods.">
+      <Translation>识别出模拟危险品！ 请先按停机清除它，再按前进或后退继续。</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Please note that there is an unrecognized simulated dangerous goods image, Pressing the stop button will clear it.">
+      <Translation>有未识别模拟危险品, 按停机清除它。</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Please press the stop button first to clear the unrecognized simulated dangerous goods image, then continue.">
+      <Translation>请先按停机清除模拟危险品，再按前进或后退继续。</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Sorry, you missed simulated dangerous goods!">
+      <Translation>您错过模拟危险品！ 请先按停机清除它，再按前进或后退继续。</Translation>
+    </TranslationElements>-->
+
+	  <TranslationElements Source="Dangerous goods!Press Shutdown to clear before continuing.">
+		  <Translation>识别出危险品！按停机清除后再继续。</Translation>
+	  </TranslationElements>
+	  <TranslationElements Source="Unidentified dangerous goods!Press Shutdown to clear.">
+		  <Translation>有未识别的危险品, 按停机清除。</Translation>
+	  </TranslationElements>
+	  <TranslationElements Source="Press Shutdown to clear dangerous goods, then continue.">
+		  <Translation>按停机清除危险品，再按前进或后退继续。</Translation>
+	  </TranslationElements>
+	  <TranslationElements Source="Missed dangerous goods!">
+		  <Translation>错过危险品！</Translation>
+	  </TranslationElements>
+	  "Please press the stop button first to clear the unrecognized simulated dangerous goods image, then continue.";
+	  "Please note that there is an unrecognized simulated dangerous goods image, Pressing the stop button will clear it."
+	  <TranslationElements Source="Statistical Period">
+      <Translation>统计周期</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Find">
+      <Translation>查找</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Export">
+      <Translation>导出</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Upload">
+      <Translation>上传</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Download">
+      <Translation>下载</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Working Hours">
+      <Translation>工作时间</Translation>
+    </TranslationElements>
+	<TranslationElements Source="Bag Count">
+	  <Translation>包裹计数</Translation>
+	</TranslationElements>
+    <TranslationElements Source="Date">
+      <Translation>日期</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Time">
+      <Translation>时间</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Boot Logs">
+      <Translation>开机日志</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Login Logs">
+      <Translation>登录日志</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Operation Logs">
+      <Translation>操作日志</Translation>
+    </TranslationElements>
+    <TranslationElements Source="TIP Examination Logs">
+      <Translation>TIP考核日志</Translation>
+    </TranslationElements>
+    <TranslationElements Source="X-Ray Generator Work Logs">
+      <Translation>X射线产生装置工作日志</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Conveyor Work Logs">
+      <Translation>输送机工作日志</Translation>
+    </TranslationElements>
+	  <TranslationElements Source="Snapshot">
+		  <Translation>快照</Translation>
+	  </TranslationElements>
+	  <TranslationElements Source="RightCtrl">
+		  <Translation>右键控制</Translation>
+	  </TranslationElements>
+	  <TranslationElements Source="Image Brighter">
+		  <Translation>图像变亮</Translation>
+	  </TranslationElements>
+	  <TranslationElements Source="Image Darker">
+		  <Translation>图像变暗</Translation>
+	  </TranslationElements>
+
+    <TranslationElements Source="TIP Injection Count">
+      <Translation>TIP注入次数</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Mark Operation Count">
+      <Translation>标记次数</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Missed TIP Count">
+      <Translation>错过TIP次数</Translation>
+    </TranslationElements>
+    <TranslationElements Source="TIP Miss Rate">
+      <Translation>TIP漏判率(%)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Login Times">
+      <Translation>登录次数</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Bags Count">
+      <Translation>行李数</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="Operation Time">
+      <Translation>时间</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Operation UI">
+      <Translation>类型</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Operation Object">
+      <Translation>操作对象</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Operation Command">
+      <Translation>命令</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Operation Content">
+      <Translation>内容</Translation>
+    </TranslationElements>
+
+	  <TranslationElements Source="InputLock">
+		  <Translation>输入锁定</Translation>
+	  </TranslationElements>
+	  <TranslationElements Source="InputUnlock">
+		  <Translation></Translation>
+	  </TranslationElements>
+	  
+  </TranslationSection>
+  <TranslationSection SectionName="TouchUI" Description="translation for touch interface">
+    <TranslationElements Source="Regular Mode">
+      <Translation>常规</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Maintenance Mode">
+      <Translation>维护</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Continuous Mode">
+      <Translation>连续</Translation>
+    </TranslationElements>
+    <TranslationElements Source="AutoReturn Mode">
+      <Translation>自动回退</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Emergency switch is off">
+      <Translation>(0x1001)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Interlock switch is off">
+      <Translation>(0x1002)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="X-Ray Gen 1 is dead" Comment="Could not detect x-ray generator 1">
+      <Translation>(0x1003)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="X-Ray Gen 2 is dead">
+      <Translation>(0x1004)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Unable to access Control Board" Comment="Could not communicate with control board">
+      <Translation>(0x1005)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Unable to access Image Acquisition Board" Comment="Could not receive image data from Image Acquisition Board">
+      <Translation>(0x1006)</Translation>
+    </TranslationElements>
+  </TranslationSection>
+  <TranslationSection SectionName="StatisticalPeriod" Description="Enums all Statistical Period">
+    <TranslationElements Source="Hourly" Comment="BY Hour">
+      <Translation>按小时</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Dayly" Comment="By day statistics">
+      <Translation>按天</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Weekly" Comment="By week statistics">
+      <Translation>按周</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Monthly" Comment="By month statistics">
+      <Translation>按月</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Quarterly" Comment="By quarter statistics">
+      <Translation>按季度</Translation>
+    </TranslationElements>
+    <TranslationElements Source="UserDefined" Comment="By user-defined time statistics">
+      <Translation>用户指定日期</Translation>
+    </TranslationElements>
+  </TranslationSection>
+
+  <TranslationSection SectionName="Month">
+    <TranslationElements Source="January">
+      <Translation>一月</Translation>
+    </TranslationElements>
+    <TranslationElements Source="February">
+      <Translation>二月</Translation>
+    </TranslationElements>
+    <TranslationElements Source="March">
+      <Translation>三月</Translation>
+    </TranslationElements>
+    <TranslationElements Source="April">
+      <Translation>四月</Translation>
+    </TranslationElements>
+    <TranslationElements Source="May">
+      <Translation>五月</Translation>
+    </TranslationElements>
+    <TranslationElements Source="June">
+      <Translation>六月</Translation>
+    </TranslationElements>
+    <TranslationElements Source="July">
+      <Translation>七月</Translation>
+    </TranslationElements>
+    <TranslationElements Source="August">
+      <Translation>八月</Translation>
+    </TranslationElements>
+    <TranslationElements Source="September">
+      <Translation>九月</Translation>
+    </TranslationElements>
+    <TranslationElements Source="October">
+      <Translation>十月</Translation>
+    </TranslationElements>
+    <TranslationElements Source="November">
+      <Translation>十一月</Translation>
+    </TranslationElements>
+    <TranslationElements Source="December">
+      <Translation>十二月</Translation>
+    </TranslationElements>
+  </TranslationSection>
+
+  <TranslationSection SectionName="Season">
+    <TranslationElements Source="Q1">
+      <Translation>一季度</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Q2">
+      <Translation>二季度</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Q3">
+      <Translation>三季度</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Q4">
+      <Translation>四季度</Translation>
+    </TranslationElements>
+  </TranslationSection>
+
+  <TranslationSection SectionName="TrainingImageLoopMode" Description="Enums all TrainingImageLoopMode">
+    <TranslationElements Source="NoLoop" Comment="Do not loop">
+      <Translation>不循环</Translation>
+    </TranslationElements>
+    <TranslationElements Source="SequentialLoop" Comment="generate training images in Sequentially Loop">
+      <Translation>顺序循环</Translation>
+    </TranslationElements>
+    <TranslationElements Source="RandomLoop" Comment="generate training images in randomly loop">
+      <Translation>随机循环</Translation>
+    </TranslationElements>
+  </TranslationSection>
+
+  <TranslationSection SectionName="AccountRole" Description="Enums all roles of accounts">
+    <TranslationElements Source="System" Comment="System User">
+      <Translation>系统用户</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Admin">
+      <Translation>管理员</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Maintainer">
+      <Translation>维修员</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Operator">
+      <Translation>操机员</Translation>
+    </TranslationElements>
+  </TranslationSection>
+  <TranslationSection SectionName="DisplayColorMode" Description="Enums all display Color Mode">
+    <TranslationElements Source="Grey">
+      <Translation>灰度</Translation>
+    </TranslationElements>
+    <TranslationElements Source="MaterialColor" Comment="Color image: orange for organic, green for mixed, blue for inorganic">
+      <Translation>彩色</Translation>
+    </TranslationElements>
+    <TranslationElements Source="SixColors">
+      <Translation>6配色</Translation>
+    </TranslationElements>
+    <TranslationElements Source="OS">
+      <Translation>有机剔除</Translation>
+    </TranslationElements>
+    <TranslationElements Source="MS">
+      <Translation>无机剔除</Translation>
+    </TranslationElements>
+    <TranslationElements Source="OSPlus">
+      <Translation>有机剔除+</Translation>
+    </TranslationElements>
+    <TranslationElements Source="MSPlus">
+      <Translation>无机剔除+</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Zeff7">
+      <Translation>Zeff7</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Zeff8">
+      <Translation>Zeff8</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Zeff9">
+      <Translation>Zeff9</Translation>
+    </TranslationElements>
+    <TranslationElements Source="PseudoColor1">
+      <Translation>伪彩色1</Translation>
+    </TranslationElements>
+    <TranslationElements Source="PseudoColor2">
+      <Translation>伪彩色2</Translation>
+    </TranslationElements>
+    <TranslationElements Source="PseudoColor3">
+      <Translation>伪彩色3</Translation>
+    </TranslationElements>
+    <TranslationElements Source="PseudoColor4">
+      <Translation>伪彩色4</Translation>
+    </TranslationElements>
+    <TranslationElements Source="PseudoColor5">
+      <Translation>伪彩色5</Translation>
+    </TranslationElements>
+    <TranslationElements Source="PseudoColor6">
+      <Translation>伪彩色6</Translation>
+    </TranslationElements>
+  </TranslationSection>
+
+  <TranslationSection SectionName="PenetrationMode" Description="Enums all Penetration mode">
+    <TranslationElements Source="Standard">
+      <Translation>标准</Translation>
+    </TranslationElements>
+    <TranslationElements Source="HighPenetrate">
+      <Translation>高穿</Translation>
+    </TranslationElements>
+    <TranslationElements Source="LowPenetrate">
+      <Translation>低穿</Translation>
+    </TranslationElements>
+    <TranslationElements Source="SlicePenetrate">
+      <Translation>薄件穿透</Translation>
+    </TranslationElements>
+    <TranslationElements Source="SuperPenetrate">
+      <Translation>超级穿透</Translation>
+    </TranslationElements>
+  </TranslationSection>
+
+  <TranslationSection SectionName="TimeRange" Description="Enums all time range">
+    <TranslationElements Source="LastHour">
+      <Translation>最近一小时</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Today">
+      <Translation>今天</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Yestoday">
+      <Translation>昨天</Translation>
+    </TranslationElements>
+    <TranslationElements Source="RecentWeek">
+      <Translation>最近一周</Translation>
+    </TranslationElements>
+    <TranslationElements Source="RecentMonth">
+      <Translation>最近一个月</Translation>
+    </TranslationElements>
+    <TranslationElements Source="SpecifiedTimeRange">
+      <Translation>指定时间</Translation>
+    </TranslationElements>
+  </TranslationSection>
+
+	<TranslationSection SectionName="Interval" Description="Enums all time range">
+		<TranslationElements Source="HalfAMinute">
+			<Translation>30秒</Translation>
+		</TranslationElements>
+		<TranslationElements Source="OneMinute">
+			<Translation>一分钟</Translation>
+		</TranslationElements>
+		<TranslationElements Source="TenMinute">
+			<Translation>十分钟</Translation>
+		</TranslationElements>
+		<TranslationElements Source="TwentyMinute">
+			<Translation>二十分钟</Translation>
+		</TranslationElements>
+		<TranslationElements Source="HalfHour">
+			<Translation>半小时</Translation>
+		</TranslationElements>
+		<TranslationElements Source="FortyMinute">
+			<Translation>四十分钟</Translation>
+		</TranslationElements>
+		<TranslationElements Source="FiftyMinute">
+			<Translation>五十分钟</Translation>
+		</TranslationElements>
+		<TranslationElements Source="OneHour">
+			<Translation>一小时</Translation>
+		</TranslationElements>
+		<TranslationElements Source="SesquiHour">
+			<Translation>一个半小时</Translation>
+		</TranslationElements>
+		<TranslationElements Source="TwoHours">
+			<Translation>两小时</Translation>
+		</TranslationElements>
+		<TranslationElements Source="TwoAndAHalfHours">
+			<Translation>两个半小时</Translation>
+		</TranslationElements>
+		<TranslationElements Source="ThreeHours">
+			<Translation>三小时</Translation>
+		</TranslationElements>
+		<TranslationElements Source="ThreeAndHalfHours">
+			<Translation>三个半小时</Translation>
+		</TranslationElements>
+		<TranslationElements Source="FourHours">
+			<Translation>四小时</Translation>
+		</TranslationElements>
+	</TranslationSection>
+
+  <TranslationSection SectionName="CalibrationWindow" Description="">
+    <TranslationElements Source="Imaging System Calibration">
+      <Translation>成像系统标定</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Checking Imaging System">
+      <Translation>正在检查成像系统</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Imaging System is normal!">
+      <Translation>成像系统正常</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Turnning off X-Ray ...">
+      <Translation>正在关闭X射线产生装置 ...</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Calibrating ground value ...">
+      <Translation>正在标定本底图像 ...</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Ground value has been calibrated.">
+      <Translation>本底图像已标定成功。</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Error: Failed to calibrate ground value!">
+      <Translation>本底图像标定失败！(0x2001)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Turnning on X-Ray ...">
+      <Translation>正在打开X射线产生装置 ...</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Calibrating air value ...">
+      <Translation>正在标定空气值图像 ...</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Air value has been calibrated.">
+      <Translation>空气值图像已标定成功。</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Error: Failed to calibrate air value!">
+      <Translation>空气值图像标定失败！(0x2002)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Calibration window is closing now ...">
+      <Translation>标定窗口即将关闭 ...</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Ground value has been calibrated">
+      <Translation>本底图像标定</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Air value has been calibrated">
+      <Translation>空气值图像标定</Translation>
+    </TranslationElements>
+  </TranslationSection>
+
+  <TranslationSection SectionName="Configer" Description="Translation for App Configer.exe">
+	  <TranslationElements Source="Import configurations from xml file">
+		  <Translation>从xml文件中导入配置。</Translation>
+	  </TranslationElements>
+	  <TranslationElements Source="Export current configurations into a xml file">
+		  <Translation>将当前配置导出到xml文件中。</Translation>
+	  </TranslationElements>
+	  <TranslationElements Source="Change into another model">
+		  <Translation>换成另一个型号。</Translation>
+	  </TranslationElements>
+    <TranslationElements Source="Import Setting">
+      <Translation>导入配置</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Export Setting">
+      <Translation>导出配置</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Change Model">
+      <Translation>更改型号</Translation>
+    </TranslationElements>
+    <TranslationElements Source="System Setting">
+      <Translation>系统配置</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Device Specification">
+      <Translation>设备规格</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image Capture System">
+      <Translation>图像采集系统</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Control System">
+      <Translation>控制系统</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Firmware Version">
+      <Translation>固件版本</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Communication Protocol">
+      <Translation>通信协议</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Connect Successful">
+      <Translation>连接成功</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Connect Failed">
+      <Translation>连接失败</Translation>
+    </TranslationElements>
+    <TranslationElements Source="X-Ray Generators">
+      <Translation>X射线产生装置</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Keyboard">
+      <Translation>专用键盘</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Images">
+      <Translation>图像</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Algorithm Parameters">
+      <Translation>算法参数</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Network Control">
+      <Translation>网络控制</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Run Scanner software when Windows starts">
+      <Translation>Windows启动时自动运行安检软件</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Conveyor State">
+      <Translation>输送机状态</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Conveyor StartTime">
+      <Translation>输送机启动时间</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Conveyor StopTime">
+      <Translation>输送机减速时间</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Equipment Frequency">
+      <Translation>速度变频器频率</Translation>
+    </TranslationElements>
+    <TranslationElements Source="SanitizeConveyor StartTime">
+      <Translation>消杀输送机启动时间</Translation>
+    </TranslationElements>
+    <TranslationElements Source="SanitizeConveyor StopTime">
+      <Translation>消杀输送机减速时间</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Automatic rewind">
+      <Translation>自动倒带</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Bidirectional Scan">
+      <Translation>双向扫描</Translation>
+    </TranslationElements>
+    <TranslationElements Source="MultiFfrequency Converters">
+      <Translation>多变频器</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Conveyor Speed (m/s)">
+      <Translation>输送机速度（米/秒）</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Sanitize Conveyor Speed (m/s)">
+      <Translation>消杀输送机速度（米/秒）</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Using Variable Speed Equipment">
+      <Translation>使用变速设备</Translation>
+    </TranslationElements>
+    
+    <TranslationElements Source="Exchange PESensor">
+      <Translation>交换出入口光电传感器</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Exchange XrayGen">
+      <Translation>交换射线源发生装置</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Exchange Detector">
+      <Translation>交换X射线探测器</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Exchange Conveyor">
+      <Translation>更改输送机运动方向</Translation>
+    </TranslationElements>
+    
+    <TranslationElements Source="The Distance Between Two Views (m)">
+      <Translation>两个视角之间的距离（米）</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Conveyor Length (m)">
+      <Translation>输送机长度（米）</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Entry PESensor To X-Ray Gen Distance (m)">
+      <Translation>入口光电传感器至X射线产生装置的距离（米）</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Exit PESensor To X-Ray Gen Distance (m)">
+      <Translation>出口光电传感器至X射线产生装置的距离（米）</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Object Location to Emit X-Ray in Front of X-Ray Generator (m)">
+      <Translation>提前发射X射线的物体位置，与X射线产生装置之间的距离（单位：米）</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Object Location to Close X-Ray Behind X-Ray Generator (m)">
+      <Translation>延迟关闭X射线的物体位置，与X射线产生装置之间的距离（单位：米）</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Distance of Delay Show Image (m)">
+      <Translation>延迟显示图像的距离（单位：米）</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Control Board IP Address">
+      <Translation>控制板IP地址</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Port" Comment="Udp Port">
+      <Translation>端口号</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Version">
+      <Translation>版本</Translation>
+    </TranslationElements>
+    <TranslationElements Source="TimeInterval">
+      <Translation>控制板查询X射线产生装置命令间隔</Translation>
+    </TranslationElements>
+    <TranslationElements Source="QueryBagCount">
+      <Translation>从控制板查询包裹数量</Translation>
+    </TranslationElements>
+    <TranslationElements Source="CheckBagCount">
+      <Translation>与计数器校对包裹数量</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ReloadBagCount">
+      <Translation>向控制板重载包裹数量</Translation>
+    </TranslationElements>
+    <TranslationElements Source="BagCount">
+      <Translation>包裹计数</Translation>
+    </TranslationElements>
+    
+    <TranslationElements Source="Hardware Timer">
+      <Translation>硬件计时器</Translation>
+    </TranslationElements>
+    <TranslationElements Source="StartTiming">
+      <Translation>开始计时</Translation>
+    </TranslationElements>
+    <TranslationElements Source="StopTiming">
+      <Translation>停止计时</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Start Hardware Timer Successfully!">
+      <Translation>开始计时成功！</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Start Hardware Timer Failed!">
+      <Translation>开始计时失败！</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Stop Hardware Timer Successfully!">
+      <Translation>停止计时成功！</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Stop Hardware Timer Failed!">
+      <Translation>停止计时失败！</Translation>
+    </TranslationElements>
+    
+    <TranslationElements Source="Computer IP Address">
+      <Translation>本地计算机IP地址</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Test Connection">
+      <Translation>测试连接</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Images Count">
+      <Translation>图像个数</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Capture Board Count">
+      <Translation>数字采集板数量</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Height">
+      <Translation>高度</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Showing Detect View">
+      <Translation>显示探测视角</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Color Mode">
+      <Translation>颜色模式</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Penetration">
+      <Translation>穿透</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Vertical Flip">
+      <Translation>垂直翻转</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Edge Enhance">
+      <Translation>边缘增强</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Super Enhance">
+      <Translation>超级增强</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Inversed">
+      <Translation>反色</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Move From Right to Left">
+      <Translation>从右往左移动</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Anchor">
+      <Translation>图像位置</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image Margin">
+      <Translation>图像边缘</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Anchor New Image When End">
+      <Translation>扫描开始后聚焦到最新图像</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Send Line Data">
+      <Translation>发送线数据</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Keyboard COM Name">
+      <Translation>键盘串口名称</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Lower Thresholds of Air Value">
+      <Translation>满度值下限阈值</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Average of HE Line">
+      <Translation>高能均值</Translation>
+    </TranslationElements>
+    <TranslationElements Source="HE Point">
+      <Translation>高能单点</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Average of LE Line">
+      <Translation>低能均值</Translation>
+    </TranslationElements>
+    <TranslationElements Source="LE Point">
+      <Translation>低能单点</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Upper Thresholds of Ground Value">
+      <Translation>本底值上限阈值</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Unpenetratable Threshold (Suggestion: 0 - 5000)">
+      <Translation>穿不透阈值（建议范围 0-5000）</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Background Threshold (Suggestion: 63000 - 65535)">
+      <Translation>空气背景阈值（建议范围 63000-65530）</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Bagboundary Threshold (Suggestion: 51000 - 58000)">
+      <Translation>包裹边界阈值（建议范围 51000-58000）</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Auto Detect Bad Channels">
+      <Translation>自动探测坏点</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Open New Penetration Algorithm">
+      <Translation>开启新穿透算法</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Intellisense Thresholds">
+      <Translation>智能探测阈值设定</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Drug Lower Zeff">
+      <Translation>毒品最小值</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Drug Higher Zeff">
+      <Translation>毒品最大值</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Explosives Lower Zeff">
+      <Translation>爆炸物最小值</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Explosives Higher Zeff">
+      <Translation>爆炸物最大值</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="Automatically Save Image In Common Image Format">
+      <Translation>自动保存通用格式图像</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Common Format Image Store Setting">
+      <Translation>通用格式图像保存设置</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image effects for export">
+      <Translation>用于导出的图像效果</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image1">
+      <Translation>图像1</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image2">
+      <Translation>图像2</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image3">
+      <Translation>图像3</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image4">
+      <Translation>图像4</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image5">
+      <Translation>图像5</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="None">
+      <Translation>无</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Regular">
+      <Translation>默认处理</Translation>
+    </TranslationElements>
+    <TranslationElements Source="SuperEnhance">
+      <Translation>超级增强</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Absorptivity">
+      <Translation>亮度增加</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Grey">
+      <Translation>灰度</Translation>
+    </TranslationElements>
+    <TranslationElements Source="OS">
+      <Translation>无机剔除</Translation>
+    </TranslationElements>
+    <TranslationElements Source="MS">
+      <Translation>有机剔除</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Inverse">
+      <Translation>反色</Translation>
+    </TranslationElements>
+    <TranslationElements Source="SlicePenetrate">
+      <Translation>薄件</Translation>
+    </TranslationElements>
+    <TranslationElements Source="HighPenetrate">
+      <Translation>高穿</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Standard">
+      <Translation>默认</Translation>
+    </TranslationElements>
+    <TranslationElements Source="LowPenetrate">
+      <Translation>低穿</Translation>
+    </TranslationElements>
+    <TranslationElements Source="SuperPenetrate">
+      <Translation>超级穿透</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Zeff7">
+      <Translation>原子序数7</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Zeff8">
+      <Translation>原子序数8</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Zeff9">
+      <Translation>原子序数9</Translation>
+    </TranslationElements>
+    <TranslationElements Source="MaterialColor">
+      <Translation>默认处理</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="Top">
+      <Translation>上部</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Center">
+      <Translation>居中</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Bottom">
+      <Translation>下部</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="View1">
+      <Translation>视角1</Translation>
+    </TranslationElements>
+    <TranslationElements Source="View2">
+      <Translation>视角2</Translation>
+    </TranslationElements>
+    
+    <TranslationElements Source="Image Store Strategy">
+      <Translation>图像保存策略</Translation>
+    </TranslationElements>
+    <TranslationElements Source="All">
+      <Translation>全部</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Suspicious">
+      <Translation>可疑</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image Store Format">
+      <Translation>图像保存格式</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Merge Two View Image">
+      <Translation>合并两个视角图像</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Auto Store Xray Image To Same Path">
+      <Translation>自动保存Xray格式图像到此路径</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Limit Auto Store Common Format Image Count">
+      <Translation>限制自动保存通用格式图像的个数</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Upper Limit">
+      <Translation>上限</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="Image Store Path">
+      <Translation>图像存储路径</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Using Touch Interface">
+      <Translation>使用触摸界面</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Language">
+      <Translation>系统语言</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Company Name">
+      <Translation>公司名称</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Machine Number">
+      <Translation>设备编号</Translation>
+    </TranslationElements>
+	<TranslationElements Source="Channel ID">
+		<Translation>通道编号</Translation>
+	</TranslationElements>
+    <TranslationElements Source="Production Date">
+      <Translation>设备生产日期</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Model">
+      <Translation>型号</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Description">
+      <Translation>其他信息</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XrayGen1">
+      <Translation>X射线产生装置#1</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XrayGen2">
+      <Translation>X射线产生装置#2</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image1 Serial Port">
+      <Translation>图像1串口</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image2 Serial Port">
+      <Translation>图像2串口</Translation>
+    </TranslationElements>
+    <TranslationElements Source="X-Ray Generator Type">
+      <Translation>X射线产生装置类型</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Wait for timeout(ms)">
+      <Translation>等待控制板回复时间(毫秒)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Rising Timespan (S)">
+      <Translation>射线上升沿时间（秒）</Translation>
+    </TranslationElements>
+    <TranslationElements Source="X-Ray Generators Count">
+      <Translation>X射线产生装置数量</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Always warmup when starts">
+      <Translation>系统启动后总是预热X射线产生装置</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Views Count">
+      <Translation>视角个数</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Is Dual Energy">
+      <Translation>是否双能探测系统</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Line Integration Time (ms)">
+      <Translation>线积分时间（毫秒）</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Capture System Host IP">
+      <Translation>X射线探测系统本地IP</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Board 1 IP">
+      <Translation>X射线探测器#1 IP地址</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Board 1 Command Port">
+      <Translation>X射线探测器#1 命令端口</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Board 1 Image Port">
+      <Translation>X射线探测器#1 图像端口</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Board 2 IP">
+      <Translation>X射线探测器#2 IP地址</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Board 2 Command Port">
+      <Translation>X射线探测器#2 命令端口</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Board 2 Image Port">
+      <Translation>X射线探测器#2 图像端口</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Board Ping Enable">
+      <Translation>开启Ping功能</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Board Ping Value">
+      <Translation>Ping值</Translation>
+    </TranslationElements>
+    <TranslationElements Source="View1 Cards Distribution">
+      <Translation>X射线探测器#1分布分布(如：8,1,0,0)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="View2 Cards Distribution">
+      <Translation>X射线探测器#2分布</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Automatically restart keyboard if disconnected">
+      <Translation>键盘断开后，自动重新连接</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Save Changes">
+      <Translation>保存更改</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Discard Changes">
+      <Translation>放弃更改</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Capture System Type">
+      <Translation>选择系统类型</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Select model">
+      <Translation>选择设备型号</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Select Device Interface">
+      <Translation>选择设备接口</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Capture System Type">
+      <Translation>采集系统类型</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Change Machine Model">
+      <Translation>更改设备型号</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="Network Control">
+      <Translation>网络远程控制</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Local IP">
+      <Translation>本地ip</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Server IP">
+      <Translation>服务器ip</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="Centralized Management Through Network">
+      <Translation>使用网络集中管理</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Centralized Management Configure">
+      <Translation>集中管理配置</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Server IP Address">
+      <Translation>服务器IP</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Server User Name">
+      <Translation>服务器用户名</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Server User Password">
+      <Translation>服务器用户密码</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Enable Remote Network Control">
+      <Translation>启用远程网络控制</Translation>
+    </TranslationElements>
+    
+
+    <TranslationElements Source="Success to set xray command interval.">
+      <Translation>成功设置X射线产生装置查询命令间隔</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Failed to set xray command interval.">
+      <Translation>设置X射线产生装置查询命令间隔失败</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Failed to open control board.">
+      <Translation>打开控制板失败</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Exception">
+      <Translation>异常</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Failed to save settings to Capture Card.">
+      <Translation>保存采集板参数失败</Translation>
+    </TranslationElements>
+    <TranslationElements Source="New settings have been saved into Capture System.">
+      <Translation>成功保存采集板参数</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Failed to save settings.">
+      <Translation>保存参数失败</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Connection with Control Board System is OK!">
+      <Translation>成功连接控制板</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Could not connect to Control Board System!">
+      <Translation>连接控制板失败</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Connection Test">
+      <Translation>连接测试</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Query Bag Count from Control Board Successfully!">
+      <Translation>成功查询包裹数量</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Set Bag Count to Control Board Successfully!">
+      <Translation>成功设置包裹数量</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Reload Bag Count to Control Board Successfully!">
+      <Translation>成功重载包裹数量</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Query Bag Count from Control Board Failed!">
+      <Translation>查询包裹数量失败</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Set Bag Count to Control Board Failed!">
+      <Translation>设置包裹数量失败</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Reload Bag Count to Control Board Failed!">
+      <Translation>重载包裹数量失败</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Bag Count">
+      <Translation>包裹数</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Model has been changed successfully.">
+      <Translation>成功更改型号</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Failed to change model.">
+      <Translation>更改型号失败</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Failed to save settings into Control Board System.">
+      <Translation>设置控制板参数失败</Translation>
+    </TranslationElements>
+    <TranslationElements Source="New settings have been saved into Control Board System successfully.">
+      <Translation>成功设置控制板参数</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Configurations has been imported successfully.">
+      <Translation>成功导入参数配置</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Failed to import configurations.">
+      <Translation>导入参数配置失败</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Import Configuration">
+      <Translation>导入参数配置</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Export">
+      <Translation>导出</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Export Completed.">
+      <Translation>成功导出参数配置</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Export Failed.">
+      <Translation>导出参数配置失败</Translation>
+    </TranslationElements>
+  </TranslationSection>
+
+  <TranslationSection SectionName="RegularRemind" Description="">
+    <TranslationElements Source="Reminder Messages">
+      <Translation>设备维护保养提醒</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Please Check">
+      <Translation>请定期联系维修人员检查设备是否工作正常</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XRay">
+      <Translation>X射线产生装置</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Indicator Light">
+      <Translation>指示灯</Translation>
+    </TranslationElements>
+    <TranslationElements Source="All Keys">
+      <Translation>键盘上所有键功能</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Switch Lock">
+      <Translation>安全连锁装置</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Conveyor Belt">
+      <Translation>输送带是否损坏</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Conveyor Belt Motor">
+      <Translation>输送带马达是否漏油</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Conveyor Belt Deviation">
+      <Translation>输送带是否跑偏</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Lead Curtain">
+      <Translation>铅门帘是否完好</Translation>
+    </TranslationElements>
+    <TranslationElements Source="System Clean">
+      <Translation>系统的清洁</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Fan Filter">
+      <Translation>风扇滤尘器的清洁</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Fan Work">
+      <Translation>风扇是否运转正常</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Light Barrier">
+      <Translation>光障的清洁</Translation>
+    </TranslationElements>
+  </TranslationSection>
+
+  <TranslationSection SectionName="Diagnosis Translation" Description="">
+    <TranslationElements Source="Control System Status">
+      <Translation>控制系统状态</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Generator Alive">
+      <Translation>X射线产生装置连接状态</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Valtage">
+      <Translation>电压</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Current">
+      <Translation>电流</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Sparking">
+      <Translation>打火</Translation>
+    </TranslationElements>
+    <TranslationElements Source="OverTemperature">
+      <Translation>过温</Translation>
+    </TranslationElements>
+    <TranslationElements Source="OverVoltage">
+      <Translation>过压</Translation>
+    </TranslationElements>
+    <TranslationElements Source="OverCurrent">
+      <Translation>过流</Translation>
+    </TranslationElements>
+    <TranslationElements Source="OverloadPower">
+      <Translation>功率过大</Translation>
+    </TranslationElements>
+    <TranslationElements Source="VAOutofControl">
+      <Translation>电压电流调节失控</Translation>
+    </TranslationElements>
+    <TranslationElements Source="InterlockSwitchNotClosed">
+      <Translation>联锁开关未闭合</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Capture System Connect Status">
+      <Translation>采集系统连接状态</Translation>
+    </TranslationElements>
+    <TranslationElements Source="PESensor Status">
+      <Translation>光电传感器状态</Translation>
+    </TranslationElements>
+    <TranslationElements Source="InterLock Triggerred">
+      <Translation>安全连锁装置已被关闭</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Temperature">
+      <Translation>温度</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Control Board Ip">
+      <Translation>控制板IP地址</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Control Board Port">
+      <Translation>控制板端口号</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="Command Port">
+      <Translation>命令端口</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image Port">
+      <Translation>图像端口</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Cards Distribution">
+      <Translation>X射线探测器分布</Translation>
+    </TranslationElements>
+    <TranslationElements Source="View1 Bad Points of Auto Detection">
+      <Translation>视角一自动检测的坏点</Translation>
+    </TranslationElements>
+    <TranslationElements Source="View2 Bad Points of Auto Detection">
+      <Translation>视角二自动检测的坏点</Translation>
+    </TranslationElements>
+    <TranslationElements Source="View1 Bad Points of Manual Setting">
+      <Translation>视角一设置的坏点</Translation>
+    </TranslationElements>
+    <TranslationElements Source="View2 Bad Points of Manual Setting">
+      <Translation>视角二设置的坏点</Translation>
+    </TranslationElements>
+  <TranslationElements Source="Network Port">
+      <Translation>网络端口</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Power Status">
+      <Translation>电源状态</Translation>
+    </TranslationElements>
+  </TranslationSection>
+
+  <TranslationSection SectionName="OperationRecord" Description="">
+    <!--UI-->
+    <TranslationElements Source="MainUI">
+      <Translation>主界面</Translation>
+    </TranslationElements>
+    <TranslationElements Source="SystemMenu">
+      <Translation>主菜单</Translation>
+    </TranslationElements>
+    <TranslationElements Source="About">
+      <Translation>关于</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ChangePassword">
+      <Translation>更改密码</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ManageOtherAccounts">
+      <Translation>管理其他帐户</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Detectors">
+      <Translation>X射线探测器</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XRayGen">
+      <Translation>X射线产生装置</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ConveyorPESensor">
+      <Translation>光电传感器</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Keyboard">
+      <Translation>键盘</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ControlSystem">
+      <Translation>控制板</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Diagnosis">
+      <Translation>诊断</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="ImageSetting">
+      <Translation>图像参数设置</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ImsPage">
+      <Translation>图像管理</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ImsListPage">
+      <Translation>图像管理（列表）</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ImageRetrieval">
+      <Translation>图像查询</Translation>
+    </TranslationElements>
+    <TranslationElements Source="BootLog">
+      <Translation>开机日志</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ConveyorWorkLog">
+      <Translation>输送机工作日志</Translation>
+    </TranslationElements>
+    <TranslationElements Source="LoginLog">
+      <Translation>登录日志</Translation>
+    </TranslationElements>
+    <TranslationElements Source="OperationLog">
+      <Translation>操作日志</Translation>
+    </TranslationElements>
+    <TranslationElements Source="TipExamLog">
+      <Translation>TIP操作日志</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XRayGenWorkLog">
+      <Translation>X射线产生装置工作日志</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="DiskSpaceManage">
+      <Translation>磁盘管理</Translation>
+    </TranslationElements>
+    <TranslationElements Source="FunctionKeys">
+      <Translation>功能键</Translation>
+    </TranslationElements>
+    <TranslationElements Source="IntelliSense">
+      <Translation>智能危险品识别</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ObjectCounter">
+      <Translation>行李计数</Translation>
+    </TranslationElements>
+    <TranslationElements Source="TipImages">
+      <Translation>TIP图像管理</Translation>
+    </TranslationElements>
+    <TranslationElements Source="TipPlans">
+      <Translation>TIP计划管理</Translation>
+    </TranslationElements>
+    <TranslationElements Source="TrainingSetting">
+      <Translation>培训模式设置</Translation>
+    </TranslationElements>
+    <TranslationElements Source="TrainingImagesManagement">
+      <Translation>培训模式图像管理</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="Calibrate">
+      <Translation>射线校准</Translation>
+    </TranslationElements>
+    <TranslationElements Source="CalibrateGround">
+      <Translation>射线校准本底</Translation>
+    </TranslationElements>
+    <TranslationElements Source="CalibrateAir">
+      <Translation>射线校准满度</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XRayGenWarmup">
+      <Translation>X射线产生装置预热</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ChangeSysDateTime">
+      <Translation>更改时间</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Login">
+      <Translation>登录</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ScreenImagesOperation">
+      <Translation>屏幕图像操作</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ImageBadChannel">
+      <Translation>剔除不稳定点</Translation>
+    </TranslationElements>
+    
+    <!--command-->
+    <TranslationElements Source="Saveto">
+      <Translation>另存为</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Delete">
+      <Translation>删除</Translation>
+    </TranslationElements>    
+    <TranslationElements Source="Create">
+      <Translation>新建</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Setting">
+      <Translation>设置参数</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Open">
+      <Translation>打开</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Close">
+      <Translation>关闭</Translation>
+    </TranslationElements>
+    <TranslationElements Source="KeyPress">
+      <Translation>按键</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Import">
+      <Translation>导入</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Export">
+      <Translation>导出</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Relay">
+      <Translation>回放</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Lock">
+      <Translation>锁定</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Unlock">
+      <Translation>解锁</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Print">
+      <Translation>打印</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Find">
+      <Translation>查找</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Login">
+      <Translation>登录</Translation>
+    </TranslationElements>
+
+    <!--object-->
+    <TranslationElements Source="XrayGen1">
+      <Translation>X射线产生装置#1</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XrayGen2">
+      <Translation>X射线产生装置#2</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Xray">
+      <Translation>X射线产生装置</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Conveyor">
+      <Translation>输送机</Translation>
+    </TranslationElements>
+    <TranslationElements Source="PESensors">
+      <Translation>光电传感器</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ImagesDefaultAbsorb">
+      <Translation>图像默认吸收率</Translation>
+    </TranslationElements>
+    <TranslationElements Source="MarginSetting">
+      <Translation>边缘置白</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ImageBlankSpace">
+      <Translation>图像间空白</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ShowUnpenetrateRed">
+      <Translation>穿不透置红</Translation>
+    </TranslationElements>
+    <TranslationElements Source="AutoResetWhenLogin">
+      <Translation>登录时自动重置计数</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ResetSessionCount">
+      <Translation>重置包裹计数</Translation>
+    </TranslationElements>
+    <TranslationElements Source="CheckCaptureSys">
+      <Translation>数据采集系统</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ChangeSysDateTime">
+      <Translation>更改时间</Translation>
+    </TranslationElements>
+    <TranslationElements Source="DiskCleanService">
+      <Translation>磁盘清理服务</Translation>
+    </TranslationElements>
+	<TranslationElements Source="Escape">
+	    <Translation>退出</Translation>
+	</TranslationElements>
+	  
+    <TranslationElements Source="HighDensity">
+      <Translation>高密度报警</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Drugs">
+      <Translation>毒品</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Explosives">
+      <Translation>爆炸物</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Sensitivity">
+      <Translation>灵敏度</Translation>
+    </TranslationElements>
+    <TranslationElements Source="BorderColor">
+      <Translation>边框颜色</Translation>
+    </TranslationElements>
+    <TranslationElements Source="AudibleAlarm">
+      <Translation>声音报警</Translation>
+    </TranslationElements>
+    <TranslationElements Source="LightAlarm">
+      <Translation>灯光报警</Translation>
+    </TranslationElements>
+    <TranslationElements Source="StopConveyor">
+      <Translation>自动停带</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Black">
+      <Translation>黑色</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Blue">
+      <Translation>蓝色</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Brown">
+      <Translation>棕色</Translation>
+    </TranslationElements>
+    <TranslationElements Source="DarkGreen">
+      <Translation>深绿色</Translation>
+    </TranslationElements>
+    <TranslationElements Source="DarkOrange">
+      <Translation>深橙色</Translation>
+    </TranslationElements>
+    <TranslationElements Source="DeepPink">
+      <Translation>深粉红</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Purple">
+      <Translation>紫色</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Red">
+      <Translation>红色</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Aqua">
+      <Translation>水绿色</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="AccountId">
+      <Translation>用户ID</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Name">
+      <Translation>姓名</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Password">
+      <Translation>密码</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Role">
+      <Translation>角色</Translation>
+    </TranslationElements>
+    <TranslationElements Source="IsActive">
+      <Translation>是否启用</Translation>
+    </TranslationElements>
+    <TranslationElements Source="PermissionValue">
+      <Translation>权限值</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Description">
+      <Translation>描述</Translation>
+    </TranslationElements>
+    <TranslationElements Source="CanTraining">
+      <Translation>培训权限</Translation>
+    </TranslationElements>
+    <TranslationElements Source="CanChangeImageSettings">
+      <Translation>图像参数设置权限</Translation>
+    </TranslationElements>
+    <TranslationElements Source="CanManageDisk">
+      <Translation>磁盘管理权限</Translation>
+    </TranslationElements>
+    <TranslationElements Source="CanManageLog">
+      <Translation>日志管理权限</Translation>
+    </TranslationElements>
+
+
+    <TranslationElements Source="Id">
+      <Translation>编号</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Priority">
+      <Translation>优先级</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Probability">
+      <Translation>几率</Translation>
+    </TranslationElements>
+    <TranslationElements Source="CreationTime">
+      <Translation>创建时间</Translation>
+    </TranslationElements>
+    <TranslationElements Source="IsEnabled">
+      <Translation>状态</Translation>
+    </TranslationElements>
+    <TranslationElements Source="StartTime">
+      <Translation>开始时间</Translation>
+    </TranslationElements>
+    <TranslationElements Source="EndTime">
+      <Translation>结束时间</Translation>
+    </TranslationElements>
+    <TranslationElements Source="OnlineRecMaxSeconds" Comment="When TIP injected, the operator must act within the given time">
+      <Translation>在线判读最长时间（秒）</Translation>
+    </TranslationElements>
+    <TranslationElements Source="OfflineRecMaxSeconds" Comment="When operator find TIP and stop the conveyor, the operator must press Mark key within the given time">
+      <Translation>停机判读最长时间（秒）</Translation>
+    </TranslationElements>
+    <TranslationElements Source="KnivesWeight" Comment="Knives TIP objects injection weight">
+      <Translation>管制器具比重</Translation>
+    </TranslationElements>
+    <TranslationElements Source="GunsWeight">
+      <Translation>枪支比重</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ExplosivesWeight">
+      <Translation>爆炸物质和装置比重</Translation>
+    </TranslationElements>
+    <TranslationElements Source="OtherObjectsWeight" Comment="Other TIP objects injection weight">
+      <Translation>其他比重</Translation>
+    </TranslationElements>
+    
+    <!--content-->
+    <TranslationElements Source="Backward">
+      <Translation>后退</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Forward">
+      <Translation>前进</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Stop">
+      <Translation>停止</Translation>
+    </TranslationElements>
+    <TranslationElements Source="True">
+      <Translation>开启</Translation>
+    </TranslationElements>
+    <TranslationElements Source="False">
+      <Translation>关闭</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Success">
+      <Translation>成功</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Fail">
+      <Translation>失败</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="Account">
+      <Translation>帐户</Translation>
+    </TranslationElements>
+    <TranslationElements Source="System">
+      <Translation>系统用户</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Admin">
+      <Translation>管理员</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Maintainer">
+      <Translation>维修员</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Operator">
+      <Translation>操机员</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="Hourly" Comment="BY Hour">
+      <Translation>按小时</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Dayly" Comment="By day statistics">
+      <Translation>按天</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Weekly" Comment="By week statistics">
+      <Translation>按周</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Monthly" Comment="By month statistics">
+      <Translation>按月</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Quarterly" Comment="By quarter statistics">
+      <Translation>按季度</Translation>
+    </TranslationElements>
+    <TranslationElements Source="UserDefined" Comment="By user-defined time statistics">
+      <Translation>用户指定日期</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="LastHour">
+      <Translation>最近一小时</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Today">
+      <Translation>今天</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Yestoday">
+      <Translation>昨天</Translation>
+    </TranslationElements>
+    <TranslationElements Source="RecentWeek">
+      <Translation>最近一周</Translation>
+    </TranslationElements>
+    <TranslationElements Source="RecentMonth">
+      <Translation>最近一个月</Translation>
+    </TranslationElements>
+    <TranslationElements Source="SpecifiedTimeRange">
+      <Translation>指定时间</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="LeftShift">
+      <Translation>转换</Translation>
+    </TranslationElements>
+    <TranslationElements Source="LeftCtrl">
+      <Translation>自动识别</Translation>
+    </TranslationElements>
+    <TranslationElements Source="D1">
+      <Translation>标记</Translation>
+    </TranslationElements>
+    <TranslationElements Source="D2">
+      <Translation>保存</Translation>
+    </TranslationElements>
+    <TranslationElements Source="D4">
+      <Translation>图像管理</Translation>
+    </TranslationElements>
+    <TranslationElements Source="D5">
+      <Translation>菜单</Translation>
+    </TranslationElements>
+    <TranslationElements Source="D6">
+      <Translation>还原</Translation>
+    </TranslationElements>
+    <TranslationElements Source="D7">
+      <Translation>爆炸物识别</Translation>
+    </TranslationElements>
+    <TranslationElements Source="D8">
+      <Translation>翻转</Translation>
+    </TranslationElements>
+    <TranslationElements Source="D9">
+      <Translation>动态变换</Translation>
+    </TranslationElements>
+    <TranslationElements Source="D0">
+      <Translation>缩放还原</Translation>
+    </TranslationElements>
+    <TranslationElements Source="OemMinus">
+      <Translation>缩小</Translation>
+    </TranslationElements>
+    <TranslationElements Source="OemPlus">
+      <Translation>放大</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="Left">
+      <Translation>左</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Right">
+      <Translation>右</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Up">
+      <Translation>上</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Down">
+      <Translation>下</Translation>
+    </TranslationElements>
+    <TranslationElements Source="F1">
+      <Translation>功能键1</Translation>
+    </TranslationElements>
+    <TranslationElements Source="F2">
+      <Translation>功能键2</Translation>
+    </TranslationElements>
+    <TranslationElements Source="F3">
+      <Translation>功能键3</Translation>
+    </TranslationElements>
+    <TranslationElements Source="F4">
+      <Translation>左运行</Translation>
+    </TranslationElements>
+    <TranslationElements Source="F5">
+      <Translation>停止</Translation>
+    </TranslationElements>
+    <TranslationElements Source="F6">
+      <Translation>右运行</Translation>
+    </TranslationElements>
+    <TranslationElements Source="F7">
+      <Translation>导入</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="A">
+      <Translation>反色按键</Translation>
+    </TranslationElements>
+    <TranslationElements Source="B">
+      <Translation>吸收增强按键</Translation>
+    </TranslationElements>
+    <TranslationElements Source="C">
+      <Translation>吸收减少按键</Translation>
+    </TranslationElements>
+    <TranslationElements Source="D">
+      <Translation>穿透按键</Translation>
+    </TranslationElements>
+    <TranslationElements Source="E">
+      <Translation>灰度按键</Translation>
+    </TranslationElements>
+    <TranslationElements Source="F">
+      <Translation>有机剔除按键</Translation>
+    </TranslationElements>
+    <TranslationElements Source="G">
+      <Translation>无机剔除按键</Translation>
+    </TranslationElements>
+    <TranslationElements Source="H">
+      <Translation>增强按键</Translation>
+    </TranslationElements>
+    <TranslationElements Source=",">
+      <Translation>，</Translation>
+    </TranslationElements>
+    <TranslationElements Source=":">
+      <Translation>:</Translation>
+    </TranslationElements>    
+  <TranslationElements Source="null">
+      <Translation>无</Translation>
+    </TranslationElements>    
+  </TranslationSection>
+
+  <TranslationSection SectionName="HardwareStation">
+    <TranslationElements Source="True">
+      <Translation>是</Translation>
+    </TranslationElements>
+    <TranslationElements Source="False">
+      <Translation>否</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Normal">
+      <Translation>正常</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Abnormal">
+      <Translation>异常</Translation>
+    </TranslationElements>
+    <TranslationElements Source="PowerOff">
+      <Translation>未上电</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Ready">
+      <Translation>准备</Translation>
+    </TranslationElements>
+    <TranslationElements Source="DetectObject">
+      <Translation>探测到物体</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Broken">
+      <Translation>损坏</Translation>
+    </TranslationElements>
+  </TranslationSection>
+
+  <!--#region Group Info-->
+  <TranslationSection SectionName="GroupInfo">
+    <TranslationElements Source="Is Net Account">
+      <Translation>网络帐户</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Group ID">
+      <Translation>分组ID</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Group Name">
+      <Translation>分组名称</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Description">
+      <Translation>描述</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Add New Group">
+      <Translation>添加新分组</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Groups List">
+      <Translation>分组列表</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Enter New Group Information">
+      <Translation>输入新分组信息</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Group ID cannot be empty">
+      <Translation>分组ID不能为空</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Group ID already exists">
+      <Translation>分组ID已经存在</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Group ID can only contain 1-6 numbers">
+      <Translation>分组ID只能包含1-6个数字</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Group Name cannot be empty">
+      <Translation>分组名称不能为空</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Group Name already exists">
+      <Translation>分组名称已经存在</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Group Name can only contain 1-20 characters">
+      <Translation>分组名称只能包含1-20个字符</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Manage Groups">
+      <Translation>管理分组</Translation>
+    </TranslationElements>
+  </TranslationSection>
+  
+  <!--#region Device Maintenance-->
+  <TranslationSection SectionName="Device Maintenance">
+    <TranslationElements Source="Device Maintenance">
+      <Translation>设备维护</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Enable Device Maintenance Reminder">
+      <Translation>开启设备维护提醒</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Is Loop Remind">
+      <Translation>是否循环提醒</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Device Maintenance Interval">
+      <Translation>设备维护提醒间隔</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Last Maintenance Time">
+      <Translation>上次维护时间</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Update">
+      <Translation>更新</Translation>
+    </TranslationElements>
+    <TranslationElements Source="EverySeason">
+      <Translation>每季度</Translation>
+    </TranslationElements>
+    <TranslationElements Source="EveryHalfYears">
+      <Translation>每半年</Translation>
+    </TranslationElements>
+    <TranslationElements Source="EveryYear">
+      <Translation>每年</Translation>
+    </TranslationElements>
+  </TranslationSection>
+  <!--#endregion-->
+</ArrayOfTranslationSection>

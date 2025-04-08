@@ -1,0 +1,225 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Text;
+using System.Threading.Tasks;
+using UI.XRay.Business.DataAccess.Config;
+using UI.XRay.Business.Entities;
+
+namespace UI.XRay.Flows.Services
+{
+    public class ConfigHelper
+    {
+        public static string GetMachineNumber()
+        {
+            string machineNumber;
+            if (!ScannerConfig.Read(ConfigPath.SystemMachineNum, out machineNumber))
+            {
+                machineNumber = "Unknown";
+            }
+
+            return machineNumber;
+        }
+
+        public static string GetMachineDate()
+        {
+            string machineDate;
+            if (!ScannerConfig.Read(ConfigPath.SystemMachineDate, out machineDate))
+            {
+                machineDate = "Unknown";
+            }
+
+            return machineDate;
+        }
+
+        public static string GetMachineType()
+        {
+            string model;
+            if (!ScannerConfig.Read(ConfigPath.SystemModel, out model))
+            {
+                model = "Unknown";
+            }
+
+            return model;
+        }
+
+        /// <summary>
+        /// 获取视角1的探测通道数
+        /// </summary>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public static bool GetView1ChannelsCount(out int count)
+        {
+            // 加载视角1的配置
+            var view1Cards = LoadCardsDist(ConfigPath.CaptureSysDTView1CardsDist);
+            if (view1Cards != null)
+            {
+                count = (view1Cards[0] + view1Cards[1] + view1Cards[2] + view1Cards[3]) * 64;
+                return true;
+            }
+
+            count = 0;
+            return false;
+        }
+
+        /// <summary>
+        /// 获取视角1的探测卡分布情况
+        /// </summary>
+        /// <param name="dist"></param>
+        /// <returns></returns>
+        public static bool GetView1CardsDist(out int[] dist)
+        {
+            var view1Cards = LoadCardsDist(ConfigPath.CaptureSysDTView1CardsDist);
+            if (view1Cards != null)
+            {
+                dist = view1Cards;
+                return true;
+            }
+
+            dist = null;
+            return false;
+        }
+
+        /// <summary>
+        /// 获取视角2的探测卡分布情况
+        /// </summary>
+        /// <param name="dist"></param>
+        /// <returns></returns>
+        public static bool GetView2CardsDist(out int[] dist)
+        {
+            var view2Cards = LoadCardsDist(ConfigPath.CaptureSysDTView2CardsDist);
+            if (view2Cards != null)
+            {
+                dist = view2Cards;
+                return true;
+            }
+
+            dist = null;
+            return false;
+        }
+
+
+        /// <summary>
+        /// 获取视角2的探测通道数
+        /// </summary>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public static bool GetView2ChannelsCount(out int count)
+        {
+            // 加载视角1的配置
+            var cards = LoadCardsDist(ConfigPath.CaptureSysDTView2CardsDist);
+            if (cards != null)
+            {
+                count = (cards[0] + cards[1] + cards[2] + cards[3]) * 64;
+                return true;
+            }
+
+            count = 0;
+            return false;
+        }
+
+        /// <summary>
+        /// 加载某个视角的探测板分布情况
+        /// </summary>
+        /// <param name="configPath">视角的探测板配置路径</param>
+        /// <returns>成功则返回其探测板分布数组，数组长度为4；失败则返回null</returns>
+        private static int[] LoadCardsDist(string configPath)
+        {
+            var cards = "0,0,0,0";
+            if (ScannerConfig.Read(configPath, out cards))
+            {
+                var cardsStr = cards.Split(new[] { ',' });
+                if (cardsStr.Length == 4)
+                {
+                    var result = new int[4];
+                    for (int i = 0; i < 4; i++)
+                    {
+                        int.TryParse(cardsStr[i], out result[i]);
+                    }
+                    return result;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// 获取控制板的Ip地址
+        /// </summary>
+        /// <returns></returns>
+        public static IPAddress GetControlBoardIp()
+        {
+            string ipString;
+            if (ScannerConfig.Read(ConfigPath.ControlSysBoardIp, out ipString))
+            {
+                IPAddress ip;
+                if (IPAddress.TryParse(ipString, out ip))
+                {
+                    return ip;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// 获取与控制板相连的计算机的Ip地址
+        /// </summary>
+        /// <returns></returns>
+        public static IPAddress GetComputerIp()
+        {
+            string ipString;
+            if (ScannerConfig.Read(ConfigPath.ComputerIp, out ipString))
+            {
+                IPAddress ip;
+                if (IPAddress.TryParse(ipString, out ip))
+                {
+                    return ip;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// 获取两个视角之间配准时需要调整的线数
+        /// </summary>
+        /// <returns>两个视角之间匹配时，需要丢弃的线数</returns>
+        public static int GetDualViewMatchLines()
+        {
+            float distance;
+            if (!ScannerConfig.Read(ConfigPath.MachineViewsDistance, out distance))
+            {
+                return 0;
+            }
+
+            float speed;
+            if (!ScannerConfig.Read(ConfigPath.MachineConveyorSpeed, out speed))
+            {
+                speed = 0.2f;
+            }
+
+            if (speed <= 0.01)
+            {
+                speed = 0.2f;
+            }
+
+            // 线积分时间，单位为毫秒
+            float integrationTime;
+            if (!ScannerConfig.Read(ConfigPath.CaptureSysLineIntegrationTime, out integrationTime))
+            {
+                integrationTime = 4.0f;
+            }
+
+            if (integrationTime < 0.01f)
+            {
+                integrationTime = 4.0f;
+            }
+
+            var seconds = distance/speed;
+
+            return (int)(seconds*1000/integrationTime);
+        }
+    }
+}

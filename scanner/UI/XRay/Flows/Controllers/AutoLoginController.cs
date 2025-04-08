@@ -1,0 +1,98 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using UI.Common.Tracers;
+using UI.XRay.Business.DataAccess.Config;
+using UI.XRay.Business.Entities;
+using UI.XRay.Flows.Services.Db;
+
+namespace UI.XRay.Flows.Controllers
+{
+    /// <summary>
+    /// 管理用户自动登录的功能
+    /// </summary>
+    public class AutoLoginController
+    {
+        /// <summary>
+        /// 当前自动登录功能是否开启
+        /// </summary>
+        /// <returns></returns>
+        public static bool IsAutoLoginEnabled()
+        {
+            bool isEnabled;
+            if (ScannerConfig.Read(ConfigPath.AutoLoginIsEnabled, out isEnabled))
+            {
+                return isEnabled;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// 获取用于自动登录的账户名
+        /// </summary>
+        /// <returns></returns>
+        public static string GetAccountId()
+        {
+            string id;
+            if (ScannerConfig.Read(ConfigPath.AutoLoginUserId, out id))
+            {
+                return id;
+            }
+
+            return string.Empty;
+        }
+
+        /// <summary>
+        /// 启用/禁用自动登录
+        /// </summary>
+        /// <param name="enabled"></param>
+        public static void EnableAutoLogin(bool enabled)
+        {
+            ScannerConfig.Write(ConfigPath.AutoLoginIsEnabled, enabled);
+        }
+
+        /// <summary>
+        /// 更改自动登录的用户名
+        /// </summary>
+        /// <param name="id"></param>
+        public static void ChangeAccountId(string id)
+        {
+            ScannerConfig.Write(ConfigPath.AutoLoginUserId, id);
+        }
+
+        /// <summary>
+        /// 根据当前的自动登录设置，尝试自动登录
+        /// </summary>
+        /// <returns></returns>
+        public static bool TryAutoLogin()
+        {
+            try
+            {
+                if (IsAutoLoginEnabled())
+                {
+                    string id = GetAccountId();
+                    if (!string.IsNullOrEmpty(id))
+                    {
+                        var manager = new AccountDbSet();
+                        var account = manager.Find(id);
+                        if (account != null && account.IsEnable && account.IsActive)
+                        {
+                            LoginAccountManager.Service.Login(account);
+                            return true;
+                        }
+                    }
+                }
+
+            }
+            catch (Exception exception)
+            {
+                Tracer.TraceException(exception, "Exception caught when call TryAutoLogin");
+            }
+            
+            return false;
+        }
+    }
+}

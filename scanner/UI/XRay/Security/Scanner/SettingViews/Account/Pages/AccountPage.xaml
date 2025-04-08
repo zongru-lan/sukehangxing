@@ -1,0 +1,78 @@
+﻿<Page x:Class="UI.XRay.Security.Scanner.SettingViews.Account.Pages.AccountPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:account="clr-namespace:UI.XRay.Security.Scanner.ViewModel.Setting.Account"
+      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+      xmlns:entities="clr-namespace:UI.XRay.Business.Entities;assembly=UI.XRay.Business.Entities"
+      xmlns:framework="clr-namespace:UI.XRay.Gui.Framework;assembly=UI.XRay.Gui.Framework"
+      xmlns:converter="clr-namespace:UI.XRay.Security.Scanner.Converters"
+      mc:Ignorable="d" FontSize="{StaticResource PageFontSize}" 
+      d:DesignHeight="800" d:DesignWidth="700"
+      DataContext="{Binding Path=AccountPage, Source={StaticResource Locator}}"
+      KeyDown="AccountPage_OnKeyDown"
+      Title="AccountInformation">
+    <Page.Resources>
+        <converter:BoolVisibilityConvertor x:Key="BoolVisibilityConvertor"/>
+    </Page.Resources>
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+        <StackPanel Margin="{StaticResource PageContentMargin}" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <StackPanel Name="CurrentAccountPanel" Orientation="Vertical">
+                <StackPanel></StackPanel>
+                <TextBlock Style="{StaticResource PageSectionHeaderTextBlockStyle}" Text="{Binding Path=Current.AccountId, TargetNullValue=Unknown}" Foreground="{StaticResource AccentColorBrush}"/>
+                <StackPanel Orientation="Horizontal" Margin="0,-10,0,0">
+                    <TextBlock Text="{framework:LanguageResource Source=Name}"></TextBlock>
+                    <TextBlock Text=": "></TextBlock>
+                    <TextBlock Text="{Binding Name}"></TextBlock>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+                    <TextBlock Text="{framework:LanguageResource Source=Role}"></TextBlock>
+                    <TextBlock Text=": "></TextBlock>
+                    <TextBlock Text="{Binding RoleString}"></TextBlock>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+                    <TextBlock Text="{framework:LanguageResource Login Time}" VerticalAlignment="Center"></TextBlock>
+                    <TextBlock Text="{Binding LoginTimeStr}" Margin="10,0,0,0" VerticalAlignment="Center"></TextBlock>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Margin="0,15,0,0">
+                    <TextBlock Text="{framework:LanguageResource Change your password}"></TextBlock>
+                    <Button VerticalAlignment="Center" Margin="0,10,0,0" HorizontalAlignment="Left" HorizontalContentAlignment="Stretch"
+                            FontSize="{StaticResource PageFontSize}" IsEnabled="{Binding IsChangePwBtnEnabled}"
+                        Command="{Binding ChangePasswordCommand}">
+                        <Button.Content>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock TextWrapping="Wrap" Text="{framework:LanguageResource Source=Change}" HorizontalAlignment="Center"></TextBlock>
+                                <TextBlock Grid.Column="1" Margin="15,0,0,0" Text="[F1]" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                            </Grid>
+                        </Button.Content>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Visibility="{Binding IsAdmin, Converter={StaticResource BoolVisibilityConvertor}}">
+                <!--是否开启工作间隔提醒-->
+                <TextBlock Margin="0,15,0,0" Text="{framework:LanguageResource Turn on shift change alerts}" VerticalAlignment="Bottom"/>
+                <controls:ToggleSwitch OnLabel="{framework:LanguageResource Yes}" OffLabel="{framework:LanguageResource No}" Margin="-5,5,0,0"
+                            CheckChangedCommand="{Binding WorkIntervalReminderChangedCommand}" ContentDirection="RightToLeft"
+                            HorizontalAlignment="Left" IsChecked="{Binding IsWorkIntervalRemind}"/>
+
+                <TextBlock Margin="0,15,0,0" Text="{framework:LanguageResource Change Shifts Message interval (H)}" VerticalAlignment="Bottom"
+                 Visibility="{Binding IsWorkIntervalRemind, Converter={StaticResource BoolVisibilityConvertor}}"/>
+                <Grid Visibility="{Binding IsWorkIntervalRemind, Converter={StaticResource BoolVisibilityConvertor}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                    <ComboBox Grid.Column="0" Margin="0,0,10,0" MinWidth="200" ItemsSource="{Binding WorkIntervalList}" 
+                              SelectedValue="{Binding SelectedWorkDurationInterval}" DisplayMemberPath="Translation" SelectedValuePath="Interval"/>
+                    <Button Grid.Column="1" MinWidth="80" Content="{framework:LanguageResource Save}" HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                Command="{Binding SaveMaintenanceIntervalCommand}"/>
+                    </Grid>
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

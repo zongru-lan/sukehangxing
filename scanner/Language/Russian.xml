@@ -1,0 +1,2863 @@
+﻿<?xml version="1.0"?>
+<ArrayOfTranslationSection xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <TranslationSection SectionName="Common" Description="This section contains common translation strings for the app.">
+	  <TranslationElements Source="Channal Id:">
+		  <Translation>Номер канала:</Translation>
+	  </TranslationElements>
+	  <TranslationElements Source="Remote Diagnosing">
+      <Translation>Удаленная диагностика</Translation>
+    </TranslationElements>
+	  <TranslationElements Source="WorkTiming">
+		  <Translation>рабочее время</Translation>
+	  </TranslationElements>	  <TranslationElements Source="Ok">
+      <Translation>Да</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Cancel">
+      <Translation>Отмена</Translation>
+    </TranslationElements>
+    <TranslationElements Source="On" Comment="On state of toggle switch">
+      <Translation>Включено</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Off" Comment="Off state of toggle switch">
+      <Translation>Выключено</Translation>
+    </TranslationElements>
+	  <TranslationElements Source="Group">
+		  <Translation>Группа</Translation>
+	  </TranslationElements>
+	  <TranslationElements Source="Save Group">
+		  <Translation>Сохранить группу</Translation>
+	  </TranslationElements>
+	  <TranslationElements Source="Yes">
+      <Translation>Да</Translation>
+    </TranslationElements>
+    <TranslationElements Source="No">
+      <Translation>Нет</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Rotate">
+      <Translation>Повернуть</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ChangeView">
+      <Translation>Смена ракурса</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Close">
+      <Translation>Закрыть</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Delete">
+      <Translation>Удалить</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Select">
+      <Translation>Выбор</Translation>
+    </TranslationElements>
+    <TranslationElements Source="SelectTipLib">
+      <Translation>Выбрать библиотеку TIP</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Add">
+      <Translation>Добавить</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Save">
+      <Translation>Сохранить</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Open">
+      <Translation>Открыть</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Change">
+      <Translation>Изменить</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Reset">
+      <Translation>Сброс</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Continue">
+      <Translation>Продолжить</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Default">
+      <Translation>По умолчанию </Translation>
+    </TranslationElements>
+    <TranslationElements Source="Error">
+      <Translation>Ошибка</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Exception">
+      <Translation>Ожидание</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Warning">
+      <Translation>Внимание!</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Cancelled">
+      <Translation>Отменено</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Waiting">
+      <Translation>Ожидание</Translation>
+    </TranslationElements>
+    <!--Main Menu Page-->
+    <TranslationElements Source="System Date And Time Setting">
+      <Translation>Настройка даты и времени</Translation>
+    </TranslationElements>
+    <TranslationElements Source="System">
+      <Translation>Система</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image">
+      <Translation>Изображение</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Accounts">
+      <Translation>Учетные записи</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Device">
+      <Translation>Устройство</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Logs">
+      <Translation>Журналы</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Setting">
+      <Translation>Настройки</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Training">
+      <Translation>Обучение</Translation>
+    </TranslationElements>
+    <TranslationElements Source="TIP" Comment="Threatening Image Projection">
+      <Translation>TIP</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Calibrate" Comment="Calibrate imaging system">
+      <Translation>Калибровка</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Logout" Comment="Logout user account">
+      <Translation>Выйти/Забл.</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Login" Comment="Login user account">
+      <Translation>Вход</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Shutdown" Comment="Shutdown scanner and computer">
+      <Translation>Выключить</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Exit" Comment="Exit to windows desktop">
+      <Translation>Выход</Translation>
+    </TranslationElements>
+    <TranslationElements Source="About" Comment="About of the system">
+      <Translation>О системе</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Do you want to shutdown scanner now?">
+      <Translation>Вы действительно хотите выключить установку?</Translation>
+    </TranslationElements>
+	<TranslationElements Source="You been working for">
+		<Translation>Ты работаешь уже </Translation>
+	</TranslationElements>
+	<TranslationElements Source="minutes!">
+		<Translation> минут!</Translation>
+	</TranslationElements>
+	  <TranslationElements Source="Turn on shift change alerts">
+		  <Translation>Включить напоминание сменяться о смене.</Translation>
+	  </TranslationElements>
+	  <TranslationElements Source="Change Shifts Message interval (H)">
+		  <Translation>Предупредительный интервал смены (часов)</Translation>
+	  </TranslationElements>
+	  <TranslationElements Source="Change Shifts Remind">
+		  <Translation>Напоминание о смене смены</Translation>
+	  </TranslationElements>
+	  <TranslationElements Source="It's time for you to change shifts">
+		  <Translation>Тебе пора на смену</Translation>
+	  </TranslationElements>
+	  
+	  <!--Login Window-->
+    <TranslationElements Source="Failed to login because of exception.">
+      <Translation>Не удалось войти</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Login Failed">
+      <Translation>Ошибка входа</Translation>
+    </TranslationElements>
+    <TranslationElements Source="The account has been disabled. Please ask Administrator to activate it.">
+      <Translation>Этот аккаунт был отключен. Пожалуйста, попросите администратора, его активировать.</Translation>
+    </TranslationElements>
+    <TranslationElements Source="The password you typed is incorrect.">
+      <Translation>Введен неверный пароль</Translation>
+    </TranslationElements>
+    <TranslationElements Source="The account you typed does not exist.">
+      <Translation>Учетная запись несуществует</Translation>
+    </TranslationElements>
+    <TranslationElements Source="The account does not have permission to login to this position.">
+      <Translation>У учетной записи нет разрешения для входа в эту позицию</Translation>
+    </TranslationElements>
+
+    <!--About Page-->
+    <TranslationElements Source="Machine Information">
+      <Translation>Информация о оборудовании</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Machine Number:">
+      <Translation>Заводской номер:</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Production Date:">
+      <Translation>Дата производства:</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Machine Type:">
+      <Translation>Тип оборудования:</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Software Version:">
+      <Translation>Версия программного обеспечения:</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Algorithm Version:">
+      <Translation>Версия алгоритма</Translation>
+    </TranslationElements>
+        <TranslationElements Source="Control Version:">
+      <Translation>Версия системы управления</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Disk Space" Comment="hard disk space">
+      <Translation>Свободное место на диске</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image Storage Disk:">
+      <Translation>Хранение изображений:</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Already Used" Comment="disk space already used">
+      <Translation>Занято</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Total">
+      <Translation>Всего</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Images Count">
+      <Translation>Счетчик изображений</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Capture Board Count">
+      <Translation>Количество досок захвата</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Count of images in storage" Comment="Count of images stored in disk now">
+      <Translation>Количество изображений на диске</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Count of images since installed">
+      <Translation>Количество изображений</Translation>
+    </TranslationElements>
+    
+    <!--Work hours in About page-->
+    <TranslationElements Source="Device Work Hours">
+      <Translation>Данные о работе установки</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Calculating">
+      <Translation>Вычисление</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Total Work Hours of Machine">
+      <Translation>Общее время работы установки</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Work Hours of Machine Since Boot">
+      <Translation>Время работы установки с момента загрузки</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XRay Generator1 Total Work Hours">
+      <Translation>Общее время работы X-Ray генератора №1</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XRay Generator2 Total Work Hours">
+      <Translation>Общее время работы X-Ray генератора №2</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XRay Generator1 Work Hours Since Boot">
+      <Translation>Время работы X-Ray генератора №1 с момента загрузки</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XRay Generator2 Work Hours Since Boot">
+      <Translation>Время работы X-Ray генератора №2 с момента загрузки</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XRay Generator1 Usage Count Since Boot">
+      <Translation>Количество циклов включения X-Ray генератора №1 с момента загрузки</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XRay Generator2 Usage Count Since Boot">
+      <Translation>Количество циклов включения X-Ray генератора №2 с момента загрузки</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XRay Generator1 Total Usage Count">
+      <Translation>Общее количество использования X-Ray генератора №1</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XRay Generator2 Total Usage Count">
+      <Translation>Общее количество использования X-Ray генератора №2</Translation>
+    </TranslationElements>
+    <!--Account Management menu-->
+
+    <TranslationElements Source="Account Information" Comment="Menu item for browsing account information">
+      <Translation>Общая информация</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Manage Other Accounts" Comment="Menu item for managing other accounts">
+      <Translation>Управление учетными записями</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Auto Login Setting" Comment="Menu item for auto-login setting">
+      <Translation>Настройка автоматического входа</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Auto Login" Comment="automatically login default account when software starts">
+      <Translation>Автоматический вход</Translation>
+    </TranslationElements>
+	  <TranslationElements Source="Operator can export the image" Comment="Whether the Operator can export the image">
+		  <Translation>Может ли оператор экспортировать изображение в сеть</Translation>
+	  </TranslationElements>
+
+
+    <!--Account Information-->
+    <TranslationElements Source="Role" Comment="account role, including admin, system and operator">
+      <Translation>Группа</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Login Time" Comment="time when user login">
+      <Translation>Время входа</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Logout Time" Comment="time when user logout">
+      <Translation>Время выхода</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Boot Time" Comment="time when machine boot">
+      <Translation>Время загрузки</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Shutdown Time" Comment="time when machine shut down">
+      <Translation>Время выключения</Translation>
+    </TranslationElements>
+    
+    <TranslationElements Source="Change your password" Comment="Change password of current account">
+      <Translation>Изменение пароля текущего пользователя</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Login with account when system starts" Comment="When system starts, use specified account to login automatically">
+      <Translation>Выбор учетной записи при автоматическом входе</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Account Role" Comment="Role of the account">
+      <Translation>Группа учетной записи</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Name">
+      <Translation>Имя</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Enter New Account Information">
+      <Translation>Создать новую учетную запись</Translation>
+    </TranslationElements>
+    <TranslationElements Source="The entered account id already exists!">
+      <Translation>Введеная учетная запись используется!</Translation>
+    </TranslationElements>
+
+    <!--Select TipLib Window-->
+    <TranslationElements Source="Tip Lib Setting">
+      <Translation>Tip Lib Setting</Translation>
+    </TranslationElements>
+
+    <!--Manage Other account page-->
+    <TranslationElements Source="Accounts List">
+      <Translation>Список учетных записей</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Account Id" Comment="Id of the account">
+      <Translation>ID пользователя</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Password">
+      <Translation>Пароль</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Network">
+      <Translation>Сеть</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Local">
+      <Translation>местный</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Login Mode">
+      <Translation>Режим входа в систему</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Is Active" Comment="Is the account enabled">
+      <Translation>Активен</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Deletion" Comment="operation to delete account">
+      <Translation>Удаление</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Add New Account">
+      <Translation>Добавить учетную запись</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Commit Changes" Comment="save all changes made">
+      <Translation>Сохранить изменения</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Discard Changes" Comment="discard all changed made">
+      <Translation>Отменить изменения</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Click grid cell to edit.">
+      <Translation>Для редактирования нажмите</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Permission Management">
+      <Translation>Управление правами</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Can Training">
+      <Translation>учебные модули</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Can Change Image Settings">
+      <Translation>можно изменить параметры изображения</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Can Manage Disk">
+      <Translation>управляемый диск</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Can Manage Log">
+      <Translation>можно управлять журналом</Translation>
+    </TranslationElements>
+    <TranslationElements Source="The account id already exists!">
+      <Translation>Данный ID уже существует!</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Account id can not be empty!">
+      <Translation>Имя счета не может быть пустым!</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Account id and password can only contain numbers and letters!">
+      <Translation>Имя счета и пароль могут содержать только цифры и буквы!</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Account id and password must contain less than 16 characters!">
+      <Translation>Имя счета и длина пароля должны быть меньше 16 бит</Translation>
+    </TranslationElements>
+
+    <!--Change password-->
+    <TranslationElements Source="New Password" Comment="new password of the account">
+      <Translation>Новый пароль</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Confirm Password" Comment="Confirm the new password">
+      <Translation>Подтвердите пароль</Translation>
+    </TranslationElements>
+    <TranslationElements Source="The password you entered is incorrect!">
+      <Translation>Неверный пароль!</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Password can not be empty!">
+      <Translation>Введите пароль!</Translation>
+    </TranslationElements>
+    <TranslationElements Source="The passwords you entered do not match!" Comment="When changing password, the typed New Password and Confirm Password do not match">
+      <Translation>Введенные пароли не совпадают!</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Change Password">
+      <Translation>Изменить пароль</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Please input your new password and confirm">
+      <Translation>Создание нового пароля</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Password can only contain numbers and letters!">
+      <Translation>Пароли содержат только цифры и буквы!</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Password must contain less than 16 characters!">
+      <Translation>Длина пароля должна быть меньше 16 бит!</Translation>
+    </TranslationElements>
+
+    <!--Device setting-->
+    <TranslationElements Source="Detectors" Comment="X-Ray detectors">
+      <Translation>Профиль</Translation>
+    </TranslationElements>
+    <TranslationElements Source="X-Ray Generators">
+      <Translation>Рентгеновский генератор</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Conveyor and PESensor" Comment="Conveyor and PhotoElectric Sensor">
+      <Translation>Конвейер</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Keyboard">
+      <Translation>Пульт управления</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Diagnosis">
+      <Translation>Диагностика</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Diagnose">
+      <Translation>Диагностика</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Diagnosing">
+      <Translation>Диагностика</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Function Key Definition" Comment="Define functions for function keys, including F1, F2, and F3">
+      <Translation>Назначение функциональных клавиш</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Is Conveyor Direction Key Reversed" Comment="By default, pressing Conveyor-Right key will make conveyor moving forward. If conveyor direction key is reversed, pressing Conveyor-Right key will make conveyor moving backward.">
+      <Translation>Смена направления движения конвейера</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Is Keyboard Direction Reversed">
+      <Translation>Повернуть направление клавиатуры</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Enable Bidirection Scan">
+      <Translation>Включить двунаправленное сканирование</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Enable Continuous Scan">
+      <Translation>Включение непрерывного сканирования</Translation>
+    </TranslationElements>
+    
+
+    <!--Detectors Page-->
+    <TranslationElements Source="Curves Pattern" Comment="showing dynamic data curve or static data curve">
+      <Translation>Диагностика системы</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Exchange Views Order" Comment="In dual-view machine, exchange the views logic order(data order) to confirm with physical order (refer to conveyor direction).">
+      <Translation>Смена ракурса</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Channel" Comment="detector channel. one channel corresponds to one pixel on image.">
+      <Translation>Канал</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Is Bad" Comment="is the detect channel bad">
+      <Translation>Неисправность</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Color Mode" Comment="Display color mode of image, such as grey or colorized">
+      <Translation>CM</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Penetration" Comment="Penetration mode of image, such as high penetration">
+      <Translation>Pen</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Inversed" Comment="is grey of image is inversed">
+      <Translation>In</Translation>
+    </TranslationElements>
+    <TranslationElements Source="SuperEnhance" Comment="An image enhancement method, to get a best contrast">
+      <Translation>SupE</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Absorbtivity" Comment="An image enhancement method, to enhance interested grey levels">
+      <Translation>Ab_</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Dynamic GST" Comment="Dynamic Grayscale Transformation, an image enhancement method, dynamically change grayscales of image">
+      <Translation>DynGST</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="Image Process Recommend">
+      <Translation>Алгоритм изображения</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="Raw Image">
+      <Translation>оригинальное изображение</Translation>
+    </TranslationElements>
+    <TranslationElements Source="TurnOn Image Correction">
+      <Translation>коррекция изображения турнона</Translation>
+    </TranslationElements>
+    <TranslationElements Source="TurnOff Image Correction">
+      <Translation>закрыть коррекцию изображения</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image Brighter">
+      <Translation>Изображения ярче</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image Darker">
+      <Translation>Изображения темнее</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Action">
+      <Translation>Action</Translation>
+    </TranslationElements>
+
+
+
+    <!--X-Ray Generator Page-->
+    <TranslationElements Source="X-Ray Operation" Comment="To open or close x-ray">
+      <Translation>X-Ray генератор</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XrayGen Statement">
+      <Translation>XrayGen Statement</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Static">
+      <Translation>Статический</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Dynamic">
+      <Translation>Динамический</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Detection View" Comment="view1, view2">
+      <Translation>Обнаружение</Translation>
+    </TranslationElements>
+    <TranslationElements Source="X-Ray Generator Information">
+      <Translation>Информация</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image1 Serial Port">
+      <Translation>Изображение 1 серийный порт</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image2 Serial Port">
+      <Translation>Изображение 2 серийный порт</Translation>
+    </TranslationElements>
+    <TranslationElements Source="X-Ray Generator Type">
+      <Translation>Тип рентгеновского генератора</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Temperature">
+      <Translation>Температура</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Working Value" Comment="current working values">
+      <Translation>Рабочие настройки:</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Current Setting" Comment="present settings">
+      <Translation>Текущие настройки:</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Change Setting">
+      <Translation>Изменить настройки</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XrayGenerator Infomation">
+      <Translation>рентгеновская информация</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Xray Error Info">
+      <Translation>Сообщение об ошибке</Translation>
+    </TranslationElements>
+    <TranslationElements Source="New Setting">
+      <Translation>Новые настройки:</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Set">
+      <Translation>Сохранить</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Emit X-Ray">
+      <Translation>Включить X-Ray генератор</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Close X-Ray">
+      <Translation>Отключить X-Ray генератор</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Could not change X-Ray generator settings, please check the Control System connection state!">
+      <Translation>Невозможно изменить настройки X-Ray генератора, проверьте подключение платы управления!</Translation>
+    </TranslationElements>
+
+    <!--Conveyor and PESensor Test Page-->
+    <TranslationElements Source="Conveyor Test">
+      <Translation>Тест конвейера</Translation>
+    </TranslationElements>
+    <TranslationElements Source="PhotoElectric Sensors Test">
+      <Translation>Тест фотоэлектрических датчиков</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Power On">
+      <Translation>Включить датчики</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Power Off">
+      <Translation>Выключить датчики</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Move Left" Comment="move towards left">
+      <Translation>Движение влево</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Move Right" Comment="move towards right">
+      <Translation>Движение вправо</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Stop">
+      <Translation>Стоп</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Emergency window">
+      <Translation>Отожмите аварийную кнопку</Translation>
+    </TranslationElements>
+
+
+    <!--Keyboard Page-->
+    <TranslationElements Source="To Test conveyor keys and F3, press down Auto key first.">
+      <Translation>Для проверки клавиш конвейера и F3, зажмите клавишу AUTO</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Conveyor Keys" Comment="Keys on keyboard to control conveyor">
+      <Translation>Включить конвейер</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Beeper Test">
+      <Translation>Тест сигнала</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Beep" Comment="Make beeper in keyboard beeps">
+      <Translation>Звуковой сигнал</Translation>
+    </TranslationElements>
+
+    <!--Object Counter setting Page-->
+
+    <TranslationElements Source="Total Counter" Comment="counter to count all images">
+      <Translation>Общий счетчик</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Session Counter" Comment="counter to count images scanned during current login">
+      <Translation>Счетчик багажа</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Scanned object count of current session">
+      <Translation>Счетчик (за сессию)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Reset session counter when user login">
+      <Translation>Сбросить счетчик (за сессию)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Disk Space Management">
+      <Translation>Управление дисковым пространством</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Old images auto cleanup service">
+      <Translation>Настройка автоматического удаления старых изображений</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Save Image Disk Space Information">
+      <Translation>Сохранение изображений на устройстве</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Old images auto cleanup service settings">
+      <Translation>Настройка параметров удаления старых изображений</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Start Cleaning Disk">
+      <Translation>Начать очистку диска</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Stop Cleaning Disk">
+      <Translation>Закончить очистку диска</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Start cleanup service time daily">
+      <Translation>Время запуска службы удаления старых изображений</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Stop cleanup service time daily">
+      <Translation>Время остановки службы удаления старых изображений</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Emergency free disk space ratio to start cleanup service (10%~90%)">
+      <Translation>Аварийное соотношение свободного места на жестком диске для запуска службы очистки (10% ~ 90%)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Value of free disk space ratio to stop cleanup service (10%~90%)">
+      <Translation>Значение коэффициента свободного места на диске для остановки службы очистки (10% ~ 90%)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Minimum value of free disk space ratio to start cleanup service (10%~90%)">
+      <Translation>Минимальное значение коэффициента свободного места на диске для запуска службы очистки (10% ~ 90%)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Count of old images to delete (10~1000)">
+      <Translation>Количество удаляемых старых изображений (10~1000)</Translation>
+    </TranslationElements>
+
+    <!--Intellisense setting Page-->
+
+    <TranslationElements Source="High Density Object IntelliSense" Comment="Automatically detect High Density objects">
+      <Translation>Распознавание объектов высокой плотности</Translation>
+    </TranslationElements>
+    <TranslationElements Source="IntelliSense Sensitivity">
+      <Translation>Чувствительность</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Mark Region Border Color" Comment="Mark Region Border Color">
+      <Translation>Цвет границы выделяемой области</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Drugs IntelliSense">
+      <Translation>Распознавание наркотических веществ</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Explosives IntelliSense">
+      <Translation>Распознавание взрывчатых веществ</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Extenal Device IntelliSense">
+      <Translation>Используя внешнее оборудование для идентификации</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Automatically Stops The Conveyor" Comment="Automatically Stops The Conveyor when IntelliSense detects contrabands">
+      <Translation>Автоматическая остановка конвейера</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Enable Audible Alarm Feature" Comment="If enabled, when contraband detected, the beeper in keyboard will beep">
+      <Translation>Включение звуковой сигнализации</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Enable Light Alarm Feature" Comment="If enabled, when contraband detected, x-ray lamp will flicker">
+      <Translation>Включение световой сигнализации</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Mark Region Border Color" Comment="Mark Region Border Color">
+      <Translation>Цвет границы выделяемой области</Translation>
+    </TranslationElements>
+
+    <!--ImsPage-->
+    <TranslationElements Source="Image Management">
+      <Translation>Управление изображением</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Change conditions and retrieve more images">
+      <Translation>Изменение условий поиска изображения</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Retrieve more images">
+      <Translation>Поиск изображения</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Processing...">
+      <Translation>Обработка...</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Thumbnail View">
+      <Translation>Отображение миниатюрами</Translation>
+    </TranslationElements>
+    <TranslationElements Source="List View">
+      <Translation>Отображение списком</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Loading...">
+      <Translation>Загрузка...</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image retrieval results,">
+      <Translation>Результат поиска изображения:</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Select All">
+      <Translation>Выбрать все</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Anti-Select">
+      <Translation>Отменить выбор</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Playback" Comment="replay selected images">
+      <Translation>Воспроизвести</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Dump" Comment="export images or logs to other disk">
+      <Translation>Сохранить</Translation>
+    </TranslationElements>
+    <TranslationElements Source="DumpToNet" Comment="export images or logs to other disk">
+      <Translation>Загрузка на сервер</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Print">
+      <Translation>Печать</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Lock" Comment="Image Lock operation: locked images will not be deteted automatically">
+      <Translation>Заблокировать</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Unlock" Comment="unlock an image">
+      <Translation>Разблокировать</Translation>
+    </TranslationElements>
+    <TranslationElements Source="RemoveBadChannel" Comment="Remove bad channels manually">
+      <Translation>Удаление плохих каналов</Translation>
+    </TranslationElements>
+	  <TranslationElements Source="Print" Comment="Remove bad channels manually">
+		  <Translation>печатать</Translation>
+	  </TranslationElements>	  <TranslationElements Source="Open the first selected image">
+      <Translation>Открыть выбранное изображение</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Delete all selected images">
+      <Translation>Удалить выбранные изображения</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Selected images">
+      <Translation>Выбранные изображения</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Playback all selected images">
+      <Translation>Воспроизвести выбранные изображения</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Select all images in the list">
+      <Translation>Выбрать все изображения в списке</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Anti-Select images">
+      <Translation>Отменить выбор изображений</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Delete the selected images permanently?">
+      <Translation>Удалить выбранные изображения?</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Locked image can't be deleted">
+      <Translation>Заблокированное изображение не может быть удалено</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Images dump completed" Comment="Images exportation is completed">
+      <Translation>Экспорт изображений завершен</Translation>
+    </TranslationElements>
+	  <TranslationElements Source="Saved, no need to repeat" Comment="Images exportation is completed">
+		  <Translation>Сохранено, повторять не нужно</Translation>
+	  </TranslationElements>
+    <TranslationElements Source="Dump completely">
+      <Translation>Загрузка выполнена</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Dump to network completely">
+      <Translation>Загрузка в сеть выполнена</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Images have saved to">
+      <Translation>Изображения сохранены в</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Sending">
+      <Translation>Отправка</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Send Failed">
+      <Translation>Отправка не выполнена</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Import completely">
+      <Translation>Import completely</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Images upload to network completed" Comment="Images upload to network completed">
+      <Translation>Загрузка изображений в сеть завершена</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Screen Images Manipulation">
+      <Translation>Screen Images Manipulation</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Screen Images Manipulation" Comment="manipulation of visible images on screen">
+      <Translation>Обработка данного изображения</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Screen Images List" Comment="list of visible images on screen">
+      <Translation>Список изображений на экране</Translation>
+    </TranslationElements>
+    <TranslationElements Source="accounts updated">
+      <Translation>Обновление счетов завершено</Translation>
+    </TranslationElements>
+    <TranslationElements Source="tipimages updated">
+      <Translation>Обновление TIP завершено</Translation>
+    </TranslationElements>
+    <TranslationElements Source="tipplans updated">
+      <Translation>Обновление TIP план завершено</Translation>
+    </TranslationElements>
+    <TranslationElements Source="In the process of diagnosis, the ray will turn on and the conveyor will move back, please ensure the safety of personnel and luggage.">
+      <Translation>В процессе диагностики включится луч и конвейер двинется назад, просьба обеспечить безопасность персонала и багажа</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Can't diagnose because of emergency stop!">
+      <Translation>Не могу поставить диагноз из-за аварийной остановки!</Translation>
+    </TranslationElements>
+    <!--Image Setting Page-->
+    <TranslationElements Source="Image Setting">
+      <Translation>Настройки изображения</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Remove Blank Space Between Bags" Comment="do not show blank space between bag images, so more bag images can be visiable on the same time">
+      <Translation>Удаление пустого пространства между грузом</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Show Unpenetratable in Red" Comment="show unpenetratable materials in red">
+      <Translation>Показыть красным непробиваемую зону</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Default Absorbtivity">
+      <Translation>Стандартный коэффицент поглащения</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Belt Margin Pixels Setting" Comment="belt margin pixels count setting: ">
+      <Translation>Установка крайней точки</Translation>
+    </TranslationElements>
+    <TranslationElements Source="View1" Comment="The first detection view">
+      <Translation>Вид №1</Translation>
+    </TranslationElements>
+    <TranslationElements Source="View2" Comment="The second detection view">
+      <Translation>Вид №2</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Margin Pixels At Begin" Comment="Belt margin pixels at beginning">
+      <Translation>Начало границы изображения</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Margin Pixels At End" Comment="Belt margin pixels at end">
+      <Translation>Конец границы изображения</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image1">
+      <Translation>Изображение №1</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image2">
+      <Translation>Изображение №2</Translation>
+    </TranslationElements>
+    <TranslationElements Source="EdgeEnhance">
+      <Translation>Улучшение краев</Translation>
+    </TranslationElements>
+    <TranslationElements Source="PenetrationEnhance">
+      <Translation>Повышение проникновения</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="Image Default Effects" Comment="Default enhancement effects of image">
+      <Translation>Эффекты изображения по умолчанию</Translation>
+    </TranslationElements>
+
+    <!--System setting menu-->
+    <TranslationElements Source="Object Counter" Comment="scanning objects counter">
+      <Translation>Счетчик багажа</Translation>
+    </TranslationElements>
+    <TranslationElements Source="IntelliSense" Comment="Function to auto-recognize High density object, drugs and explosives.">
+      <Translation>Распознавание объектов</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Function Keys" Comment="F1, F2, and F3">
+      <Translation>Функциональные клавиши</Translation>
+    </TranslationElements>
+
+    <!--Training setting menu-->
+    <TranslationElements Source="Training is Ongoing Now">
+      <Translation>Идет обучение</Translation>
+    </TranslationElements>
+    <TranslationElements Source="End Training" Comment="End the training process">
+      <Translation>Выключить обучение</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Start Training">
+      <Translation>Включить обучение</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Simulating Image Loop Mode" Comment="Training images generating mode">
+      <Translation>Режим имитации изображения</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Simulating Image Interval (S)" Comment="timespan in seconds between two training images">
+      <Translation>Имитация образа(сек.)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Emergency switch is off">
+      <Translation>Аварийная кнопка нажата(0x1001)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Interlock switch is off">
+      <Translation>Блокировка выключателя(0x1002)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="X-Ray Gen 1 is dead" Comment="Could not detect x-ray generator 1">
+      <Translation>Не удалось обнаружить X-Ray генератор №1(0x1003)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="X-Ray Gen 2 is dead">
+      <Translation>Не удалось обнаружить X-Ray генератор №2(0x1004)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Unable to access Control Board" Comment="Could not communicate with control board">
+      <Translation>Нет доступа к плате управления(0x1005)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Unable to access Image Acquisition Board" Comment="Could not receive image data from Image Acquisition Board">
+      <Translation>Нет доступа к контроллеру АЦП(0x1006)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="The system works properly">
+      <Translation>Система работает исправно</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Regular Mode">
+      <Translation>Регулярный режим</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Maintenance Mode">
+      <Translation>Режим обслуживания</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Continuous Mode">
+      <Translation>Непрерывный режим</Translation>
+    </TranslationElements>
+    <TranslationElements Source="AutoReturn Mode">
+      <Translation>Автоматический возврат</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Remainder Time">
+      <Translation>Оставшееся время</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Hours">
+      <Translation>часов</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Network State">
+      <Translation>Состояние сети</Translation>
+    </TranslationElements>
+
+    <!--Image Viewer-->
+    <TranslationElements Source="Scan Time">
+      <Translation>Время сканирования</Translation>
+    </TranslationElements>
+    <TranslationElements Source="OriginalImage">
+      <Translation>оригинал</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ImageWithLines">
+      <Translation>линейная</Translation>
+    </TranslationElements>
+    <TranslationElements Source="InterpolationImage">
+      <Translation>интерполяция</Translation>
+    </TranslationElements>
+    <TranslationElements Source="CurrentPoint">
+      <Translation>Текущая точка</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ImageShowMode">
+      <Translation>Выбор</Translation>
+    </TranslationElements>
+
+    <!--Password Dialog-->
+    <TranslationElements Source="Please input password and continue">
+      <Translation>Пожалуйста, введите пароль и нажмите кнопку продолжить</Translation>
+    </TranslationElements>
+
+
+    <TranslationElements Source="Starting Conveyor to Clean Passage">
+      <Translation>Starting Conveyor to Clean Passage</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Clean Passage">
+      <Translation>Clean Passage</Translation>
+    </TranslationElements>
+    
+    <!--X-Ray generator warmup window-->
+    <TranslationElements Source="Warming up X-Ray Generator">
+      <Translation>Разогрев рентгеновского генератора</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Remaining Time">
+      <Translation>Оставшееся время</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Seconds" Comment="Time in seconds">
+      <Translation>Секунд</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Set Image Retrieval Conditions">
+      <Translation>Условие поиска изображения</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Specify Account Id">
+      <Translation>Пользователь</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Time Range">
+      <Translation>Временный диапазон</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Retrieve Save Assumes Images">
+      <Translation>Получить только заблокированные изображения</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Retrieve Marked Images">
+      <Translation>Получить только отмеченные изображения</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Start Time">
+      <Translation>Начало периода</Translation>
+    </TranslationElements>
+    <TranslationElements Source="End Time">
+      <Translation>Конец периода</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Hour">
+      <Translation>Час</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Minute">
+      <Translation>Минут</Translation>
+    </TranslationElements>
+
+    <!--Tip Plans Page-->
+    <TranslationElements Source="Tip Plans">
+      <Translation>Настройка TIP</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Tip Images Library">
+      <Translation>Библиотека Изображений</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Tip Examination Records">
+      <Translation>Запись результатов</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Id">
+      <Translation>ID</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Alias">
+      <Translation>Плановый псевдоним</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Probability">
+      <Translation>Вероятность</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Is Enabled">
+      <Translation>Включено</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Online Recognization Max Seconds" Comment="When TIP injected, the operator must act within the given time">
+      <Translation>Время распознавания при движении</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Offline Recognization Max Seconds" Comment="When operator find TIP and stop the conveyor, the operator must press Mark key within the given time">
+      <Translation>Время распознавания при остановке</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Knives Weight" Comment="Knives TIP objects injection weight">
+      <Translation>Ножи</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Guns Weight">
+      <Translation>Оружие</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Explosives Weight">
+      <Translation>Взрывчатка</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Others Weight" Comment="Other TIP objects injection weight">
+      <Translation>Другое</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Didn't select images but weight doesn't equals 0, this may reduce injection rate!">
+      <Translation>Не выбраны изображения, но вес не равен 0, это может снизить скорость инъекции!</Translation>
+    </TranslationElements>
+
+    <!--Tip Images Page-->
+    <TranslationElements Source="Import">
+      <Translation>Импорт изображений</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Select Tip Images Library">
+      <Translation>Выберите тип для Library</Translation>
+    </TranslationElements>
+    <TranslationElements Source="UnSelect Tip Images">
+      <Translation>Отменить выбор изображений TIP</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Select Tip Images">
+      <Translation>Выбрать  изображения TIP</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Guns">
+      <Translation>Оружие</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Knives">
+      <Translation>Ножи</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Explosives">
+      <Translation>Взрывчатка</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Others">
+      <Translation>Другое</Translation>
+    </TranslationElements>
+    <!--<TranslationElements Source="Congratulations, you have recognized simulated dangerous goods.">
+      <Translation>Вы распознали смоделированные опасные грузы.</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Congratulations, you have recognized button will clear it.">
+      <Translation>Обратите внимание, что существует нераспознанное изображение смоделированного опасного груза. Нажатие кнопки «Стоп» удалит его.</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Please press the stop button first to clear the unrecognized simulated dangerous goods image, then continue.">
+      <Translation>Вы обнаружили модель опасного груза!</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Sorry, you missed simulated dangerous goods!">
+      <Translation>Вы пропустили смоделированные опасные грузы!</Translation>
+    </TranslationElements>-->
+
+	  <TranslationElements Source="Dangerous goods!Press Shutdown to clear before continuing.">
+		  <Translation>Идентифицируйте опасные вещества!Нажмите на кнопку "стоп", чтобы продолжить.</Translation>
+	  </TranslationElements>
+	  <TranslationElements Source="Unidentified dangerous goods!Press Shutdown to clear.">
+		  <Translation>Есть неопознанные опасные вещества, нажмите на кнопку "стоп".</Translation>
+	  </TranslationElements>
+	  <TranslationElements Source="Press Shutdown to clear dangerous goods, then continue.">
+		  <Translation>Нажмите "стоп", чтобы очистить помещение, затем нажмите "вперёд" или "назад".</Translation>
+	  </TranslationElements>
+	  <TranslationElements Source="Missed dangerous goods!">
+		  <Translation>Пропустите химзащиту!</Translation>
+	  </TranslationElements>
+
+	  <TranslationElements Source="Statistical Period">
+      <Translation>Период</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Find">
+      <Translation>Найти</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Export">
+      <Translation>Экспорт</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Upload">
+      <Translation>Загрузить</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Download">
+      <Translation>Скачать</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Working Hours">
+      <Translation>Часы работы</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Date">
+      <Translation>Дата</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Time">
+      <Translation>Дата</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Boot Logs">
+      <Translation>Журнал работы</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Login Logs">
+      <Translation>Журнал пользователя</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Operation Logs">
+      <Translation>Журнал операций</Translation>
+    </TranslationElements>
+    <TranslationElements Source="TIP Examination Logs">
+      <Translation>Журнал TIP</Translation>
+    </TranslationElements>
+    <TranslationElements Source="X-Ray Generator Work Logs">
+      <Translation>Журнал X-Ray</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Conveyor Work Logs">
+      <Translation>Журнал работы конвейера</Translation>
+    </TranslationElements>
+    <TranslationElements Source="TIP Injection Count">
+      <Translation>Количество вводов TIP</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Mark Operation Count">
+      <Translation>Количество пометок</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Missed TIP Count">
+      <Translation>Количество пропущенных TIP</Translation>
+    </TranslationElements>
+    <TranslationElements Source="TIP Miss Rate">
+      <Translation>Вероятность ошибки</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Login Times">
+      <Translation>Количество входов</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Bags Count">
+      <Translation>Количество багажа</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="Operation Time">
+      <Translation>Время операции (процедуры)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Operation Type">
+      <Translation>Тип операции (процедуры)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Operation Object">
+      <Translation>Объект операции (процедуры)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Operation Command">
+      <Translation>Команда (процедуры)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Operation Content">
+      <Translation>Содержание (процедуры)</Translation>
+    </TranslationElements>
+
+	  <TranslationElements Source="InputLock">
+		  <Translation>Не удается ввести</Translation>
+	  </TranslationElements>
+	  <TranslationElements Source="InputUnlock">
+		  <Translation></Translation>
+	  </TranslationElements>
+    
+  </TranslationSection>
+  <TranslationSection SectionName="TouchUI" Description="translation for touch interface">
+    <TranslationElements Source="Regular Mode">
+      <Translation>PP</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Maintenance Mode">
+      <Translation>PO</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Continuous Mode">
+      <Translation>ПР</Translation>
+    </TranslationElements>
+    <TranslationElements Source="AutoReturn Mode">
+      <Translation>AB</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Emergency switch is off">
+      <Translation>Аварийная кнопка нажата(0x1001)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Interlock switch is off">
+      <Translation>Блокировка выключателя(0x1002)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="X-Ray Gen 1 is dead" Comment="Could not detect x-ray generator 1">
+      <Translation>Не удалось обнаружить X-Ray генератор №1(0x1003)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="X-Ray Gen 2 is dead">
+      <Translation>Не удалось обнаружить X-Ray генератор №2(0x1004)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Unable to access Control Board" Comment="Could not communicate with control board">
+      <Translation>Нет доступа к плате управления(0x1005)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Unable to access Image Acquisition Board" Comment="Could not receive image data from Image Acquisition Board">
+      <Translation>Нет доступа к контроллеру АЦП(0x1006)</Translation>
+    </TranslationElements>
+  </TranslationSection>
+  <TranslationSection SectionName="StatisticalPeriod" Description="Enums all Statistical Period">
+    <TranslationElements Source="Hourly" Comment="BY Hour">
+      <Translation>Ежечасно</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Dayly" Comment="By day statistics">
+      <Translation>Ежедневно</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Weekly" Comment="By week statistics">
+      <Translation>Еженедельно</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Monthly" Comment="By month statistics">
+      <Translation>Ежемесячно</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Quarterly" Comment="By quarter statistics">
+      <Translation>Ежеквартально</Translation>
+    </TranslationElements>
+    <TranslationElements Source="UserDefined" Comment="By user-defined time statistics">
+      <Translation>Задаваемый пользователем</Translation>
+    </TranslationElements>
+  </TranslationSection>
+  <TranslationSection SectionName="Month">
+    <TranslationElements Source="January">
+      <Translation>Январь</Translation>
+    </TranslationElements>
+    <TranslationElements Source="February">
+      <Translation>Февраль</Translation>
+    </TranslationElements>
+    <TranslationElements Source="March">
+      <Translation>Март</Translation>
+    </TranslationElements>
+    <TranslationElements Source="April">
+      <Translation>Апрель</Translation>
+    </TranslationElements>
+    <TranslationElements Source="May">
+      <Translation>Май</Translation>
+    </TranslationElements>
+    <TranslationElements Source="June">
+      <Translation>Июнь</Translation>
+    </TranslationElements>
+    <TranslationElements Source="July">
+      <Translation>Июль</Translation>
+    </TranslationElements>
+    <TranslationElements Source="August">
+      <Translation>Август</Translation>
+    </TranslationElements>
+    <TranslationElements Source="September">
+      <Translation>Сентябрь</Translation>
+    </TranslationElements>
+    <TranslationElements Source="October">
+      <Translation>Октябрь</Translation>
+    </TranslationElements>
+    <TranslationElements Source="November">
+      <Translation>Ноябрь</Translation>
+    </TranslationElements>
+    <TranslationElements Source="December">
+      <Translation>Декабрь</Translation>
+    </TranslationElements>
+  </TranslationSection>
+  <TranslationSection SectionName="Season">
+    <TranslationElements Source="Q1">
+      <Translation>Q1</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Q2">
+      <Translation>Q2</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Q3">
+      <Translation>Q3</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Q4">
+      <Translation>Q4</Translation>
+    </TranslationElements>
+  </TranslationSection>
+  <TranslationSection SectionName="TrainingImageLoopMode" Description="Enums all TrainingImageLoopMode">
+    <TranslationElements Source="NoLoop" Comment="Do not loop">
+      <Translation>Последнее изображение</Translation>
+    </TranslationElements>
+    <TranslationElements Source="SequentialLoop" Comment="generate training images in Sequentially Loop">
+      <Translation>Показывать изображения по порядку</Translation>
+    </TranslationElements>
+    <TranslationElements Source="RandomLoop" Comment="generate training images in randomly loop">
+      <Translation>Показывать изображения в случайном порядке</Translation>
+    </TranslationElements>
+  </TranslationSection>
+  <TranslationSection SectionName="AccountRole" Description="Enums all roles of accounts">
+    <TranslationElements Source="System" Comment="System User">
+      <Translation>Система</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Admin">
+      <Translation>Администратор</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Maintainer">
+      <Translation>Сервис</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Operator">
+      <Translation>Оператор</Translation>
+    </TranslationElements>
+  </TranslationSection>
+  <TranslationSection SectionName="DisplayColorMode" Description="Enums all display Color Mode">
+    <TranslationElements Source="Grey">
+      <Translation>BW</Translation>
+    </TranslationElements>
+    <TranslationElements Source="MaterialColor" Comment="Color image: orange for organic, green for mixed, blue for inorganic">
+      <Translation>CL</Translation>
+    </TranslationElements>
+    <TranslationElements Source="SixColors">
+      <Translation>6CL</Translation>
+    </TranslationElements>
+    <TranslationElements Source="OS">
+      <Translation>OS</Translation>
+    </TranslationElements>
+    <TranslationElements Source="MS">
+      <Translation>MS</Translation>
+    </TranslationElements>
+    <TranslationElements Source="OSPlus">
+      <Translation>OSPlus</Translation>
+    </TranslationElements>
+    <TranslationElements Source="MSPlus">
+      <Translation>MSPlus</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Zeff7">
+      <Translation>Zeff7</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Zeff8">
+      <Translation>Zeff8</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Zeff9">
+      <Translation>Zeff9</Translation>
+    </TranslationElements>
+    <TranslationElements Source="PseudoColor1">
+      <Translation>PC1</Translation>
+    </TranslationElements>
+    <TranslationElements Source="PseudoColor2">
+      <Translation>PC2</Translation>
+    </TranslationElements>
+    <TranslationElements Source="PseudoColor3">
+      <Translation>PC3</Translation>
+    </TranslationElements>
+    <TranslationElements Source="PseudoColor4">
+      <Translation>PC4</Translation>
+    </TranslationElements>
+    <TranslationElements Source="PseudoColor5">
+      <Translation>PC5</Translation>
+    </TranslationElements>
+    <TranslationElements Source="PseudoColor6">
+      <Translation>PC6</Translation>
+    </TranslationElements>
+  </TranslationSection>
+  <TranslationSection SectionName="PenetrationMode" Description="Enums all Penetration mode">
+    <TranslationElements Source="Standard">
+      <Translation>StD</Translation>
+    </TranslationElements>
+    <TranslationElements Source="HighPenetrate">
+      <Translation>HighP</Translation>
+    </TranslationElements>
+    <TranslationElements Source="LowPenetrate">
+      <Translation>LowP</Translation>
+    </TranslationElements>
+    <TranslationElements Source="SlicePenetrate">
+      <Translation>SliceP</Translation>
+    </TranslationElements>
+    <TranslationElements Source="SuperPenetrate">
+      <Translation>SuperP</Translation>
+    </TranslationElements>
+  </TranslationSection>
+  <TranslationSection SectionName="TimeRange" Description="Enums all time range">
+    <TranslationElements Source="LastHour">
+      <Translation>Последний час</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Today">
+      <Translation>Сегодня</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Yestoday">
+      <Translation>Прошлый день</Translation>
+    </TranslationElements>
+    <TranslationElements Source="RecentWeek">
+      <Translation>Последняя неделя</Translation>
+    </TranslationElements>
+    <TranslationElements Source="RecentMonth">
+      <Translation>Последний месяц</Translation>
+    </TranslationElements>
+    <TranslationElements Source="SpecifiedTimeRange">
+      <Translation>Определенный интервал времени</Translation>
+    </TranslationElements>
+  </TranslationSection>
+
+	<TranslationSection SectionName="Interval" Description="Enums all time range">
+		<TranslationElements Source="HalfAMinute">
+			<Translation>Полминуты.</Translation>
+		</TranslationElements>
+		<TranslationElements Source="OneMinute">
+			<Translation>Одна минута</Translation>
+		</TranslationElements>
+		<TranslationElements Source="TenMinute">
+			<Translation>Дecять минут.</Translation>
+		</TranslationElements>
+		<TranslationElements Source="TwentyMinute">
+			<Translation>20 минут.</Translation>
+		</TranslationElements>
+		<TranslationElements Source="HalfHour">
+			<Translation>Полчаса</Translation>
+		</TranslationElements>
+		<TranslationElements Source="FortyMinute">
+			<Translation>Copok минут.</Translation>
+		</TranslationElements>
+		<TranslationElements Source="FiftyMinute">
+			<Translation>50 минут.</Translation>
+		</TranslationElements>
+		<TranslationElements Source="OneHour">
+			<Translation>Один час</Translation>
+		</TranslationElements>
+		<TranslationElements Source="SesquiHour">
+			<Translation>Через полчаса</Translation>
+		</TranslationElements>
+		<TranslationElements Source="TwoHours">
+			<Translation>Два часа.</Translation>
+		</TranslationElements>
+		<TranslationElements Source="TwoAndAHalfHours">
+			<Translation>Два с половиной часа.</Translation>
+		</TranslationElements>
+		<TranslationElements Source="ThreeHours">
+			<Translation>Три часа.</Translation>
+		</TranslationElements>
+		<TranslationElements Source="ThreeAndHalfHours">
+			<Translation>Три с половиной часа.</Translation>
+		</TranslationElements>
+		<TranslationElements Source="FourHours">
+			<Translation>Четыре часа.</Translation>
+		</TranslationElements>
+	</TranslationSection>
+	
+  <TranslationSection SectionName="CalibrationWindow" Description="">
+    <TranslationElements Source="Imaging System Calibration">
+      <Translation>Система калибровки</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Checking Imaging System">
+      <Translation>Проверка системы получения изображения</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Imaging System is normal!">
+      <Translation>Система получения изображения исправна!</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Turnning off X-Ray ...">
+      <Translation>Включение системы калибровки...</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Calibrating ground value ...">
+      <Translation>Калибровка основного значения.</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Ground value has been calibrated.">
+      <Translation>Удачное завершение калибровки!</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Error: Failed to calibrate ground value!">
+      <Translation>Ошибка: Не удалось откалибровать значение!(0x2001)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Turnning on X-Ray ...">
+      <Translation>Включение генератора</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Calibrating air value ...">
+      <Translation>Калибровка значения</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Air value has been calibrated.">
+      <Translation>Удачное завершение калибровки!</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Error: Failed to calibrate air value!">
+      <Translation>Ошибка: Не удалось откалибровать значение!(0x2002)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Calibration window is closing now ...">
+      <Translation>Закрытие ...</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Ground value has been calibrated">
+      <Translation>Значение низкой энергии откалибровано</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Air value has been calibrated">
+      <Translation>Значение высокой энергии откалибровано</Translation>
+    </TranslationElements>
+  </TranslationSection>
+
+  <TranslationSection SectionName="Configer" Description="Translation for App Configer.exe">
+	  <TranslationElements Source="Import configurations from xml file">
+		  <Translation>Импорт конфигураций из xml-файла.</Translation>
+	  </TranslationElements>
+	  <TranslationElements Source="Export current configurations into a xml file">
+		  <Translation>Экспортируйте текущие конфигурации в XML-файл.</Translation>
+	  </TranslationElements>
+	    <TranslationElements Source="Change into another model">
+		  <Translation>Перейдите в другую модель.</Translation>
+	  </TranslationElements>
+    <TranslationElements Source="Import Setting">
+      <Translation>Импорт настроек</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Export Setting">
+      <Translation>Экспорт настроек</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Change Model">
+      <Translation>Выбор модели</Translation>
+    </TranslationElements>
+    <TranslationElements Source="System Setting">
+      <Translation>Системные настройки</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Device Specification">
+      <Translation>Спецификация устройства</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image Capture System">
+      <Translation>Контроллер АЦП</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Control System">
+      <Translation>Управление системой</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Firmware Version">
+      <Translation>версия прошивки</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Communication Protocol">
+      <Translation>протокол связи</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Connect Successful">
+      <Translation>соединение успешно</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Connect Failed">
+      <Translation>Ошибка подключения</Translation>
+    </TranslationElements>
+    <TranslationElements Source="X-Ray Generators">
+      <Translation>X-Ray генератор</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Keyboard">
+      <Translation>Пульт управления</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Images">
+      <Translation>Настройки изображения</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Algorithm Parameters">
+      <Translation>Параметры алгоритма</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Network Control">
+      <Translation>Сетевой контроль</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Run Scanner software when Windows starts">
+      <Translation>Запускать ПО установки при запуске Windows</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Is conveyor normal">
+      <Translation>Is Conveyor Normal</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Conveyor StartTime">
+      <Translation>Время старта конвейра</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Conveyor StopTime">
+      <Translation>Время остановки конвейера</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Equipment Frequency">
+      <Translation>Частота оборудования</Translation>
+    </TranslationElements>
+    <TranslationElements Source="SanitizeConveyor StartTime">
+      <Translation>Отмени время запуска конвейера</Translation>
+    </TranslationElements>
+    <TranslationElements Source="SanitizeConveyor StopTime">
+      <Translation>Отмени замедление на конвейере</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Automatic rewind">
+      <Translation>Автоматическая перемотка назад</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Bidirectional Scan">
+      <Translation>двухстороннее сканирование</Translation>
+    </TranslationElements>
+    <TranslationElements Source="MultiFfrequency Converters">
+      <Translation>Мультипреобразователь частоты</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Conveyor Speed (m/s)">
+      <Translation>Скорость конвейера (m / s)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Sanitize Conveyor Speed (m/s)">
+      <Translation>Отмена конвейера (m/s) </Translation>
+    </TranslationElements>
+    <TranslationElements Source="Using Variable Speed Equipment">
+      <Translation>Использование оборудования с переменной скоростью</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="Exchange PESensor">
+      <Translation>Замена входных датчиков </Translation>
+    </TranslationElements>
+    <TranslationElements Source="Exchange XrayGen">
+      <Translation>Изменить генератор рентгеновских лучей </Translation>
+    </TranslationElements>
+    <TranslationElements Source="Exchange Detector">
+      <Translation>Обменный детектор</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Exchange Conveyor">
+      <Translation>Изменить направление конвейера по умолчанию</Translation>
+    </TranslationElements>
+    
+    <TranslationElements Source="The Distance Between Two Views (m)">
+      <Translation>Расстояние между двумя видами (м)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Conveyor Length (m)">
+      <Translation>Длина конвейера (м)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Entry PESensor To X-Ray Gen Distance (m)">
+      <Translation>Расстояние между фотоэлектрическим датчиком на входе в тоннель и X-Ray генератором (м)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Exit PESensor To X-Ray Gen Distance (m)">
+      <Translation>Расстояние между фотоэлектрический датчиком на выходе из тоннеля и X-Ray генератором (м)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Object Location to Emit X-Ray in Front of X-Ray Generator (m)">
+      <Translation>Месторасположение объекта перед X-Ray генератором (м)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Object Location to Close X-Ray Behind X-Ray Generator (m)">
+      <Translation>Месторасположение объекта за X-Ray генератором (м)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Distance of Delay Show Image (m)">
+      <Translation>Расстояние задержки отображения изображения (м)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Control Board IP Address">
+      <Translation>IP-адрес платы управления </Translation>
+    </TranslationElements>
+    <TranslationElements Source="Port" Comment="Udp Port">
+      <Translation>Порт</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Version">
+      <Translation>Запрос версии:</Translation>
+    </TranslationElements>
+    <TranslationElements Source="TimeInterval">
+      <Translation>версия</Translation>
+    </TranslationElements>
+    <TranslationElements Source="QueryBagCount">
+      <Translation>Запрос с пульта управления</Translation>
+    </TranslationElements>
+    <TranslationElements Source="CheckBagCount">
+      <Translation>сверять с багажной стойкой</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ReloadBagCount">
+      <Translation>Перезагрузка на пульт управления</Translation>
+    </TranslationElements>
+    <TranslationElements Source="BagCount">
+      <Translation>Счетчик багажа</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="Hardware Timer">
+      <Translation>Аппаратный таймер</Translation>
+    </TranslationElements>
+    <TranslationElements Source="StartTiming">
+      <Translation>Запуск таймера</Translation>
+    </TranslationElements>
+    <TranslationElements Source="StopTiming">
+      <Translation>Остановка таймера</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Start Hardware Timer Successfully!">
+      <Translation>Запуск аппаратного таймера успешно!</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Start Hardware Timer Failed!">
+      <Translation>Сбой аппаратного таймера запуска!</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Stop Hardware Timer Successfully!">
+      <Translation>Остановите аппаратный таймер успешно!</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Stop Hardware Timer Failed!">
+      <Translation>Остановка аппаратного таймера не удалось!</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="Computer IP Address">
+      <Translation>IP-адрес компьютера</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Test Connection">
+      <Translation>Тест соединения</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Images Count">
+      <Translation>Количество изображений</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Capture Board Count">
+      <Translation>Количество захватывающих пластин</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Height">
+      <Translation>высота</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Showing Detect View">
+      <Translation>Отображение видов изображений</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Color Mode">
+      <Translation>Цветовой режим</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Penetration">
+      <Translation>Проникновение</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Vertical Flip">
+      <Translation>Вертикальный разворот изображения</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Edge Enhance">
+      <Translation>Четкие края изображения</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Super Enhance">
+      <Translation>SuperE</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Inversed">
+      <Translation>Inv</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Move From Right to Left">
+      <Translation>Движение справа налево</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Anchor">
+      <Translation>Якорь</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image Margin">
+      <Translation>Граница изображения</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Anchor New Image When End">
+      <Translation>при начале сканирования обратите внимание на новое изображение</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Send Line Data">
+      <Translation>Отправить данные линии</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Keyboard COM Name">
+      <Translation>Тип подключения пульта управления</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Lower Thresholds of Air Value">
+      <Translation>Нижний порог основного значения</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Average of HE Line">
+      <Translation>Среднее значение HE линии</Translation>
+    </TranslationElements>
+    <TranslationElements Source="HE Point">
+      <Translation>HE точка</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Average of LE Line">
+      <Translation>Среднее значение LE линии</Translation>
+    </TranslationElements>
+    <TranslationElements Source="LE Point">
+      <Translation>HE точка</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Upper Thresholds of Ground Value">
+      <Translation>Верхний порог основного значения</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Unpenetratable Threshold (Suggestion: 0 - 5000)">
+      <Translation>Пороговое значение (Рекомендуемое: 0 - 5000)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Background Threshold (Suggestion: 63000 - 65535)">
+      <Translation>Фоновый Порог (Рекомендуемое: 63000 - 65535)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Bagboundary Threshold (Suggestion: 51000 - 58000)">
+      <Translation>границы посылки Порог (Рекомендуемое: 51000 - 58000)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Auto Detect Bad Channels">
+      <Translation>Автоматическое обнаружение плохих каналов</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Open New Penetration Algorithm">
+      <Translation>Включение нового алгоритма пирсинга</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Intellisense Thresholds">
+      <Translation>Функции распознавания</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Drug Lower Zeff">
+      <Translation>Min Z значение наркотических веществ</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Drug Higher Zeff">
+      <Translation>Max Z значение наркотических веществ</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Explosives Lower Zeff">
+      <Translation>Min Z значение взрывчатых веществ</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Explosives Higher Zeff">
+      <Translation>Max Z значение взрывчатых веществ</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Automatically Save Image In Common Image Format">
+      <Translation>Автоматическое сохранение изображений с определенным расширением</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Common Format Image Store Setting">
+      <Translation>Сохранение изображений с определенным расширением</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="Image effects for export">
+      <Translation>Экспорт изображений</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image1">
+      <Translation>образ1</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image2">
+      <Translation>образ2</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image3">
+      <Translation>образ3</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image4">
+      <Translation>образ4</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image5">
+      <Translation>образ5</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="None">
+      <Translation>ни одного</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Regular">
+      <Translation>нарушение договора</Translation>
+    </TranslationElements>
+    <TranslationElements Source="SuperEnhance">
+      <Translation>Сверхусиление</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Absorptivity">
+      <Translation>Выступ</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Grey">
+      <Translation>Серый</Translation>
+    </TranslationElements>
+    <TranslationElements Source="OS">
+      <Translation>OS</Translation>
+    </TranslationElements>
+    <TranslationElements Source="MS">
+      <Translation>MS</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Inverse">
+      <Translation>противоположный</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Standard">
+      <Translation>StD</Translation>
+    </TranslationElements>
+    <TranslationElements Source="HighPenetrate">
+      <Translation>HighP</Translation>
+    </TranslationElements>
+    <TranslationElements Source="LowPenetrate">
+      <Translation>LowP</Translation>
+    </TranslationElements>
+    <TranslationElements Source="SlicePenetrate">
+      <Translation>SliceP</Translation>
+    </TranslationElements>
+    <TranslationElements Source="SuperPenetrate">
+      <Translation>SuperP</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Zeff7">
+      <Translation>Zeff7</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Zeff8">
+      <Translation>Zeff8</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Zeff9">
+      <Translation>Zeff9</Translation>
+    </TranslationElements>
+    <TranslationElements Source="MaterialColor">
+      <Translation>CL</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="Top">
+      <Translation>Верх</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Center">
+      <Translation>Посредничать</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Bottom">
+      <Translation>Лно</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="View1">
+      <Translation>Вид 1</Translation>
+    </TranslationElements>
+    <TranslationElements Source="View2">
+      <Translation>Вид 2</Translation>
+    </TranslationElements>
+    
+    <TranslationElements Source="Image Store Strategy">
+      <Translation>Виды сохранения изоображений</Translation>
+    </TranslationElements>
+    <TranslationElements Source="All">
+      <Translation>Все</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Suspicious">
+      <Translation>Подозрительные</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image Store Format">
+      <Translation>Формат сохранения изображений</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Merge Two View Image">
+      <Translation>Объединение двух ракурсов в одно изображение</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Auto Store Xray Image To Same Path">
+      <Translation>Автоматически сохранять изображения с расширением "*.xray"</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Limit Auto Store Common Format Image Count">
+      <Translation>Лимит по автоматическому сохранению изображений</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Upper Limit">
+      <Translation>Максимальное количество сохранения изображений (шт.)</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="Image Store Path">
+      <Translation>Путь к хранению изображений</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Using Touch Interface">
+      <Translation>Сенсорный интерфейс</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Language">
+      <Translation>Язык</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Company Name">
+      <Translation>Название компании</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Machine Number">
+      <Translation>Номер установки</Translation>
+    </TranslationElements>
+	<TranslationElements Source="Channel ID">
+      <Translation>Идентификатор канала</Translation>
+	</TranslationElements>  
+    <TranslationElements Source="Production Date">
+      <Translation>Дата производства</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Model">
+      <Translation>Модель</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Description">
+      <Translation>Описание</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XrayGen1">
+      <Translation>X-Ray генератор №1</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XrayGen2">
+      <Translation>X-Ray генератор №2</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image1 Serial Port">
+      <Translation>Image1 Serial Port</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image2 Serial Port">
+      <Translation>Image2 Serial Port</Translation>
+    </TranslationElements>
+    <TranslationElements Source="X-Ray Generator Type">
+      <Translation>Тип рентгеновского генератора</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Wait for timeout(ms)">
+      <Translation>Время ожидания(мс)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Rising Timespan (S)">
+      <Translation>Время выхода в режим (с)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="X-Ray Generators Count">
+      <Translation>Количество рентгеновских генераторов</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Always warmup when starts">
+      <Translation>Прогрев генератора при старте</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Views Count">
+      <Translation>Количество просмотров</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Is Dual Energy">
+      <Translation>Две энергии</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Line Integration Time (ms)">
+      <Translation>Время интегрирования (мс)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Capture System Host IP">
+      <Translation>IP-адрес контроллера</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="Board 1 IP">
+      <Translation>IP-адрес №1</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Board 1 Command Port">
+      <Translation>Командный порт №1</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Board 1 Image Port">
+      <Translation>Порт для изображений №1</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Board 2 IP">
+      <Translation>IP-адрес №2 </Translation>
+    </TranslationElements>
+    <TranslationElements Source="Board 2 Command Port">
+      <Translation>Командный порт №2</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Board 2 Image Port">
+      <Translation>Порт для изображений №2</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Board Ping Enable">
+      <Translation>Включить пинг</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Board Ping Value">
+      <Translation>Пинг</Translation>
+    </TranslationElements>
+    <TranslationElements Source="View1 Cards Distribution">
+      <Translation>Вид №1 Распределение по каналам</Translation>
+    </TranslationElements>
+    <TranslationElements Source="View2 Cards Distribution">
+      <Translation>Вид №2 Распределение по каналам</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Automatically restart keyboard if disconnected">
+      <Translation>Автоматический перезапуск при отключении клавиатуры</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Save Changes">
+      <Translation>Сохранить изменения</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Discard Changes">
+      <Translation>Отменить изменения</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Capture System Type">
+      <Translation>Выбор типа контроллера</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Select model">
+      <Translation>Выберите модель</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Select Device Interface">
+      <Translation>Выберите интерфейс устройства</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Capture System Type">
+      <Translation>Тип системы захвата</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Change Machine Model">
+      <Translation>Изменение модели установки</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="Network Control">
+      <Translation>Сетевой контроль</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Local IP">
+      <Translation>Локальный IP</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Server IP">
+      <Translation>IP сервера</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="Centralized Management Through Network">
+      <Translation>Централизованное управление сетью</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Centralized Management Configure">
+      <Translation>Конфигурация централизованного управления</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Server IP Address">
+      <Translation>IP адрес сервера</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Server User Name">
+      <Translation>Имя сервера</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Server User Password">
+      <Translation>Пароль пользователя сервера</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Enable Remote Network Control">
+      <Translation>Включить удаленное сетевое управление</Translation>
+    </TranslationElements>
+    
+
+    <TranslationElements Source="Success to set xray command interval.">
+      <Translation>Success to set xray command interval</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Failed to set xray command interval.">
+      <Translation>Failed to set xray command interval</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Failed to open control board.">
+      <Translation>Failed to open control board</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Exception">
+      <Translation>Исключение</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Failed to save settings to Capture Card.">
+      <Translation>Сохранение настроек на карту захвата не выполнено</Translation>
+    </TranslationElements>
+    <TranslationElements Source="New settings have been saved into Capture System.">
+      <Translation>Сохранение новых настроек в систему захвата выполнено</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Failed to save settings.">
+      <Translation>Сохранение настроек не выполнено</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Connection with Control Board System is OK!">
+      <Translation>Подключение к системе платы управления выполнено!</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Could not connect to Control Board System!">
+      <Translation>Подключение к системе платы управления не выполнено!</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Connection Test">
+      <Translation>Тест соединения</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Query Bag Count from Control Board Successfully!">
+      <Translation>Успешно поинтересовался количеством пакетов</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Set Bag Count to Control Board Successfully!">
+      <Translation>Установка счетчика багажа выполнена</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Reload Bag Count to Control Board Successfully!">
+      <Translation>Количество успешно перезагруженных пакетов</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Query Bag Count from Control Board Failed!">
+      <Translation>Не удалось проверить количество пакетов</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Set Bag Count to Control Board Failed!">
+      <Translation>Установка счетчика багажа не выполнена</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Reload Bag Count to Control Board Failed!">
+      <Translation>Не удалось перегрузить количество пакетов</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Bag Count">
+      <Translation>Счетчик багажа</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Model has been changed successfully.">
+      <Translation>Модель изменена</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Failed to change model.">
+      <Translation>Модель не изменена</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Failed to save settings into Control Board System.">
+      <Translation>Новые настройки не сохранены в системе</Translation>
+    </TranslationElements>
+    <TranslationElements Source="New settings have been saved into Control Board System successfully.">
+      <Translation>Новые настройки сохранены в системе</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Configurations has been imported successfully.">
+      <Translation>Импорт конфигураций выполнен</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Failed to import configurations.">
+      <Translation>Импорт конфигураций не выполнен</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Import Configuration">
+      <Translation>Импорт конфигурации</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Export">
+      <Translation>Экспорт</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Export Completed.">
+      <Translation>Экспорт выполнен</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Export Failed.">
+      <Translation>Экспорт не выполнен</Translation>
+    </TranslationElements>
+  </TranslationSection>
+
+  <TranslationSection SectionName="RegularRemind" Description="">
+    <TranslationElements Source="Reminder Messages">
+      <Translation>Напоминания/Сообщения</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Please Check">
+      <Translation>Проверьте, правильно ли работают следующие элементы:</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XRay">
+      <Translation>Рентгеновский излучатель</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Indicator Light">
+      <Translation>Индикаторная лампа</Translation>
+    </TranslationElements>
+    <TranslationElements Source="All Keys">
+      <Translation>Все ключевые функции на клавиатуре</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Switch Lock">
+      <Translation>Блокировка переключателя</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Conveyor Belt">
+      <Translation>Наличие повреждений конвейерной ленты</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Conveyor Belt Motor">
+      <Translation>Наличие течи масла двигателя конвейерной ленты</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Conveyor Belt Deviation">
+      <Translation>Требуются ли регулировка конвейерной ленты?</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Lead Curtain">
+      <Translation>Свинцовые шторки в хорошем состоянии?</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Fan Filter">
+      <Translation>Требуется ли очистка фильтра кулера?</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Fan Work">
+      <Translation>Правильно ли работает кулер?</Translation>
+    </TranslationElements>
+  </TranslationSection>
+
+  <TranslationSection SectionName="Diagnosis Translation" Description="">
+    <TranslationElements Source="Control System Status">
+      <Translation>Состояние системы управления</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Generator Alive">
+      <Translation>Состояние соединения рентгеновских генераторов</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Valtage">
+      <Translation>Напряжение</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Current">
+      <Translation>Ток</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Sparking">
+      <Translation>Sparking</Translation>
+    </TranslationElements>
+    <TranslationElements Source="OverTemperature">
+      <Translation>Повышенная температура</Translation>
+    </TranslationElements>
+    <TranslationElements Source="OverVoltage">
+      <Translation>Перегрузка по напряжению</Translation>
+    </TranslationElements>
+    <TranslationElements Source="OverCurrent">
+      <Translation>Перегрузка по току</Translation>
+    </TranslationElements>
+    <TranslationElements Source="OverloadPower">
+      <Translation>Перегрузка по мощности</Translation>
+    </TranslationElements>
+    <TranslationElements Source="VAOutofControl">
+      <Translation>Напряжение/Ток вне контроля</Translation>
+    </TranslationElements>
+    <TranslationElements Source="InterlockSwitchNotClosed">
+      <Translation>Переключатель блокировки не замкнут</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Capture System Connect Status">
+      <Translation>Система захвата подключена</Translation>
+    </TranslationElements>
+    <TranslationElements Source="PESensor Status">
+      <Translation>Статус датчиков</Translation>
+    </TranslationElements>
+    <TranslationElements Source="InterLock Trigger">
+      <Translation>Триггер блокировки</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Temperature">
+      <Translation>Температура</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Control Board Ip">
+      <Translation>IP платы управления</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Control Board Port">
+      <Translation>Порт платы управления</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="Command Port">
+      <Translation>Командый порт</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image Port">
+      <Translation>Порт изображения</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Cards Distribution">
+      <Translation>Выдача карт</Translation>
+    </TranslationElements>
+    <TranslationElements Source="View1 Bad Points of Auto Detection">
+      <Translation>Вид1 Плохие точки автообнаружения</Translation>
+    </TranslationElements>
+    <TranslationElements Source="View2 Bad Points of Auto Detection">
+      <Translation>Вид 2 Плохие точки автообнаружения</Translation>
+    </TranslationElements>
+    <TranslationElements Source="View1 Bad Points of Manual Setting">
+      <Translation>Вид 1 Плохие точки при ручном обнаружении</Translation>
+    </TranslationElements>
+    <TranslationElements Source="View2 Bad Points of Manual Setting">
+      <Translation>Вид 2 Плохие точки при ручном обнаружении</Translation>
+    </TranslationElements>
+  <TranslationElements Source="Network Port">
+      <Translation>Сетевой порт</Translation>
+    </TranslationElements>
+  </TranslationSection>
+  <TranslationElements Source="Power Status">
+    <Translation>Состояние питания</Translation>
+  </TranslationElements>
+
+  <TranslationSection SectionName="OperationRecord" Description="">
+    <!--UI-->
+    <TranslationElements Source="MainUI">
+      <Translation>Главная страница</Translation>
+    </TranslationElements>
+    <TranslationElements Source="SystemMenu">
+      <Translation>Системное меню</Translation>
+    </TranslationElements>
+    <TranslationElements Source="About">
+      <Translation>О системе</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ChangePassword">
+      <Translation>Изменить пароль</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ManageOtherAccounts">
+      <Translation>Управление другими пользователями</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Detectors">
+      <Translation>Детекторы</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XRayGen">
+      <Translation>Генератор</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ConveyorPESensor">
+      <Translation>Датчики</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Keyboard">
+      <Translation>Клавиатура</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ControlSystem">
+      <Translation>Система контроля</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Diagnosis">
+      <Translation>Диагностика</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="ImageSetting">
+      <Translation>Параметры изображения</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ImsPage">
+      <Translation>Управление изображениями</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ImsListPage">
+      <Translation>Управление изображениями (список)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ImageRetrieval">
+      <Translation>Поиск изображений</Translation>
+    </TranslationElements>
+    <TranslationElements Source="BootLog">
+      <Translation>Журнал загрузки</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ConveyorWorkLog">
+      <Translation>Журнал работы конвейера</Translation>
+    </TranslationElements>
+    <TranslationElements Source="LoginLog">
+      <Translation>Журнал входов</Translation>
+    </TranslationElements>
+    <TranslationElements Source="OperationLog">
+      <Translation>Журнал операций</Translation>
+    </TranslationElements>
+    <TranslationElements Source="TipExamLog">
+      <Translation>Журнал операций TIP</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XRayGenWorkLog">
+      <Translation>Журнал работы рентгеновского генератора</Translation>
+    </TranslationElements>
+	  <TranslationElements Source="Snapshot">
+		  <Translation>Снимок</Translation>
+	  </TranslationElements>
+	  <TranslationElements Source="RightCtrl">
+		  <Translation>Правая клавиша Ctrl</Translation>
+	  </TranslationElements>
+	  <TranslationElements Source="Image Brighter">
+		  <Translation>Изображение ярче</Translation>
+	  </TranslationElements>
+	  <TranslationElements Source="Image Darker">
+		  <Translation>Изображение темнее</Translation>
+	  </TranslationElements>
+
+    <TranslationElements Source="DiskSpaceManage">
+      <Translation>Управление диковым пространством</Translation>
+    </TranslationElements>
+    <TranslationElements Source="FunctionKeys">
+      <Translation>Функциональные клавиши</Translation>
+    </TranslationElements>
+    <TranslationElements Source="IntelliSense">
+      <Translation>IntelliSense</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ObjectCounter">
+      <Translation>Счетчик багажа</Translation>
+    </TranslationElements>
+    <TranslationElements Source="TipImages">
+      <Translation>Управление изображениями TIP</Translation>
+    </TranslationElements>
+    <TranslationElements Source="TipPlans">
+      <Translation>Tip Plans Management</Translation>
+    </TranslationElements>
+    <TranslationElements Source="TrainingSetting">
+      <Translation>Параметры</Translation>
+    </TranslationElements>
+    <TranslationElements Source="TrainingImagesManagement">
+      <Translation>Управление изображение</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="Calibrate">
+      <Translation>Калибровка</Translation>
+    </TranslationElements>
+    <TranslationElements Source="CalibrateGround">
+      <Translation>Калибровка низкой энергии</Translation>
+    </TranslationElements>
+    <TranslationElements Source="CalibrateAir">
+      <Translation>Калибровка высокой энергии</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XRayGenWarmup">
+      <Translation>Прогрев генератора</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ChangeSysDateTime">
+      <Translation>Изменить дату/время</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Login">
+      <Translation>Логин / Авторизация</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ScreenImagesOperation">
+      <Translation>Работа с изображениями экрана</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ImageBadChannel">
+      <Translation>Плохие каналы изображения</Translation>
+    </TranslationElements>
+    
+    <!--command-->
+    <TranslationElements Source="Saveto">
+      <Translation>Сохранить в</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Delete">
+      <Translation>Удалить</Translation>
+    </TranslationElements>    
+    <TranslationElements Source="Create">
+      <Translation>Создать</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Setting">
+      <Translation>Настройка</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Open">
+      <Translation>Открыть</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Close">
+      <Translation>Закрыть</Translation>
+    </TranslationElements>
+    <TranslationElements Source="KeyPress">
+      <Translation>KeyPress</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Import">
+      <Translation>Импорт</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Export">
+      <Translation>Экспорт</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Relay">
+      <Translation>Relay</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Lock">
+      <Translation>Заблокировано</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Unlock">
+      <Translation>Разблокировано</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Print">
+      <Translation>Печать</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Find">
+      <Translation>Поиск / Найти</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Login">
+      <Translation>Логин / Авторизация</Translation>
+    </TranslationElements>
+
+    <!--object-->
+    <TranslationElements Source="XrayGen1">
+      <Translation>Генератор #1</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XrayGen2">
+      <Translation>Генератор #2</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Xray">
+      <Translation>Генератор</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Conveyor">
+      <Translation>Конвейер</Translation>
+    </TranslationElements>
+    <TranslationElements Source="PESensors">
+      <Translation>Датчики</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ImagesDefaultAbsorb">
+      <Translation>Images Default Absorb</Translation>
+    </TranslationElements>
+    <TranslationElements Source="MarginSetting">
+      <Translation>Margin Setting</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ImageBlankSpace">
+      <Translation>Пустое пространство изображения</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ShowUnpenetrateRed">
+      <Translation>Показать область непроницаемости красным цветом</Translation>
+    </TranslationElements>
+    <TranslationElements Source="AutoResetWhenLogin">
+      <Translation>Автосброс при авторизации</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ResetSessionCount">
+      <Translation>Сброс счетчика за сеанс</Translation>
+    </TranslationElements>
+    <TranslationElements Source="CheckCaptureSys">
+      <Translation>Проверка системы захвата</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ChangeSysDateTime">
+      <Translation>Изменить дату/время</Translation>
+    </TranslationElements>
+    <TranslationElements Source="DiskCleanService">
+      <Translation>Параметры очистки диска</Translation>
+    </TranslationElements>
+	  <TranslationElements Source="Escape">
+		  <Translation>Бегство</Translation>
+	  </TranslationElements>
+    <TranslationElements Source="HighDensity">
+      <Translation>Высокая плотность</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Drugs">
+      <Translation>Наркотики</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Explosives">
+      <Translation>Взрывчатка</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Sensitivity">
+      <Translation>Чувствительность</Translation>
+    </TranslationElements>
+    <TranslationElements Source="BorderColor">
+      <Translation>Цвет границы</Translation>
+    </TranslationElements>
+    <TranslationElements Source="AudibleAlarm">
+      <Translation>Звуковая сигнализация</Translation>
+    </TranslationElements>
+    <TranslationElements Source="LightAlarm">
+      <Translation>Световая сигнализация</Translation>
+    </TranslationElements>
+    <TranslationElements Source="StopConveyor">
+      <Translation>Остановить конвейер / Остановка конвейера</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Black">
+      <Translation>Черный</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Blue">
+      <Translation>Синий</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Brown">
+      <Translation>Коричневый</Translation>
+    </TranslationElements>
+    <TranslationElements Source="DarkGreen">
+      <Translation>Темно-зеленый</Translation>
+    </TranslationElements>
+    <TranslationElements Source="DarkOrange">
+      <Translation>Оранжевый</Translation>
+    </TranslationElements>
+    <TranslationElements Source="DeepPink">
+      <Translation>Розовый</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Purple">
+      <Translation>Фиолетовый</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Red">
+      <Translation>Красный</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Aqua">
+      <Translation>Aqua</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="AccountId">
+      <Translation>Идентификатор учетной записи</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Name">
+      <Translation>Логин</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Password">
+      <Translation>Пароль</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Role">
+      <Translation>Группа</Translation>
+    </TranslationElements>
+    <TranslationElements Source="IsActive">
+      <Translation>Активен</Translation>
+    </TranslationElements>
+    <TranslationElements Source="PermissionValue">
+      <Translation>Значение разрешения</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Description">
+      <Translation>Описание</Translation>
+    </TranslationElements>
+    <TranslationElements Source="CanTraining">
+      <Translation>Can Training</Translation>
+    </TranslationElements>
+    <TranslationElements Source="CanChangeImageSettings">
+      <Translation>Can Change Image Settings</Translation>
+    </TranslationElements>
+    <TranslationElements Source="CanManageDisk">
+      <Translation>Can Manage Disk</Translation>
+    </TranslationElements>
+    <TranslationElements Source="CanManageLog">
+      <Translation>Can Manage Log</Translation>
+    </TranslationElements>
+
+
+    <TranslationElements Source="Id">
+      <Translation>ID</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Priority">
+      <Translation>Приоритет</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Probability">
+      <Translation>Вероятность</Translation>
+    </TranslationElements>
+    <TranslationElements Source="CreationTime">
+      <Translation>Время создания</Translation>
+    </TranslationElements>
+    <TranslationElements Source="IsEnabled">
+      <Translation>Вкл.</Translation>
+    </TranslationElements>
+    <TranslationElements Source="StartTime">
+      <Translation>Время начала</Translation>
+    </TranslationElements>
+    <TranslationElements Source="EndTime">
+      <Translation>Время окончания</Translation>
+    </TranslationElements>
+    <TranslationElements Source="OnlineRecMaxSeconds" Comment="When TIP injected, the operator must act within the given time">
+      <Translation>Распознавание в движение (сек.)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="OfflineRecMaxSeconds" Comment="When operator find TIP and stop the conveyor, the operator must press Mark key within the given time">
+      <Translation>Распознавание при остановке (сек.)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="KnivesWeight" Comment="Knives TIP objects injection weight">
+      <Translation>Knives Weight</Translation>
+    </TranslationElements>
+    <TranslationElements Source="GunsWeight">
+      <Translation>Guns Weight</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ExplosivesWeight">
+      <Translation>Explosives Weight</Translation>
+    </TranslationElements>
+    <TranslationElements Source="OtherObjectsWeight" Comment="Other TIP objects injection weight">
+      <Translation>Other Objects Weight</Translation>
+    </TranslationElements>
+    
+    <!--content-->
+    <TranslationElements Source="Backward">
+      <Translation>Назад</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Forward">
+      <Translation>Вперед</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Stop">
+      <Translation>Стоп</Translation>
+    </TranslationElements>
+    <TranslationElements Source="True">
+      <Translation>True</Translation>
+    </TranslationElements>
+    <TranslationElements Source="False">
+      <Translation>False</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Success">
+      <Translation>Успешно</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Fail">
+      <Translation>Пропущено</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="Account">
+      <Translation>Пользователь / Учетная запись</Translation>
+    </TranslationElements>
+    <TranslationElements Source="System">
+      <Translation>Системный администратор</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Admin">
+      <Translation>Администратор</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Maintainer">
+      <Translation>Инженер</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Operator">
+      <Translation>Оператор</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="Hourly" Comment="BY Hour">
+      <Translation>Ежечасно</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Dayly" Comment="By day statistics">
+      <Translation>Ежедневно</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Weekly" Comment="By week statistics">
+      <Translation>Еженедельно</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Monthly" Comment="By month statistics">
+      <Translation>Ежемесячно</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Quarterly" Comment="By quarter statistics">
+      <Translation>Ежеквартально</Translation>
+    </TranslationElements>
+    <TranslationElements Source="UserDefined" Comment="By user-defined time statistics">
+      <Translation>Определяемые пользователем</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="LastHour">
+      <Translation>Последний час</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Today">
+      <Translation>Сегодня</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Yestoday">
+      <Translation>Вчера</Translation>
+    </TranslationElements>
+    <TranslationElements Source="RecentWeek">
+      <Translation>Последняя неделя</Translation>
+    </TranslationElements>
+    <TranslationElements Source="RecentMonth">
+      <Translation>Последний месяц</Translation>
+    </TranslationElements>
+    <TranslationElements Source="SpecifiedTimeRange">
+      <Translation>Выбрать интервал времени</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="LeftShift">
+      <Translation>Преобразование</Translation>
+    </TranslationElements>
+    <TranslationElements Source="LeftCtrl">
+      <Translation>Intellisense</Translation>
+    </TranslationElements>
+    <TranslationElements Source="D1">
+      <Translation>Маркировка</Translation>
+    </TranslationElements>
+    <TranslationElements Source="D2">
+      <Translation>Сохранить</Translation>
+    </TranslationElements>
+    <TranslationElements Source="D4">
+      <Translation>Управление изображениями</Translation>
+    </TranslationElements>
+    <TranslationElements Source="D5">
+      <Translation>Меню</Translation>
+    </TranslationElements>
+    <TranslationElements Source="D6">
+      <Translation>Снижение</Translation>
+    </TranslationElements>
+    <TranslationElements Source="D7">
+      <Translation>Обнаружение взрывчатых веществ</Translation>
+    </TranslationElements>
+    <TranslationElements Source="D8">
+      <Translation>Вертикальный разворот изображения</Translation>
+    </TranslationElements>
+    <TranslationElements Source="D9">
+      <Translation>Динамический GST</Translation>
+    </TranslationElements>
+    <TranslationElements Source="D0">
+      <Translation>Уменьшение масштаба</Translation>
+    </TranslationElements>
+    <TranslationElements Source="OemMinus">
+      <Translation>Увеличение</Translation>
+    </TranslationElements>
+    <TranslationElements Source="OemPlus">
+      <Translation>Сжатие</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="Left">
+      <Translation>Влево</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Right">
+      <Translation>Вправо</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Up">
+      <Translation>Вверх</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Down">
+      <Translation>Вниз</Translation>
+    </TranslationElements>
+    <TranslationElements Source="F1">
+      <Translation>Клавиша F1</Translation>
+    </TranslationElements>
+    <TranslationElements Source="F2">
+      <Translation>Клавиша F2</Translation>
+    </TranslationElements>
+    <TranslationElements Source="F3">
+      <Translation>Клавиша F3</Translation>
+    </TranslationElements>
+    <TranslationElements Source="F4">
+      <Translation>Движение назад</Translation>
+    </TranslationElements>
+    <TranslationElements Source="F5">
+      <Translation>Стоп</Translation>
+    </TranslationElements>
+    <TranslationElements Source="F6">
+      <Translation>Движение вперед</Translation>
+    </TranslationElements>
+    <TranslationElements Source="F7">
+      <Translation>Импорт</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="A">
+      <Translation>Инверсия</Translation>
+    </TranslationElements>
+    <TranslationElements Source="B">
+      <Translation>Увеличение поглощения изображения</Translation>
+    </TranslationElements>
+    <TranslationElements Source="C">
+      <Translation>Уменьшение поглощения изображения</Translation>
+    </TranslationElements>
+    <TranslationElements Source="D">
+      <Translation>Проникновение изображения</Translation>
+    </TranslationElements>
+    <TranslationElements Source="E">
+      <Translation>BW</Translation>
+    </TranslationElements>
+    <TranslationElements Source="F">
+      <Translation>OS</Translation>
+    </TranslationElements>
+    <TranslationElements Source="G">
+      <Translation>MS</Translation>
+    </TranslationElements>
+    <TranslationElements Source="H">
+      <Translation>Улучшение изображения</Translation>
+    </TranslationElements>
+    <TranslationElements Source=",">
+      <Translation>,</Translation>
+    </TranslationElements>
+    <TranslationElements Source=":">
+      <Translation>:</Translation>
+    </TranslationElements>
+  </TranslationSection>
+
+  <TranslationSection SectionName="HardwareStation">
+    <TranslationElements Source="True">
+      <Translation>True</Translation>
+    </TranslationElements>
+    <TranslationElements Source="False">
+      <Translation>False</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Normal">
+      <Translation>Нормальный</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Abnormal">
+      <Translation>Неправильный</Translation>
+    </TranslationElements>
+    <TranslationElements Source="PowerOff">
+      <Translation>Питание выкл.</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Ready">
+      <Translation>Готов</Translation>
+    </TranslationElements>
+    <TranslationElements Source="DetectObject">
+      <Translation>Обнаружен объект</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Broken">
+      <Translation>Не работает</Translation>
+    </TranslationElements>
+  </TranslationSection>
+
+  <!--#region-->
+  <TranslationSection SectionName="GroupInfo">
+    <TranslationElements Source="Is Net Account">
+      <Translation>Учетные записи Интернета</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Group ID">
+      <Translation>идентификатор группы</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Group Name">
+      <Translation>Имя группы</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Description">
+      <Translation>Приметы</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Add New Group">
+      <Translation>Добавить новую группу</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Groups List">
+      <Translation>Список групп</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Enter New Group Information">
+      <Translation>Введите информацию о новой группе</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Group ID cannot be empty">
+      <Translation>Идентификатор группы не может быть пустым</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Group ID already exists">
+      <Translation>Идентификатор группы уже существует</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Group ID can only contain 1-6 numbers">
+      <Translation>Идентификатор группы может содержать только 1-6 номеров</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Group Name cannot be empty">
+      <Translation>Имя группы не может быть пустым</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Group Name already exists">
+      <Translation>Имя группы уже существует</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Group Name can only contain 1-20 characters">
+      <Translation>Имя группы может содержать только от 1 до 20 символов</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Manage Groups">
+      <Translation>Управление группами</Translation>
+    </TranslationElements>
+  </TranslationSection>
+  <!--#endregion-->
+</ArrayOfTranslationSection>

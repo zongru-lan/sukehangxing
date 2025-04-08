@@ -1,0 +1,28 @@
+﻿<widgets:UIWidgetBase x:Class="UI.XRay.Gui.Widgets.PESensorWidget"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:widgets="clr-namespace:UI.XRay.Gui.Widgets"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="16">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Rectangle Grid.Row="0" Name="Emitter" Fill="DarkGoldenrod" Height="16" Stroke="Black" />
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Rectangle Grid.Row="0" Grid.RowSpan="3" x:Name="RayBeam" Fill="IndianRed" Stroke="Transparent" Width="8"/>
+            <Rectangle Grid.Row="1" Name="BlockingObject" Height="16" Width="32" Fill="Green"/>
+            <Rectangle Grid.Row="2" x:Name="HalfBeam" Fill="IndianRed" Stroke="Transparent" Width="8"/>
+        </Grid>
+        <Rectangle Grid.Row="2" Name="Receiver" Fill="DarkGoldenrod" Height="16" Stroke="Black" />
+    </Grid>
+</widgets:UIWidgetBase>

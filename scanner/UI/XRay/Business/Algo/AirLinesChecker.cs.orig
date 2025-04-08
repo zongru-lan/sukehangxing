@@ -1,0 +1,438 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
+using System.Threading.Tasks;
+using UI.Common.Tracers;
+using UI.XRay.Business.DataAccess.Config;
+using UI.XRay.Business.Entities;
+
+namespace UI.XRay.Business.Algo
+{
+    /// <summary>
+    /// 白线检测 -- 多线
+    /// </summary>
+    public class AirLinesChecker
+    {
+        /// <summary>
+        /// 背景阈值的下限，一般为64000左右。
+        /// </summary>
+        private int _backgroundLower;
+
+        private int _startMarginCount;
+
+        private int _endMarginCount;
+
+        private DetectViewIndex _view;
+
+        private int _arrayRows;
+
+        private int _arrayCols;
+
+        private int _bagBlockSize = 24;
+
+        private int _bagEdgeReserved = 16;
+
+        private float _pointInBeltEdgeDiscount = 1.05f;
+
+        private ushort _setPointBlank = 65530;
+
+        private int _kernelSize = 5;
+
+        private int _smoothFunc = 0;
+
+        BeltEdgePosition _belt = new BeltEdgePosition(DetectViewIndex.View1);
+
+        /// <summary>
+        /// 构造空气扫描线判定实例
+        /// </summary>
+        /// <param name="startMarginCount">计算起始的探测通道号，最小值为0</param>
+        /// <param name="endMarginCount">计算终结的探测通道号，最小值为通道总数-1</param>
+        /// <param name="backgroundLower">空气扫描线均值的下限</param>
+        public AirLinesChecker(DetectViewIndex view, int startMarginCount, int endMarginCount, int backgroundLower = 64000)
+        {
+            if (startMarginCount < 0)
+            {
+                throw new ArgumentException("startMarginCount");
+            }
+
+            _startMarginCount = startMarginCount;
+            _endMarginCount = endMarginCount;
+
+            _backgroundLower = backgroundLower;
+
+            _view = view;
+
+            GetViewBeltEdgePosition(_view, ref _belt);
+        }
+
+        /// <summary>
+        /// 判断一线数据是否为空气扫描,同时更新其内部属性
+        /// </summary>
+        /// <param name="line">要进行判定的一线数据</param>
+        public void TestAirLine(List<ClassifiedLineDataBundle> lines)
+        {
+            _arrayRows = lines.Count;
+            _arrayCols = _view == DetectViewIndex.View1 ? lines[0].View1Data.XRayData.Length : lines[0].View2Data.XRayData.Length;
+
+            var start = Math.Min(_startMarginCount, _arrayCols - 1);
+            var end = Math.Min(_arrayCols - _endMarginCount - 1, _arrayCols - 1);
+
+            ushort[][] RawData = new ushort[_arrayRows][];
+
+            for (int row = 0; row < _arrayRows; row++)
+            {
+                //RawData[row, col] = _view == DetectViewIndex.View1 ? lines[col].View1Data.XRayData[row] :
+                //    lines[col].View2Data.XRayData[row];
+                RawData[row] = new ushort[_arrayCols];
+                if (_view == DetectViewIndex.View1)
+                    Buffer.BlockCopy(lines[row].View1Data.XRayData, 0, RawData[row], 0, _arrayCols * sizeof(ushort));
+                else
+                    Buffer.BlockCopy(lines[row].View2Data.XRayData, 0, RawData[row], 0, _arrayCols * sizeof(ushort));
+            }
+
+
+            ushort[][] OriginalData = ObjectCopier.Clone(RawData);
+            ArrayFiltrFunc(RawData, OriginalData, _kernelSize, start, end);
+
+            bool isAir = false;
+            int bagStartIndex = GetBagStartIndex(OriginalData, start, end, out isAir);
+            int bagEndIndex = GetBagEndIndex(OriginalData, start, end);
+            SetLineData(bagStartIndex, bagEndIndex, lines, isAir);
+
+            return;
+        }
+
+        private void SetLineData(int start, int end, List<ClassifiedLineDataBundle> lines, bool isAir)
+        {
+            foreach (var item in lines)
+            {
+                if (_view == DetectViewIndex.View1)
+                {
+                    for (int row = 0; row < _arrayRows; row++)
+                    {
+                        //lines[row].View1Data.IsAir = TestAirLine(lines[row].View1Data);
+
+                        for (int col = 0; col < start; col++)
+                        {
+                            lines[row].View1Data.XRayData[col] = _setPointBlank;
+                        }
+                        //if (!isAir)
+                        {
+                            for (int col = end; col < _arrayCols; col++)
+                            {
+                                lines[row].View1Data.XRayData[col] = _setPointBlank;
+                            }
+                        }
+                    }
+                }
+                if (_view == DetectViewIndex.View2)
+                {
+                    for (int row = 0; row < _arrayRows; row++)
+                    {
+                        //lines[row].View2Data.IsAir = TestAirLine(lines[row].View2Data);
+
+                        for (int col = 0; col < start; col++)
+                        {
+                            lines[row].View2Data.XRayData[col] = _setPointBlank;
+                        }
+                        //if (!isAir)
+                        {
+                            for (int col = end; col < _arrayCols; col++)
+                            {
+                                lines[row].View2Data.XRayData[col] = _setPointBlank;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private void ArrayFiltrFunc(ushort[][] originalArray, ushort[][] destinationArray, int filterSize, int start, int end)
+        {
+            for (int col = start; col < end; col++)
+            {
+                for (int row = 0; row < _arrayRows; row++)
+                {
+                    destinationArray[row][col] = GetAverage(originalArray, row, col, filterSize);
+                }
+            }
+        }
+
+        List<ushort> boxItems = new List<ushort>();
+        
+        private ushort GetAverage(ushort[][] original, int row, int col, int filterSize)
+        {
+            boxItems.Clear();
+            ushort max = 0;
+            long sum = 0;
+            int count = 0;
+            int filterRadius = (filterSize - 1) / 2;
+            for (int i = -filterRadius; i <= filterRadius; i++)
+            {
+                for (int j = -filterRadius; j <= filterRadius; j++)
+                {
+                    int rowN = row + i;
+                    int colN = col + j;
+                    if (rowN >= 0 && rowN < _arrayRows && colN >= 0 && colN < _arrayCols)
+                    {
+                        if (_smoothFunc==0)
+                        {
+                            sum += original[rowN][colN];
+                        }
+                        else if(_smoothFunc == 1)
+                        {
+                            //boxItems.Add(original[rowN][colN]);
+                            if (original[rowN][colN] > max)
+                                max = original[rowN][colN];
+                        }
+                        else
+                        {
+                            sum += original[rowN][colN];
+                        }
+                        count++;
+                    }
+                }
+            }
+            if (_smoothFunc ==0 )
+            {
+                if (count > 0)
+                    return (ushort)(sum / count);
+                else
+                    return 0;
+            }
+            else if(_smoothFunc==1)
+            {
+                //int index = 0;
+                //if (boxItems.Count == 0)
+                //{
+                //    return (ushort)65530;
+                //}
+                //if (boxItems.Count > 2)
+                //{
+                //    index = (int)((boxItems.Count - 1) / 2);
+                //}
+                //boxItems.Sort();
+                //return boxItems[index];
+                return max;
+            }
+            else
+            {
+                if (count > 0)
+                    return (ushort)(sum / count);
+                else
+                    return 0;
+            }
+        }
+
+
+        private int GetBagStartIndex(ushort[][] array, int start, int end, out bool isAir)
+        {
+            isAir = false;
+            int bagStart = start;
+            long sum = 0;
+            int count = 0;
+            int colIndex = 0;
+            for (; bagStart < end; bagStart += _bagBlockSize)
+            {
+                count = 0;
+                sum = 0;
+                for (int row = 0; row < _arrayRows; row++)
+                {
+                    for (int col = 0; col < _bagBlockSize; col++)
+                    {
+                        colIndex = col + bagStart;
+                        if (colIndex >= start && colIndex < end)
+                        {
+                            if ((colIndex > _belt.Edge1Start && colIndex < _belt.Edge1End) || (colIndex > _belt.Edge2Start && colIndex < _belt.Edge2End))
+                            {
+                                sum += (int)(array[row][col + bagStart] * _pointInBeltEdgeDiscount);
+                            }
+                            else
+                            {
+                                sum += array[row][col + bagStart];
+                            }
+                            count++;
+                        }
+                    }
+                }
+
+                double average;
+                if (count > 0)
+                {
+                    average = sum / count;
+                }
+                else
+                {
+                    average = 0;
+                }
+                int beltBackground = _backgroundLower;                
+                if (average < _backgroundLower)
+                {
+                    int index = bagStart - _bagEdgeReserved;
+                    if (index > 0)
+                    {
+                        return index;
+                    }
+                    else
+                    {
+                        return bagStart;
+                    }
+                }
+            }
+            isAir = true;
+            return end;
+        }
+
+        private int GetBagEndIndex(ushort[][] array, int start, int end)
+        {
+            int bagEnd = end;
+            long sum = 0;
+            int count = 0;
+            int colIndex = 0;
+            for (; (bagEnd - _bagBlockSize) > start; bagEnd -= _bagBlockSize)
+            {
+                count = 0;
+                sum = 0;
+                for (int row = 0; row < _arrayRows; row++)
+                {
+                    for (int col = 0; col < _bagBlockSize; col++)
+                    {
+                        colIndex = bagEnd - col;
+                        if (colIndex >= start && colIndex < end)
+                        {
+                            if ((colIndex > _belt.Edge1Start && colIndex < _belt.Edge1End) || (colIndex > _belt.Edge2Start && colIndex < _belt.Edge2End))
+                            {
+                                sum += (int)(array[row][bagEnd - col] * _pointInBeltEdgeDiscount);
+                            }
+                            else
+                            {
+                                sum += array[row][bagEnd - col];
+                            }
+                            count++;
+                        }
+                    }
+                }
+                double average;
+                if (count > 0)
+                {
+                    average = sum / count;
+                }
+                else
+                {
+                    average = 0;
+                }
+                
+                if (average < _backgroundLower)
+                {
+                    int index = bagEnd + _bagEdgeReserved;
+                    if (index < end)
+                    {
+                        return index;
+                    }
+                    else
+                    {
+                        return bagEnd;
+                    }
+                }
+            }
+            return start;
+        }
+        private void GetViewBeltEdgePosition(DetectViewIndex view, ref BeltEdgePosition viewBeltEdgePosition)
+        {
+            try
+            {
+                int postion;
+                if (ScannerConfig.Read(view == DetectViewIndex.View1 ? ConfigPath.MachineView1BeltEdge1Start : ConfigPath.MachineView2BeltEdge1Start, out postion))
+                {
+                    viewBeltEdgePosition.Edge1Start = postion;
+                }
+
+                if (ScannerConfig.Read(view == DetectViewIndex.View1 ? ConfigPath.MachineView1BeltEdge1End : ConfigPath.MachineView2BeltEdge1End, out postion))
+                {
+                    viewBeltEdgePosition.Edge1End = postion;
+                }
+
+                if (ScannerConfig.Read(view == DetectViewIndex.View1 ? ConfigPath.MachineView1BeltEdge2Start : ConfigPath.MachineView2BeltEdge2Start, out postion))
+                {
+                    viewBeltEdgePosition.Edge2Start = postion;
+                }
+
+                if (ScannerConfig.Read(view == DetectViewIndex.View1 ? ConfigPath.MachineView1BeltEdge2End : ConfigPath.MachineView2BeltEdge2End, out postion))
+                {
+                    viewBeltEdgePosition.Edge2End = postion;
+                }
+
+                if (ScannerConfig.Read(ConfigPath.PreProcBagBlockSize, out postion))
+                {
+                    _bagBlockSize = postion;
+                }
+                if (ScannerConfig.Read(ConfigPath.PreProcBagEdgeReserved,out postion))
+                {
+                    _bagEdgeReserved = postion;
+                }
+                if (!ScannerConfig.Read(ConfigPath.PreProcPointInBeltDiscount,out _pointInBeltEdgeDiscount))
+                {
+                    _pointInBeltEdgeDiscount = 1.0f;
+                }
+ 
+                ScannerConfig.Read(ConfigPath.PreProcBlankPoint, out _setPointBlank);
+                ScannerConfig.Read(ConfigPath.PreProcFilterKernelSize, out _kernelSize);
+            }
+            catch (Exception e)
+            {
+                Tracer.TraceException(e);
+            }
+        }
+        public bool TestAirLine(ClassifiedLineData line)
+        {
+            long sumLow = 0;
+            var count = 0;
+            var start = Math.Min(_startMarginCount, line.XRayData.Length - 1);
+            var end = Math.Min(line.XRayData.Length - _endMarginCount - 1, line.XRayData.Length - 1);
+
+            for (int i = start; i <= end; i++)
+            {
+                sumLow += line.XRayData[i];
+                count++;
+            }
+
+            if (count > 0)
+            {
+                // 将均值与阈值进行比较，判断是否为空气值
+                return (sumLow / count >= _backgroundLower);
+            }
+
+            return false;
+        }
+    }
+
+    public static class ObjectCopier
+    {
+        public static T Clone<T>(T source)
+        {
+            if (!typeof(T).IsSerializable)
+            {
+                throw new ArgumentException("The type must be serializable.", "source");
+            }
+
+            // Don't serialize a null object, simply return the default for that object
+            if (Object.ReferenceEquals(source, null))
+            {
+                return default(T);
+            }
+
+            IFormatter formatter = new BinaryFormatter();
+            using (Stream stream = new MemoryStream())
+            {
+                formatter.Serialize(stream, source);
+                stream.Seek(0, SeekOrigin.Begin);
+                return (T)formatter.Deserialize(stream);
+            }
+        }
+    }
+}

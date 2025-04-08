@@ -1,0 +1,157 @@
+﻿using System;
+
+namespace UI.XRay.Business.Entities
+{
+    /// <summary>
+    /// Represents a line of classified X-Ray Data
+    /// </summary>
+    [Serializable]
+    public class ClassifiedLineData
+    {
+        /// <summary>
+        /// Constructs an instance from input parameters
+        /// </summary>
+        /// <param name="viewIndex">the view index which generates these data</param>
+        /// <param name="data">X-Ray data, LE HE or Fused</param>
+        /// <param name="material">material of the data</param>
+        /// <param name="isAir">is air data</param>
+        public ClassifiedLineData(DetectViewIndex viewIndex, ushort[] data, ushort[] dataEnchanced, ushort[] material, bool isAir =false)
+        {
+            if (data == null)
+            {
+                throw new ArgumentNullException("data");
+            }
+
+            if (material == null)
+            {
+                throw new ArgumentNullException("material");
+            }
+
+            if (data.Length != material.Length)
+            {
+                throw new ArgumentException("Data and Material should have same length.");
+            }
+
+            XRayData = data;
+            XRayDataEnhanced = dataEnchanced;
+            Material = material;
+            ViewIndex = viewIndex;
+            IsAir = isAir;
+        }
+
+        public ClassifiedLineData(DetectViewIndex viewIndex, ushort[] data, ushort[] dataEnchanced, ushort[] material, ushort[] low, ushort[] high, bool isAir = false)
+        {
+            if (data == null)
+            {
+                throw new ArgumentNullException("data");
+            }
+
+            if (material == null)
+            {
+                throw new ArgumentNullException("material");
+            }
+
+            if (data.Length != material.Length)
+            {
+                throw new ArgumentException("Data and Material should have same length.");
+            }
+
+            XRayData = data;
+            XRayDataEnhanced = dataEnchanced;
+            Material = material;
+            ViewIndex = viewIndex;
+            LowData = low;
+            HighData = high; 
+            IsAir = isAir;
+        }
+
+
+        /// <summary>
+        /// Constructs an instance from zero data
+        /// </summary>
+        /// <param name="viewIndex"></param>
+        /// <param name="dataLength"></param>
+        public ClassifiedLineData(DetectViewIndex viewIndex, int dataLength)
+        {
+            ViewIndex = viewIndex;
+            XRayData = new ushort[dataLength];
+            XRayDataEnhanced = new ushort[dataLength];
+            Material = new ushort[dataLength];
+            IsAir = false;
+        }
+
+        /// <summary>
+        /// Empty Constructor, no use.
+        /// </summary>
+        public ClassifiedLineData()
+        {
+            
+        }
+
+        /// <summary>
+        /// Fused X-Ray data
+        /// </summary>
+        public ushort[] XRayData { get; protected set; }
+
+        /// <summary>
+        /// Enhanced X-Ray data
+        /// </summary>
+        public ushort[] XRayDataEnhanced { get; protected set; }
+
+        /// <summary>
+        /// Low energy data.
+        /// </summary>
+        public ushort[] LowData { get; protected set; }
+
+        /// <summary>
+        /// High energy data.
+        /// </summary>
+        public ushort[] HighData { get; protected set; }
+
+        /// <summary>
+        /// The material of every point
+        /// </summary>
+        public ushort[] Material { get; protected set; }
+
+        /// <summary>
+        /// The view index associated with this data
+        /// </summary>
+        public DetectViewIndex ViewIndex { get; protected set; }
+
+        /// <summary>
+        /// 获取或设置本线数据是否为空气值的标志
+        /// 此标志位在物质分类及融合完成后进行赋值
+        /// </summary>
+        public bool IsAir { get; set; }
+    }
+
+    /// <summary>
+    /// 表示一线探测数据，包含至多两个视角的各一线数据
+    /// </summary>
+    [Serializable]
+    public class ClassifiedLineDataBundle
+    {
+        public ClassifiedLineDataBundle(ClassifiedLineData view1, ClassifiedLineData view2)
+        {
+            View1Data = view1;
+            View2Data = view2;
+        }
+
+        public ClassifiedLineData View1Data { get; private set; }
+
+        public ClassifiedLineData View2Data { get; private set; }
+
+        /// <summary>
+        /// 判断当前扫描线束是否为空气扫描线：如果只有一个视角，则只判定第一视角；如果有两个视角，则判定两个视角的“与”
+        /// </summary>
+        public bool IsAir
+        {
+            get
+            {
+                bool view1Air = (View1Data == null || View1Data.IsAir);
+                bool view2Air = (View2Data == null || View2Data.IsAir);
+                return view1Air && view2Air;
+            }
+        }
+    }
+}

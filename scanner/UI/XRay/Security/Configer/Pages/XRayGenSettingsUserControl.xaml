@@ -1,0 +1,70 @@
+﻿<UserControl x:Class="UI.XRay.Security.Configer.UserControl.XRayGenSettingsUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:command="http://www.galasoft.ch/mvvmlight"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:framework="clr-namespace:UI.XRay.Gui.Framework;assembly=UI.XRay.Gui.Framework"
+             FontSize="{StaticResource PageFontSize}"
+             DataContext="{Binding Source={StaticResource Locator}, Path=XRayGenSettings}"
+             mc:Ignorable="d"  HorizontalAlignment="Left" VerticalAlignment="Top"
+             d:DesignHeight="600" d:DesignWidth="300">
+    <StackPanel Margin="20">
+
+        
+        <Label Content="{framework:LanguageResource ViewSection=Configer,Source=X-Ray Generator Type}" VerticalAlignment="Bottom"/>
+        <ComboBox ItemsSource="{Binding XRayGenTypes}" SelectedItem="{Binding XRayGenType}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <command:EventToCommand Command="{Binding XraySelectionChangedEventCommand}" PassEventArgsToCommand="False"></command:EventToCommand>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </ComboBox>
+        <Label Margin="0,15,0,0" Content="{framework:LanguageResource ViewSection=Configer, Source=Wait for timeout(ms)}" VerticalAlignment="Bottom" Visibility="{Binding TimeoutVisible}"/>
+        <TextBox Text="{Binding WaitTimeout}" Visibility="{Binding TimeoutVisible}"/>
+
+        <Grid Margin="0,15,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel  Margin="5,0,15,0" Grid.Column="0" IsEnabled="{Binding NotKWA}">
+                <Label Margin="0,5,0,0" Content="{framework:LanguageResource ViewSection=Configer,Source=XrayGen1}"/>
+                <Label Margin="0,5,0,0" Content="kV" VerticalAlignment="Bottom"/>
+                <TextBox Text="{Binding Voltage}"/>
+
+                <Label Margin="0,15,0,0" Content="mA" VerticalAlignment="Bottom"/>
+                <TextBox Text="{Binding Current}" Margin="0,0,0,5"/>
+            </StackPanel>
+
+            <StackPanel Margin="15,0,5,0" Grid.Column="2" Visibility="{Binding XGen2SettingVisibility}" IsEnabled="{Binding NotKWA}">
+                <Label Margin="0,5,0,0" Content="{framework:LanguageResource ViewSection=Configer,Source=XrayGen2}"/>
+                <Label Margin="0,5,0,0" Content="kV" VerticalAlignment="Bottom"/>
+                <TextBox Text="{Binding Voltage2}"/>
+
+                <Label Margin="0,15,0,0" Content="mA" VerticalAlignment="Bottom"/>
+                <TextBox Text="{Binding Current2}" Margin="0,0,0,5"/>
+            </StackPanel>
+        </Grid>
+
+        <Label Margin="0,15,0,0" Content="{framework:LanguageResource ViewSection=Configer, Source=Rising Timespan (S)}" VerticalAlignment="Bottom"/>
+        <TextBox Text="{Binding RisingTimespan}"/>
+
+        <Label Margin="0,15,0,0" Content="{framework:LanguageResource ViewSection=Configer, Source=X-Ray Generators Count}" VerticalAlignment="Bottom"/>
+        <ComboBox ItemsSource="{Binding XRayGenCountSource}" SelectedItem="{Binding XRayGenCount}"/>
+
+        <StackPanel Name="PcConnectXRayGensSettings" Visibility="{Binding PcConnectXRayGensSettingsVisibility}">
+            <Label Content="{framework:LanguageResource ViewSection=Configer,Source=Image1 Serial Port}" Margin="0,15,0,0" VerticalAlignment="Bottom"/>
+            <ComboBox ItemsSource="{Binding Coms}" SelectedItem="{Binding Image1Com}"/>
+            <Label Content="{framework:LanguageResource ViewSection=Configer,Source=Image2 Serial Port}" Margin="0,15,0,0" VerticalAlignment="Bottom" Visibility="{Binding Image2ComSettingVisibility}"/>
+            <ComboBox ItemsSource="{Binding Coms}" SelectedItem="{Binding Image2Com}" Visibility="{Binding Image2ComSettingVisibility}"/>
+
+            <Button Margin="0,15,0,0" Content="{framework:LanguageResource ViewSection=Configer, Source=Test Connection}" HorizontalAlignment="Right" Command="{Binding TestConnectionCommand}"></Button>
+        </StackPanel>
+
+        <Label Margin="0,15,0,0" Content="{framework:LanguageResource ViewSection=Configer, Source=Always warmup when starts}" VerticalAlignment="Bottom"/>
+        <controls:ToggleSwitch ContentDirection="RightToLeft" HorizontalAlignment="Left" IsChecked="{Binding AlwaysWarmup}" OnLabel="{framework:LanguageResource Yes}" OffLabel="{framework:LanguageResource No}"></controls:ToggleSwitch>
+    </StackPanel>
+</UserControl>

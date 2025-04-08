@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Sys>
+  <BagIDIndex>10000</BagIDIndex>
+  <NetIPAddress>192.168.99.192</NetIPAddress>
+  <NetServerPort>23100</NetServerPort>
+  <JudgeMode>1</JudgeMode>
+  <TransferMode>0</TransferMode>
+  <IsSingleMode>false</IsSingleMode>
+  <DeviceType>I</DeviceType>
+  <ChannelID />
+  <Island>1</Island>
+  <PostCode />
+  <PostGroup />
+</Sys>

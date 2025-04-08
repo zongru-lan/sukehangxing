@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="UI.XRay.Security.Configer.Pages.NetworkSettingsUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" HorizontalAlignment="Left" VerticalAlignment="Top"
+             xmlns:framework="clr-namespace:UI.XRay.Gui.Framework;assembly=UI.XRay.Gui.Framework"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             DataContext="{Binding Source={StaticResource Locator},Path = NetworkSettings}"
+             d:DesignHeight="490" d:DesignWidth="300">
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Content="{framework:LanguageResource ViewSection=Configer, Source =Enable Remote Network Control}" VerticalAlignment="Bottom"/>
+        <controls:ToggleSwitch Grid.Row="1"  OnLabel="{framework:LanguageResource Yes}" OffLabel="{framework:LanguageResource No}" IsChecked="{Binding HttpEnable}"
+                             
+                               ContentDirection="RightToLeft" HorizontalAlignment="Left"></controls:ToggleSwitch>
+        
+        <GroupBox Grid.Row="2" Header="{framework:LanguageResource ViewSection=Configer, Source=Network Control}" FontSize="16" Visibility="{Binding ParamVisibility}">
+            <StackPanel>
+                <Label  Content="{framework:LanguageResource ViewSection=Configer, Source = Local IP}" VerticalAlignment="Bottom"/>
+                <TextBox   Text="{Binding LocalIp}" />
+                <Label  Content="{framework:LanguageResource ViewSection=Configer, Source=Server IP}" VerticalAlignment="Bottom"/>
+                <TextBox Text="{Binding ServerIp}"/>
+            </StackPanel>
+        </GroupBox>       
+    </Grid>
+</UserControl>

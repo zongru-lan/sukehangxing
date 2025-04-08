@@ -1,0 +1,32 @@
+﻿<FixedPage 
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" 
+      d:DesignHeight="1123" d:DesignWidth="794">
+    <Grid FixedPage.Left="70" FixedPage.Top="96" Width="654" Height="931">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32"></RowDefinition>
+                <RowDefinition Height="32"></RowDefinition>
+                <RowDefinition Height="32"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Image Grid.Row="0" Grid.Column="0" Name="DeviceIconImage" Source="pack://application:,,,/Icons/System.png"  Width="24"></Image>
+            <Image Grid.Row="1" Grid.Column="0" Source="pack://application:,,,/Icons/Clock.png" Width="24"></Image>
+            <Image Grid.Row="2" Grid.Column="0" Source="pack://application:,,,/Icons/Account.png" Width="24"></Image>
+            <Label Grid.Row="0" Grid.Column="1" Name="MachineNumberLabel" FontSize="18" Content="111111" Margin="10,0"></Label>
+            <Label Grid.Row="1" Grid.Column="1" Name="ScanTimeLabel" FontSize="18" Content="2016/03/14 00:00:00" Margin="10,0"></Label>
+            <Label Grid.Row="2" Grid.Column="1" Name="AccountLabel" FontSize="18" Content="User" Margin="10,0"></Label>
+        </Grid>
+        <Image Grid.Row="1" Name="Image"  Stretch="Uniform" Width="654" Height="830"></Image>
+    </Grid>
+</FixedPage>

@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="UI.XRay.Security.Configer.UserControl.OptionsSettingsUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" HorizontalAlignment="Left" VerticalAlignment="Top"
+             d:DesignHeight="490" d:DesignWidth="300">
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0" Margin="5 5 5 10" Content="Training Settings" FontSize="22" FontWeight="Bold"/>
+        <CheckBox Grid.Row="1" Margin="5" Content="Is Enabled" VerticalAlignment="Center" IsChecked="{Binding TrainingIsEnabled}"/>
+        <Label Grid.Row="2" Margin="5" Content="Image Interval (s)" VerticalAlignment="Bottom"/>
+        <!--todo 培训图像间隔时间列表是固定呢，还是绑定到数据源-->
+        <ComboBox Grid.Row="3" Margin="5" ItemsSource="{Binding ImageIntervals}" SelectedItem="{Binding ImageInterval}" IsEnabled="{Binding TrainingIsEnabled}"/>
+        <Label Grid.Row="4" Margin="5" Content="Training Mode" VerticalAlignment="Bottom"/>
+        <!--todo 培训模式列表是固定呢，还是绑定到数据源-->
+        <ComboBox Grid.Row="5" Margin="5" ItemsSource="{Binding TrainingImageSimuModes}" SelectedItem="{Binding TrainingMode}" IsEnabled="{Binding TrainingIsEnabled}"/>
+        
+        <Label Grid.Row="6" Margin="5" Content="Auto Login Settings" FontSize="16" FontWeight="Bold"/>
+        <CheckBox Grid.Row="7" Margin="5" Content="Is Enabled" VerticalAlignment="Center" IsChecked="{Binding AutoLoginIsEnabled}"/>
+        <Label Grid.Row="8" Margin="5" Content="User Id" VerticalAlignment="Bottom"/>
+        <ComboBox Grid.Row="9" Margin="5" IsEditable="True" ItemsSource="{Binding UserIds}" SelectedItem="{Binding UserId}" IsEnabled="{Binding AutoLoginIsEnabled}"/>
+
+        <Label Grid.Row="10" Margin="5" Content="Package Counter Settings" FontSize="16" FontWeight="Bold"/>
+        <Label Grid.Row="11" Margin="5" Content="Type" VerticalAlignment="Bottom"/>
+        <!--todo 包裹计数类型列表是固定呢，还是绑定到数据源-->
+        <ComboBox Grid.Row="12" Margin="5" ItemsSource="{Binding PkgCounterTypes}" SelectedItem="{Binding PkgCounterType}"/>
+        <!--todo 是否需要根据包裹计数类型使能或禁用该功能-->
+        <CheckBox Grid.Row="13" Margin="5" Content="Reset Session Counter When Login" VerticalAlignment="Center" IsChecked="{Binding ResetSessionCounterWhenLogin}"/>
+    </Grid>
+</UserControl>

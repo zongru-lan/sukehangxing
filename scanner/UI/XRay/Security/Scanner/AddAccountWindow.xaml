@@ -1,0 +1,136 @@
+﻿<controls:MetroWindow x:Class="UI.XRay.Security.Scanner.AddAccountWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:framework="clr-namespace:UI.XRay.Gui.Framework;assembly=UI.XRay.Gui.Framework"
+    xmlns:converters="clr-namespace:UI.XRay.Security.Scanner.Converters"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:command="http://www.galasoft.ch/mvvmlight"
+    BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="1" 
+    FontSize="{StaticResource PageFontSize}"
+    DataContext="{Binding Source={StaticResource Locator}, Path=AddAccount}"
+    ShowMaxRestoreButton="False" ShowSystemMenuOnRightClick="False" ShowTitleBar="True"
+    ShowMinButton="False"  ShowCloseButton="True" ResizeMode="NoResize" SizeToContent="WidthAndHeight"
+    WindowTransitionsEnabled="False"  ShowInTaskbar="False" IsWindowDraggable="True"
+    Title="{framework:LanguageResource Source=Enter New Account Information}" WindowStartupLocation="CenterOwner">
+  <i:Interaction.Triggers>
+    <i:EventTrigger EventName="PreviewKeyDown">
+      <command:EventToCommand Command="{Binding PreviewKeyDownEventCommand}" PassEventArgsToCommand="True"></command:EventToCommand>
+    </i:EventTrigger>
+  </i:Interaction.Triggers>
+  <controls:MetroWindow.Resources>
+    <!--<converters:NotNullEmptyStringBoolConverter x:Key="ValidIdBoolConverter"></converters:NotNullEmptyStringBoolConverter>-->
+  </controls:MetroWindow.Resources>
+  <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical" Margin="40,20,40,20">
+      <Grid Name="AccountGrid" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="400">
+        <Grid.RowDefinitions>
+          <RowDefinition></RowDefinition>
+          <RowDefinition></RowDefinition>
+          <RowDefinition></RowDefinition>
+          <RowDefinition></RowDefinition>
+          <RowDefinition></RowDefinition>
+          <RowDefinition></RowDefinition>
+          <RowDefinition></RowDefinition>
+          <RowDefinition></RowDefinition>
+          <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition></ColumnDefinition>
+          <ColumnDefinition MinWidth="200"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Label Grid.Row="0" Grid.Column="0"  Margin="0,10,30,10"
+             Content="{framework:LanguageResource ViewSection=AccountView, Source=Account Id}"
+          ></Label>
+        <TextBox Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Name="AccountIdTextBox" InputMethod.IsInputMethodEnabled="False"
+             Text="{Binding AccountId, UpdateSourceTrigger=PropertyChanged}" FontSize="{StaticResource PageFontSize}"
+             controls:TextBoxHelper.ClearTextButton="True"
+             controls:TextBoxHelper.SelectAllOnFocus="True"
+             MaxLength="16">
+        </TextBox>
+
+        <Label Grid.Row="1" Grid.Column="0" Margin="0,10,30,10" 
+             Content="{framework:LanguageResource ViewSection=AccountView, Source=Name}"></Label>
+        <TextBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" FontSize="{StaticResource PageFontSize}"
+            Text="{Binding Name, Mode=TwoWay}" MaxLength="16"></TextBox>
+
+        <Label Grid.Row="2" Grid.Column="0" Margin="0,10,30,10"
+             Content="{framework:LanguageResource Source=Account Role}"></Label>
+        <ComboBox Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" FontSize="{StaticResource PageFontSize}"
+              ItemsSource="{Binding AvailableAccountTypes}"
+              DisplayMemberPath="Translation"
+              SelectedValuePath="Role"
+              SelectedValue="{Binding Role}"
+              >
+        </ComboBox>
+        <Label Grid.Row="3" Grid.Column="0" Margin="0,10,30,10" 
+             Content="{framework:LanguageResource ViewSection=AccountView, Source=Password}"></Label>
+        <TextBox Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" FontSize="{StaticResource PageFontSize}" InputMethod.IsInputMethodEnabled="False"
+            Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaxLength="16"></TextBox>
+
+        <Label Grid.Row="4" Grid.Column="0" Margin="0,10,30,10" Content="{framework:LanguageResource ViewSection=GroupInfo, Source=Group Name}"/>
+        <ComboBox Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" FontSize="{StaticResource PageFontSize}"
+                  SelectedIndex="0" SelectedItem="{Binding GroupName}" ItemsSource="{Binding GroupList}"/>
+
+        <!--<Label Grid.Row="3" Grid.Column="0" Margin="0,5,30,10"  Content="{framework:LanguageResource Can Delete Image}" VerticalAlignment="Center"/>
+        <controls:ToggleSwitch Grid.Row="3" Grid.Column="1" Margin="0,5,0,0"
+            OnLabel="{framework:LanguageResource On}" OffLabel="{framework:LanguageResource Off}"  ContentDirection="RightToLeft"
+            IsChecked="{Binding CanDeleteImage}" HorizontalAlignment="Left" VerticalAlignment="Top"></controls:ToggleSwitch>
+
+        <Label Grid.Row="4" Grid.Column="0" Margin="0,5,30,10"  Content="{framework:LanguageResource Can Saveto Image}" VerticalAlignment="Center"/>
+        <controls:ToggleSwitch Grid.Row="4" Grid.Column="1"  Margin="0,5,0,0"
+            OnLabel="{framework:LanguageResource On}" OffLabel="{framework:LanguageResource Off}"  ContentDirection="RightToLeft"
+            IsChecked="{Binding CanSavetoImage}" HorizontalAlignment="Left" VerticalAlignment="Top"></controls:ToggleSwitch>
+
+        <Label Grid.Row="5" Grid.Column="0" Margin="0,5,30,10"  Content="{framework:LanguageResource Can TIP}" VerticalAlignment="Center"/>
+        <controls:ToggleSwitch Grid.Row="5" Grid.Column="1" Margin="0,5,0,0"
+            OnLabel="{framework:LanguageResource On}" OffLabel="{framework:LanguageResource Off}"  ContentDirection="RightToLeft"
+            IsChecked="{Binding CanTIP}" HorizontalAlignment="Left" VerticalAlignment="Top"></controls:ToggleSwitch>
+
+        <Label Grid.Row="6" Grid.Column="0" Margin="0,5,30,10"  Content="{framework:LanguageResource Can Reset Count}" VerticalAlignment="Center"/>
+        <controls:ToggleSwitch Grid.Row="6" Grid.Column="1" Margin="0,5,0,0"
+            OnLabel="{framework:LanguageResource On}" OffLabel="{framework:LanguageResource Off}"  ContentDirection="RightToLeft"
+            IsChecked="{Binding CanResetCount}" HorizontalAlignment="Left" VerticalAlignment="Top"></controls:ToggleSwitch>-->
+        
+
+        <TextBlock Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Name="IdDuplicatedTextBlock"
+               Margin="0,15,0,0" TextWrapping="Wrap"
+               Foreground="{StaticResource  AccentColorBrush}" FontWeight="Bold" Visibility="{Binding IdDuplicatedTextVisibility}"
+               Text="{framework:LanguageResource Source=The entered account id already exists!}"></TextBlock>
+        <UniformGrid Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" Columns="2" Margin="0,20,0,0">
+          <Button Margin="10" MinWidth="120" MaxWidth="200" Command="{Binding AddCommand}" 
+              IsEnabled="{Binding IsAddButtonEnabled}"
+              HorizontalContentAlignment="Stretch" FontSize="{StaticResource PageFontSize}">
+            <Button.Content>
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition></ColumnDefinition>
+                  <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock TextWrapping="Wrap" Text="{framework:LanguageResource Add}" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                <TextBlock Grid.Column="1" Margin="15,0,0,0" Text="[F1]" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+              </Grid>
+            </Button.Content>
+          </Button>
+          <Button Margin="10" Command="{Binding CancelCommand}" HorizontalContentAlignment="Stretch" FontSize="{StaticResource PageFontSize}">
+            <Button.Content>
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition></ColumnDefinition>
+                  <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock TextWrapping="Wrap" Text="{framework:LanguageResource Cancel}" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                <TextBlock Grid.Column="1" Margin="15,0,0,0" Text="[F3]" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+              </Grid>
+            </Button.Content>
+          </Button>
+        </UniformGrid>
+      </Grid>
+      <Button Margin="10,10,10,10" MinWidth="32" HorizontalAlignment="Stretch" Command="{Binding KeyboardCommand}" >
+        <Button.Content>
+          <Image Margin="0,0,0,0" Source="TouchIcons/keypad.png" Width="32" HorizontalAlignment="Center" VerticalAlignment="Center"></Image>
+        </Button.Content>
+      </Button>
+    </StackPanel>        
+  </ScrollViewer>
+</controls:MetroWindow>

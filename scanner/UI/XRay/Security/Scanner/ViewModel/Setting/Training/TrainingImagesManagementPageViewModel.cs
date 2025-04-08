@@ -1,0 +1,414 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
+using GalaSoft.MvvmLight.Command;
+using UI.Common.Tracers;
+using UI.XRay.Business.Entities;
+using UI.XRay.Flows.Controllers;
+using UI.XRay.Gui.Framework;
+using UI.XRay.Flows.Services;
+using System.IO;
+
+namespace UI.XRay.Security.Scanner.ViewModel.Setting.Training
+{
+    public class TrainingImagesManagementPageViewModel : PageViewModelBase
+    {
+        public RelayCommand<SelectionChangedEventArgs> ImagesSelectionChangedEventCommand { get; private set; }
+
+        public RelayCommand MoveToNextPageCommand { get; private set; }
+
+        public RelayCommand MoveToPreviousCommand { get; private set; }
+
+        public RelayCommand SelectAllCommand { get; set; }
+        public RelayCommand AntiSelectAllCommand { get; set; }
+
+        /// <summary>
+        /// 导入新图像命令
+        /// </summary>
+        public RelayCommand ImportImagesCommand { get; private set; }
+
+        public RelayCommand DeleteCommand { get; private set; }
+
+        private bool _isSelectedForEach;
+        private BindableImage _lastSelectedImage = null;
+
+
+        private ObservableCollection<BindableImage> _currentImages;
+
+        /// <summary>
+        /// 当前显示的所有图像
+        /// </summary>
+        public ObservableCollection<BindableImage> CurrentImages
+        {
+            get { return _currentImages; }
+            set
+            {
+                _currentImages = value;
+                RaisePropertyChanged();
+            }
+        }
+        private BindableImage _currentClickImage;
+
+        public BindableImage CurrentClickImage
+        {
+            get { return _currentClickImage; }
+            set
+            {
+                _currentClickImage = value;
+                RaisePropertyChanged();
+            }
+        }
+        /// <summary>
+        /// 图像列表控件是否可见（当图像个数超过0时即可见）
+        /// </summary>
+        public Visibility ImagesListVisibility
+        {
+            get { return _imagesListVisibility; }
+            set { _imagesListVisibility = value; RaisePropertyChanged(); }
+        }
+
+        private Visibility _imagesListVisibility;
+
+        private int _showingImageMinIndex = 0;
+
+        /// <summary>
+        /// 当前显示的图像，在整个检索到的图像中的索引中的最小编号，起始编号为1
+        /// </summary>
+        public int ShowingImageMinIndex
+        {
+            get { return _showingImageMinIndex; }
+            set { _showingImageMinIndex = value; RaisePropertyChanged(); }
+        }
+
+        private int _showingImageMaxIndex = 0;
+
+        /// <summary>
+        /// 当前显示的图像，在整个检索到的图像中的索引中的最大编号，最大值为所有检索到的图像之和
+        /// </summary>
+        public int ShowingImageMaxIndex
+        {
+            get { return _showingImageMaxIndex; }
+            set
+            {
+                _showingImageMaxIndex = value;
+                RaisePropertyChanged();
+            }
+        }
+        /// <summary>
+        /// 未显示的图像是否被选中
+        /// </summary>
+        private bool _isUnVisibleImageSelected;
+
+        public bool IsUnvisibleImageSelected
+        {
+            get { return _isUnVisibleImageSelected; }
+            set
+            {
+                if (CurrentImages != null && CurrentImages.Count < TotalImagesCount)
+                {
+                    _isUnVisibleImageSelected = value;
+                }
+            }
+        }
+        /// <summary>
+        /// 当前图像检索记录总数
+        /// </summary>
+        private int _totalImagesCount;
+
+        public int TotalImagesCount
+        {
+            get { return _totalImagesCount; }
+            set
+            {
+                _totalImagesCount = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// 操作选中图像的按钮是否可用（包括删除按钮等）
+        /// </summary>
+        public bool IsManipulateSelectedImagesButtonsEnabled
+        {
+            get { return _isManipulateSelectedImagesButtonsEnabled; }
+            set { _isManipulateSelectedImagesButtonsEnabled = value; RaisePropertyChanged(); }
+        }
+
+        /// <summary>
+        /// 操作选中图像的按钮是否可用（包括删除按钮等）
+        /// </summary>
+        private bool _isManipulateSelectedImagesButtonsEnabled;
+
+        private TipLibrary _selectedLibrary = TipLibrary.Explosives;
+
+        private TrainingImageManagementController _managementController;
+
+        public TrainingImagesManagementPageViewModel()
+        {
+            MoveToPreviousCommand = new RelayCommand(MoveToPreviousPageCommandExecute);
+            MoveToNextPageCommand = new RelayCommand(MoveToNextPageCommmandExecute);
+            ImportImagesCommand = new RelayCommand(ImportImagesCommandExecute);
+            DeleteCommand = new RelayCommand(DeleteCommandExecute);
+            ImagesSelectionChangedEventCommand = new RelayCommand<SelectionChangedEventArgs>(ImagesSelectionChangedEventCommandExecute);
+            SelectAllCommand = new RelayCommand(SelectAllCommandExecute);
+            AntiSelectAllCommand = new RelayCommand(AntiSelectAllCommandExecute);
+
+            CurrentImages = new ObservableCollection<BindableImage>();
+            _controller = new ImageRetrievalControllerExt(100);
+
+            if (IsInDesignMode)
+            {
+                var imgUri = new Uri("../../../Icons/Image.png", UriKind.Relative);
+                CurrentImages.Add(new BindableImage() { ImageGuid = "12", Thumbnail = new BitmapImage(imgUri), ScanTime = DateTime.Now });
+                CurrentImages.Add(new BindableImage() { ImageGuid = "34", Thumbnail = new BitmapImage(imgUri) });
+            }
+            else
+            {
+                LoadImagesOfLib();
+            }
+        }
+        private readonly ImageRetrievalControllerExt _controller;
+
+        /// <summary>
+        /// 当前是否有选中某个图像
+        /// </summary>
+        private bool HasSelectedImage
+        {
+            get
+            {
+                if (CurrentImages != null)
+                {
+                    if (CurrentImages.Any(image => image.IsSelected))
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        }
+
+        private void SelectAllCommandExecute()
+        {
+            if (CurrentImages != null && CurrentImages.Count > 0)
+            {
+                CurrentClickImage = _controller.InitBindableImageViewBmp(CurrentImages.First());
+
+                IsUnvisibleImageSelected = true;
+                ForeachChangeCurrentImagesSelection(false);
+            }
+        }
+        private void AntiSelectAllCommandExecute()
+        {
+            //反选的时候，未显示图像的选择属性反转
+            IsUnvisibleImageSelected = !IsUnvisibleImageSelected;
+
+            //反选情况复杂，不在考虑shift多选情况
+            _lastSelectedImage = null;
+            ForeachChangeCurrentImagesSelection(true);
+        }
+        private void ForeachChangeCurrentImagesSelection(bool isAntiSelectAll)
+        {
+            if (CurrentImages != null && CurrentImages.Count > 0)
+            {
+                _isSelectedForEach = true;
+
+                if (isAntiSelectAll)
+                {
+                    foreach (var image in CurrentImages)
+                    {
+                        image.IsSelected = !image.IsSelected;
+                    }
+                }
+                else
+                {
+                    foreach (var image in CurrentImages)
+                    {
+                        if (!image.IsSelected)
+                        {
+                            image.IsSelected = true;
+                        }
+                    }
+                }
+
+                _isSelectedForEach = false;
+            }
+        }
+        /// <summary>
+        /// 当图像列表的选择发生变化时，更新几个按钮的使能状态
+        /// </summary>
+        /// <param name="args"></param>
+        private void ImagesSelectionChangedEventCommandExecute(SelectionChangedEventArgs args)
+        {
+            IsManipulateSelectedImagesButtonsEnabled = HasSelectedImage;
+        }
+
+        /// <summary>
+        /// 删除当前选中的图像
+        /// </summary>
+        private void DeleteCommandExecute()
+        {
+            if (_managementController != null)
+            {
+                var selectedRecords = new List<string>(10);
+                var selectedImages = new List<BindableImage>(10);
+
+                foreach (var image in CurrentImages)
+                {
+                    if (image.IsSelected)
+                    {
+                        selectedRecords.Add(image.ImagePath);
+                        selectedImages.Add(image);
+                    }
+                }
+
+                // 从数据库及磁盘中删除
+                _managementController.DeleteImages(selectedRecords);
+
+                // 从缓存及视图中删除
+                foreach (var image in selectedImages)
+                {
+                    CurrentImages.Remove(image);
+                }
+
+                // 更新当前页信息
+                TotalImagesCount = _managementController.ImagesCount;
+                CurrentImages = _managementController.GetCurrentPageImages();
+                UpdateIndices();
+
+                if (TotalImagesCount <= 0)
+                {
+                    ImagesListVisibility = Visibility.Collapsed;
+                }
+
+                foreach (var image in selectedRecords)
+                {
+                    new OperationRecordService().AddRecord(new OperationRecord()
+                    {
+                        AccountId = LoginAccountManager.Service.CurrentAccount != null ? LoginAccountManager.Service.CurrentAccount.AccountId : "",
+                        OperateUI = OperationUI.TrainingImagesManagement,
+                        OperateTime = DateTime.Now,
+                        OperateObject = Path.GetFileName(image),
+                        OperateCommand = OperationCommand.Delete,
+                        OperateContent = string.Empty,
+                    });
+                }
+            }
+        }
+
+        /// <summary>
+        /// 命令：导入图像
+        /// </summary>
+        private void ImportImagesCommandExecute()
+        {
+            try
+            {
+                var msg = new ShowOpenFilesDialogMessageAction("SettingWindow","Xray file | *.xray",true, list =>
+                            {
+                                if (list != null && list.Length > 0)
+                                {
+                                    if (_managementController == null)
+                                    {
+                                        _managementController = new TrainingImageManagementController();
+                                    }
+
+                                    _managementController.ImportImagesToLib(list);
+
+                                    // 导入完成后，重新加载图像
+                                    LoadImagesOfLib();
+
+                                    foreach (var tipimage in list)
+                                    {
+                                        new OperationRecordService().AddRecord(new OperationRecord()
+                                        {
+                                            AccountId = LoginAccountManager.Service.CurrentAccount != null ? LoginAccountManager.Service.CurrentAccount.AccountId : "",
+                                            OperateUI = OperationUI.TrainingImagesManagement,
+                                            OperateTime = DateTime.Now,
+                                            OperateObject = Path.GetFileName(tipimage),
+                                            OperateCommand = OperationCommand.Import,
+                                            OperateContent = string.Empty,
+                                        });
+                                    } 
+                                }
+                            });
+                MessengerInstance.Send(msg);
+            }
+            catch (Exception ex)
+            {
+                Tracer.TraceInfo(ex.ToString());
+            }            
+        }
+
+        private void MoveToNextPageCommmandExecute()
+        {
+            var images = _managementController.MoveToNextPage();
+            if (images != null && images.Count > 0)
+            {
+                CurrentImages = images;
+                UpdateIndices();
+            }
+        }
+
+        private void MoveToPreviousPageCommandExecute()
+        {
+            var images = _managementController.MoveToPreviousPage();
+            if (images != null && images.Count > 0)
+            {
+                CurrentImages = images;
+                UpdateIndices();
+            }
+        }
+
+        private void UpdateIndices()
+        {
+            if (_managementController != null)
+            {
+                TotalImagesCount = _managementController.ImagesCount;
+                ShowingImageMinIndex = _managementController.ShowingMinIndex + 1;
+                ShowingImageMaxIndex = _managementController.ShowingMaxIndex + 1;
+            }
+        }
+
+        /// <summary>
+        /// 根据当前选定的Tip库类型，从文件系统中加载Tip图像库
+        /// </summary>
+        private void LoadImagesOfLib()
+        {
+            try
+            {
+                if (_managementController == null)
+                {
+                    _managementController = new TrainingImageManagementController();
+                }
+
+                _managementController.ReloadImages();
+
+                CurrentImages = _managementController.MoveToFirstPage();
+                UpdateIndices();
+            }
+            catch (Exception exception)
+            {
+                Tracer.TraceException(exception);
+            }
+
+            if (CurrentImages != null && CurrentImages.Count > 0)
+            {
+                ImagesListVisibility = Visibility.Visible;
+            }
+            else 
+            {
+                ImagesListVisibility = Visibility.Collapsed;
+            }
+        }
+
+        public override void OnKeyDown(System.Windows.Input.KeyEventArgs args)
+        {
+        }
+    }
+}

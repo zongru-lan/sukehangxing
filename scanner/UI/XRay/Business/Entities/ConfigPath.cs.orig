@@ -1,0 +1,754 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace UI.XRay.Business.Entities
+{
+    /// <summary>
+    /// X-Ray Scanner Configuration Item paths.
+    /// </summary>
+    public static class ConfigPath
+    {
+        #region 系统级的配置 System
+
+        public const string SystemDecryptStr = "System/DecryptStr";
+
+        /// <summary>
+        /// 字符串：可取值包括：English, ChineseS, ChineseT, Russian
+        /// </summary>
+        public const string SystemLanguage = "System/Language";
+        public const string SystemTouchUI = "System/TouchUI";
+
+        /// <summary>
+        /// 系统日期格式定义
+        /// </summary>
+        public const string SystemDateFormat = "System/DateFormat";
+
+        public const string SystemImageStorePath = "System/ImageStorePath";
+
+        public const string SystemCompanyName = "System/CompanyName";
+        public const string SystemMachineNum = "System/MachineNum";
+        public const string SystemMachineDate = "System/ProductionDate";
+        public const string SystemDescription = "System/Description";
+
+        /// <summary>
+        /// 系统自生产后，扫描物体总数
+        /// </summary>
+        public const string SystemTotalBagCount = "System/TotalBagCount";
+
+        /// <summary>
+        /// 系统定期提醒检查硬件工作是否正常
+        /// </summary>
+        public const string SystemLastRemindTime = "System/LastRemindTime";
+        public const string SystemRemindTimeInterval = "System/RemindTimeInterval";
+
+        /// <summary>
+        /// 设备型号：字符串
+        /// </summary>
+        public const string SystemModel = "System/Model";
+
+        /// <summary>
+        /// 保存通用格式（universal picture format）图像时是否自动保存Xray图像
+        /// </summary>
+        public const string AutoStoreUpfImage = "System/AutoStoreUPFImage/AutoStoreUpfImage";
+        public const string AutoStoreXrayImage = "System/AutoStoreUPFImage/AutoStoreXrayImage";
+        public const string AutoStoreUpfImagePath = "System/AutoStoreUPFImage/AutoStoreUpfImagePath";
+        public const string AutoStoreUpfImageStrategy = "System/AutoStoreUPFImage/AutoStoreUpfImageStrategy";
+        public const string AutoStoreUpfImageFormat = "System/AutoStoreUPFImage/AutoStoreUpfImageFormat";
+        public const string LimitAutoStoreUpfImageCount = "System/AutoStoreUPFImage/LimitAutoStoreUpfImageCount";
+        public const string AutoStoreUpfImageCount = "System/AutoStoreUPFImage/AutoStoreUpfImageCount";
+
+        /// <summary>
+        /// 是否启用模拟数据，
+        /// </summary>
+        public const string EnableTestData = "System/EnableTestData";
+
+        /// <summary>
+        /// 是否拼接两个视角的图像，todo：注意只在双视角设备中暴露选项
+        /// </summary>
+        public const string MergeTwoViewImage = "System/AutoStoreUPFImage/MergeTwoViewImage";
+
+        #endregion 系统级的配置
+
+        #region 设备物理参数配置 Machine
+
+        /// <summary>
+        /// M/S，浮点型
+        /// </summary>
+        public const string MachineConveyorSpeed = "Machine/ConveyorSpeed";
+
+        public const string MachineCanChangeConveyorSpeed = "Machine/CanChangeConveyorSpeed";//是否需要设置速度变频器
+        public const string MachineConveyorStartTime = "Machine/ConveyorStartTime";//输送带启动时间
+        public const string MachineConveyorStopTime = "Machine/ConveyorStopTime";//输送带停止时间
+        public const string MachineConveyorSpeedChangeRatio = "Machine/ConveyorSpeeedChangeRatio";//速度(m/s)到变频器频率转换系数
+
+        public const string MachineConveyorMaxSpeed = "Machine/ConveyorMaxSpeed";
+        public const string MachineConveyorMinSpeed = "Machine/ConveyorMinSpeed";
+
+        /// <summary>
+        /// 整个输送机的长度：单位为米，浮点型
+        /// </summary>
+        public const string MachineConveyorLength = "Machine/ConveyorLength";
+
+        /// <summary>
+        /// 扫描时停止输送机，再次启动时是否自动倒带
+        /// </summary>
+        public const string MachineAutoRewind = "Machine/InterruptMode/AutoRewind";
+        public const string MachineInterruptModeStartCalCols = "Machine/InterruptMode/StartCalCols";
+        public const string MachineInterruptModeRegisterDataCacheCount = "Machine/InterruptMode/RegisterDataCacheCount";
+        public const string MachineInterruptModeAllAirTemplateDataDumpDataCount = "Machine/InterruptMode/AllAirTemplateDataDumpDataCount";
+        public const string MachineInterruptModeBackgroundValue = "Machine/InterruptMode/BackgroundValue";
+
+        /// <summary>
+        /// 是否启动双向扫描
+        /// </summary>
+        public const string MachineBiDirectionScan = "Machine/BiDirectionScan";
+        /// <summary>
+        /// 采集系统视角个数,1 or 2
+        /// </summary>
+        public const string MachineViewsCount = "Machine/ViewsCount";
+
+        /// <summary>
+        /// 是否交换两个探测视角的数据的顺序，true or false
+        /// </summary>
+        public const string MachineExchangeViewsOrder = "Machine/ExchangeViewsOrder";
+
+        /// <summary>
+        /// 两个采集视角之间的距离 ，米
+        /// </summary>
+        public const string MachineViewsDistance = "Machine/ViewsDistance";
+
+        /// <summary>
+        /// 入口光障到最近射线源的距离，单位为米，浮点型
+        /// </summary>
+        public const string MachineEntryPESensorToXRayGenDistance = "Machine/EntryPESensorToXRayGenDistance";
+
+        /// <summary>
+        /// 出口光障到最近射线源的距离，单位为米，浮点型
+        /// </summary>
+        public const string MachineExitPESensorToXRayGenDistance = "Machine/ExitPESensorToXRayGenDistance";
+
+        /// <summary>
+        /// 射线提前发射的位置，单位 米
+        /// </summary>
+        public const string MachineXRayOnPosBeforeXRayGen = "Machine/XRayOnPosBeforeXRayGen";
+
+        /// <summary>
+        /// 射线相对于最后一个射线源延迟关闭的位置，单位 米
+        /// </summary>
+        public const string MachineXRayOffPosAfterXRayGen = "Machine/XRayOffPosAfterXRayGen";
+
+        /// <summary>
+        /// 图像延迟显示的距离
+        /// </summary>
+        public const string MachineDistanceDelayShowImage = "Machine/DistanceDelayShowImage";
+
+        /// <summary>
+        /// 视角1的皮带边缘的起始位置
+        /// </summary>
+        public const string MachineView1BeltEdgeAtBegin = "Machine/BeltEdge/View1/BeginPosition";
+
+        /// <summary>
+        /// 视角1的皮带边缘的结束位置（从最后一个点倒数算起）
+        /// </summary>
+        public const string MachineView1BeltEdgeAtEnd = "Machine/BeltEdge/View1/EndPosition";
+
+        /// <summary>
+        /// 视角2的皮带边缘的起始位置
+        /// </summary>
+        public const string MachineView2BeltEdgeAtBegin = "Machine/BeltEdge/View2/BeginPosition";
+
+        /// <summary>
+        /// 视角2的皮带边缘的结束位置（从最后一个点倒数算起）
+        /// </summary>
+        public const string MachineView2BeltEdgeAtEnd = "Machine/BeltEdge/View2/EndPosition";
+
+        /// <summary>
+        /// 上面所述的皮带边缘主要是去除探测器L形上下边缘处皮带或者射线未照射对于图像的影响，不能限制在探测器中央的皮带边的影响，此处皮带边
+        /// </summary>
+        public const string MachineView1BeltEdge1Start = "Machine/BeltEdge/View1/Edge1StartPosition";
+        public const string MachineView1BeltEdge1End = "Machine/BeltEdge/View1/Edge1EndPosition";
+        public const string MachineView1BeltEdge2Start = "Machine/BeltEdge/View1/Edge2StartPosition";
+        public const string MachineView1BeltEdge2End = "Machine/BeltEdge/View1/Edge2EndPosition";
+        public const string MachineView2BeltEdge1Start = "Machine/BeltEdge/View2/Edge1StartPosition";
+        public const string MachineView2BeltEdge1End = "Machine/BeltEdge/View2/Edge1EndPosition";
+        public const string MachineView2BeltEdge2Start = "Machine/BeltEdge/View2/Edge2StartPosition";
+        public const string MachineView2BeltEdge2End = "Machine/BeltEdge/View2/Edge2EndPosition";
+
+        #endregion 设备物理参数配置
+
+        #region 预处理参数配置 PreProc
+
+        /// <summary>
+        /// IsNormalizationEnabled：True or False
+        /// </summary>
+        public const string PreProcIsNormalizationEnabled = "PreProc/Correction/IsNormalizationEnabled";
+
+        public const string PreProcGroundHighAvgUpper = "PreProc/Correction/GroundHighAvgUpper";
+        public const string PreProcGroundHighSingleUpper = "PreProc/Correction/GroundHighSingleUpper";
+        public const string PreProcGroundLowAvgUpper = "PreProc/Correction/GroundLowAvgUpper";
+        public const string PreProcGroundLowSingleUpper = "PreProc/Correction/GroundLowSingleUpper";
+        public const string PreProcGroundUpdateRateUpper = "PreProc/Correction/GroundUpdateRateUpper";
+
+        public const string PreProcAirHighAvgLower = "PreProc/Correction/AirHighAvgLower";
+        public const string PreProcAirHighSingleLower = "PreProc/Correction/AirHighSingleLower";
+        public const string PreProcAirLowAvgLower = "PreProc/Correction/AirLowAvgLower";
+        public const string PreProcAirLowSingleLower = "PreProc/Correction/AirLowSingleLower";
+        public const string PreProcAirUpdateRateUpper = "PreProc/Correction/AirUpdateRateUpper";
+
+        public const string PreProcAirUpdateMode = "PreProc/Correction/AirUpdateMode";
+        public const string PreProcAirPixelThreshold = "PreProc/Correction/AirPixelThreshold";
+        public const string PreProcAvgFilterWindowSize = "PreProc/Correction/AvgFilterWindowSize";
+        public const string PreProcOnlyAllAirLine = "PreProc/Correction/OnlyAllAirLine";
+        public const string PreProcForceUpdateRefrenceAirTime = "PreProc/Correction/ForceUpdateRefrenceAirTime";
+        public const string PreProcForceAirUpdateRateUpper = "PreProc/Correction/ForceAirUpdateRateUpper";
+
+        public const string PreProcAutoDetectBadChannels = "PreProc/Correction/AutoDetectBadChannels";
+
+        public const string PreProcUnpenetratableUpper = "PreProc/Class/UnpenetratableThreshold";
+        public const string PreProcBkgThreshold = "PreProc/Class/BkgThreshold";
+
+        public const string PreProcFilterEnable = "PreProc/Filter/Enable";
+        public const string PreProcFilterBkg = "PreProc/Filter/BkgThreshold";
+        public const string PreProcBlankPoint = "PreProc/Filter/BlankPoint";
+        public const string PreProcFilterKernelSize = "PreProc/Filter/KernelSize";
+        public const string PreProcFilterSmoothFunc = "PreProc/Filter/SmoothFunc";
+        public const string PreProcFilterLinesCount = "PreProc/Filter/LinesCount";
+
+        public const string PreProcBagBlockSize = "PreProc/Filter/BagBlockSize";
+        public const string PreProcBagEdgeReserved = "PreProc/Filter/BagEdgeReserved";
+        public const string PreProcPointInBeltDiscount = "PreProc/Filter/PointInBeltDiscount";
+
+        public const string PreProcWienerLinesCount = "PreProc/WienerLinesCount";
+        public const string PreProcImageProcessLinesCount = "PreProc/ImageProcessLinesCount";
+        #endregion 预处理参数配置
+
+        #region 算法参数配置 Algorithm
+
+        /// <summary>
+        /// IsNormalizationEnabled：True or False
+        /// </summary>
+        public const string AlgoEnableImageProcessRecommend = "Algorithm/ImageProcessAlgoRecommend/Enable";
+        public const string AlgoUnshowInOrganicLimit = "Algorithm/ImageProcessAlgoRecommend/UnshowInOrganicLimit";
+        public const string AlgoUnshowOrganicLimit = "Algorithm/ImageProcessAlgoRecommend/UnshowOrganicLimit";
+        public const string AlgoImageValueUpperLimit = "Algorithm/ImageProcessAlgoRecommend/ImageValueUpperLimit";
+        public const string AlgoImageValueLowerLimit = "Algorithm/ImageProcessAlgoRecommend/ImageValueLowerLimit";
+        public const string AlgoOrganicAndMixtureZLimit = "Algorithm/ImageProcessAlgoRecommend/OrganicAndMixtureZLimit";
+        public const string AlgoMixtureAndInOrganicZLimit = "Algorithm/ImageProcessAlgoRecommend/MixtureAndInOrganicZLimit";
+
+        #endregion 预处理参数配置
+
+        #region 图像采集系统配置 CaptureSys
+
+        /// <summary>
+        /// 采集系统类型：DT、UI
+        /// </summary>
+        public const string CaptureSysType = "CaptureSys/Type";
+
+        /// <summary>
+        /// 每块探测板的像素数，包括高能和低能
+        /// </summary>
+        //public const string CaptureSysDetBoardPixelsCount = "CaptureSys/DetBoardPixelsCount";
+
+        /// <summary>
+        /// 每个独立的采集系统的探测板的数量。如果包含两个视角，则两个视角的板数必须相同
+        /// </summary>
+        //public const string CaptureSysDetBoardsCountPerView = "CaptureSys/DetBoardsCountPerView";
+
+        /// <summary>
+        /// 是否为双能采集：True or False
+        /// </summary>
+        public const string CaptureSysIsDualEnergy = "CaptureSys/IsDualEnergy";
+
+        public const string CaptureSysRemoteIP1 = "CaptureSys/RemoteIP1";
+        public const string CaptureSysRemoteCmdPort1 = "CaptureSys/RemoteCmdPort1";
+        public const string CaptureSysRemoteImagePort1 = "CaptureSys/RemoteImagePort1";
+
+        public const string CaptureSysRemoteIP2 = "CaptureSys/RemoteIP2";
+        public const string CaptureSysRemoteCmdPort2 = "CaptureSys/RemoteCmdPort2";
+        public const string CaptureSysRemoteImagePort2 = "CaptureSys/RemoteImagePort2";
+
+        public const string CaptureSysHostIP = "CaptureSys/HostIP";
+
+        public const string CaptureSysPingTime = "CaptureSys/PingTime";
+
+        public const string CaptureSysPingEnable = "CaptureSys/PingEnable";
+
+        /// <summary>
+        /// 单线采集的积分时间，单位为毫秒，浮点型，如3.5ms
+        /// </summary>
+        public const string CaptureSysLineIntegrationTime = "CaptureSys/LineIntegrationTime";
+
+        public const string CheckCaptureSysTimeSpan = "CaptureSys/CheckCaptureSysTimeSpan";
+
+        /// <summary>
+        /// DT数据采集板的类型
+        /// </summary>
+        public const string CaptureSysDTDetSysType = "CaptureSys/DT/DTDetSysType";
+
+        /// <summary>
+        /// DT采集系统的视角1的探测卡排列：如 "4，2，0，0" 表示6块板子的分布
+        /// </summary>
+        public const string CaptureSysDTView1CardsDist = "CaptureSys/DT/View1CardsDist";
+
+        /// <summary>
+        /// DT采集系统的视角1的探测卡排列：如 "2，4，0，0" 表示6块板子的分布
+        /// </summary>
+        public const string CaptureSysDTView2CardsDist = "CaptureSys/DT/View2CardsDist";
+
+        public const string CaptureSysDTChannels = "CaptureSys/DT/DtChannels";
+
+        #endregion 图像采集系统配置
+
+        #region 控制系统配置ControlSys
+
+        /// <summary>
+        /// 控制系统类型：目前仅支持UI
+        /// </summary>
+        //public const string ControlSysType = "CaptureSys/Type";
+
+        public const string ControlSysBoardIp = "ControlSys/ControlBoardIP";
+
+        public const string ControlSysBoardPort = "ControlSys/ControlBoardPort";
+
+        public const string ControlSysBoardCmdInterval = "ControlSys/ControlBoardCmdInterval";
+
+        /// <summary>
+        /// 计算机与控制系统相连的网卡的IP
+        /// </summary>
+        public const string ComputerIp = "ControlSys/ComputerIP";
+
+        /// <summary>
+        /// 计算机与控制系统相连的网卡的端口号
+        /// </summary>
+        public const string ComputerPort = "ControlSys/ComputerPort";
+
+        /// <summary>
+        /// 控制板固件
+        /// </summary>
+        public const string ControlFireWare = "ControlSys/FireWare";
+
+        /// <summary>
+        /// 控制板协议
+        /// </summary>
+        public const string ControlProtocol = "ControlSys/Protocol";
+
+        /// <summary>
+        /// 默认工作模式：Regular、Continuous
+        /// </summary>
+        //public const string ControlSysDefaultWorkMode = "ControlSys/DefaultWorkMode";
+
+        /// <summary>
+        /// 是否启用节能光障
+        /// </summary>
+        public const string EnableConveyorTriggerSensor = "ControlSys/ConveyorTriggerSensor/EnableConveyorTriggerSensor";
+
+        /// <summary>
+        /// 入口节能光障的index，2或者4，默认为2
+        /// </summary>
+        public const string EntryConveyorTriggerSensorIndex =
+            "ControlSys/ConveyorTriggerSensor/EntryConveyorTriggerSensorIndex";
+
+        /// <summary>
+        /// 物品触发入口节能光障后停止电机的延时时间，为了物品离开皮带
+        /// </summary>
+        public const string ConveyorTriggerSensorMotorStopDelayTimeSpan = "ControlSys/ConveyorTriggerSensor/MotorStopDelayTimeSpan";
+
+
+        #endregion 控制系统配置
+
+        #region 键盘配置 Keyboard
+
+        public const string KeyboardIsConveyorKeyReversed = "Keyboard/IsConveyorKeyReversed";
+
+        public const string KeyboardIsFuctionKeyActionEnable = "Keyboard/FunctionKeys/EnableActionKey";
+
+
+        /// <summary>
+        /// 快捷键1的定义
+        /// </summary>
+        public const string KeyboardF1Type = "Keyboard/FunctionKeys/F1/Type";
+        public const string KeyboardF1ActionType = "Keyboard/FunctionKeys/F1/ActionType";
+
+        /// <summary>
+        /// 快捷键1的特效组合，值的方式为ColorMode, Penetration, true, false。以逗号分隔，顺序依次为：颜色枚举，穿透枚举，反色，超增。
+        /// 如果某一项不设置，则为空
+        /// </summary>
+        public const string KeyboardF1Effects = "Keyboard/FunctionKeys/F1/EffectsComposition";
+
+
+        public const string KeyboardF2Type = "Keyboard/FunctionKeys/F2/Type";
+        public const string KeyboardF2ActionType = "Keyboard/FunctionKeys/F2/ActionType";
+        public const string KeyboardF2Effects = "Keyboard/FunctionKeys/F2/EffectsComposition";
+
+        public const string KeyboardF3Type = "Keyboard/FunctionKeys/F3/Type";
+        public const string KeyboardF3ActionType = "Keyboard/FunctionKeys/F3/ActionType";
+        public const string KeyboardF3Effects = "Keyboard/FunctionKeys/F3/EffectsComposition";
+
+        /// <summary>
+        /// UISecurity：串口转USB的安检键盘，在计算机中的虚拟化串口号
+        /// </summary>
+        public const string KeyboardComName = "Keyboard/ComName";
+
+        /// <summary>
+        /// 是否自动检测键盘
+        /// </summary>
+        public const string KeyboardAutoDetect = "Keyboard/AutoDetect";
+
+        #endregion 键盘配置
+
+        #region 射线源配置 XRayGen
+
+        public const string PcControlXRayGen = "XRayGen/PCControlXRayGen";
+
+        public const string XRayGen1ComName = "XRayGen/XRayGen1ComName";
+        public const string XRayGen2ComName = "XRayGen/XRayGen2ComName";
+
+        /// <summary>
+        /// 射线源类型：
+        /// XRayGen_KWA, XRayGen_KWD, XRayGen_Spellman160, XRayGen_Spellman80, XRayGen_VJ
+        /// </summary>
+        public const string XRayGenType = "XRayGen/Type";
+
+        /// <summary>
+        /// 等待射线源响应时间
+        /// </summary>
+        public const string XRayGenWaitTimeout = "XRayGen/Timeout";
+
+        public const string XRayGenKV = "XRayGen/KV";
+
+        public const string XRayGenMA = "XRayGen/MA";
+
+        public const string XRayGenKV2 = "XRayGen/KV2";
+
+        public const string XRayGenMA2 = "XRayGen/MA2";
+
+        public const string WarmupKvKWD = "XRayGen/Warmup/KWDKv";
+        public const string WarmupMaKWD = "XRayGen/Warmup/KWDMa";
+
+        public const string WarmupKvSpellman160 = "XRayGen/Warmup/Spellman160Kv";
+        public const string WarmupMaSpellman160 = "XRayGen/Warmup/Spellman160Ma";
+
+        public const string WarmupKvVJ160 = "XRayGen/Warmup/VJ160Kv";
+        public const string WarmupMaVJ160 = "XRayGen/Warmup/VJ160Ma";
+
+        public const string WarmupKvVJ200 = "XRayGen/Warmup/VJ200Kv";
+        public const string WarmupMaVJ200 = "XRayGen/Warmup/VJ200Ma";
+
+        public const string WarmupKvSAXG = "XRayGen/Warmup/SAXGKv";
+        public const string WarmupMaSAXG = "XRayGen/Warmup/SAXGMa";
+
+        /// <summary>
+        /// 射线上升沿时间，单位为秒，如0.6
+        /// </summary>
+        public const string XRayGenRisingTimespan = "XRayGen/RisingTimespan";
+
+        /// <summary>
+        /// 射线源个数，仅支持1或者2
+        /// </summary>
+        public const string XRayGenCount = "XRayGen/Count";
+
+        /// <summary>
+        /// 射线源上一次预热的时间，类型为DateTime
+        /// </summary>
+        public const string XRayGenLastWarmupTime = "XRayGen/LastWarmupTime";
+
+        public const string XRayGenLastWarmupResult = "XRayGen/XRayGenLastWarmupResult";
+
+        /// <summary>
+        /// 是否强制预热：True或False
+        /// </summary>
+        public const string XRayGenAlwaysWarmup = "XRayGen/AlwaysWarmup";
+
+        public const string XRayGenWorkCount = "XRayGen/WorkCount";
+
+        public const string XRayGenShowState = "XRayGen/ShowState";
+
+        #endregion 射线源配置 XRayGen
+
+        #region 图像参数设置 Images
+
+        /// <summary>
+        /// 包裹间最小距离
+        /// </summary>
+        public const string BagsMinDistance = "Images/PESeparate/BagsMinDistance";
+
+        /// <summary>
+        /// 延时分包
+        /// </summary>
+        public const string BagSeparateDelayDistance = "Images/PESeparate/BagSeparateDelayDistance";
+
+        public const string BagMinLength = "Images/PESeparate/BagMinLength";
+
+        /// <summary>
+        /// 同时显示的图像的数量
+        /// </summary>
+        public const string ImagesCount = "Images/Count";
+
+        /// <summary>
+        /// 是否显示包裹图像之间的空白区域
+        /// </summary>
+        public const string ImagesShowBlankSpace = "Images/ShowBlankSpace";
+
+        /// <summary>
+        /// 包裹最小长度
+        /// </summary>
+        public const string BagMinLinesCount = "Images/BagMinLinesCount";
+
+        /// <summary>
+        /// 分包模式 0：根据图像空白；1：根据光电传感器
+        /// </summary>
+        public const string BagSeparateMode = "Images/BagSeparateMode";
+
+        /// <summary>
+        /// 图像的默认吸收率 -25 到 25
+        /// </summary>
+        public const string ImagesDefaultAbsorbIndex = "Images/DefaultAbsorbIndex";
+
+        /// <summary>
+        /// 无法穿透区域以红色显示：True or False
+        /// </summary>
+        public const string ImagesShowUnpenetratableRed = "Images/ShowUnpenetratableRed";
+
+        /// <summary>
+        /// 最大放大倍数
+        /// </summary>
+        public const string ImagesMaxZoominTimes = "Images/MaxZoominTimes";
+
+        /// <summary>
+        /// 单词放大步长，如2.0表示每次放大一倍
+        /// </summary>
+        public const string ImagesZoominStep = "Images/ZoominStep";
+
+        /// <summary>
+        /// True or False
+        /// </summary>
+        public const string ImagesImage1VerticalFlip = "Images/Image1/VerticalFlip";
+
+        public const string ImagesImage2VerticalFlip = "Images/Image2/VerticalFlip";
+
+        /// <summary>
+        /// 图像1显示的视角：View1或View2
+        /// </summary>
+        public const string ImagesImage1ShowingDetView = "Images/Image1/ShowingDetView";
+
+        /// <summary>
+        /// 图像2显示的视角：View1或View2
+        /// </summary>
+        public const string ImagesImage2ShowingDetView = "Images/Image2/ShowingDetView";
+
+        /// <summary>
+        /// bool
+        /// </summary>
+        public const string Image1MoveRightToLeft = "Images/Image1/MoveRightToLeft";
+
+        /// <summary>
+        /// bool
+        /// </summary>
+        public const string Image2MoveRightToLeft = "Images/Image2/MoveRightToLeft";
+
+        public const string ImagesImage1ColorMode = "Images/Image1/ColorMode";
+
+        public const string ImagesImage2ColorMode = "Images/Image2/ColorMode";
+
+        public const string ImagesImage1Classification = "Images/Image1/MaterialClassificationIndex";
+
+        public const string ImagesImage2Classification = "Images/Image2/MaterialClassificationIndex";
+
+        public const string ImagesImage1EnableEdgeEnhance = "Images/Image1/EnableEdgeEnhance";
+
+        public const string ImagesImage2EnableEdgeEnhance = "Images/Image2/EnableEdgeEnhance";
+
+        public const string ImagesImage1EnableSuperEnhance = "Images/Image1/EnableSuperEnhance";
+
+        public const string ImagesImage2EnableSuperEnhance = "Images/Image2/EnableSuperEnhance";
+
+        /// <summary>
+        /// True or False
+        /// </summary>
+        public const string ImagesImage1Inversed = "Images/Image1/Inversed";
+
+        public const string ImagesImage2Inversed = "Images/Image2/Inversed";
+
+        public const string ImagesImage1Penetration = "Images/Image1/Penetration";
+
+        public const string ImagesImage2Penetration = "Images/Image2/Penetration";
+
+        #endregion 图像参数设置 Images
+
+        #region 运行参数设定 Options （用户选择的一些与软件状态有关的配置）
+
+        public const string AutoLoginIsEnabled = "Options/AutoLogin/IsEnabled";
+
+        public const string AutoLoginUserId = "Options/AutoLogin/UserId";
+
+        /// <summary>
+        /// 启动图像清理服务的磁盘剩余空间比例
+        /// </summary>
+        public const string StartDiskSpaceCleanupEmergencyRatio = "Options/DiskManage/StartDiskSpaceCleanupEmergencyRatio";
+        
+        public const string StartDiskSpaceCleanupRatio = "Options/DiskManage/MinFreeRatioThreshold";
+        public const string StopDiskSpaceCleanupRatio = "Options/DiskManage/StopCleanUpFreeRatioThreshold";
+
+        public const string StartDiskSpaceCleanupTime = "Options/DiskManage/StartDiskSpaceCleanupTime";
+        public const string StopDiskSpaceCleanupTime = "Options/DiskManage/StopDiskSpaceCleanupTime";
+
+        /// <summary>
+        /// 清理历史图像时，每次需要删除的图像数量
+        /// </summary>
+        public const string ImagesCountToDeleteWhenCleanup = "Options/DiskManage/ImagesCountToDelete";
+
+        /// <summary>
+        /// 包裹计数器类型：Total or Session
+        /// </summary>
+        //public const string PkgCounterType = "Options/PkgCounter/Type";
+
+        /// <summary>
+        /// True or False: 登陆后是否重置临时计数器
+        /// </summary>
+        public const string PkgCounterResetSessionCounterWhenLogin = "Options/PkgCounter/ResetSessionCounterWhenLogin";
+
+        public const string ShowImageBasedOnMotorDirection = "Options/ShowImageBasedOnMotorDirection";
+        public const string AddPureWhiteSeperateLinesBetweenObject = "Options/AddPureWhiteSeperateLinesBetweenObject";
+
+        #endregion  运行参数设定
+
+        /// <summary>
+        /// 高密度告警是否启用：True or False
+        /// </summary>
+        public const string IntellisenseHdiEnabled = "Intellisense/IsHDIEnabled";
+
+        /// <summary>
+        /// 毒品检测是否启用：True or False
+        /// </summary>
+        public const string IntellisenseDeiEnabled = "Intellisense/IsDEIEnabled";
+
+        /// <summary>
+        /// 爆炸物检测是否启用
+        /// </summary>
+        public const string IntellisenseEiEnabled = "Intellisense/IsEIEnabled";
+
+
+        public const string IntellisenseDeiAudibleAlarm = "Intellisense/DeiAudibleAlarm";
+
+        public const string IntellisenseDeiLightAlarm = "Intellisense/DeiLightAlarm";
+
+        public const string IntellisenseDeiStopConveyor = "Intellisense/DeiStopConveyor";
+
+        public const string IntellisenseHdiAudibleAlarm = "Intellisense/HdiAudibleAlarm";
+
+        public const string IntellisenseHdiLightAlarm = "Intellisense/HdiLightAlarm";
+
+        public const string IntellisenseHdiStopConveyor = "Intellisense/HdiStopConveyor";
+
+        public const string IntellisenseEiAudibleAlarm = "Intellisense/EiAudibleAlarm";
+
+        public const string IntellisenseEiLightAlarm = "Intellisense/EiLightAlarm";
+
+        public const string IntellisenseEiStopConveyor = "Intellisense/EiStopConveyor";
+
+        /// <summary>
+        /// 高密度报警灵敏度1-5
+        /// </summary>
+        public const string IntellisenseHdiSensitivity = "Intellisense/HDISensitivity";
+
+        public const string IntellisenseHdiBorderColor = "Intellisense/HdiBorderColor";
+
+        /// <summary>
+        /// 毒品检测灵敏度1-5
+        /// </summary>
+        public const string IntellisenseDeiSensitivity = "Intellisense/DEISensitivity";
+
+        /// <summary>
+        /// 爆炸物检测灵敏度1-5
+        /// </summary>
+        public const string IntellisenseEiSensitivity = "Intellisense/EISensitivity";
+
+        public const string IntellisenseDrugLowZ = "Intellisense/DrugLowZ";
+
+        public const string IntellisenseDrugHighZ = "Intellisense/DrugHighZ";
+
+        public const string IntellisenseExplosivesLowZ = "Intellisense/ExplosivesLowZ";
+
+        public const string IntellisenseExplosivesHighZ = "Intellisense/ExplosivesHighZ";
+
+        public const string IntellisenseDeiBorderColor = "Intellisense/DeiBorderColor";
+
+        public const string IntellisenseEiBorderColor = "Intellisense/EiBorderColor";
+
+        /// <summary>
+        /// 报警指示灯 1：红灯，4：黄灯
+        /// </summary>
+        public const string IntellisenseAlarmLight ="Intellisense/AlarmLight";
+
+        #region 配合智能判图机器
+        public const string AutoDetectionEnable = "Intellisense/AutoDetection/IsEnable";
+
+        //爆炸物参数
+        //public const string AutoDetectionEIBorderColor = "Intellisense/AutoDetection/EIBorderColor";
+        //public const string AutoDetectionEIAudibleAlarm = "Intellisense/AutoDetection/EIAudibleAlarm";
+        //public const string AutoDetectionEILightAlarm = "Intellisense/AutoDetection/EILightAlarm";
+        //public const string AutoDetectionEIStopConveyor = "Intellisense/AutoDetection/EIStopConveyor";
+        public const string AutoDetectionEIItemsList = "Intellisense/AutoDetection/EIItemsList";
+
+        //枪械参数
+        public const string AutoDetectionGunBorderColor = "Intellisense/AutoDetection/GunBorderColor";
+        public const string AutoDetectionGunAudibleAlarm = "Intellisense/AutoDetection/GunAudibleAlarm";
+        public const string AutoDetectionGunLightAlarm = "Intellisense/AutoDetection/GunLightAlarm";
+        public const string AutoDetectionGunStopConveyor = "Intellisense/AutoDetection/GunStopConveyor";
+        public const string AutoDetectionGunItemsList = "Intellisense/AutoDetection/GunItemsList";
+
+        //管制工具参数
+        public const string AutoDetectionKnifeBorderColor = "Intellisense/AutoDetection/KnifeBorderColor";
+        public const string AutoDetectionKnifeAudibleAlarm = "Intellisense/AutoDetection/KnifeAudibleAlarm";
+        public const string AutoDetectionKnifeLightAlarm = "Intellisense/AutoDetection/KnifeLightAlarm";
+        public const string AutoDetectionKnifeStopConveyor = "Intellisense/AutoDetection/KnifeStopConveyor";
+        public const string AutoDetectionKnifeItemsList = "Intellisense/AutoDetection/KnifeItemsList";
+
+        #endregion
+
+        #region 培训设置
+
+        /// <summary>
+        /// 培训图像的循环模式：枚举类型
+        /// </summary>
+        public const string TrainingLoopMode = "Training/LoopMode";
+
+        /// <summary>
+        /// 培训图像的生成间隔，单位为秒
+        /// </summary>
+        public const string TrainingImageInterval = "Training/ImageInterval";
+
+        /// <summary>
+        /// 是否启动培训功能：True False
+        /// </summary>
+        public const string TrainingIsEnabled = "Training/IsEnabled";
+
+        #endregion 培训设置 
+
+        #region 一些配置存储路径
+
+        /// <summary>
+        /// 视角1的坏点标记列表文件路径（其中存储视角1每个探测通道的坏点标记）
+        /// </summary>
+        public const string View1BadChannelFlagsSettingFilePath = @"D:\\SecurityScanner\\ChannelBadFlags\\View1.xml";
+
+        public const string View2BadChannelFlagsSettingFilePath = @"D:\\SecurityScanner\\ChannelBadFlags\\View2.xml";
+
+        #endregion
+
+
+
+        #region Extensions
+
+        #region Htnova
+
+        public const string EnableHtnova = "Extensions/Htnova/EnableHtnova";
+        public const string HtonvaJpgImageStorePath = "Extensions/Htnova/JpgImageStorePath";
+
+        #endregion
+
+        #endregion
+    }
+}

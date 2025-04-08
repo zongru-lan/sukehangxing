@@ -1,0 +1,1021 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>XRayNetEntities</name>
+    </assembly>
+    <members>
+        <member name="T:XRayNetEntities.AccountCommandType">
+            <summary>
+            账户相关指令枚举
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.AccountCommandType.GetAccounts">
+            <summary>
+            远程客户端获取账户信息
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.AccountCommandType.GetCurrentAccount">
+            <summary>
+            远程客户端获取当前登录账户
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.AccountCommandType.RemoteLoginAccount">
+            <summary>
+            远程客户端登录到本地安检机
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.AccountCommandType.UpdateAccounts">
+            <summary>
+            远程客户端修改账户信息
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.AccountCommandType.SendAccounts">
+            <summary>
+            导出账户到对端
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.AccountCommandType.SendCurrentAccount">
+            <summary>
+            向远程客户端发送当前账户
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.AccountCommandType.VerifyUserLogin">
+            <summary>
+            验证安检机本地用户登录
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.AccountCommandType.VerifyUserExit">
+            <summary>
+            验证安检机本地用户登出
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.AccountCommandType.SendAccountsOver">
+            <summary>
+            导出账户返回
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.AccountCommandType.ImportAccountsOver">
+            <summary>
+            导入账户返回
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.CommandType.ClientDataType.UserRemoteLogin">
+            <summary>
+            用户网络登录,将安检机网络登录的账户信息发送到服务器
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.CommandType.ClientDataType.UserRemoteExit">
+            <summary>
+            用户网络登出,将安检机网络登出的账户信息发送到服务器
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.CommandType.ClientDataType.VerifyUserLoginOver">
+            <summary>
+            验证用户登录请求的返回
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.CommandType.ClientDataType.VerifyUserExitOver">
+            <summary>
+            验证用户登出请求的返回
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.CommandType.ClientDataType.ScreenShot">
+            <summary>
+            屏幕截图
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.KeyboardModeHandle.Lock">
+            <summary>
+            锁定键盘鼠标
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.KeyboardModeHandle.UnLock">
+            <summary>
+            解锁键盘鼠标
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.ScreenshotHandle.Horizontal">
+            <summary>
+            截取水平视角图像
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.ScreenshotHandle.Vertical">
+            <summary>
+            截取垂直视角图像
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.ScreenshotHandle.All">
+            <summary>
+            截取所有视角图像
+            </summary>
+        </member>
+        <member name="T:XRayNetEntities.ControlCommand">
+            <summary>
+            NetService发送给Scanner的控制信号
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.ControlCommand.CommandType">
+            <summary>
+            该控制指令类型
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.ControlCommand.FileData">
+            <summary>
+            控制指令附带的XML文件数据，无则为null。
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.ControlCommand.FileName">
+            <summary>
+            文件名
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.ControlCommand.RunDirection">
+            <summary>
+            传送带控制
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.ControlCommand.ScannerWorkMode">
+            <summary>
+            scanner工作模式，0 - Maintenance(直通模式), 1 - Continuous, 2 - Regular(正常模式), 3 - AutoReturn.
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.ControlCommand.AccountType">
+            <summary>
+            账户指令类型
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.ControlCommand.TIPType">
+            <summary>
+            TIP指令类型
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.ControlCommand.NetWorkType">
+            <summary>
+            网络指令类型
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.ControlCommand.CommandInfo">
+            <summary>
+            通用命令信息
+            </summary>
+        </member>
+        <member name="T:XRayNetEntities.ControlCommandType">
+            <summary>
+            发送给SCANNER软件的控制指令枚举
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.ControlCommandType.AccountCommand">
+            <summary>
+            账户控制指令
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.ControlCommandType.TIPCommand">
+            <summary>
+            TIP控制指令
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.ControlCommandType.DiagnosticsCommand">
+            <summary>
+            诊断指令
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.ControlCommandType.ConveyorCommand">
+            <summary>
+            输送带控制指令
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.ControlCommandType.WorkModeCommand">
+            <summary>
+            工作模式控制指令
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.ControlCommandType.ShutDownCommand">
+            <summary>
+            关机指令
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.ControlCommandType.NetWorkCommand">
+            <summary>
+            网络命令
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.ControlCommandType.ScreenShotCommand">
+            <summary>
+            截图指令
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.ControlCommandType.KeyboardModeCommand">
+            <summary>
+            键盘模式指令
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.ControlCommandType.DumpFileOverCommand">
+            <summary>
+            导出文件结果
+            </summary>
+        </member>
+        <member name="T:XRayNetEntities.ConveyorDirection">
+            <summary>
+            传送带运动方向枚举
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.ConveyorDirection.Stop">
+            <summary>
+            传送带停止
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.ConveyorDirection.MoveForward">
+            <summary>
+            传送带正向运行
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.ConveyorDirection.MoveBackward">
+            <summary>
+            传送带反向运行
+            </summary>
+        </member>
+        <member name="T:XRayNetEntities.Extensions.ConvertExtensions">
+            <summary>
+            定义一系列使用<see cref="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter"/>进行序列化反序列化数据包的扩展方法
+            </summary>
+        </member>
+        <member name="M:XRayNetEntities.Extensions.ConvertExtensions.ToByteArray(XRayNetEntities.NetDataPacket)">
+            <summary>
+            使用BinaryFormatter序列化NetDataPacket对象
+            </summary>
+            <param name="netData"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:XRayNetEntities.Extensions.ConvertExtensions.ToByteArray``1(System.Object)">
+            <summary>
+            使用BinaryFormatter序列化对象
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XRayNetEntities.Extensions.ConvertExtensions.ToDataPacket(System.Byte[])">
+            <summary>
+            使用BinaryFormatter反序列化byte数组
+            </summary>
+            <param name="data"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:XRayNetEntities.Extensions.ConvertExtensions.ToNetEntities``1(System.Byte[])">
+            <summary>
+            使用BinaryFormatter反序列化byte数组
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XRayNetEntities.Extensions.ConvertExtensions.ToByteArray``1(``0)">
+            <summary>
+            使用BinaryFormatter序列化实例
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="data"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="T:XRayNetEntities.ImmediateFileCommand">
+            <summary>
+            即时存储文件
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.ImmediateFileCommand.ScanType">
+            <summary>
+            数据类型
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.ImmediateFileCommand.FileData">
+            <summary>
+            文件数据
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.ImmediateFileCommand.ParaData">
+            <summary>
+            Screenshot-0水平视角,1垂直视角，2全部视角
+            </summary>
+        </member>
+        <member name="T:XRayNetEntities.Marker">
+            <summary>
+            标记框
+            </summary>
+        </member>
+        <member name="M:XRayNetEntities.Marker.#ctor(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Boolean,System.Boolean,System.Int32,XRayNetEntities.AutoJudgeDangerType)">
+            <summary>
+            使用参数实例化
+            </summary>
+            <param name="view"></param>
+            <param name="fromLine"></param>
+            <param name="toLine"></param>
+            <param name="fromChannel"></param>
+            <param name="toChannel"></param>
+            <param name="right2Left"></param>
+            <param name="verticalFlip"></param>
+            <param name="detectType"></param>
+            <param name="autoJudgeDangerType"></param>
+        </member>
+        <member name="M:XRayNetEntities.Marker.#ctor">
+            <summary>
+            无参实例化
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.Marker.View">
+            <summary>
+            视角编号---  0 -- 底视角， 1 -- 侧视角
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.Marker.FromLine">
+            <summary>
+            起始线编号
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.Marker.ToLine">
+            <summary>
+            结束线编号
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.Marker.FromChannel">
+            <summary>
+            起始通道号
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.Marker.ToChannel">
+            <summary>
+            结束通道号
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.Marker.Right2Left">
+            <summary>
+            是否从右往左显示图像
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.Marker.VerticalFlip">
+            <summary>
+            是否垂直翻转
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.Marker.DetectType">
+            <summary>
+            0 -- 手动判图， 1 -- 自动判图， 2 -- 深度学习智能判图
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.Marker.AutoJudgeDangerType">
+            <summary>
+            自动判图的危险区类型
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.Marker.MarkTime">
+            <summary>
+            标记框绘制的时间
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.Models.ClientRequest.UserLoginRequest.ScanType">
+            <summary>
+            图像扫描数据类型枚举
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.Models.ClientRequest.UserLoginRequest.UserAccount">
+            <summary>
+            登录账户
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.Models.ClientRequest.UserLoginRequest.Password">
+            <summary>
+            登录密码
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.Models.ClientResponse.UserResponse.ScanType">
+            <summary>
+            图像扫描数据类型枚举
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.Models.ClientResponse.UserResponse.VerifyResult">
+            <summary>
+             登录返回结果
+             0-	登录成功
+             1-	用名错误
+             2-	密码错误
+             3-	权限不足
+             4-	不是有效账户
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.Models.ClientResponse.UserResponse.Account">
+            <summary>
+            账户信息的Json格式
+            </summary>
+        </member>
+        <member name="T:XRayNetEntities.Models.Sys">
+            <summary>
+            与安检机软件共用的配置项由此类定义
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.Models.Sys.BagIDIndex">
+            <summary>
+            下一个包裹的BagIDIndex
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.Models.Sys.NetIPAddress">
+            <summary>
+            网络服务使用的IP地址
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.Models.Sys.NetServerPort">
+            <summary>
+            XRayScanner与网络服务通信使用的端口号
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.Models.Sys.JudgeMode">
+            <summary>
+            0-卷轴本地判图集中存储，1-集中判图，2-使用判图工作站本地实现的本地判图集中存储
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.Models.Sys.TransferMode">
+            <summary>
+            0-安检机输送带单机, 1-接TRS系统, 2-接BHS柜台模式, 3-接BHS主带模式
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.Models.Sys.IsSingleMode">
+            <summary>
+            是否单机模式，主要用于区分安检机是否连接服务器
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.Models.Sys.DeviceType">
+            <summary>
+            I-托运行李检查X射线安检设备, O-手提行李检查X射线安检设备
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.Models.Sys.ChannelID">
+            <summary>
+            通道ID
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.Models.Sys.Island">
+            <summary>
+            设备岛号
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.Models.Sys.PostCode">
+            <summary>
+            工作ID
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.Models.Sys.PostGroup">
+            <summary>
+            工作组
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.Models.Sys.JudgeLevel">
+            <summary>
+            判图级别
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.Models.Sys.CounterNo">
+            <summary>
+            柜台编号（用于集中管理平台显示通道号
+            </summary>
+        </member>
+        <member name="T:XRayNetEntities.NetDataPacket">
+            <summary>
+            用于安检机与网络服务的通信数据类
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.NetDataPacket.DataType">
+            <summary>
+            数据包类型
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.NetDataPacket.Data">
+            <summary>
+            数据，根据数据包类型进行强制转换
+            </summary>
+        </member>
+        <member name="T:XRayNetEntities.NetType">
+            <summary>
+            与网络服务通讯的数据包类型
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.NetType.HeartBeat">
+            <summary>
+            Scanner与NetService连接的心跳包，包括Scanner软件的状态信息
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.NetType.ScanningImage">
+            <summary>
+            扫描图像时的通讯信号（开始、结束扫描）
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.NetType.ControlCommand">
+            <summary>
+            接收来自网络服务的控制信号
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.NetType.ScanlineData">
+            <summary>
+            线数据
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.NetType.TipLog">
+            <summary>
+            Tip日志(由安检机软件发送至网络服务写入网络数据库)
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.NetType.NetworkDump">
+            <summary>
+            安检机向网络导出图像
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.NetType.User">
+            <summary>
+            用户相关
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.NetType.ImmediateFile">
+            <summary>
+            发送实时文件
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.NetType.AccountsImport">
+            <summary>
+            从对端导入账户请求
+            </summary>
+        </member>
+        <member name="T:XRayNetEntities.NetworkDumpCommand">
+            <summary>
+            安检机向网络导出图像指令
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.NetworkDumpCommand.FileName">
+            <summary>
+            要转存的文件名
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.NetworkDumpCommand.FileData">
+            <summary>
+            要转存的文件数据(在传输较大文件且没有较高实时性要求时，建议使用LocalFileFullPath
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.NetworkDumpCommand.RemoteFileDir">
+            <summary>
+            文件远程存储路径(相对路径，例：<br/>
+            /Export/Default
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.NetworkDumpCommand.LocalFileFullPath">
+            <summary>
+            要转存的本地文件路径
+            </summary>
+        </member>
+        <member name="T:XRayNetEntities.ScannerSavedImage">
+            <summary>
+            由安检机保存的图像
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.ScannerSavedImage.FilePath">
+            <summary>
+            图像全路径
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.ScannerSavedImage.Extension">
+            <summary>
+            图像扩展名
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.ScannerSavedImage.ImageType">
+            <summary>
+            图像类型
+            </summary>
+        </member>
+        <member name="M:XRayNetEntities.ScannerSavedImage.#ctor(System.String,XRayNetEntities.SavedImageType)">
+            <summary>
+            使用文件路径及图像类型初始化实例
+            </summary>
+            <param name="filePath"></param>
+            <param name="imageType"></param>
+        </member>
+        <member name="M:XRayNetEntities.ScannerSavedImage.Equals(XRayNetEntities.ScannerSavedImage)">
+            <summary>
+            与另一个实例做比较，若文件路径相同则返回true
+            </summary>
+            <param name="other"></param>
+            <returns></returns>
+        </member>
+        <member name="T:XRayNetEntities.SavedImageType">
+            <summary>
+            区分已保存的图像类型
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.SavedImageType.XRayImage">
+            <summary>
+            X射线原始图像
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.SavedImageType.ManualJudgeImage">
+            <summary>
+            安检机保存的手动画框非XRay图像
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.SavedImageType.AutoJudgeImage">
+            <summary>
+            安检机保存的自动画框非XRay图像
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.SavedImageType.ExtraImage">
+            <summary>
+            随X射线图像一同保存的5种图像处理下的附加图像
+            </summary>
+        </member>
+        <member name="T:XRayNetEntities.ScannerStatus">
+            <summary>
+            用于传递安检机状态的类
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.ScannerStatus.WorkMode">
+            <summary>
+            0 - 直通模式, 1 - 持续模式(Continuous), 2 - 常规模式, 3 - 自动回退模式
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.ScannerStatus.AccountID">
+            <summary>
+            用户ID
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.ScannerStatus.IsNetAccount">
+            <summary>
+            是否网络登录账户
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.ScannerStatus.IsTraining">
+            <summary>
+            是否培训模式
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.ScannerStatus.HasLogin">
+            <summary>
+            是否已登录
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.ScannerStatus.IsRunning">
+            <summary>
+            电机是否转动
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.ScannerStatus.IsScanning">
+            <summary>
+            射线是否启动
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.ScannerStatus.RunDirection">
+            <summary>
+            电机转动方向, 0 - 停止, 1 - 正向, 2 - 反向
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.ScannerStatus.XRayReady">
+            <summary>
+            是否处于就绪状态(可以正常过包)
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.ScannerStatus.StatusTime">
+            <summary>
+            该状态的记录时间
+            </summary>
+        </member>
+        <member name="M:XRayNetEntities.ScannerStatus.Equals(XRayNetEntities.ScannerStatus)">
+            <summary>
+            确定指定的对象是否等于当前对象
+            </summary>
+            <param name="status"></param>
+            <returns></returns>
+        </member>
+        <member name="T:XRayNetEntities.ScanningImageInfo">
+            <summary>
+            用于标识在安检机与网络服务中传递图像扫描信息的数据类
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.ScanningImageInfo.ScanType">
+            <summary>
+            图像扫描数据类型枚举
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.ScanningImageInfo.AttachedImages">
+            <summary>
+            附加图像，包括标记图像以及新民航标准要求的5种图像处理图像，均为图像全路径
+            <para></para>其中民航标准图像的文件名为${filename}_${图像处理}.${后缀}
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.ScanningImageInfo.Markers">
+            <summary>
+            标记框，包括手动标记或者自动标记
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.ScanningImageInfo.LocalXRayFilePath">
+            <summary>
+            XRay图像在安检机本地的存储全路径
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.ScanningImageInfo.BeginScanTime">
+            <summary>
+            图像开始采集时间（第一线数据生成时间）
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.ScanningImageInfo.EndScanTime">
+            <summary>
+            图像结束采集时间（分包时间）
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.ScanningImageInfo.OptJudgeTime">
+            <summary>
+            卷轴本地判图模式下，安检员判图时间
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.ScanningImageInfo.AutoJudgeTime">
+            <summary>
+            安检机自动判图时间
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.ScanningImageInfo.SaveTime">
+            <summary>
+            图像保存时间
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.ScanningImageInfo.BeginLineNumber">
+            <summary>
+            图像的起始线编号
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.ScanningImageInfo.EndLineNumber">
+            <summary>
+            图像的结束线编号
+            </summary>
+        </member>
+        <member name="T:XRayNetEntities.ScanDataType">
+            <summary>
+            数据包所传输的数据类型
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.ScanDataType.Begin">
+            <summary>
+            图像开始采集
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.ScanDataType.End">
+            <summary>
+            图像结束采集
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.ScanDataType.Saved">
+            <summary>
+            图像本地保存完毕
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.ScanDataType.AutoJudge">
+            <summary>
+            智能判图
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.ScanDataType.ManualJudge">
+            <summary>
+            人工判图
+            </summary>
+        </member>
+        <member name="T:XRayNetEntities.JudgeResult">
+            <summary>
+            判图结果，包括自动判图与手动判图
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.JudgeResult.Accept">
+            <summary>
+            通过
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.JudgeResult.Reject">
+            <summary>
+            开检
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.JudgeResult.HighRisk">
+            <summary>
+            高危
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.JudgeResult.OverTime">
+            <summary>
+            超时
+            </summary>
+        </member>
+        <member name="T:XRayNetEntities.AutoJudgeDangerType">
+            <summary>
+            安检机自动判图的识别危险区类型
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.AutoJudgeDangerType.Contraband">
+            <summary>
+            Regular contraband object 一般违禁品，可能是以下任意一种具体的物品类型
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.AutoJudgeDangerType.UnPenetratable">
+            <summary>
+            unpenetratable region
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.AutoJudgeDangerType.Explosives">
+            <summary>
+            suspicious explosives region
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.AutoJudgeDangerType.Drug">
+            <summary>
+            drgus region
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.AutoJudgeDangerType.Gun">
+            <summary>
+            gun
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.AutoJudgeDangerType.Knife">
+            <summary>
+            图像包含刀具
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.AutoJudgeDangerType.Tip">
+            <summary>
+            该标记为TIP图像标记
+            </summary>
+        </member>
+        <member name="T:XRayNetEntities.NetWorkCommandType">
+            <summary>
+            网络相关指令枚举
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.NetWorkCommandType.GetState">
+            <summary>
+            获取Ftp网络状态
+            </summary>
+        </member>
+        <member name="T:XRayNetEntities.TIPCommandType">
+            <summary>
+            TIP相关指令枚举
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.TIPCommandType.ClearTIPImage">
+            <summary>
+            清空图像
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.TIPCommandType.GetTIPPlan">
+            <summary>
+            远程客户端获取TIP计划
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.TIPCommandType.GetTIPImageLibraries">
+            <summary>
+            远程客户端获取TIP图像库
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.TIPCommandType.GetTIPImages">
+            <summary>
+            远程客户端获取TIP图像信息
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.TIPCommandType.GetTIPLogs">
+            <summary>
+            远程客户端获取TIP日志
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.TIPCommandType.UpdateTIPPlan">
+            <summary>
+            远程客户端更新TIP计划
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.TIPCommandType.UpdateTIPImageLibraries">
+            <summary>
+            远程客户端修改TIP图像库
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.TIPCommandType.UpdateTIPImages">
+            <summary>
+            远程客户端修改TIP图像信息
+            </summary>
+        </member>
+        <member name="F:XRayNetEntities.TIPCommandType.AddTIPImage">
+            <summary>
+            远程客户端增加TIP图像(XRay)
+            </summary>
+        </member>
+        <member name="T:XRayNetEntities.Tools.LogUtil">
+            <summary>
+            使用txt文本记录的日志工具类
+            </summary>
+        </member>
+        <member name="P:XRayNetEntities.Tools.LogUtil.Logger">
+            <summary>
+            Logger实例
+            </summary>
+        </member>
+        <member name="M:XRayNetEntities.Tools.LogUtil.Info(System.String,System.String)">
+            <summary>
+            记录info
+            </summary>
+            <param name="msg"></param>
+            <param name="modelName"></param>
+        </member>
+        <member name="M:XRayNetEntities.Tools.LogUtil.Error(System.String,System.String)">
+            <summary>
+            记录error
+            </summary>
+            <param name="msg"></param>
+            <param name="modelName"></param>
+        </member>
+        <member name="M:XRayNetEntities.Tools.LogUtil.Exception(System.Exception,System.String,System.String)">
+            <summary>
+            记录异常信息
+            </summary>
+            <param name="ex"></param>
+            <param name="msg"></param>
+            <param name="modelName"></param>
+        </member>
+        <member name="M:XRayNetEntities.Tools.LogUtil.Debug(System.String,System.String)">
+            <summary>
+            记录debug信息
+            </summary>
+            <param name="msg"></param>
+            <param name="modelName"></param>
+        </member>
+        <member name="M:XRayNetEntities.Tools.LogUtil.Warning(System.String,System.String)">
+            <summary>
+            记录警告信息
+            </summary>
+            <param name="msg"></param>
+            <param name="modelName"></param>
+        </member>
+        <member name="M:XRayNetEntities.Tools.LogUtil.Failure(System.String,System.String)">
+            <summary>
+            记录失败信息
+            </summary>
+            <param name="msg"></param>
+            <param name="modelName"></param>
+        </member>
+        <member name="T:XRayNetEntities.Tools.XmlUtil">
+            <summary>
+            Xml序列化与反序列化
+            </summary>
+        </member>
+        <member name="M:XRayNetEntities.Tools.XmlUtil.GetRoot(System.String)">
+            <summary>
+            获取XML文档的根字符
+            </summary>
+            <param name="xml"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XRayNetEntities.Tools.XmlUtil.Deserialize``1(System.String)">
+            <summary>
+            反序列化
+            </summary>
+            <param name="xml">XML字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:XRayNetEntities.Tools.XmlUtil.Deserialize``1(System.IO.Stream)">
+            <summary>
+            反序列化
+            </summary>
+            <param name="stream">字节流</param>
+            <returns></returns>
+        </member>
+        <member name="M:XRayNetEntities.Tools.XmlUtil.Deserialize(System.Type,System.String)">
+            <summary>
+            反序列化
+            </summary>
+            <param name="type">类型</param>
+            <param name="xml">XML字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:XRayNetEntities.Tools.XmlUtil.Deserialize(System.Type,System.IO.Stream)">
+            <summary>
+            反序列化
+            </summary>
+            <param name="type"></param>
+            <param name="stream"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XRayNetEntities.Tools.XmlUtil.Serialize``1(``0)">
+            <summary>
+            序列化
+            </summary>
+            <param name="obj">对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:XRayNetEntities.Tools.XmlUtil.Serialize(System.Type,System.Object)">
+            <summary>
+            序列化
+            </summary>
+            <param name="type">类型</param>
+            <param name="obj">对象</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,761 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Controls;
+using GalaSoft.MvvmLight.Command;
+using UI.Common.Tracers;
+using UI.XRay.Business.Entities;
+using UI.XRay.Flows.Controllers;
+using UI.XRay.Gui.Framework;
+using System.Xml.Serialization;
+using System.IO;
+using UI.AI.Detect.FtpService;
+using UI.XRay.Business.DataAccess.Config;
+using GalaSoft.MvvmLight.Messaging;
+using System.Windows;
+using UI.XRay.Flows.Services;
+using UI.XRay.Security.Scanner.Converters;
+using UI.XRay.Flows.Services.Db;
+using System.Windows.Data;
+using System.Threading;
+
+namespace UI.XRay.Security.Scanner.ViewModel.Setting.Tip
+{
+    public class TipPlansPageViewModel : PageViewModelBase
+    {
+        /// <summary>
+        /// 显示的计划列表
+        /// </summary>
+        private ObservableCollection<TipPlan> _plans;
+        public ObservableCollection<TipPlan> Plans
+        {
+            get { return _plans; }
+            set { _plans = value; RaisePropertyChanged(); }
+        }
+
+        /// <summary>
+        /// 当前选中的Plan
+        /// </summary>
+        private TipPlan _selectedPlan;
+        public TipPlan SelectedPlan
+        {
+            get { return _selectedPlan; }
+            set { _selectedPlan = value;           
+                RaisePropertyChanged(); }
+        }
+
+        /// <summary>
+        /// 按钮提交更改、放弃更改、导出使能状态
+        /// </summary>
+        private bool _noChanged;
+        public bool NoChanged
+        {
+            get { return _noChanged; }
+            set { _noChanged = value; RaisePropertyChanged(); }
+        }
+
+        /// <summary>
+        /// 按钮添加计划使能状态
+        /// </summary>
+        private bool _isAddable;
+        public bool IsAddable
+        {
+            get { return _isAddable; }
+            set { _isAddable = value; RaisePropertyChanged(); }
+        }
+
+        private Timer timer;
+
+        private TipPlansController _controller;
+        private TipPlanandImageController _imagecontroller;
+        private ObservableCollection<TipPlan> _removeTipPlan;
+        private List<TipPlanandImage> _removeTipPlanandImage;
+        private TipImagesManagementController _managementControllerKnives;
+        private TipImagesManagementController _managementControllerExplosives;
+        private TipImagesManagementController _managementControllerGuns;
+        private TipImagesManagementController _managementControllerOthers;                
+        
+        public RelayCommand DeleteCommand { get; private set; }
+        public RelayCommand SelectCommand { get; private set; }
+        public RelayCommand AddPlanCommand { get; set; }
+        public RelayCommand SaveChangesCommand { get; set; }
+        public RelayCommand DiscardChangesCommand { get; set; }
+        public RelayCommand ExportCommand { get; set; }
+        public RelayCommand ImportCommand { get; set; }        
+
+        public TipPlansPageViewModel()
+        {           
+            DeleteCommand = new RelayCommand(DeleteCommandExecute);
+            SelectCommand = new RelayCommand(SelectCommandExecute);
+            AddPlanCommand = new RelayCommand(AddPlanCommandExecute);
+            SaveChangesCommand = new RelayCommand(SaveChangesCommandExecute);
+            DiscardChangesCommand = new RelayCommand(DiscardChangedCommandExecute);
+            ExportCommand = new RelayCommand(ExportCommandExecute);
+            ImportCommand = new RelayCommand(ImportCommandExecute);           
+            IsAddable = true;
+            timer = new Timer(new TimerCallback(Timer_Identify), null, 10, Timeout.Infinite);
+            Messenger.Default.Register<PlanandImageToDbMessage>(this, PlanandImageToDbAction);
+            if (IsInDesignMode)
+            {
+                Plans = new ObservableCollection<TipPlan>();
+                Plans.Add(new TipPlan());
+            }
+            else
+            {
+                try
+                {
+                    _controller = new TipPlansController();
+                    _imagecontroller = new TipPlanandImageController();
+                    Plans = _controller.GetAllPlans();
+                    if (Plans.Count > 0)
+                        NoChanged = true;
+                    else
+                        NoChanged = false;
+                    _removeTipPlan = new ObservableCollection<TipPlan>();
+                    _removeTipPlanandImage = new List<TipPlanandImage>();
+                }
+                catch (Exception exception)
+                {
+                    Tracer.TraceException(exception);
+                }
+            }            
+        }
+
+        private void Timer_Identify(object sender)
+        {
+            if (SelectedPlan != null && SelectedPlan.IsEnabled == true)
+            {
+                var plans = Plans.Where(p => p.IsEnabled == true && p.TipPlanId != SelectedPlan.TipPlanId);
+                foreach (var plan in plans)
+                {
+                    plan.IsEnabled = false;
+                    AddOrUpdate(plan);
+                }               
+            }
+            timer.Change(20, System.Threading.Timeout.Infinite);
+        }
+
+        /// <summary>
+        /// 添加新项，或者更新现有项
+        /// </summary>
+        /// <param name="plan"></param>
+        private void AddOrUpdate(TipPlan plan)
+        {
+            if (_controller != null)
+            {
+                _controller.AddOrUpdate(plan);
+            }
+        }                       
+
+        private void DeleteCommandExecute()
+        {
+            if (SelectedPlan != null)
+            {                
+                var plansandImage = _imagecontroller.GetAllPlans();
+                var planwithImageDelets = plansandImage.Where(p => p.TipPlanId == SelectedPlan.TipPlanId).ToList();
+                                
+                foreach (var planwithImageDelet in planwithImageDelets)
+                {                    
+                    _removeTipPlanandImage.Add(planwithImageDelet);
+                }
+                    
+                var index = Plans.IndexOf(SelectedPlan);
+                if (index >= 0)
+                {
+                    _removeTipPlan.Add(SelectedPlan);
+                    Plans.Remove(SelectedPlan);
+
+                    if (Plans.Count > 0)
+                    {
+                        if (index <= Plans.Count - 1)
+                        {
+                            SelectedPlan = Plans[index];
+                        }
+                        else if (index - 1 >= 0 && index - 1 <= Plans.Count - 1)
+                        {
+                            SelectedPlan = Plans[index - 1];
+                        }
+                        //else
+                        //{
+                        //    SelectedPlan = Plans[0];
+                        //}
+                    }
+                }
+            }
+        }
+
+        private void SelectCommandExecute()
+        {
+            if (SelectedPlan.TipPlanId == 0)
+            {
+                AddOrUpdate(SelectedPlan);
+            }
+            UpdateSelectTipLib(SelectedPlan);                         
+            var msg = new ShowTipImageSelectWindowAction("SettingWindow", conditions =>
+            {
+                try
+                {                   
+                    if (conditions != null)
+                    {
+                        var plan = conditions;
+                    }
+                }
+                catch (Exception exception)
+                {
+                    Tracer.TraceException(exception);
+                }
+            });
+
+            //// 在显示图像检索窗口之前，先缓存当前的检索条件，这样在图像检索窗口显示时，将初始化为当前的检索条件
+            //ViewModelLocator.Locator.Cache["ImageRetrievalConditions"] = Conditions;
+            Messenger.Default.Send(msg);
+        }
+
+        private void UpdateSelectTipLib(TipPlan plan)
+        {            
+            var plansandImage = _imagecontroller.GetAllPlans();
+            List<string> TipImageName = new List<string>();
+                      
+            var _managementController = new TipImagesManagementController(TipLibrary.Explosives);
+            _managementController.DeleteSelectAllImages();
+            var planwithImage = plansandImage.Where(p => p.TipPlanId == plan.TipPlanId && p.Library == "Explosives").ToList();
+            foreach (var planwithimage in planwithImage)
+            {
+                TipImageName.Add(planwithimage.ImageName);
+            }
+            _managementController.ChangeSelectTipLib(TipLibrary.Explosives, TipImageName);
+            planwithImage.Clear();
+            TipImageName.Clear();
+
+            _managementController = new TipImagesManagementController(TipLibrary.Guns);
+            _managementController.DeleteSelectAllImages();            
+            planwithImage = plansandImage.Where(p => p.TipPlanId == plan.TipPlanId && p.Library == "Guns").ToList();
+            foreach (var planwithimage in planwithImage)
+            {
+                TipImageName.Add(planwithimage.ImageName);
+            }
+            _managementController.ChangeSelectTipLib(TipLibrary.Guns, TipImageName);
+            planwithImage.Clear();
+            TipImageName.Clear();
+
+            _managementController = new TipImagesManagementController(TipLibrary.Knives);
+            _managementController.DeleteSelectAllImages();          
+            planwithImage = plansandImage.Where(p => p.TipPlanId == plan.TipPlanId && p.Library == "Knives").ToList();
+            foreach (var planwithimage in planwithImage)
+            {
+                TipImageName.Add(planwithimage.ImageName);
+            }
+            _managementController.ChangeSelectTipLib(TipLibrary.Knives, TipImageName);
+            planwithImage.Clear();
+            TipImageName.Clear();
+
+            _managementController = new TipImagesManagementController(TipLibrary.Others);
+            _managementController.DeleteSelectAllImages();           
+            planwithImage = plansandImage.Where(p => p.TipPlanId == plan.TipPlanId && p.Library == "Others").ToList();
+            foreach (var planwithimage in planwithImage)
+            {
+                TipImageName.Add(planwithimage.ImageName);
+            }
+            _managementController.ChangeSelectTipLib(TipLibrary.Others, TipImageName);
+            planwithImage.Clear();
+            TipImageName.Clear();
+
+        }
+        private void AddPlanCommandExecute()
+        {
+            var newPlan = new TipPlan();
+            if (newPlan != null)
+            {
+                Plans.Add(newPlan);
+                NoChanged = true;
+                IsAddable = false;
+            }
+        }
+        private void SaveChangesCommandExecute()
+        {
+            IsAddable = true;           
+            var plansandImage = _imagecontroller.GetAllPlans();
+            if (_removeTipPlanandImage.Count > 0)
+            {
+                _imagecontroller.RemoveRange(_removeTipPlanandImage);                
+            }            
+            if (_removeTipPlan.Count > 0)
+            {
+                foreach (var item in _removeTipPlan)
+                    _controller.Remove(item);
+            }
+            _removeTipPlan = new ObservableCollection<TipPlan>();                       
+            _removeTipPlanandImage = new List<TipPlanandImage>();
+            foreach (var plan in Plans)
+            {
+                if (plan.IsEnabled)
+                    UpdateSelectTipLib(plan);
+                AddOrUpdate(plan);
+                var sb = new StringBuilder();
+                sb.Append("Alias:").Append(plan.Alias).Append(",");
+                sb.Append("IsEnabled:").Append(plan.IsEnabled).Append(",");
+                sb.Append("Probability:").Append(plan.Probability).Append(",");
+                sb.Append("CreationTime:").Append(DateFormatHelper.DateTime2String(plan.CreationTime)).Append(",");
+                sb.Append("StartTime:").Append(DateFormatHelper.DateTime2String(plan.StartTime)).Append(",");
+                sb.Append("EndTime:").Append(DateFormatHelper.DateTime2String(plan.EndTime)).Append(",");
+
+                //sb.Append("OnlineRecMaxSeconds:").Append(plan.OnlineRecMaxSeconds).Append(",");
+                sb.Append("OfflineRecMaxSeconds:").Append(plan.OfflineRecMaxSeconds).Append(",");
+
+                sb.Append("KnivesWeight:").Append(plan.KnivesWeight).Append(",");
+                sb.Append("GunsWeight:").Append(plan.GunsWeight).Append(",");
+                sb.Append("ExplosivesWeight:").Append(plan.ExplosivesWeight).Append(",");
+                sb.Append("OtherObjectsWeight:").Append(plan.OtherObjectsWeight);
+
+                OperationRecordService.Service.AddRecord(new OperationRecord()
+                    {
+                        AccountId = LoginAccountManager.Service.CurrentAccount.AccountId,
+                        OperateUI = OperationUI.TipPlans,
+                        OperateTime = DateTime.Now,
+                        OperateObject = "TipPlans",
+                        OperateCommand = OperationCommand.Setting,
+                        OperateContent = sb.ToString(),
+                    });
+            }
+            if (Plans.Count > 0)
+                NoChanged = true;
+            else
+                NoChanged = false;
+        }
+        private void DiscardChangedCommandExecute()
+        {
+            IsAddable = true;
+            _controller = new TipPlansController();
+            Plans = _controller.GetAllPlans();
+            _removeTipPlan = new ObservableCollection<TipPlan>();
+            _removeTipPlanandImage = new List<TipPlanandImage>();
+            if (Plans.Count > 0)
+                NoChanged = true;
+            else
+                NoChanged = false;
+        }
+        private void ExportCommandExecute()
+        {
+            var msg = new ShowFolderBrowserDialogMessageAction("SettingWindow", s =>
+            {
+                if (s != null)
+                {
+                    string dstfile = ConfigHelper.GetExportFileName(s, "TipPlans");
+                    var plansandImage = _imagecontroller.GetAllPlans();
+                    using (StringWriter sw = new StringWriter())
+                    {
+                        //序列化
+                        XmlSerializer serializer = new XmlSerializer(typeof(List<TipImage>));
+                        List<TipImage> TipImageList = new List<TipImage>();
+                        foreach (var plan in Plans)
+                        {
+                            TipImage tipImage = new TipImage(plan.Alias, plan.CreationTime, plan.TipPlanId, plan.Probability, plan.IsEnabled, plan.StartTime, plan.EndTime,
+                                plan.OfflineRecMaxSeconds, plan.KnivesWeight, plan.GunsWeight, plan.ExplosivesWeight, plan.OtherObjectsWeight);
+                            var planwithExplosives = plansandImage.Where(p => p.TipPlanId == plan.TipPlanId && p.Library == "Explosives").ToList();
+                            foreach (var image in planwithExplosives)
+                                tipImage.TipImageList.Explosives.Add(image.ImageName);
+                            var planwithGuns = plansandImage.Where(p => p.TipPlanId == plan.TipPlanId && p.Library == "Guns").ToList();
+                            foreach (var image in planwithGuns)
+                                tipImage.TipImageList.Guns.Add(image.ImageName);
+                            var planwithKnives = plansandImage.Where(p => p.TipPlanId == plan.TipPlanId && p.Library == "Knives").ToList();
+                            foreach (var image in planwithKnives)
+                                tipImage.TipImageList.Knives.Add(image.ImageName);
+                            var planwithOthers = plansandImage.Where(p => p.TipPlanId == plan.TipPlanId && p.Library == "Others").ToList();
+                            foreach (var image in planwithOthers)
+                                tipImage.TipImageList.Others.Add(image.ImageName);
+                            TipImageList.Add(tipImage);
+                        }
+                        serializer.Serialize(sw, TipImageList);
+                        using (FileStream fsWrite = new FileStream(dstfile, FileMode.OpenOrCreate, FileAccess.Write))
+                        {
+                            byte[] buffer = Encoding.Default.GetBytes(sw.ToString());
+                            fsWrite.Write(buffer, 0, buffer.Length);
+                        }
+                    }
+                    System.Windows.Application.Current.Dispatcher.InvokeAsync(() =>
+                    {
+                        MessengerInstance.Send(new ShowDialogMessageAction("SettingWindow",
+                            "", TranslationService.FindTranslation("Dump completely"), MetroDialogButtons.Ok,
+                            result =>
+                            {
+
+                            }));
+                    });
+
+                    OperationRecordService.Service.AddRecord(new OperationRecord()
+                    {
+                        AccountId = LoginAccountManager.Service.CurrentAccount.AccountId,
+                        OperateUI = OperationUI.TipPlans,
+                        OperateTime = DateTime.Now,
+                        OperateObject = "TipPlans",
+                        OperateCommand = OperationCommand.Export,
+                        OperateContent = ConfigHelper.AddQuotationForPath(dstfile),
+                    });
+                }
+            });
+            MessengerInstance.Send(msg);
+        }
+        private void ImportCommandExecute()
+        {
+            var msg = new ShowOpenFilesDialogMessageAction("SettingWindow", "Xml file | *.xml", false, s =>
+            {
+                List<TipImage> _list = new List<TipImage>();
+                if (s != null && s.Length > 0)
+                {
+                    using (FileStream fsRead = new FileStream(s[0], FileMode.Open))
+                    {
+                        try
+                        {
+                            int fsLen = (int)fsRead.Length;
+                            byte[] buffer = new byte[fsLen];
+                            int result = fsRead.Read(buffer, 0, buffer.Length);
+                            string xml = System.Text.Encoding.UTF8.GetString(buffer);
+                            //反序列化
+                            using (StringReader sr = new StringReader(xml))
+                            {
+                                XmlSerializer serializer = new XmlSerializer(typeof(List<TipImage>));
+                                _list = serializer.Deserialize(sr) as List<TipImage>;
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            return;
+                        }
+                        foreach (var plan in _list)
+                        {
+                            NoChanged = true;
+                            // 新添加的TIp计划，还没有入数据库
+                            if (plan.TipPlanId == 0)
+<<<<<<< HEAD
+                            {
+                                TipPlan temp = new TipPlan(plan.Alias, plan.CreationTime, plan.TipPlanId, plan.Probability, plan.IsEnabled, plan.StartTime, plan.EndTime,
+                                plan.OfflineRecMaxSeconds, plan.KnivesWeight, plan.GunsWeight, plan.ExplosivesWeight, plan.OtherObjectsWeight);
+                                AddOrUpdate(temp);
+                                Plans = _controller.GetAllPlans();
+                                foreach (var explosive in plan.TipImageList.Explosives)
+                                    _imagecontroller.AddOrUpdate(new TipPlanandImage()
+                                    {
+                                        TipPlanId = temp.TipPlanId,
+                                        Library = "Explosives",
+                                        ImageName = explosive
+                                    });
+                                foreach (var gun in plan.TipImageList.Guns)
+                                    _imagecontroller.AddOrUpdate(new TipPlanandImage()
+                                    {
+                                        TipPlanId = temp.TipPlanId,
+                                        Library = "Guns",
+                                        ImageName = gun
+                                    });
+                                foreach (var knife in plan.TipImageList.Knives)
+                                    _imagecontroller.AddOrUpdate(new TipPlanandImage()
+                                    {
+                                        TipPlanId = temp.TipPlanId,
+                                        Library = "Knives",
+                                        ImageName = knife
+                                    });
+                                foreach (var other in plan.TipImageList.Others)
+                                    _imagecontroller.AddOrUpdate(new TipPlanandImage()
+                                    {
+                                        TipPlanId = temp.TipPlanId,
+                                        Library = "Others",
+                                        ImageName = other
+                                    });
+
+                            }
+                            else
+                            {
+                                TipPlan temp = new TipPlan(plan.Alias, plan.CreationTime, plan.TipPlanId, plan.Probability, plan.IsEnabled, plan.StartTime, plan.EndTime,
+                                plan.OfflineRecMaxSeconds, plan.KnivesWeight, plan.GunsWeight, plan.ExplosivesWeight, plan.OtherObjectsWeight);
+=======
+                            {
+                                TipPlan temp = new TipPlan(plan.Alias, plan.CreationTime, plan.TipPlanId, plan.Probability, plan.IsEnabled, plan.StartTime, plan.EndTime,
+                                plan.OfflineRecMaxSeconds, plan.KnivesWeight, plan.GunsWeight, plan.ExplosivesWeight, plan.OtherObjectsWeight);
+                                AddOrUpdate(temp);
+                                Plans = _controller.GetAllPlans();
+                                foreach (var explosive in plan.TipImageList.Explosives)
+                                    _imagecontroller.AddOrUpdate(new TipPlanandImage()
+                                    {
+                                        TipPlanId = temp.TipPlanId,
+                                        Library = "Explosives",
+                                        ImageName = explosive
+                                    });
+                                foreach (var gun in plan.TipImageList.Guns)
+                                    _imagecontroller.AddOrUpdate(new TipPlanandImage()
+                                    {
+                                        TipPlanId = temp.TipPlanId,
+                                        Library = "Guns",
+                                        ImageName = gun
+                                    });
+                                foreach (var knife in plan.TipImageList.Knives)
+                                    _imagecontroller.AddOrUpdate(new TipPlanandImage()
+                                    {
+                                        TipPlanId = temp.TipPlanId,
+                                        Library = "Knives",
+                                        ImageName = knife
+                                    });
+                                foreach (var other in plan.TipImageList.Others)
+                                    _imagecontroller.AddOrUpdate(new TipPlanandImage()
+                                    {
+                                        TipPlanId = temp.TipPlanId,
+                                        Library = "Others",
+                                        ImageName = other
+                                    });
+
+                            }
+                            else
+                            {
+                                TipPlan temp = new TipPlan(plan.Alias, plan.CreationTime, plan.TipPlanId, plan.Probability, plan.IsEnabled, plan.StartTime, plan.EndTime,
+                                plan.OfflineRecMaxSeconds, plan.KnivesWeight, plan.GunsWeight, plan.ExplosivesWeight, plan.OtherObjectsWeight);
+>>>>>>> a57bb6ee02bdb6d31c1bb1805c5836cf4302e03a
+                                if (Plans.Contains(temp))
+                                {
+
+                                }
+                                else
+                                {
+                                    AddOrUpdate(temp);
+                                    Plans = _controller.GetAllPlans();
+                                    foreach (var explosive in plan.TipImageList.Explosives)
+                                        _imagecontroller.AddOrUpdate(new TipPlanandImage()
+                                        {
+                                            TipPlanId = temp.TipPlanId,
+                                            Library = "Explosives",
+                                            ImageName = explosive
+                                        });
+                                    foreach (var gun in plan.TipImageList.Guns)
+                                        _imagecontroller.AddOrUpdate(new TipPlanandImage()
+                                        {
+                                            TipPlanId = temp.TipPlanId,
+                                            Library = "Guns",
+                                            ImageName = gun
+                                        });
+                                    foreach (var knife in plan.TipImageList.Knives)
+                                        _imagecontroller.AddOrUpdate(new TipPlanandImage()
+                                        {
+                                            TipPlanId = temp.TipPlanId,
+                                            Library = "Knives",
+                                            ImageName = knife
+                                        });
+                                    foreach (var other in plan.TipImageList.Others)
+                                        _imagecontroller.AddOrUpdate(new TipPlanandImage()
+                                        {
+                                            TipPlanId = temp.TipPlanId,
+                                            Library = "Others",
+                                            ImageName = other
+                                        });
+                                }
+
+                            }
+                            //Plans.Insert(0, new TipPlan();
+                        }
+                        ////去除id重复
+                        //for (int i = 0; i < Plans.Count; i++)
+                        //{
+                        //    for (int j = Plans.Count - 1; j > i; j--)
+                        //    {
+                        //        if (Plans[i].TipPlanId == Plans[j].TipPlanId)
+                        //        {
+                        //            Plans.RemoveAt(j);
+                        //        }
+                        //    }
+                        //}
+                    }
+                    System.Windows.Application.Current.Dispatcher.InvokeAsync(() =>
+                    {
+                        MessengerInstance.Send(new ShowDialogMessageAction("SettingWindow",
+                            "", TranslationService.FindTranslation("Import completely"), MetroDialogButtons.Ok,
+                            result =>
+                            {
+
+                            }));
+                    });
+
+                    OperationRecordService.Service.AddRecord(new OperationRecord()
+                    {
+                        AccountId = LoginAccountManager.Service.CurrentAccount.AccountId,
+                        OperateUI = OperationUI.TipPlans,
+                        OperateTime = DateTime.Now,
+                        OperateObject = "TipPlans",
+                        OperateCommand = OperationCommand.Import,
+                        OperateContent = s[0],
+                    });
+                }
+            });
+            MessengerInstance.Send(msg);
+        }
+
+        /// <summary>
+        /// 上传Tip计划至服务器的命令执行
+        /// </summary>
+        //private void UploadCommandExecute()
+        //{
+        //    string _fileName = "TipPlans_" +  DateTime.Now.ToString("yyyyMMdd") + ".xml";
+        //    string _xmlFile = System.Environment.CurrentDirectory + "\\Recv\\" + _fileName;
+        //    try
+        //    {
+        //        using (StringWriter sw = new StringWriter())
+        //        {
+        //            XmlSerializer serializer = new XmlSerializer(typeof(List<TipPlan>));
+        //            serializer.Serialize(sw, Plans.ToList());
+
+        //            using (FileStream fsWrite = new FileStream(_xmlFile, FileMode.OpenOrCreate, FileAccess.Write))
+        //            {
+        //                byte[] buffer = Encoding.Default.GetBytes(sw.ToString());
+        //                fsWrite.Write(buffer, 0, buffer.Length);
+        //            }
+        //        }
+        //        if (HttpNetworkController.Controller.IsConnected)
+        //        {
+        //            HttpNetworkController.Controller.SendFileTo(_fileName, _xmlFile, "text/plain");
+        //            System.Windows.Application.Current.Dispatcher.InvokeAsync(() =>
+        //                            {
+        //                                MessengerInstance.Send(new ShowDialogMessageAction("SettingWindow",
+        //                                    "", TranslationService.FindTranslation("Dump to network completely"), MetroDialogButtons.Ok,
+        //                                    result =>
+        //                                    {
+
+        //                                    }));
+        //                            });
+        //        }
+        //        else
+        //        {
+        //            Application.Current.Dispatcher.InvokeAsync(() =>
+        //            {
+        //                MessengerInstance.Send(new ShowDialogMessageAction("SettingWindow",
+        //                    "", TranslationService.FindTranslation("Send Failed"), MetroDialogButtons.Ok,
+        //                    result =>
+        //                    {
+
+        //                    }));
+        //            });
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Tracer.TraceException(e);
+        //        Application.Current.Dispatcher.InvokeAsync(() =>
+        //        {
+        //            MessengerInstance.Send(new ShowDialogMessageAction("SettingWindow",
+        //                "", TranslationService.FindTranslation("Send Failed"), MetroDialogButtons.Ok,
+        //                result =>
+        //                {
+
+        //                }));
+        //        });
+        //    }
+
+        //}        
+
+        public void PlanandImageToDbAction(PlanandImageToDbMessage obj)
+        {
+            if (SelectedPlan != null)
+            {
+                var plansandImage = _imagecontroller.GetAllPlans();
+                var planwithKnivesImageDelets = plansandImage.Where(p => p.TipPlanId == SelectedPlan.TipPlanId && p.Library == "Knives").ToList();
+                if (planwithKnivesImageDelets.Count > 0)
+                    _imagecontroller.RemoveRange(planwithKnivesImageDelets);
+                _managementControllerKnives = new TipImagesManagementController(TipLibrary.Knives);
+                var TotalImagesCountKnives = _managementControllerKnives.SelectImagesCount;
+                if (TotalImagesCountKnives <= 0)
+                {
+                    SelectedPlan.KnivesWeight = 0;
+                }
+                else
+                {                  
+                    var ImageName = _managementControllerKnives.TipLibImageName();
+                    foreach (var imageName in ImageName)
+                    {
+                        _imagecontroller.AddOrUpdate(new TipPlanandImage()
+                        {
+                            TipPlanId = SelectedPlan.TipPlanId,
+                            Library = "Knives",
+                            ImageName = imageName
+                        });
+                    }
+                }
+
+                _managementControllerExplosives = new TipImagesManagementController(TipLibrary.Explosives);
+                var planwithExplosivesImageDelets = plansandImage.Where(p => p.TipPlanId == SelectedPlan.TipPlanId && p.Library == "Explosives").ToList();
+                if (planwithExplosivesImageDelets.Count > 0)
+                    _imagecontroller.RemoveRange(planwithExplosivesImageDelets);
+                var TotalImagesCountExplosives = _managementControllerExplosives.SelectImagesCount;
+                if (TotalImagesCountExplosives <= 0)
+                    SelectedPlan.ExplosivesWeight = 0;
+                else
+                {                   
+                    var ImageName = _managementControllerExplosives.TipLibImageName();
+                    foreach (var imageName in ImageName)
+                    {
+                        _imagecontroller.AddOrUpdate(new TipPlanandImage()
+                        {
+                            TipPlanId = SelectedPlan.TipPlanId,
+                            Library = "Explosives",
+                            ImageName = imageName
+                        });
+                    }
+                }
+                _managementControllerGuns = new TipImagesManagementController(TipLibrary.Guns);
+                var planwithGunsImageDelets = plansandImage.Where(p => p.TipPlanId == SelectedPlan.TipPlanId && p.Library == "Guns").ToList();
+                if (planwithGunsImageDelets.Count > 0)
+                    _imagecontroller.RemoveRange(planwithGunsImageDelets);
+                var TotalImagesCountGuns = _managementControllerGuns.SelectImagesCount;
+                if (TotalImagesCountGuns <= 0)
+                    SelectedPlan.GunsWeight = 0;
+                else
+                {                  
+                    var ImageName = _managementControllerGuns.TipLibImageName();
+                    foreach (var imageName in ImageName)
+                    {
+                        _imagecontroller.AddOrUpdate(new TipPlanandImage()
+                        {
+                            TipPlanId = SelectedPlan.TipPlanId,
+                            Library = "Guns",
+                            ImageName = imageName
+                        });
+                    }
+                }
+                _managementControllerOthers = new TipImagesManagementController(TipLibrary.Others);
+                var planwithOthersImageDelets = plansandImage.Where(p => p.TipPlanId == SelectedPlan.TipPlanId && p.Library == "Others").ToList();
+                if (planwithOthersImageDelets.Count > 0)
+                    _imagecontroller.RemoveRange(planwithOthersImageDelets);
+                var TotalImagesCountOthers = _managementControllerOthers.SelectImagesCount;
+                if (TotalImagesCountOthers <= 0)
+                    SelectedPlan.OtherObjectsWeight = 0;
+                else
+                {                    
+                    var ImageName = _managementControllerOthers.TipLibImageName();
+                    foreach (var imageName in ImageName)
+                    {
+                        _imagecontroller.AddOrUpdate(new TipPlanandImage()
+                        {
+                            TipPlanId = SelectedPlan.TipPlanId,
+                            Library = "Others",
+                            ImageName = imageName
+                        });
+                    }
+                }
+            }            
+            foreach (var plan in Plans)
+            {
+                if (plan.IsEnabled)
+                    UpdateSelectTipLib(plan);
+            }
+            foreach (var plan in Plans)
+            {
+                if (plan.IsEnabled)
+                    UpdateSelectTipLib(plan);
+            }
+            foreach (var plan in Plans)
+            {
+                if (plan.IsEnabled)
+                    UpdateSelectTipLib(plan);
+            }
+        }
+        public override void OnKeyDown(System.Windows.Input.KeyEventArgs args)
+        {
+        }
+    }
+}

@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>FreeSql.Provider.SqlServer</name>
+    </assembly>
+    <members>
+        <member name="M:FreeSqlSqlServerGlobalExtensions.FormatSqlServer(System.String,System.Object[])">
+            <summary>
+            特殊处理类似 string.Format 的使用方法，防止注入，以及 IS NULL 转换
+            </summary>
+            <param name="that"></param>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlSqlServerGlobalExtensions.WithLock``1(FreeSql.ISelect{``0},SqlServerLock,System.Collections.Generic.Dictionary{System.Type,System.Boolean})">
+            <summary>
+            SqlServer with(nolock) 查询
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="that"></param>
+            <param name="lockType"></param>
+            <param name="rule">多表查询时的锁规则</param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlSqlServerGlobalExtensions.SetGlobalSelectWithLock(IFreeSql,SqlServerLock,System.Collections.Generic.Dictionary{System.Type,System.Boolean})">
+            <summary>
+            设置全局 SqlServer with(nolock) 查询
+            </summary>
+            <param name="that"></param>
+            <param name="options"></param>
+        </member>
+        <member name="M:FreeSqlSqlServerGlobalExtensions.ExecuteSqlBulkCopy``1(FreeSql.IInsert{``0},System.Data.SqlClient.SqlBulkCopyOptions,System.Nullable{System.Int32},System.Nullable{System.Int32})">
+            <summary>
+            SqlServer SqlCopyBulk 批量插入功能<para></para>
+            使用 IgnoreColumns/InsertColumns 设置忽略/指定导入的列<para></para>
+            使用 WithConnection/WithTransaction 传入连接/事务对象<para></para>
+            提示：若本方法不能满足，请使用 IInsert&lt;T&gt;.ToDataTable 方法得到 DataTable 对象后，自行处理。<para></para>
+            SqlCopyBulk 与 insert into t values(..),(..),(..) 性能测试参考：<para></para>
+            插入180000行，52列：21,065ms 与 402,355ms，10列：4,248ms 与 47,204ms<para></para>
+            插入10000行，52列：578ms 与 24,847ms，10列：127ms 与 2,275ms<para></para>
+            插入5000行，52列：326ms 与 11,465ms，10列：71ms 与 1,108ms<para></para>
+            插入2000行，52列：139ms 与 4,971ms，10列：30ms 与 488ms<para></para>
+            插入1000行，52列：105ms 与 2,437ms，10列：48ms 与 279ms<para></para>
+            插入500行，52列：79ms 与 915ms，10列：14ms 与 123ms<para></para>
+            插入100行，52列：60ms 与 138ms，10列：11ms 与 35ms<para></para>
+            插入50行，52列：48ms 与 88ms，10列：10ms 与 16ms<para></para>
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="that"></param>
+            <param name="copyOptions"></param>
+            <param name="batchSize"></param>
+            <param name="bulkCopyTimeout"></param>
+        </member>
+    </members>
+</doc>

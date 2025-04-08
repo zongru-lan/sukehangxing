@@ -1,0 +1,93 @@
+﻿<controls:MetroWindow x:Class="UI.XRay.Security.Scanner.SettingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:command="http://www.galasoft.ch/mvvmlight"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        FontSize="18" DataContext="{Binding SettingWindow, Source={StaticResource Locator}}"
+        BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="1" Background="{StaticResource WindowBackgroundBrush}"
+        ShowMaxRestoreButton="False" ShowSystemMenuOnRightClick="False" 
+        ShowMinButton="False" IsWindowDraggable="False"  ShowCloseButton="False" WindowStyle="None" ResizeMode="NoResize"
+        WindowTransitionsEnabled="False"  ShowInTaskbar="False"
+        InputMethod.IsInputMethodEnabled="False" KeyDown="SettingWindow_OnKeyDown" PreviewKeyDown="SettingWindow_OnPreviewKeyDown"
+        PreviewKeyUp="SettingWindow_OnPreviewKeyUp"
+        Title="MainMenuWindow" Height="600" Width="800" ShowTitleBar="False" WindowStartupLocation="Manual">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="KeyDown">
+            <command:EventToCommand Command="{Binding KeyDownCommand}" PassEventArgsToCommand="True"></command:EventToCommand>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="KeyUp">
+            <command:EventToCommand Command="{Binding KeyUpCommand}" PassEventArgsToCommand="True"></command:EventToCommand>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="PreviewKeyDown">
+            <command:EventToCommand Command="{Binding PreviewKeyDownCommand}" PassEventArgsToCommand="True"></command:EventToCommand>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="PreviewKeyUp">
+            <command:EventToCommand Command="{Binding PreviewKeyUpCommand}" PassEventArgsToCommand="True"></command:EventToCommand>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+            
+        <Grid Grid.Row="0" Name="TitleBarGrid" HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0" Margin="0,20,0,0" Name="TitleGrid">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Grid.Row="0" Width="52" Height ="52" Margin="0,0,5,0"
+                        Style="{StaticResource BkgButtonStyle}"
+                        Command="{Binding GoBackToSettingMenuCommand}">
+                    <Button.Content>
+                        <Image Source="Icons/Setting.png" Width="32"></Image>
+                    </Button.Content>
+                </Button>
+                <Label Grid.Column="1" Content="{Binding ElementName=MenuFrame, Path=Content.Title}" VerticalContentAlignment="Center"></Label>
+                <Button Grid.Column="2"  MinWidth="32" HorizontalAlignment="Right" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center"
+                         Command="{Binding KeyboardCommand}" >
+                    <Button.Content>
+                        <Image Margin="0,0,0,0" Source="TouchIcons/keypad.png" Width="32" HorizontalAlignment="Center" VerticalAlignment="Center"></Image>
+                    </Button.Content>
+                </Button>
+            </Grid>
+
+            <Grid Grid.Column="1" Name="SystemMenuGrid" HorizontalAlignment="Right">
+                <Button Name="CloseButton" Click="CloseButton_OnClick" Style="{StaticResource BkgButtonStyle}"
+                        VerticalAlignment="Top" IsTabStop="False"  Command="{Binding CloseWindowCommand}">
+                    <Button.Content>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition  Width="Auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Content="[F3]" VerticalAlignment="Center"></Label>
+                            <Image Grid.Column="1" Source="../Icons/CloseWindow.png" Width="24" Height="24"></Image>
+                        </Grid>
+                    </Button.Content>
+                </Button>
+            </Grid>
+        </Grid>
+        
+        <Grid Grid.Row="1" Name="FramesGrid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Frame Grid.Column="0" Name="MenuFrame" NavigationUIVisibility="Hidden" IsTabStop="False"
+                   Background="{StaticResource SettingMenuBkgBrush}"></Frame>
+            <Frame Grid.Column="1" Name="PageFrame" Source="SettingViews/Menu/Pages/MenuPage.xaml" NavigationUIVisibility="Hidden" IsTabStop="False"
+                   Background="{StaticResource SettingPageBkgBrush}">
+            </Frame>
+        </Grid>
+    </Grid>
+
+</controls:MetroWindow>

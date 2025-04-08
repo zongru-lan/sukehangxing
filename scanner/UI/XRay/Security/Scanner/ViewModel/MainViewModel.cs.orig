@@ -1,0 +1,1965 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
+using System.Linq;
+using System.Threading;
+//using System.Windows.Forms;
+using System.Windows.Input;
+using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
+using Microsoft.Win32;
+using UI.Common.Tracers;
+using UI.XRay.Business.DataAccess.Config;
+using UI.XRay.Business.Entities;
+using UI.XRay.ControlWorkflows;
+using UI.XRay.Flows.Controllers;
+using UI.XRay.Flows.Services;
+using UI.XRay.Gui.Framework;
+using UI.XRay.ImagePlant;
+using UI.XRay.ImagePlant.Gpu;
+using UI.XRay.Parts.Keyboard;
+using UI.XRay.RenderEngine;
+using Application = System.Windows.Application;
+using KeyEventArgs = System.Windows.Input.KeyEventArgs;
+using System.Windows;
+using UI.XRay.EncryptLock.Smart3XServiceLibrary;
+using System.Runtime.CompilerServices;
+using System.IO;
+using UI.XRay.Control;
+
+namespace UI.XRay.Security.Scanner.ViewModel
+{
+    /// <summary>
+    /// This class contains properties that the main View can data bind to.
+    /// <para>
+    /// Use the <strong>mvvminpc</strong> snippet to add bindable properties to this ViewModel.
+    /// </para>
+    /// <para>
+    /// You can also use Blend to data bind with the tool's support.
+    /// </para>
+    /// <para>
+    /// See http://www.galasoft.ch/mvvm
+    /// </para>
+    /// </summary>
+    public class MainViewModel : ViewModelBase
+    {
+        public RelayCommand<KeyEventArgs> PreviewKeyDownCommand { get; set; }
+
+        public RelayCommand<KeyEventArgs> PreviewKeyUpCommand { get; set; }
+
+        public RelayCommand<MouseButtonEventArgs> MouseRightButtonDownEventCommand { get; set; }
+
+        public RelayCommand<MouseButtonEventArgs> OnMouseDownEventCommand { get; set; }
+
+        public RelayCommand LoadedEventCommand { get; set; }
+
+        /// <summary>
+        /// �����ڼ����رյ��¼�
+        /// </summary>
+        public RelayCommand ClosingEventCommand { get; set; }
+
+        /// <summary>
+        /// ��ʽͼ����ͼ������������
+        /// </summary>
+        public IRollingImageProcessController RollingImagesController { get; private set; }        
+
+        /// <summary>
+        /// ��ʽͼ�������ݿ��ƣ�����ɨ��ͼ�����ݡ���ѵͼ�������Լ��ط�ͼ�����ݵĿ���
+        /// </summary>
+        public DisplayImageDataController ImageDataController { get; private set; }
+
+        /// <summary>
+        /// ͼ��1��Ĭ������
+        /// </summary>
+        private ImageGeneralSetting _image1DefaultSetting;
+
+        /// <summary>
+        /// ͼ��2��Ĭ������
+        /// </summary>
+        private ImageGeneralSetting _image2DefaultSetting;
+
+        /// <summary>
+        /// ���ڼ�¼�û����޸�ͼ��1����Ч֮ǰ����Ч
+        /// </summary>
+        private ImageEffectsComposition _image1LastEffectsComposition;
+
+        /// <summary>
+        /// ���ڼ�¼�û����޸�ͼ��2����Ч֮ǰ����Ч
+        /// </summary>
+        private ImageEffectsComposition _image2LastEffectsComposition;
+
+        /// <summary>
+        /// �Ƿ��п������İ��������£�ͼ����Ч�������������ϼ�����Auto������
+        /// �������ֿ��ذ�������1���Ӻ󣬵���ʱ�������ָ����ذ���֮ǰ�Ĺ���
+        /// </summary>
+        private bool _isToggleKeyDown;
+
+        /// <summary>
+        /// �Ŵ󾵹��ܼ��Ƿ񱻰���
+        /// </summary>
+        private bool _isMagnifyKeyDown = false;
+        private bool _isConveyorCanMove;
+
+        /// <summary>
+        /// ��ǰ�����µĿ��ذ����ļ�ֵ
+        /// </summary>
+        private Key _lastToggleKey = Key.None;
+
+        /// <summary>
+        /// ���ذ����״α����µ�ʱ��
+        /// </summary>
+        private DateTime _lastToggleKeyDownTime;
+
+        /// <summary>
+        /// �������Ƿ���������Ȩ����ֵ��app.xml.csȡ��
+        /// </summary>
+        private bool PerAuthorized;
+
+        /// <summary>
+        /// ��������
+        /// </summary>
+        private uint LockLimitedTimes;
+
+        private uint LockUsedTimes;
+
+        private string LockID;
+
+        private bool _isEnhanced = true;
+
+<<<<<<< HEAD
+        /// <summary>
+        /// 预设电压电流
+        /// </summary>
+        float xrayKV;
+        float xrayMA;
+        float xrayKV2;
+        float xrayMA2;
+        int genCount = 1;
+=======
+        private bool _isClearTip = false;
+>>>>>>> 0b4956ae3af7f29581589f0b92fdf3ce9c0ff84f
+
+        #region ���ܼ�
+        public ImageEffectsComposition F1EffectsComposition
+        {
+            get { return _f1EffectsComposition; }
+            set { _f1EffectsComposition = value; RaisePropertyChanged(); }
+        }
+
+        /// <summary>
+        /// ���ܼ�F2��ͼ����Ч����
+        /// </summary>
+        public ImageEffectsComposition F2EffectsComposition
+        {
+            get { return _f2EffectsComposition; }
+            set { _f2EffectsComposition = value; RaisePropertyChanged(); }
+        }
+
+        /// <summary>
+        /// ���ܼ�F3��ͼ����Ч����
+        /// </summary>
+        public ImageEffectsComposition F3EffectsComposition
+        {
+            get { return _f3EffectsComposition; }
+            set { _f3EffectsComposition = value; RaisePropertyChanged(); }
+        }
+
+        /// <summary>
+        /// Shift����״̬
+        /// </summary>
+        public bool IsShiftKeyOn
+        {
+            get { return _isShiftKeyOn; }
+            set { _isShiftKeyOn = value; RaisePropertyChanged(); }
+        }
+
+        private ImageEffectsComposition _f1EffectsComposition;
+
+        /// <summary>
+        /// ���ܼ�F2��ͼ����Ч����
+        /// </summary>
+        private ImageEffectsComposition _f2EffectsComposition;
+
+        /// <summary>
+        /// ���ܼ�F3��ͼ����Ч����
+        /// </summary>
+        private ImageEffectsComposition _f3EffectsComposition;
+
+        private bool _isActionKeyEnable = false;
+
+        private ActionKey? _f1KeyAction;
+        private ActionKey? _f2KeyAction;
+        private ActionKey? _f3KeyAction;
+        /// <summary>
+        /// 功能键F1的动作行为
+        /// </summary>
+        public ActionKey? F1KeyAction
+        {
+            get { return _f1KeyAction; }
+            set { _f1KeyAction = value; RaisePropertyChanged(); }
+        }
+        /// <summary>
+        /// 功能键F2的动作行为
+        /// </summary>
+        public ActionKey? F2KeyAction
+        {
+            get { return _f2KeyAction; }
+            set { _f2KeyAction = value; RaisePropertyChanged(); }
+        }
+        /// <summary>
+        /// 功能键F3的动作行为
+        /// </summary>
+        public ActionKey? F3KeyAction
+        {
+            get { return _f3KeyAction; }
+            set { _f3KeyAction = value; RaisePropertyChanged(); }
+        }
+
+        private bool _isShiftKeyOn;
+
+        private bool _specialPenetration = false;
+
+        private MotorDirection _lastDirection = MotorDirection.Stop;
+
+        private DateTime _lastMotorMoveTime = DateTime.Now;
+
+        /// <summary>
+        /// 中断拼图恢复时屏蔽按键一段时间
+        /// </summary>
+        private float _waitingTimeWhenRecoverFromInterrupt = 2.0f;
+
+        #endregion ���ܼ�
+
+        /// <summary>
+        /// Initializes a new instance of the MainViewModel class.
+        /// </summary>
+        public MainViewModel(IRollingImageProcessController rollingImageController)
+        {
+            Tracer.TraceEnterFunc("UI.XRay.Security.Scanner.ViewModel.MainViewModel");
+
+            CreateCommands();
+            RegisterMessengers();
+
+            LoadFunctionKeys();
+
+            LoadImageGeneralSettings();
+            LoadXGenSetting();
+
+            ScannerConfig.ConfigChanged += ScannerConfigOnConfigChanged;
+            SmartX3Service.Service.UsedHoursWeakEvent += Service_UsedHoursWeakEvent;
+            ControlService.ServicePart.ConveyorDirectionChanged += ServicePart_ConveyorDirectionChanged;
+            // ��ʼ����������ʾ����
+            try
+            {
+                RollingImagesController = rollingImageController;
+                RollingImagesController.ZoomFactorChanged += RollingImagesControllerOnZoomFactorChanged;                
+
+                var welcome = SkinHelper.LoadSkinImage(SkinPaths.WelcomeImage);
+                if (welcome != null)
+                {
+                    welcome.RotateFlip(RotateFlipType.Rotate180FlipX);
+                }
+
+                // �������зֱ����������ӽǵĵ������ã����ֱ���ʼ��ͼ����ʾ��ͼ�����ݿ�����
+                var view1ChannelsCount = ConfigHelper.GetView1ImageHeight();
+                var image1Setting = new RollingImageSetting(view1ChannelsCount, 1,1, _image1DefaultSetting.MoveFromRightToLeft, 
+                    _image1DefaultSetting.VerticalFlip,
+                    false, _image1DefaultSetting.ShowUnpenetrateRed, welcome);
+
+                RollingImageSetting image2Setting = null;
+                if (_image2DefaultSetting != null)
+                {
+                    var view2ChannelsCount = ConfigHelper.GetView2ImageHeight();
+ 
+                    image2Setting = new RollingImageSetting(view2ChannelsCount, 1,1, _image2DefaultSetting.MoveFromRightToLeft, _image2DefaultSetting.VerticalFlip,
+                        false, _image2DefaultSetting.ShowUnpenetrateRed, welcome);
+                }
+
+                RollingImagesController.Initialize(image1Setting, image2Setting);
+                //配置控件宽度和视角
+                var viewCount = _image2DefaultSetting != null ? 2 : 1;
+                PaintingRegionsService.Service.InitScreen((int)RollingImagesController.Width, viewCount);
+                //设定方向
+                RollingImagesController.RightToLeft = _image1DefaultSetting.MoveFromRightToLeft;
+
+                // Set image effects.
+                InitImageEffects();
+
+                RollingImagesController.StartService();
+                PaintingRegionsService.Service.RollingImageProcessController = RollingImagesController;
+
+                ImageDataController = new DisplayImageDataController(RollingImagesController);
+                ImageDataController.Initialize();
+                ImageDataController.TipMissed += ImageDataControllerOnTipMissed;
+                ImageDataController.TipIdentified += ImageDataControllerOnTipIdentified;
+                ImageDataController.SetIsShapeCorrection(true);//默认开启图像畸变矫正
+            }
+            catch (Exception exception)
+            {
+                Tracer.TraceException(exception, "Unexpected exception in MainViewModel constructor");
+            }
+
+            Tracer.TraceExitFunc("UI.XRay.Security.Scanner.ViewModel.MainViewModel");
+        }
+
+        void ServicePart_ConveyorDirectionChanged(object sender, Control.ConveyorDirectionChangedEventArgs e)
+        {
+            var status = e.New;
+            if (status != Control.ConveyorDirection.Stop)
+            {
+                CloseSpecialPenetration(RollingImagesController);
+            }
+        }
+
+        void Service_UsedHoursWeakEvent(object sender, Smart3XEventArgs e)
+        {
+            LockUsedTimes = (uint)e.RemainderHours;
+            if (!PerAuthorized)
+            {
+                if (LockUsedTimes > LockLimitedTimes)
+                {
+                    MessageBox.Show("Usb lock usage limit reached!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    Application.Current.Shutdown();
+                }
+                
+            }
+        }
+
+        /// <summary>
+        /// �¼���Ӧ���û����ǳ�һ��tipͼ�񣬷�����ʾ��Ϣ
+        /// </summary>
+        private void ImageDataControllerOnTipIdentified()
+        {
+            Messenger.Default.Send(new ShowFlyoutMessage("MainWindow",
+                TranslationService.FindTranslation("Congratulations, you have recognized simulated dangerous goods."), MessageIcon.Information, 7));
+        }
+
+        /// <summary>
+        /// �¼���Ӧ���û�����һ��Tipͼ��,������ʾ��Ϣ
+        /// </summary>
+        private void ImageDataControllerOnTipMissed()
+        {
+            Messenger.Default.Send(new ShowFlyoutMessage("MainWindow",
+                TranslationService.FindTranslation("Sorry, you missed simulated dangerous goods!"),MessageIcon.Warning, 7));
+            Messenger.Default.Send(new ShowFlyoutMessage("MainWindow",
+                TranslationService.FindTranslation("Please note that there is an unrecognized simulated dangerous goods image, Pressing the stop button will clear it."), MessageIcon.Warning, 7));
+        }
+
+        /// <summary>
+        /// �Ŵ����������仯
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="f"></param>
+        private void RollingImagesControllerOnZoomFactorChanged(object sender, float f)
+        {
+            UpdateImageEffectsString(true);
+        }
+
+        /// <summary>
+        /// ���÷����仯�����¿��ݼ�
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="eventArgs"></param>
+        private void ScannerConfigOnConfigChanged(object sender, EventArgs eventArgs)
+        {
+            try
+            {
+                Application.Current.Dispatcher.InvokeAsync(() =>
+                {
+                    LoadFunctionKeys();
+                    LoadImageGeneralSettings();
+                });
+            }
+            catch (Exception exception)
+            {
+                Tracer.TraceException(exception);
+            }
+        }
+
+        /// <summary>
+        /// �������м��ؿ��ݼ��Ķ���
+        /// </summary>
+        private void LoadFunctionKeys()
+        {
+            try
+            {
+                if (!ScannerConfig.Read(ConfigPath.KeyboardIsFuctionKeyActionEnable, out _isActionKeyEnable))
+                {
+                    _isActionKeyEnable = false;
+                }
+
+                string keyEffects;
+                if (!ScannerConfig.Read(ConfigPath.KeyboardF1Effects, out keyEffects))
+                {
+                    keyEffects = ",,,";
+                }
+
+                ImageEffectsComposition composition;
+                F1EffectsComposition = ImageEffectsComposition.TryParse(keyEffects, out composition)
+                    ? composition
+                    : new ImageEffectsComposition();
+
+                if (!ScannerConfig.Read(ConfigPath.KeyboardF2Effects, out keyEffects))
+                {
+                    keyEffects = ",,,";
+                }
+                F2EffectsComposition = ImageEffectsComposition.TryParse(keyEffects, out composition)
+                    ? composition
+                    : new ImageEffectsComposition();
+
+                if (!ScannerConfig.Read(ConfigPath.KeyboardF3Effects, out keyEffects))
+                {
+                    keyEffects = ",,,";
+                }
+                F3EffectsComposition = ImageEffectsComposition.TryParse(keyEffects, out composition)
+                    ? composition
+                    : new ImageEffectsComposition();
+
+                if (_isActionKeyEnable)
+                {
+                    string keyActionStr;
+                    ActionKey keyAction;
+                    if (!ScannerConfig.Read(ConfigPath.KeyboardF1ActionType, out keyActionStr))
+                    {
+                        keyActionStr = String.Empty;
+                    }
+
+                    if (!Enum.TryParse(keyActionStr, out keyAction))
+                    {
+                        F1KeyAction = null;
+                    }
+                    else
+                    {
+                        F1KeyAction = keyAction;
+                    }
+
+                    if (!ScannerConfig.Read(ConfigPath.KeyboardF2ActionType, out keyActionStr))
+                    {
+                        keyActionStr = String.Empty;
+                    }
+
+                    if (!Enum.TryParse(keyActionStr, out keyAction))
+                    {
+                        F2KeyAction = null;
+                    }
+                    else
+                    {
+                        F2KeyAction = keyAction;
+                    }
+
+                    if (!ScannerConfig.Read(ConfigPath.KeyboardF3ActionType, out keyActionStr))
+                    {
+                        keyActionStr = String.Empty;
+                    }
+
+                    if (!Enum.TryParse(keyActionStr, out keyAction))
+                    {
+                        F3KeyAction = null;
+                    }
+                    else
+                    {
+                        F3KeyAction = keyAction;
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                Tracer.TraceException(exception);
+            }
+        }
+
+        /// <summary>
+        /// ��ʼ��ͼ��1��ͼ��2����Ч
+        /// </summary>
+        private void InitImageEffects()
+        {
+            var image1 = RollingImagesController.Image1;
+            var image2 = RollingImagesController.Image2;
+
+            if (image1 != null && _image1DefaultSetting != null)
+            {
+                image1.AbsorptivityIndex = _image1DefaultSetting.Absorbtivity;
+                image1.IsEdgeEnhanceEnabled = false;
+                image1.IsSuperEnhanceEnabled = _image1DefaultSetting.SuperEnhance;
+                image1.ColorMode = _image1DefaultSetting.ColorMode;
+                image1.PenetrationMode = _image1DefaultSetting.Penetration;
+                image1.IsInversed = _image1DefaultSetting.Inversed;
+
+                _image1LastEffectsComposition = new ImageEffectsComposition(image1.ColorMode, image1.PenetrationMode,
+                    image1.IsInversed, image1.IsSuperEnhanceEnabled);
+            }
+
+            if (image2 != null && _image2DefaultSetting != null)
+            {
+                image2.AbsorptivityIndex = _image2DefaultSetting.Absorbtivity;
+                image2.IsEdgeEnhanceEnabled = false;
+                image2.IsSuperEnhanceEnabled = _image2DefaultSetting.SuperEnhance;
+                image2.ColorMode = _image2DefaultSetting.ColorMode;
+                image2.PenetrationMode = _image2DefaultSetting.Penetration;
+                image2.IsInversed = _image2DefaultSetting.Inversed;
+
+                _image2LastEffectsComposition = new ImageEffectsComposition(image2.ColorMode, image2.PenetrationMode,
+                    image2.IsInversed, image2.IsSuperEnhanceEnabled);
+            }
+        }
+
+        /// <summary>
+        /// ����ͼ����Ĭ��������Ϣ
+        /// </summary>
+        private void LoadImageGeneralSettings()
+        {
+            try
+            {
+                _image1DefaultSetting = ImageGeneralSetting.LoadImage1Setting();
+
+                int imagesCount;
+                if (!ScannerConfig.Read(ConfigPath.ImagesCount, out imagesCount))
+                {
+                    imagesCount = 1;
+                }
+
+                if (imagesCount > 1)
+                {
+                    _image2DefaultSetting = ImageGeneralSetting.LoadImage2Setting();
+                }
+                if (!ScannerConfig.Read(ConfigPath.WaitingTimeWhenRecoverFromInterrupt, out _waitingTimeWhenRecoverFromInterrupt))
+                {
+                    _waitingTimeWhenRecoverFromInterrupt = 3.0f;
+                }
+
+            }
+            catch (Exception exception)
+            {
+                Tracer.TraceException(exception);
+            }
+        }
+
+        private void CreateCommands()
+        {
+            PreviewKeyDownCommand = new RelayCommand<KeyEventArgs>(PreviewKeyDownCommandExecute);
+            PreviewKeyUpCommand = new RelayCommand<KeyEventArgs>(PreviewKeyUpCommandExecute);
+            MouseRightButtonDownEventCommand = new RelayCommand<MouseButtonEventArgs>(MouseRightButtonDownEventCommandExecute);
+            OnMouseDownEventCommand = new RelayCommand<MouseButtonEventArgs>(OnMouseDownEventCommandExecute);
+            ClosingEventCommand = new RelayCommand(ClosingEventCommandExecute);
+            LoadedEventCommand = new RelayCommand(LoadedEventCommandExecute);
+        }
+
+        private void OnMouseDownEventCommandExecute(MouseButtonEventArgs obj)
+        {
+            if (obj.ChangedButton == MouseButton.Middle)
+            {
+                var image1 = RollingImagesController.Image1;
+                var image2 = RollingImagesController.Image2;
+
+                //�����������ǷŴ󾵹���
+                _isMagnifyKeyDown = !_isMagnifyKeyDown;
+                //���������˷Ŵ󾵹��ܼ�
+                if (_isMagnifyKeyDown)
+                {
+                    // ȡ�����ţ�����ͼ���������ţ���Ӱ���Ŵ�����ʾЧ��
+                    Zoom1X(image1, image2);
+
+                    RollingImagesController.EnableLocalZoom = true;
+                }
+                else
+                {
+                    //�ڶ��ε����Ŵ󾵹��ܼ�
+                    RollingImagesController.EnableLocalZoom = false;
+                    Zoom1X(image1, image2);
+                }
+            }
+        }
+
+        private void RegisterMessengers()
+        {
+            Messenger.Default.Register<ClearUpTipSelectedMessage>(this, ClearUpTipSelectedAction);
+            // ע����ʹ�����ڽ��ջط�ͼ���б�
+            Messenger.Default.Register<PlaybackImageRecordsMessage>(this, (msg) =>
+            {
+                if (msg != null)
+                {
+                    try
+                    {
+                        ImageDataController.BeginPlayback(msg.Records);
+                    }
+                    catch (Exception exception)
+                    {
+                        Tracer.TraceException(exception);
+                        throw;
+                    }
+                }
+            });
+        }
+
+        private void ClearUpTipSelectedAction(ClearUpTipSelectedMessage obj)
+        {
+            if (ImageDataController != null)
+                try
+                {
+                    ImageDataController.ClearTipSelected();
+                }
+                catch (Exception exception)
+                {
+                    Tracer.TraceException(exception);
+                    throw;
+                }
+        }
+
+        /// <summary>
+        /// �����Ѿ��������ϣ���ʾ��½���ڻ��Զ���¼
+        /// </summary>
+        private async void LoadedEventCommandExecute()
+        {
+            await Application.Current.Dispatcher.InvokeAsync(async () =>
+            {
+                Tracer.TraceInfo("Try to login automatically.");
+                AutoLoginController.TryAutoLogin();
+
+                if (!LoginAccountManager.Service.HasLogin)
+                {
+                    Thread.Sleep(300);
+                    ShowLoginWindow();
+                }
+                else
+                {
+                    Tracer.TraceInfo("Auto login Success.");
+                }
+
+                if (CheckLock())
+                {
+                    await Application.Current.Dispatcher.InvokeAsync(CleanTunnel);
+                    // �����Ƿ���ҪԤ�ȣ�������Ҫ��Ԥ��
+                    await Application.Current.Dispatcher.InvokeAsync(CheckAndWarmupXRayGen);
+
+                    // ��¼���ɺ󣬿�ʼУ�����׺�����
+                    ShowCalibrationWindow();
+
+                    if (IsTimeToRemind())
+                        ShowRegularRemindWindow();
+                }
+                else
+                {
+                    Application.Current.Shutdown();
+                }
+
+            });
+        }
+
+        private bool CheckLimitedTimes()
+        {
+            if (PerAuthorized)
+            {
+                return true;
+            }
+            else
+            {
+                LockLimitedTimes = (Application.Current as App).LockLimitedTimes;
+                LockUsedTimes = SmartX3Service.Service.UsedHours;
+                if (LockUsedTimes <= LockLimitedTimes)
+                {
+                    return true;
+                }
+                else
+                {
+                    MessageBox.Show("Usb lock usage limit reached!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// ��������������Ȩ���ͼ���������
+        /// </summary>
+        /// <returns></returns>
+        private bool CheckLock()
+        {
+            PerAuthorized = (Application.Current as App).PerAuthorized;
+
+
+            if (PerAuthorized)
+            {
+                return true;
+            }
+            else
+            {
+                return VerifyUSBKey();
+            }
+
+        }
+        private bool VerifyUSBKey()
+        {
+            bool returnValue = false;
+            var lockResult = SmartX3Service.Service.InitUsbLock(out LockID);
+            //if (!SmartX3Service.Service.IsNewLock)
+            //{
+            //    MessageBox.Show("Please replace the new version of the usb lock!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            //    return  false;
+            //}
+            //string appLockID = (Application.Current as App).LockID;
+            //if (appLockID!=LockID)
+            //{
+            //    MessageBox.Show("Usb lock does not match key!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            //    return false;
+            //}
+
+            switch (lockResult)
+            {
+                case ReturnLockState.OK:
+                    if (CheckLimitedTimes())     //����������Ȩ��ʹ�ô���û�����ƾ���������������
+                    {
+                        SmartX3Service.Service.StartService();
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                    returnValue = true;
+                    break;
+                case ReturnLockState.NoLock:
+                    MessageBox.Show("No usb key found!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    returnValue = false;
+                    break;
+                case ReturnLockState.ReadError:
+                    MessageBox.Show("Failed to read data from usb key!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    returnValue = false;
+                    break;
+                case ReturnLockState.ReadExeError:
+                    MessageBox.Show("An error occured in executble file of usb key when reading data!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    returnValue = false;
+                    break;
+                case ReturnLockState.WriteError:
+                    MessageBox.Show("Failed to write data from usb key!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    returnValue = false;
+                    break;
+                case ReturnLockState.WriteExeError:
+                    MessageBox.Show("An error occured in executble file of usb key when writing data!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    returnValue = false;
+                    break;                
+                default:
+                    break;
+            }
+            return returnValue;
+        }
+
+        /// <summary>
+        /// �ж��Ƿ���ʾ����Ӳ��״̬
+        /// </summary>
+        /// <returns></returns>
+        private bool IsTimeToRemind()
+        {
+            int timeInterval;
+            if (!ScannerConfig.Read(ConfigPath.SystemRemindTimeInterval, out timeInterval))
+            {
+                //ScannerConfig.Write(ConfigPath.SystemRemindTimeInterval, -1);//
+                timeInterval = -1;
+            }
+            if (timeInterval <= 0)
+            {
+                return false;
+            }
+
+            long lastTime;
+            if (!ScannerConfig.Read(ConfigPath.SystemLastRemindTime, out lastTime))
+            {
+                lastTime = (DateTime.Now - TimeSpan.FromDays(15)).Ticks;
+            }
+
+            if (lastTime == 0)
+            {
+                lastTime = DateTime.Now.Ticks;
+            }
+
+            ScannerConfig.Write(ConfigPath.SystemLastRemindTime, DateTime.Now.Ticks);
+
+            var lastTimeDataTime = new DateTime(lastTime);
+            var ts = DateTime.Now - lastTimeDataTime;
+
+            if (ts >= TimeSpan.FromDays(timeInterval))
+            {                
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        private void LoadXGenSetting()
+        {
+            if (!ScannerConfig.Read(ConfigPath.XRayGenKV, out xrayKV))
+            {
+                xrayKV = 160f;
+            }
+            if (!ScannerConfig.Read(ConfigPath.XRayGenMA, out xrayMA))
+            {
+                xrayMA = 0.5f;
+            }
+            if (!ScannerConfig.Read(ConfigPath.XRayGenKV2, out xrayKV2))
+            {
+                xrayKV2 = 160f;
+            }
+            if (!ScannerConfig.Read(ConfigPath.XRayGenMA2, out xrayMA2))
+            {
+                xrayMA2 = 0.5f;
+            }
+            if (!ScannerConfig.Read(ConfigPath.XRayGenCount, out genCount))
+            {
+                genCount = 1;
+            }
+            if (genCount == 1)
+            {
+                ConfigHelper.XRayGen1Voltage = xrayKV;
+                ConfigHelper.XRayGen1Current = xrayMA;
+                ConfigHelper.XRayGen2Voltage = 0;
+                ConfigHelper.XRayGen2Current = 0;
+            }
+            else
+            {
+                ConfigHelper.XRayGen1Voltage = xrayKV;
+                ConfigHelper.XRayGen1Current = xrayMA;
+                ConfigHelper.XRayGen2Voltage = xrayKV2;
+                ConfigHelper.XRayGen2Current = xrayMA2;
+            }
+        }
+        private void CleanTunnel()
+        {
+            MessengerInstance.Send(new OpenWindowMessage("MainWindow", "CleanTunnelWindow"));
+        }
+
+        private void CleanTunnel()
+        {
+            MessengerInstance.Send(new OpenWindowMessage("MainWindow", "CleanTunnelWindow"));
+        }
+
+        /// <summary>
+        /// �����Ƿ���ҪԤ�Ȳ�ִ��Ԥ��
+        /// </summary>
+        private void CheckAndWarmupXRayGen()
+        {
+            var duration = XRayGenWarmupHelper.GetWarmupDuration();
+            if (duration != null)
+            {
+                // ��ʾԤ�ȴ��ڣ���ʼԤ��
+                MessengerInstance.Send(new OpenWindowMessage("MainWindow", "XRayGenWarmupWindow"));
+            }
+            else
+            {
+                XRayGenSettingController _settingController = new XRayGenSettingController();
+                _settingController.ChangeXRayGenSettings(xrayKV, xrayMA, XRayGeneratorIndex.XRayGenerator1);
+                if (genCount > 1)
+                {
+                    _settingController.ChangeXRayGenSettings(xrayKV2, xrayMA2, XRayGeneratorIndex.XRayGenerator2);
+                }
+            }
+        }
+
+        /// <summary>
+        /// ���������ڹر��¼�������ֹͣͼ�����Ʒ���
+        /// </summary>
+        private void ClosingEventCommandExecute()
+        {
+            if (ImageDataController != null)
+            {
+                ImageDataController.Cleanup();
+            }
+
+            if (RollingImagesController != null)
+            {
+                RollingImagesController.StopService();
+            }
+
+            if (!PerAuthorized)
+            {
+                if (SmartX3Service.Service.ServiceRunning)
+                {
+                    SmartX3Service.Service.StopService();
+                }
+            }
+        }
+
+        /// <summary>
+        /// �������ס����ȱ궨����
+        /// </summary>
+        private void ShowCalibrationWindow()
+        {
+            MessengerInstance.Send(new OpenWindowMessage("MainWindow", "CalibrateWindow"));
+        }
+
+        /// <summary>
+        /// ��ʱ���Ѵ���
+        /// </summary>
+        private void ShowRegularRemindWindow()
+        {
+            MessengerInstance.Send(new OpenWindowMessage("MainWindow", "RegularRemindWindow"));
+        }
+
+        private void ShowLoginWindow()
+        {
+            MessengerInstance.Send(new OpenWindowMessage("MainWindow", "LoginWindow"));
+        }
+
+        /// <summary>
+        /// �û����¹��ܼ�F1��F2��F3
+        /// </summary>
+        /// <param name="key"></param>
+        private void PreviewFunctionKeyDown(Key key)
+        {
+            ImageEffectsComposition compostion = null;
+            ActionKey? actionType = null;
+
+            compostion = F1EffectsComposition;
+            actionType = F1KeyAction;
+
+            if (key == Key.F2)
+            {
+                compostion = F2EffectsComposition;
+                actionType = F2KeyAction;
+            }
+            else if (key == Key.F3)
+            {
+                compostion = F3EffectsComposition;
+                actionType = F3KeyAction;
+            }
+
+            if (actionType != null)
+            {
+                if (ImageDataController.IsScanning || (ImageDataController.IsTrainingMode && ImageDataController.IsTraining) || !ImageDataController.IsSendDataCompleted)
+                {
+                    return;
+                }
+
+                switch (actionType)
+                {
+                    case ActionKey.ImagePenetration:
+                        {
+                            var image1 = RollingImagesController.Image1;
+                            var image2 = RollingImagesController.Image2;
+
+                            if (_isEnhanced && !_specialPenetration)
+                            {
+                                image1.IsSuperEnhanceEnabled = false;
+                                if (image2!=null)
+                                {
+                                    image2.IsSuperEnhanceEnabled = image1.IsSuperEnhanceEnabled;
+                                }
+                                ImageDataController.SetIsShowScreenWithOriginXRayData(true);
+                                _isEnhanced = false;
+                            }
+                            else if (!_isEnhanced && !_specialPenetration)
+                            {
+                                _specialPenetration = true;
+                                if (image1 != null)
+                                {
+                                    RollingImagesController.Image1.IsSpecialPenetrationEnabled = _specialPenetration;
+                                }
+                                if (image2 != null)
+                                {
+                                    RollingImagesController.Image2.IsSpecialPenetrationEnabled = _specialPenetration;
+                                }
+                                RollingImagesController.DoSpecialPenetration();
+                            }
+                            else if(_specialPenetration)
+                            {
+                                image1.IsSuperEnhanceEnabled = false;
+                               
+                                if (image2!=null)
+                                {
+                                    image2.IsSuperEnhanceEnabled = image1.IsSuperEnhanceEnabled;
+                                }
+                                ImageDataController.SetIsShowScreenWithOriginXRayData(false);
+                                _specialPenetration = false;
+                                _isEnhanced = true;
+                            }                       
+                            
+                            break;
+                        }
+                    case ActionKey.StartShapeCorrection:
+                        {
+                            if (ImageDataController != null)
+                            {
+                                //开启图像矫正
+                                ImageDataController.SetIsShapeCorrection(true);
+                            }
+                            break;
+                        }
+                    case ActionKey.StopShapeCorrection:
+                        {
+                            if (ImageDataController != null)
+                            {
+                                //关闭图像矫正
+                                ImageDataController.SetIsShapeCorrection(false);
+                            }
+                            break;
+                        }
+                }
+                UpdateImageEffectsString();
+                return;
+            }
+
+            if (compostion != null)
+            {
+                if (!_isToggleKeyDown)
+                {
+                    // �״μ��⵽������Ϣ����¼��ֵ��ʱ��
+                    _isToggleKeyDown = true;
+                    _lastToggleKey = key;
+                    _lastToggleKeyDownTime = DateTime.Now;
+
+                    var image1 = RollingImagesController.Image1;
+                    var image2 = RollingImagesController.Image2;
+
+                    // ���浱ǰ��ͼ����Ч
+                    CacheCurrentImageEffects();
+
+                    // ���ݹ��ܼ��е���Ч���ã�Ӧ����Ӧ����Ч
+                    if (compostion.ColorMode != null)
+                    {
+                        if (image1 != null)
+                        {
+                            image1.ColorMode = compostion.ColorMode.Value;
+                        }
+
+                        if (image2 != null)
+                        {
+                            image2.ColorMode = compostion.ColorMode.Value;
+                        }
+                    }
+
+                    if (compostion.Penetration != null)
+                    {
+                        if (image1 != null)
+                        {
+                            image1.PenetrationMode = compostion.Penetration.Value;
+                        }
+
+                        if (image2 != null)
+                        {
+                            image2.PenetrationMode = compostion.Penetration.Value;
+                        }
+                    }
+
+                    if (compostion.IsInversed != null)
+                    {
+                        if (image1 != null)
+                        {
+                            image1.IsInversed = compostion.IsInversed.Value;
+                        }
+
+                        if (image2 != null)
+                        {
+                            image2.IsInversed = compostion.IsInversed.Value;
+                        }
+                    }
+
+                    if (compostion.IsSenEnabled != null)
+                    {
+                        if (image1 != null)
+                        {
+                            image1.IsSuperEnhanceEnabled = compostion.IsSenEnabled.Value;
+                        }
+
+                        if (image2 != null)
+                        {
+                            image2.IsSuperEnhanceEnabled = compostion.IsSenEnabled.Value;
+                        }
+                    }
+
+                    UpdateImageEffectsString();
+                }
+            }
+        }
+
+        /// <summary>
+        /// ���浱ǰ��ͼ����Ч
+        /// </summary>
+        private void CacheCurrentImageEffects()
+        {
+            var image1 = RollingImagesController.Image1;
+            var image2 = RollingImagesController.Image2;
+
+            if (image1 != null)
+            {
+                _image1LastEffectsComposition.ColorMode = image1.ColorMode;
+                _image1LastEffectsComposition.IsInversed = image1.IsInversed;
+                _image1LastEffectsComposition.Penetration = image1.PenetrationMode;
+                _image1LastEffectsComposition.IsSenEnabled = image1.IsSuperEnhanceEnabled;
+            }
+
+            if (image2 != null)
+            {
+                _image2LastEffectsComposition.ColorMode = image2.ColorMode;
+                _image2LastEffectsComposition.IsInversed = image2.IsInversed;
+                _image2LastEffectsComposition.Penetration = image2.PenetrationMode;
+                _image2LastEffectsComposition.IsSenEnabled = image2.IsSuperEnhanceEnabled;
+            }
+        }
+
+        /// <summary>
+        /// �ָ�ͼ������Ч��֮ǰ��״̬
+        /// </summary>
+        private void RestoreImageEffects()
+        {
+            var image1 = RollingImagesController.Image1;
+            var image2 = RollingImagesController.Image2;
+
+            if (image1 != null)
+            {
+                if (_image1LastEffectsComposition.ColorMode != null)
+                {
+                    image1.ColorMode = _image1LastEffectsComposition.ColorMode.Value;
+                }
+
+                if (_image1LastEffectsComposition.IsInversed != null)
+                {
+                    image1.IsInversed = _image1LastEffectsComposition.IsInversed.Value;
+                }
+
+                if (_image1LastEffectsComposition.Penetration != null)
+                {
+                    image1.PenetrationMode = _image1LastEffectsComposition.Penetration.Value;
+                }
+
+                if (_image1LastEffectsComposition.IsSenEnabled != null)
+                {
+                    image1.IsSuperEnhanceEnabled = _image1LastEffectsComposition.IsSenEnabled.Value;
+                }
+            }
+
+            if (image2 != null)
+            {
+                if (_image2LastEffectsComposition.ColorMode != null)
+                {
+                    image2.ColorMode = _image2LastEffectsComposition.ColorMode.Value;
+                }
+
+                if (_image2LastEffectsComposition.IsInversed != null)
+                {
+                    image2.IsInversed = _image2LastEffectsComposition.IsInversed.Value;
+                }
+
+                if (_image2LastEffectsComposition.Penetration != null)
+                {
+                    image2.PenetrationMode = _image2LastEffectsComposition.Penetration.Value;
+                }
+
+                if (_image2LastEffectsComposition.IsSenEnabled != null)
+                {
+                    image2.IsSuperEnhanceEnabled = _image2LastEffectsComposition.IsSenEnabled.Value;
+                }
+            }
+
+            UpdateImageEffectsString();
+        }
+
+        /// <summary>
+        ///  ��������
+        /// </summary>
+        /// <param name="args"></param>
+        private void PreviewKeyUpCommandExecute(KeyEventArgs args)
+        {
+            //记录按键信息
+            RecordImageProcess(args.Key);
+
+            if (_isToggleKeyDown)
+            {
+                _isToggleKeyDown = false;
+                if (DateTime.Now - _lastToggleKeyDownTime >= TimeSpan.FromSeconds(0.7))
+                {
+                    // ���ذ�������1���Ӻ����������ָ������ذ�������֮ǰ��Ч��
+                    if (IsFunctionKey(args.Key) || IsReversibleImageEffectsKey(args.Key))
+                    {
+                        RestoreImageEffects();
+                    }
+                    else if (IsReversibleToggleKey(args.Key))
+                    {
+                        if (args.Key == ScannerKeyboardPart.Keyboard.Auto)
+                        {
+                            ImageDataController.IsIntelliSenseEnabled = !ImageDataController.IsIntelliSenseEnabled;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                var image1 = RollingImagesController.Image1;
+                var image2 = RollingImagesController.Image2;
+
+                if (args.Key == ScannerKeyboardPart.Keyboard.Left)
+                {
+                    if (!image1.CanMoveZoomWindowLeft)
+                    {
+                        ImageDataController.PullLeftImageEnd();
+                    }
+
+                    args.Handled = true;
+                }
+                else if (args.Key == ScannerKeyboardPart.Keyboard.Right)
+                {
+                    if (!image1.CanMoveZoomWindowLeft)
+                    {
+                        ImageDataController.PullRightImageEnd();
+                    }
+
+                    args.Handled = true;
+                }
+
+            }
+        }
+
+        /// <summary>
+        /// �������濪�ذ���
+        /// </summary>
+        /// <param name="key"></param>
+        private void PreviewReversibleToggleKeyDown(Key key)
+        {
+            var image1 = RollingImagesController.Image1;
+            var image2 = RollingImagesController.Image2;
+
+            if (!_isToggleKeyDown)
+            {
+                // �״μ��⵽������Ϣ����¼��ֵ��ʱ�̣�������
+                _isToggleKeyDown = true;
+                _lastToggleKey = key;
+                _lastToggleKeyDownTime = DateTime.Now;
+
+                if (key == ScannerKeyboardPart.Keyboard.Auto)
+                {
+                    ImageDataController.IsIntelliSenseEnabled = !ImageDataController.IsIntelliSenseEnabled;
+                }
+                else if (key == ScannerKeyboardPart.Keyboard.VFlip)
+                {
+                    image1.VerticalFlip = !image1.VerticalFlip;
+                    if (image2 != null)
+                    {
+                        image2.VerticalFlip = !image2.VerticalFlip;
+                    }
+                }
+            }
+        }
+
+        private void PreviewReversibleImageEffectsKeyDown(Key key)
+        {
+            var image1 = RollingImagesController.Image1;
+            var image2 = RollingImagesController.Image2;
+
+            if (!_isToggleKeyDown)
+            {
+                // �״μ��⵽������Ϣ����¼��ֵ��ʱ�̣�������
+                _isToggleKeyDown = true;
+                _lastToggleKey = key;
+                _lastToggleKeyDownTime = DateTime.Now;
+
+                CacheCurrentImageEffects();
+
+                if (key == ScannerKeyboardPart.Keyboard.Inverse)
+                {
+                    image1.IsInversed = !image1.IsInversed;
+                    if (image2 != null)
+                    {
+                        image2.IsInversed = image1.IsInversed;
+                    }
+                    UpdateImageEffectsString();
+                }
+                else if (key == ScannerKeyboardPart.Keyboard.HighPenetrate)
+                {
+                    if (IsShiftKeyOn)
+                    {
+                        if (image1.PenetrationMode == PenetrationMode.Standard)
+                        {
+                            image1.PenetrationMode = PenetrationMode.SuperPenetrate;
+                        }
+                        else if (image1.PenetrationMode == PenetrationMode.SuperPenetrate)
+                        {
+                            image1.PenetrationMode = PenetrationMode.SlicePenetrate;
+                        }
+                        else
+                        {
+                            image1.PenetrationMode = PenetrationMode.Standard;
+                        }
+
+                        if (image2 != null)
+                        {
+                            image2.PenetrationMode = image1.PenetrationMode;
+                        }
+                    }
+                    else
+                    {
+                        if (image1.PenetrationMode == PenetrationMode.HighPenetrate)
+                        {
+                            image1.PenetrationMode = PenetrationMode.LowPenetrate;
+                        }
+                        else if (image1.PenetrationMode == PenetrationMode.LowPenetrate)
+                        {
+                            image1.PenetrationMode = PenetrationMode.Standard;
+                        }
+                        else
+                        {
+                            image1.PenetrationMode = PenetrationMode.HighPenetrate;
+                        }
+
+                        if (image2 != null)
+                        {
+                            image2.PenetrationMode = image1.PenetrationMode;
+                        }
+                    }
+                    UpdateImageEffectsString();
+                }
+                else if (key == ScannerKeyboardPart.Keyboard.BlackWhite)
+                {
+                    image1.ColorMode = image1.ColorMode == DisplayColorMode.MaterialColor
+                        ? DisplayColorMode.Grey
+                        : DisplayColorMode.MaterialColor;
+                    if (image2 != null)
+                    {
+                        image2.ColorMode = image1.ColorMode;
+                    }
+                    UpdateImageEffectsString();
+                }
+                else if (key == ScannerKeyboardPart.Keyboard.Z789)
+                {
+                    if (image1.ColorMode == DisplayColorMode.Zeff7)
+                    {
+                        image1.ColorMode = DisplayColorMode.Zeff8;
+                    }
+                    else if (image1.ColorMode == DisplayColorMode.Zeff8)
+                    {
+                        image1.ColorMode = DisplayColorMode.Zeff9;
+                    }
+                    else if (image1.ColorMode == DisplayColorMode.Zeff9)
+                    {
+                        image1.ColorMode = DisplayColorMode.Zeff7;
+                    }
+                    else
+                    {
+                        image1.ColorMode = DisplayColorMode.Zeff7;
+                    }
+
+                    if (image2 != null)
+                    {
+                        image2.ColorMode = image1.ColorMode;
+                    }
+                    UpdateImageEffectsString();
+                }
+                else if (key == ScannerKeyboardPart.Keyboard.Os)
+                {
+                    image1.ColorMode = DisplayColorMode.OS;
+                    if (image2 != null)
+                    {
+                        image2.ColorMode = image1.ColorMode;
+                    }
+                    UpdateImageEffectsString();
+                }
+                else if (key == ScannerKeyboardPart.Keyboard.Ms)
+                {
+                    image1.ColorMode = DisplayColorMode.MS;
+                    if (image2 != null)
+                    {
+                        image2.ColorMode = image1.ColorMode;
+                    }
+                    UpdateImageEffectsString();
+                }
+                else if (key == ScannerKeyboardPart.Keyboard.Sen)
+                {
+                    image1.IsSuperEnhanceEnabled = !image1.IsSuperEnhanceEnabled;
+                    if (image2 != null)
+                    {
+                        image2.IsSuperEnhanceEnabled = image1.IsSuperEnhanceEnabled;
+                    }
+                    UpdateImageEffectsString();
+                }                
+            }
+        }
+
+        /// <summary>
+        /// ���ݵ�ǰ�ķ����������������������Ŵ����ƶ�
+        /// </summary>
+        /// <param name="keyEventArgs"></param>
+        private void MoveZoomWindowByDirectionKeysDown(KeyEventArgs keyEventArgs)
+        {
+            var image1 = RollingImagesController.Image1;
+            var image2 = RollingImagesController.Image2;
+
+            var left = keyEventArgs.KeyboardDevice.IsKeyDown(ScannerKeyboardPart.Keyboard.Left);
+            var right = keyEventArgs.KeyboardDevice.IsKeyDown(ScannerKeyboardPart.Keyboard.Right);
+            var up = keyEventArgs.KeyboardDevice.IsKeyDown(ScannerKeyboardPart.Keyboard.Up);
+            var down = keyEventArgs.KeyboardDevice.IsKeyDown(ScannerKeyboardPart.Keyboard.Down);
+
+            if (left)
+            {
+                image1.MoveZoomWindowLeft();
+                if (image2 != null)
+                {
+                    image2.MoveZoomWindowLeft();
+                }
+            }
+
+            if (right)
+            {
+                image1.MoveZoomWindowRight();
+                if (image2 != null)
+                {
+                    image2.MoveZoomWindowRight();
+                }
+            }
+
+            if (up)
+            {
+                image1.MoveZoomWindowUp();
+                if (image2 != null)
+                {
+                    image2.MoveZoomWindowUp();
+                }
+            }
+
+            if (down)
+            {
+                image1.MoveZoomWindowDown();
+                if (image2 != null)
+                {
+                    image2.MoveZoomWindowDown();
+                }
+            }
+        }
+
+        /// <summary>
+        /// PreviewKeyDown ������������ͼ�񰴼���
+        /// </summary>
+        /// <param name="keyEventArgs"></param>
+        private void PreviewKeyDownCommandExecute(KeyEventArgs keyEventArgs)
+        {
+            if (IsFunctionKey(keyEventArgs.Key))
+            {
+                PreviewFunctionKeyDown(keyEventArgs.Key);
+                keyEventArgs.Handled = true;
+                return;
+            }
+
+            if (IsReversibleImageEffectsKey(keyEventArgs.Key))
+            {
+                PreviewReversibleImageEffectsKeyDown(keyEventArgs.Key);
+                keyEventArgs.Handled = true;
+                return;
+            }
+
+            if (IsReversibleToggleKey(keyEventArgs.Key))
+            {
+                PreviewReversibleToggleKeyDown(keyEventArgs.Key);
+                keyEventArgs.Handled = true;
+                return;
+            }
+
+            var image1 = RollingImagesController.Image1;
+            var image2 = RollingImagesController.Image2;
+
+            var key = keyEventArgs.Key;
+
+            // Shift�����£��л�Shift���ܿ���
+            if (key == Key.LeftShift || key == Key.RightShift)
+            {
+                IsShiftKeyOn = !IsShiftKeyOn;
+                keyEventArgs.Handled = true;
+                UpdateImageEffectsString();
+            }
+            else if (key == ScannerKeyboardPart.Keyboard.Menu)
+            {
+                // �û����²˵�������ʾ���ô���
+                MessengerInstance.Send(new OpenWindowMessage("MainWindow", "SettingWindow",
+                    new PageNavigation("SystemMenu", "MenuPage", "Menu")));
+                keyEventArgs.Handled = true;
+
+            }
+            else if (key == ScannerKeyboardPart.Keyboard.Ims)
+            {
+                // �û�����Ims������ʾͼ����������
+                MessengerInstance.Send(new OpenWindowMessage("MainWindow", "SettingWindow",
+                    new PageNavigation("ImageMenu", "ImsPage", "Image Management")));
+                keyEventArgs.Handled = true;
+            }
+            else if (key == ScannerKeyboardPart.Keyboard.ContinuousScan)
+            {
+                //民航版需要屏蔽其他模式
+                //if (ControlService.ServicePart.WorkMode == ScannerWorkMode.Continuous)
+                //{
+                //    ControlService.ServicePart.SetWorkMode(ScannerWorkMode.AutoReturn);
+                //}
+                //else if (ControlService.ServicePart.WorkMode == ScannerWorkMode.AutoReturn)
+                //{
+                //    ControlService.ServicePart.SetWorkMode(ScannerWorkMode.Regular);
+                //}
+                //else
+                //{
+                //    ControlService.ServicePart.SetWorkMode(ScannerWorkMode.Continuous);
+                //}
+
+                keyEventArgs.Handled = true;
+            }
+            else if (key == ScannerKeyboardPart.Keyboard.ZoomIn)
+            {
+                // �Ŵ���
+                image1.ZoomIn();
+                if (image2 != null)
+                {
+                    image2.ZoomIn();
+                }
+                keyEventArgs.Handled = true;
+                UpdateImageEffectsString();
+            }
+            else if (key == ScannerKeyboardPart.Keyboard.ZoomOut)
+            {
+                // ��С
+                image1.ZoomOut();
+                if (image2 != null)
+                {
+                    image2.ZoomOut();
+                }
+                keyEventArgs.Handled = true;
+                UpdateImageEffectsString();
+            }
+            else if (key == ScannerKeyboardPart.Keyboard.Zoom1X)
+            {
+                // ȡ������
+                image1.Zoom(1.0f);
+                if (image2 != null)
+                {
+                    image2.Zoom(1.0f);
+                }
+                keyEventArgs.Handled = true;
+                UpdateImageEffectsString();
+            }
+            else if (key == ScannerKeyboardPart.Keyboard.Left)
+            {
+                if (image1.CanMoveZoomWindowLeft)
+                {
+                    MoveZoomWindowByDirectionKeysDown(keyEventArgs);
+                }
+                else
+                {
+                    CloseSpecialPenetration(RollingImagesController);
+                    // �������Ŵ����Ѿ��ﵽ�����ߣ���ִ��ͼ������
+                    ImageDataController.PullLeftImage();
+                }
+
+                keyEventArgs.Handled = true;
+                System.Threading.Thread.Sleep(200);
+            }
+            else if (key == ScannerKeyboardPart.Keyboard.Right)
+            {
+                if (image1.CanMoveZoomWindowRight)
+                {
+                    MoveZoomWindowByDirectionKeysDown(keyEventArgs);
+                }
+                else
+                {
+                    CloseSpecialPenetration(RollingImagesController);
+                    // �������Ŵ����Ѿ��ﵽ���ұߣ���ִ��ͼ��ǰ��
+                    ImageDataController.PullRightImage();
+                }
+
+                keyEventArgs.Handled = true;
+                System.Threading.Thread.Sleep(200);
+            }
+            else if (key == ScannerKeyboardPart.Keyboard.Up)
+            {
+                MoveZoomWindowByDirectionKeysDown(keyEventArgs);
+                keyEventArgs.Handled = true;
+            }
+            else if (key == ScannerKeyboardPart.Keyboard.Down)
+            {
+                MoveZoomWindowByDirectionKeysDown(keyEventArgs);
+                keyEventArgs.Handled = true;
+            }
+            else if (key == ScannerKeyboardPart.Keyboard.ConveyorStop)
+            {
+<<<<<<< HEAD
+                keyEventArgs.Handled = true;
+                ImageDataController.OnConveyorStopRequest();
+
+                MessengerInstance.Send(new MotorDirectionMessage(MotorDirection.Stop));
+                UpdateImageEffectsString();
+=======
+                if (_isClearTip && ImageDataController.CanClearTip && !ImageDataController.IsTipInjecting)
+                {                              
+                    keyEventArgs.Handled = true;
+                    ImageDataController.ImageDataUpdateController.ClearAndAppend(ImageDataController.CurrentScreenRawScanLines.ToList());
+                    _isClearTip = false;
+                    UpdateImageEffectsString();      
+                }
+                else
+                {
+                    keyEventArgs.Handled = true;
+                    ImageDataController.OnConveyorStopRequest();
+                    _isClearTip = true;
+                    MessengerInstance.Send(new MotorDirectionMessage(MotorDirection.Stop));
+                    UpdateImageEffectsString();          
+                }                     
+>>>>>>> 0b4956ae3af7f29581589f0b92fdf3ce9c0ff84f
+            }
+            else if (key == ScannerKeyboardPart.Keyboard.ConveyorLeft)
+            {
+                if (_isClearTip && ImageDataController.CanClearTip && !ImageDataController.IsTipInjecting)
+                {
+                    Messenger.Default.Send(new ShowFlyoutMessage("MainWindow",
+                TranslationService.FindTranslation("Please press the stop button first to clear the unrecognized simulated dangerous goods image, then continue."), MessageIcon.Warning, 2));
+                    keyEventArgs.Handled = true;
+                    UpdateImageEffectsString();
+                }
+                else
+                {
+                    if (_lastDirection == MotorDirection.MoveLeft)
+                    {
+                        if ((DateTime.Now - _lastMotorMoveTime) < TimeSpan.FromSeconds(_waitingTimeWhenRecoverFromInterrupt))
+                        {
+                            return;
+                        }
+                    }
+                    if (ImageDataController.InInterruptMode && _lastDirection == MotorDirection.MoveLeft)
+                    {
+                        _lastMotorMoveTime = DateTime.Now;
+                    }
+                    _isClearTip = false;
+                    ImageDataController.OnConveyorLeftKeyDown();
+                    CloseSpecialPenetration(RollingImagesController);
+                    _lastDirection = MotorDirection.MoveLeft;
+                    MessengerInstance.Send(new MotorDirectionMessage(MotorDirection.MoveLeft));
+
+<<<<<<< HEAD
+                keyEventArgs.Handled = true;
+                UpdateImageEffectsString();
+=======
+                    keyEventArgs.Handled = true;
+                    UpdateImageEffectsString();
+                }
+>>>>>>> 0b4956ae3af7f29581589f0b92fdf3ce9c0ff84f
+            }
+            else if (key == ScannerKeyboardPart.Keyboard.ConveyorRight)
+            {
+                if (_isClearTip && ImageDataController.CanClearTip && !ImageDataController.IsTipInjecting)
+                {
+                    Messenger.Default.Send(new ShowFlyoutMessage("MainWindow",
+                TranslationService.FindTranslation("Please press the stop button first to clear the unrecognized simulated dangerous goods image, then continue."), MessageIcon.Warning, 2));
+                    keyEventArgs.Handled = true;
+                    UpdateImageEffectsString();
+                }
+                else
+                {
+                    if (_lastDirection == MotorDirection.MoveRight)
+                    {
+                        if ((DateTime.Now - _lastMotorMoveTime) < TimeSpan.FromSeconds(_waitingTimeWhenRecoverFromInterrupt))
+                        {
+                            return;
+                        }
+                    }
+                    if (ImageDataController.InInterruptMode && _lastDirection == MotorDirection.MoveRight)
+                    {
+                        _lastMotorMoveTime = DateTime.Now;
+                    }
+                    _isClearTip = false;
+                    ImageDataController.OnConveyorRightKeyDown();
+                    CloseSpecialPenetration(RollingImagesController);
+                    _lastDirection = MotorDirection.MoveRight;
+                    MessengerInstance.Send(new MotorDirectionMessage(MotorDirection.MoveRight));
+
+<<<<<<< HEAD
+                keyEventArgs.Handled = true;
+                UpdateImageEffectsString();
+
+=======
+                    keyEventArgs.Handled = true;
+                    UpdateImageEffectsString();
+                }
+>>>>>>> 0b4956ae3af7f29581589f0b92fdf3ce9c0ff84f
+            }
+            else if (key == ScannerKeyboardPart.Keyboard.Mark)
+            {
+                keyEventArgs.Handled = true;
+                var MarkerList = RollingImagesController.MarkerList;
+                //var MarkerList = PaintingRegionsService.Service.MarkerList;
+
+                if (MarkerList != null && MarkerList.Count > 0)
+                {
+                    PaintingRegionsService.Service.SavePaintingRectangles();
+                    ImageDataController.OnMarkKeyDown(MarkerList);
+                }
+                    
+                
+                //if (!ImageDataController.OnMarkKeyDown())
+                //{
+                //    // Tip����ʧ�ܣ�����ʾ��Ļͼ����������
+                //    //ShowScreenImgOprWindow();
+                //}
+                //PaintingRegionsService.Service.SavePaintingRectangles();
+            }
+            else if (key == ScannerKeyboardPart.Keyboard.Save)
+            {
+                ShowScreenImgOprWindow();
+            }
+            else if (key == ScannerKeyboardPart.Keyboard.Esc)
+            {
+                // �ָ���ԭʼͼ����ȡ����Ч���Ŵ���
+                //image1.Zoom(1.0f);
+                image1.ColorMode = _image1DefaultSetting.ColorMode;
+                image1.PenetrationMode = _image1DefaultSetting.Penetration;
+                image1.IsInversed = _image1DefaultSetting.Inversed;
+                image1.IsSuperEnhanceEnabled = _image1DefaultSetting.SuperEnhance;
+                image1.IsEdgeEnhanceEnabled = false;
+                image1.AbsorptivityIndex = _image1DefaultSetting.Absorbtivity;
+                if (image2 != null && _image2DefaultSetting != null)
+                {
+                    //image2.Zoom(1.0f);
+                    image2.ColorMode = _image2DefaultSetting.ColorMode;
+                    image2.PenetrationMode = _image2DefaultSetting.Penetration;
+                    image2.IsInversed = _image2DefaultSetting.Inversed;
+                    image2.IsSuperEnhanceEnabled = _image2DefaultSetting.SuperEnhance;
+                    image2.IsEdgeEnhanceEnabled = false;
+                    image2.AbsorptivityIndex = _image2DefaultSetting.Absorbtivity;
+                }
+                CloseSpecialPenetration(RollingImagesController);
+                keyEventArgs.Handled = true;
+                UpdateImageEffectsString();
+            }
+            else if (key == ScannerKeyboardPart.Keyboard.IncreaseAbsorb)
+            {
+                image1.AbsorptivityIndex++;
+                if (image2 != null)
+                {
+                    image2.AbsorptivityIndex = image1.AbsorptivityIndex;
+                }
+                keyEventArgs.Handled = true;
+                UpdateImageEffectsString();
+            }
+            else if (key == ScannerKeyboardPart.Keyboard.DecreaseAbsorb)
+            {
+                image1.AbsorptivityIndex--;
+                if (image2 != null)
+                {
+                    image2.AbsorptivityIndex = image1.AbsorptivityIndex;
+                }
+                keyEventArgs.Handled = true;
+                UpdateImageEffectsString();
+            }
+            else if (key == ScannerKeyboardPart.Keyboard.DynamicGST)
+            {
+                // �������رջҶ�ɨ��
+                image1.IsDynamicGrayTransformEnabled = !image1.IsDynamicGrayTransformEnabled;
+                if (image2 != null)
+                {
+                    image2.IsDynamicGrayTransformEnabled = image1.IsDynamicGrayTransformEnabled;
+                }
+                keyEventArgs.Handled = true;
+                UpdateImageEffectsString();
+            }
+            else if (key == Key.F7)
+            {
+                SelectAndReplayImages();
+                CloseSpecialPenetration(RollingImagesController);
+                keyEventArgs.Handled = true;
+            }
+            //else if (key == Key.F8)
+            //{
+            //    if (ImageDataController != null)
+            //    {
+            //        //使用原始数据填充控件
+            //        ImageDataController.SetIsShowScreenWithOriginXRayData(true);
+            //    }
+            //    keyEventArgs.Handled = true;
+            //}
+            //else if (key == Key.F9)
+            //{
+            //    if (ImageDataController != null)
+            //    {
+            //        //使用增强后数据填充控件
+            //        ImageDataController.SetIsShowScreenWithOriginXRayData(false);
+            //    }
+            //    keyEventArgs.Handled = true;
+            //}
+            //UpdateImageEffectsString();
+            //else if(key == ScannerKeyboardPart.Keyboard.Magnify)
+            //{
+            //    //�����������ǷŴ󾵹���
+            //    _isMagnifyKeyDown = !_isMagnifyKeyDown;
+            //    //���������˷Ŵ󾵹��ܼ�
+            //    if (_isMagnifyKeyDown)
+            //    {
+            //        // ȡ�����ţ�����ͼ���������ţ���Ӱ���Ŵ�����ʾЧ��
+            //        Zoom1X(image1, image2);
+
+            //        RollingImagesController.EnableLocalZoom = true;
+            //    }
+            //    else
+            //    {
+            //        //�ڶ��ε����Ŵ󾵹��ܼ�
+            //        RollingImagesController.EnableLocalZoom = false;
+            //        Zoom1X(image1, image2);
+            //    }
+            //    keyEventArgs.Handled = true;
+            //}
+            //else if (key == Key.F9)
+            //{
+            //    HttpNetworkController.Controller.LoginInNetwork("234", AccountRole.Operator, 3);
+            //}
+        }
+
+        /// <summary>
+        /// ȡ������
+        /// </summary>
+        /// <param name="image1"></param>
+        /// <param name="image2"></param>
+        private void Zoom1X(IRollingImageProcessor image1, IRollingImageProcessor image2)
+        {
+            // ȡ������
+            image1.Zoom(1.0f);
+            if (image2 != null)
+            {
+                image2.Zoom(1.0f);
+            }
+            UpdateImageEffectsString();
+        }
+
+        /// <summary>
+        /// ��ʾ��Ļͼ���������ڣ��ɲ�����Ա�Ե�ǰ��Ļ����ʾ��ͼ�����в�������ӡ���洢�ȣ�
+        /// </summary>
+        private void ShowScreenImgOprWindow()
+        {
+            // �Ƚ�ͼ���б�������cache�У�Ȼ���ڹ�����Ļͼ������������ͼģ�͵�ʱ�򣬴�cache��ȡ��ͼ���б�
+            var list = ImageDataController.GetShowingImages();
+            ViewModelLocator.Locator.Cache["ScreenImagesRecordsList"] = list;
+
+            // ������ǰ��Ļ����ͼ����ʾ������ʾ����Ļͼ���������ڣ����û�������ǰ��Ļͼ�񣨴�ӡ������/���ǵȣ�
+            // ������ǰ��Ļ��û��ͼ����ʾ�����ߴ���ͼ���طš���ѵģʽ�£�������ʾ��Ļͼ���������ڡ�
+            if (list != null && list.Any())
+            {
+                MessengerInstance.Send(new OpenWindowMessage("MainWindow", "ScreenImagesOperationWindow", null));
+            }
+        }
+
+        /// <summary>
+        /// �����Ի��������û�����ѡ������ͼ�����ڻط�
+        /// </summary>
+        private void SelectAndReplayImages()
+        {
+            var dlg = new OpenFileDialog();
+            dlg.Multiselect = true;
+            dlg.Filter = "XRay Image | *.xray";
+            if (dlg.ShowDialog() == true)
+            {
+                CloseSpecialPenetration(RollingImagesController);
+                var fileNames = dlg.FileNames;
+                ImageDataController.BeginPlayback(fileNames);
+                foreach (var imgfile in fileNames)
+                {
+                    OperationRecordService.Service.AddRecord(new OperationRecord()
+                    {
+                        AccountId = LoginAccountManager.Service.CurrentAccount != null ? LoginAccountManager.Service.CurrentAccount.AccountId : "",
+                        OperateUI = OperationUI.MainUI,
+                        OperateTime = DateTime.Now,
+                        OperateObject = Path.GetFileName(imgfile),
+                        OperateCommand = OperationCommand.Import,
+                        OperateContent = string.Empty,
+                    });
+                }                
+            }
+        }
+
+        private bool IsFunctionKey(Key key)
+        {
+            return key == Key.F1 || key == Key.F2 || key == Key.F3;
+        }
+
+        /// <summary>
+        /// �ж�һ�������Ƿ��ǹ��ܿ�����ͼ����Ч��
+        /// ���ڴ��ఴ�������³���0.7�����ٵ��𣬻ָ���֮ǰ�Ĺ���
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        private bool IsReversibleImageEffectsKey(Key key)
+        {
+            return ScannerKeyboardPart.Keyboard.IsReversibleImageEffectsKey(key);
+        }
+
+        /// <summary>
+        /// �Ƿ��ǹ��ܿ����Ŀ��ؼ����Զ�ʶ����
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        private bool IsReversibleToggleKey(Key key)
+        {
+            return key == ScannerKeyboardPart.Keyboard.Auto || key == ScannerKeyboardPart.Keyboard.VFlip;
+        }
+
+        private void UpdateImageEffectsString(bool isMulti = false)
+        {
+            var image1 = RollingImagesController.Image1;
+            var str = ImageGeneralSetting.FormatImageEffectsString(image1.IsInversed,
+                image1.IsSuperEnhanceEnabled, image1.ColorMode, image1.PenetrationMode,
+                image1.IsDynamicGrayTransformEnabled, image1.AbsorptivityIndex, _isEnhanced,_specialPenetration, isMulti);
+
+            // ͨ����Ϣ����ʽ֪ͨϵͳ״̬���ȸ���ͼ����Ч��ʾ
+            MessengerInstance.Send(new UpdateImageEffectsResultMessage(str, image1.ZoomMultiples, IsShiftKeyOn));
+        }
+
+        /// <summary>
+        /// �û���ϵͳ״̬���һ����꣬���ᵯ��ϵͳ���ò˵�
+        /// </summary>
+        /// <param name="args"></param>
+        private void MouseRightButtonDownEventCommandExecute(MouseButtonEventArgs args)
+        {
+            MessengerInstance.Send(new OpenWindowMessage("MainWindow", "SettingWindow",
+                        new PageNavigation("SystemMenu", "MenuPage", "Menu")));
+        }
+
+        private void CloseSpecialPenetration(IRollingImageProcessController rollingImagesController)
+        {
+            if (ImageDataController != null)
+            {
+                if (!_isEnhanced)
+                {
+                    _isEnhanced = true;
+                    //使用增强后数据填充控件
+<<<<<<< HEAD
+                    ImageDataController.SetIsShowScreenWithOriginXRayData(!_isEnhanced);                   
+                }
+=======
+                    ImageDataController.SetIsShowScreenWithOriginXRayData(!_isEnhanced);
+                }                
+>>>>>>> 0b4956ae3af7f29581589f0b92fdf3ce9c0ff84f
+            }
+            _specialPenetration = false;
+            if (rollingImagesController != null)
+            {
+                var image1 = rollingImagesController.Image1;
+                var image2 = rollingImagesController.Image2;
+                if(image1 != null && image2 != null)
+                {
+                    if (!image1.IsSpecialPenetrationEnabled && !image2.IsSpecialPenetrationEnabled)
+                        return;
+                }
+                if (image1 != null)
+                {
+                    image1.IsSpecialPenetrationEnabled = false;
+                }
+                if (image2 != null)
+                {
+                    image2.IsSpecialPenetrationEnabled = false;
+                }
+                rollingImagesController.DoSpecialPenetration();
+            }
+            
+        }
+
+        private void RecordImageProcess(Key key)
+        {
+            //if (key == Key.System) return;
+            OperationRecordService.Service.AddRecord(new OperationRecord()
+            {
+                AccountId = LoginAccountManager.Service.CurrentAccount != null ? LoginAccountManager.Service.CurrentAccount.AccountId : "",
+                OperateUI = OperationUI.MainUI,
+                OperateTime = DateTime.Now,
+                OperateObject = key.ToString(),
+                OperateCommand = OperationCommand.KeyPress,
+                OperateContent = string.Empty,
+            });
+        }
+
+    }
+}

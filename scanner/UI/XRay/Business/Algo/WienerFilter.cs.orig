@@ -1,0 +1,287 @@
+﻿using Emgu.CV;
+using Emgu.CV.CvEnum;
+using Emgu.CV.Structure;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Threading.Tasks;
+using UI.XRay.Business.DataAccess.Config;
+using UI.XRay.Business.Entities;
+
+namespace UI.XRay.Business.Algo
+{
+    public class WienerFilter
+    {
+        int _linesCacheCount = 50;
+
+        List<ScanlineDataBundle> BundleList = new List<ScanlineDataBundle>();
+
+        ImageProcess.ImageProcess process;
+
+        int _cacheLinesCount = 10;
+
+        List<ScanlineDataBundle> _cacheLinesView1 = new List<ScanlineDataBundle>();
+        List<ScanlineDataBundle> _cacheLinesView2 = new List<ScanlineDataBundle>();
+
+        public WienerFilter()
+        {
+            process = new ImageProcess.ImageProcess();
+            if (!ScannerConfig.Read(ConfigPath.PreProcWienerLinesCount, out _linesCacheCount))
+            {
+                _linesCacheCount = 50;
+            }
+        }
+        public List<ScanlineDataBundle> WienerProcess(ScanlineDataBundle line)
+        {
+            if (BundleList.Count >= _linesCacheCount)
+            {
+                BundleList.Clear();
+            }
+            BundleList.Add(line);
+            if (BundleList.Count >= _linesCacheCount)
+            {
+                Wiener(BundleList, DetectViewIndex.View1);
+                if (line.View2LineData != null)
+                {
+                    Wiener(BundleList, DetectViewIndex.View2);
+                }
+                return BundleList;
+            }
+            else
+            {
+                return new List<ScanlineDataBundle>(0);
+            }
+        }
+
+        private void Wiener(List<ScanlineDataBundle> lines, DetectViewIndex view)
+        {
+            int _arrayRows = lines.Count;
+            if (_arrayRows < 1) return;
+            int _arrayCols = view == DetectViewIndex.View1 ? lines[0].View1LineData.High.Length : lines[0].View2LineData.High.Length;
+            if (_arrayRows < 1) return;
+
+            List<ScanlineDataBundle> _cacheLinesOriginal = new List<ScanlineDataBundle>();
+            for (int i = 0; i < _cacheLinesCount; i++)
+            {
+                _cacheLinesOriginal.Add(lines[lines.Count - _cacheLinesCount + i].Clone());
+            }
+            Matrix<UInt16> _imgHigh = null, _imgLow = null, _imgFused = null;
+            try
+            {
+                _imgHigh = new Matrix<UInt16>(_arrayRows + _cacheLinesCount, _arrayCols);
+                _imgLow = new Matrix<UInt16>(_arrayRows + _cacheLinesCount, _arrayCols);
+                _imgFused = new Matrix<UInt16>(_arrayRows + _cacheLinesCount, _arrayCols);
+            }catch(Exception ex)
+            {
+                Console.WriteLine("Error !");
+                Console.WriteLine(ex.ToString());
+            }
+
+            if (view == DetectViewIndex.View1)
+            {
+                try
+                {
+                    if (_cacheLinesView1 == null || _cacheLinesView1.Count != _cacheLinesCount)
+                {
+                    _cacheLinesView1 = new List<ScanlineDataBundle>();
+                    for (int i = 0; i < _cacheLinesCount; i++)
+                    {
+                        _cacheLinesView1.Add(lines[0].Clone());
+                    }
+                }
+
+                //for (int i = 0; i < _arrayRows; i++)
+                //{
+                //    for (int j = 0; j < _arrayCols; j++)
+                //    {
+                //        _imgHigh.Data[i + _cacheLinesCount, j] = lines[i].View1LineData.High[j];
+                //        _imgLow.Data[i + _cacheLinesCount, j] = lines[i].View1LineData.Low[j];
+                //        _imgFused.Data[i + _cacheLinesCount, j] = lines[i].View1LineData.Fused[j];
+                //    }
+                //}
+                //for (int i = 0; i < _cacheLinesCount; i++)
+                //{
+                //    for (int j = 0; j < _arrayCols; j++)
+                //    {
+                //        _imgHigh.Data[i, j] = _cacheLinesView1[i].View1LineData.High[j];
+                //        _imgLow.Data[i, j] = _cacheLinesView1[i].View1LineData.Low[j];
+                //        _imgFused.Data[i, j] = _cacheLinesView1[i].View1LineData.Fused[j];
+                //    }
+                //}
+                    for (int i = 0; i < _arrayRows; i++)
+                    {
+                        Buffer.BlockCopy(lines[i].View1LineData.High, 0, _imgHigh.Data, (i + _cacheLinesCount) * _arrayCols * sizeof(ushort), _arrayCols * sizeof(ushort));
+                        Buffer.BlockCopy(lines[i].View1LineData.Low, 0, _imgLow.Data, (i + _cacheLinesCount) * _arrayCols * sizeof(ushort), _arrayCols * sizeof(ushort));
+                        Buffer.BlockCopy(lines[i].View1LineData.Fused, 0, _imgFused.Data, (i + _cacheLinesCount) * _arrayCols * sizeof(ushort), _arrayCols * sizeof(ushort));
+                    }
+                    for (int i = 0; i < _cacheLinesCount; i++)
+                    {
+                        Buffer.BlockCopy(_cacheLinesView1[i].View1LineData.High, 0, _imgHigh.Data, (i) * _arrayCols * sizeof(ushort), _arrayCols * sizeof(ushort));
+                        Buffer.BlockCopy(_cacheLinesView1[i].View1LineData.Low, 0, _imgLow.Data, (i) * _arrayCols * sizeof(ushort), _arrayCols * sizeof(ushort));
+                        Buffer.BlockCopy(_cacheLinesView1[i].View1LineData.Fused, 0, _imgFused.Data, (i) * _arrayCols * sizeof(ushort), _arrayCols * sizeof(ushort));
+                    }
+                }catch(Exception ex)
+                {
+                    Console.WriteLine("Error Pos 1");
+                    Console.WriteLine(ex.ToString());
+                }
+               
+            }
+            else
+            {
+                if (_cacheLinesView2 == null || _cacheLinesView2.Count != _cacheLinesCount)
+                {
+                    _cacheLinesView2 = new List<ScanlineDataBundle>();
+                    for (int i = 0; i < _cacheLinesCount; i++)
+                    {
+                        _cacheLinesView2.Add(lines[0].Clone());
+                    }
+                }
+                try
+                {
+                //    for (int i = 0; i < _arrayRows; i++)
+                //{
+                //    for (int j = 0; j < _arrayCols; j++)
+                //    {
+                //        _imgHigh.Data[i + _cacheLinesCount, j] = lines[i].View2LineData.High[j];
+                //        _imgLow.Data[i + _cacheLinesCount, j] = lines[i].View2LineData.Low[j];
+                //        _imgFused.Data[i + _cacheLinesCount, j] = lines[i].View2LineData.Fused[j];
+                //    }
+                //}
+                //for (int i = 0; i < _cacheLinesCount; i++)
+                //{
+                //    for (int j = 0; j < _arrayCols; j++)
+                //    {
+                //        _imgHigh.Data[i, j] = _cacheLinesView2[i].View2LineData.High[j];
+                //        _imgLow.Data[i, j] = _cacheLinesView2[i].View2LineData.Low[j];
+                //        _imgFused.Data[i, j] = _cacheLinesView2[i].View2LineData.Fused[j];
+                //    }
+                //}
+                    for (int i = 0; i < _arrayRows; i++)
+                    {
+                        Buffer.BlockCopy(lines[i].View2LineData.High, 0, _imgHigh.Data, (i + _cacheLinesCount) * _arrayCols * sizeof(ushort), _arrayCols * sizeof(ushort));
+                        Buffer.BlockCopy(lines[i].View2LineData.Low, 0, _imgLow.Data, (i + _cacheLinesCount) * _arrayCols * sizeof(ushort), _arrayCols * sizeof(ushort));
+                        Buffer.BlockCopy(lines[i].View2LineData.Fused, 0, _imgFused.Data, (i + _cacheLinesCount) * _arrayCols * sizeof(ushort), _arrayCols * sizeof(ushort));
+                    }
+                    for (int i = 0; i < _cacheLinesCount; i++)
+                    {
+                        Buffer.BlockCopy(_cacheLinesView2[i].View2LineData.High, 0, _imgHigh.Data, (i) * _arrayCols * sizeof(ushort), _arrayCols * sizeof(ushort));
+                        Buffer.BlockCopy(_cacheLinesView2[i].View2LineData.Low, 0, _imgLow.Data, (i) * _arrayCols * sizeof(ushort), _arrayCols * sizeof(ushort));
+                        Buffer.BlockCopy(_cacheLinesView2[i].View2LineData.Fused, 0, _imgFused.Data, (i) * _arrayCols * sizeof(ushort), _arrayCols * sizeof(ushort));
+                    }
+                }catch(Exception ex)
+                {
+                    Console.WriteLine("Error Pos 2");
+                    Console.WriteLine(ex.ToString());
+                }
+            }
+
+            Mat highold = _imgHigh.Mat;
+            Mat lowold = _imgLow.Mat;
+            Mat highnew = new Mat();
+            Mat lownew = new Mat();
+
+            process.LowPasWienerFilter(highold, lowold, out highnew, out lownew);
+
+            //Image<Gray, UInt16> imgh = highnew.ToImage<Gray, UInt16>();
+            //Image<Gray, UInt16> imgl = lownew.ToImage<Gray, UInt16>();
+
+            //if (view == DetectViewIndex.View1)
+            //{
+            //    for (int i = _arrayRows - 1; i > -1; i--)
+            //    {
+            //        for (int j = 0; j < _arrayCols; j++)
+            //        {
+            //            lines[i].View1LineData.High[j] = imgh.Data[i + _cacheLinesCount / 2, j, 0];
+            //            lines[i].View1LineData.Low[j] = imgl.Data[i + _cacheLinesCount / 2, j, 0];
+            //            lines[i].View1LineData.Fused[j] = _imgFused.Data[i + _cacheLinesCount / 2, j];
+            //        }
+            //    }
+
+            //    _cacheLinesView1.Clear();
+            //    for (int i = 0; i < _cacheLinesCount; i++)
+            //    {
+            //        _cacheLinesView1.Add(_cacheLinesOriginal[i].Clone());
+            //    }
+            //}
+            //else
+            //{
+            //    for (int i = _arrayRows - 1; i > -1; i--)
+            //    {
+            //        for (int j = 0; j < _arrayCols; j++)
+            //        {
+            //            lines[i].View2LineData.High[j] = imgh.Data[i + _cacheLinesCount / 2, j, 0];
+            //            lines[i].View2LineData.Low[j] = imgl.Data[i + _cacheLinesCount / 2, j, 0];
+            //            lines[i].View2LineData.Fused[j] = _imgFused.Data[i + _cacheLinesCount / 2, j];
+            //        }
+            //    }
+            //    _cacheLinesView2.Clear();
+            //    for (int i = 0; i < _cacheLinesCount; i++)
+            //    {
+            //        _cacheLinesView2.Add(_cacheLinesOriginal[i].Clone());
+            //    }
+            //}
+            Array highFiltered = new ushort[_arrayRows + _cacheLinesCount, _arrayCols];
+            Array lowFiltered = new ushort[_arrayRows + _cacheLinesCount, _arrayCols];
+            if (highnew.IsContinuous)
+            {
+                highFiltered = highnew.GetData();
+            }
+            if (lownew.IsContinuous)
+            {
+                lowFiltered = lownew.GetData();
+            }
+            if (view == DetectViewIndex.View1)
+            {
+                for (int i = _arrayRows - 1; i > -1; i--)
+                {
+                    if (highFiltered != null)
+                    {
+                        Buffer.BlockCopy(highFiltered, (i + _cacheLinesCount / 2) * highnew.Step, lines[i].View1LineData.High, 0, lines[i].View1LineData.High.Length * sizeof(ushort));
+                    }
+                    if (lowFiltered != null)
+                    {
+                        Buffer.BlockCopy(lowFiltered, (i + _cacheLinesCount / 2) * lownew.Step, lines[i].View1LineData.Low, 0, lines[i].View1LineData.Low.Length * sizeof(ushort));
+                    }
+                    if (_imgFused != null)
+                    {
+                        Buffer.BlockCopy(_imgFused.Data, (i + _cacheLinesCount / 2) * _imgFused.Cols * sizeof(ushort), lines[i].View1LineData.Fused, 0, lines[i].View1LineData.Fused.Length * sizeof(ushort));
+                    }
+                }
+
+                _cacheLinesView1.Clear();
+                for (int i = 0; i < _cacheLinesCount; i++)
+                {
+                    _cacheLinesView1.Add(_cacheLinesOriginal[i].Clone());
+                }
+            }
+            else
+            {
+                for (int i = _arrayRows - 1; i > -1; i--)
+                {
+                    if (highFiltered != null)
+                    {
+                        Buffer.BlockCopy(highFiltered, (i + _cacheLinesCount / 2) * highnew.Step, lines[i].View2LineData.High, 0, lines[i].View2LineData.High.Length * sizeof(ushort));
+                    }
+                    if (lowFiltered != null)
+                    {
+                        Buffer.BlockCopy(lowFiltered, (i + _cacheLinesCount / 2) * lownew.Step, lines[i].View2LineData.Low, 0, lines[i].View2LineData.Low.Length * sizeof(ushort));
+                    }
+                    if (_imgFused != null)
+                    {
+                        Buffer.BlockCopy(_imgFused.Data, (i + _cacheLinesCount / 2) * _imgFused.Cols * sizeof(ushort), lines[i].View2LineData.Fused, 0, lines[i].View2LineData.Fused.Length * sizeof(ushort));
+                    }
+                }
+                _cacheLinesView2.Clear();
+                for (int i = 0; i < _cacheLinesCount; i++)
+                {
+                    _cacheLinesView2.Add(_cacheLinesOriginal[i].Clone());
+                }
+            }
+        }
+    }
+}

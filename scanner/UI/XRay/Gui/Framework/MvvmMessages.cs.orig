@@ -1,0 +1,384 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Windows.Documents;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using GalaSoft.MvvmLight.Messaging;
+using UI.XRay.Business.Entities;
+
+namespace UI.XRay.Gui.Framework
+{
+    public class AccountMessage : MessageBase
+    {
+        public AccountMessage(Account account)
+        {
+            Account = account;
+        }
+
+        public Account Account { get; set; }
+    }
+
+    /// <summary>
+    /// Mvvm消息：主要用于从视图模型中发送给视图，由视图提交中的datagrid等控件提交更改，以便于与视图模型中的状态同步
+    /// </summary>
+    public class CommitChangesMessage : MessageBase
+    {
+        public CommitChangesMessage()
+        {
+            
+        }
+    }
+
+    /// <summary>
+    /// 图像检索条件消息，传递一个图像检索条件，也可能为空
+    /// </summary>
+    public class ImageRetrievalConditionsMessage : MessageBase
+    {
+        public ImageRetrievalConditions Conditions { get; private set; }
+
+        public ImageRetrievalConditionsMessage(ImageRetrievalConditions conditions)
+        {
+            Conditions = conditions;
+        }
+    }
+
+    /// <summary>
+    /// 更新图像特效字符串消息
+    /// </summary>
+    public class UpdateImageEffectsResultMessage : MessageBase
+    {
+        /// <summary>
+        /// 当前的图像特效字符串
+        /// </summary>
+        public string EffectsString { get; private set; }
+
+        /// <summary>
+        /// Shift 按键是否被按下
+        /// </summary>
+        public bool IsShiftKeyOn { get; private set; }
+
+        /// <summary>
+        /// 当前的图像放大倍数
+        /// </summary>
+        public float ZoomFactor { get; private set; }
+
+        public UpdateImageEffectsResultMessage(string effectsString, float zoom = 1.0f, bool shiftKeyOn = false)
+        {
+            EffectsString = effectsString;
+            ZoomFactor = zoom;
+            IsShiftKeyOn = shiftKeyOn;
+        }
+    }
+
+    public class MotorDirectionMessage : MessageBase
+    {
+        public MotorDirection MotorDirection { get; private set; }
+
+        public MotorDirectionMessage(MotorDirection motorDirection)
+        {
+            MotorDirection = motorDirection;
+        }
+    }
+
+    /// <summary>
+    /// 回放图像记录消息
+    /// </summary>
+    public class PlaybackImageRecordsMessage : MessageBase
+    {
+        public List<ImageRecord> Records { get; private set; }
+
+        public PlaybackImageRecordsMessage(List<ImageRecord> records)
+        {
+            Records = records;
+        }
+    }
+
+    /// <summary>
+    /// 在窗口中以Metro对话框的形式，显示一个图像
+    /// </summary>
+    public class ShowXRayImageMessage : MessageBase
+    {
+        public ImageRecord Record { get; private set; }
+
+        public BitmapSource BmpImage { get; private set; }
+
+        public ShowXRayImageMessage(ImageRecord record, BitmapSource image)
+        {
+            Record = record;
+            BmpImage = image;
+        }
+    }
+
+    /// <summary>
+    /// 在窗口中以Metro对话框的形式，显示一个图像坏点手动剔除界面
+    /// </summary>
+    public class ShowBadChannelImageMessage : MessageBase
+    {
+        public ImageRecord Record { get; private set; }
+
+        public ShowBadChannelImageMessage(ImageRecord record)
+        {
+            Record = record;
+        }
+    }
+
+    /// <summary>
+    /// 显示图像检索窗口的消息
+    /// </summary>
+    public class ShowImageRetrievalWindowAction: NotificationMessageAction<ImageRetrievalConditions>
+    {
+        /// <summary>
+        /// 宿主窗口，将作为新打开窗口的所有者Owner
+        /// </summary>
+        public string ParentWindowKey { get; private set; }
+
+        /// <summary>
+        /// 要显示的窗口的名称
+        /// </summary>
+        public string WindowKey { get; private set; }
+
+        public ShowImageRetrievalWindowAction(string parentWindowKey, Action<ImageRetrievalConditions> action)
+            : base(null, action)
+        {
+            ParentWindowKey = parentWindowKey;
+        }
+    }
+
+    /// <summary>
+    /// 显示选择.xray图像文件的对话框，并返回用户选择结果（用于选择多幅图像并返回结果）
+    /// </summary>
+    public class ShowOpenFilesDialogMessageAction : NotificationMessageAction<string[]>
+    {
+        /// <summary>
+        /// 宿主窗口，将作为新打开窗口的所有者Owner
+        /// </summary>
+        public string ParentWindowKey { get; private set; }
+
+        public ShowOpenFilesDialogMessageAction(string parentWindowKey, Action<string[]> action)
+            : base(null, action)
+        {
+            ParentWindowKey = parentWindowKey;
+        }
+    }
+
+    /// <summary>
+    /// 显示文件夹选择对话框消息
+    /// </summary>
+    public class ShowFolderBrowserDialogMessageAction : NotificationMessageAction<string>
+    {
+        /// <summary>
+        /// 宿主窗口，将作为新打开窗口的所有者Owner
+        /// </summary>
+        public string ParentWindowKey { get; private set; }
+
+        public ShowFolderBrowserDialogMessageAction(string parentWindowKey, Action<string> action)
+            : base(null, action)
+        {
+            ParentWindowKey = parentWindowKey;
+        }
+    }
+
+
+    /// <summary>
+    /// 显示保存文件对话框消息
+    /// </summary>
+    public class ShowSaveFileDialogMessageAction : NotificationMessageAction<string>
+    {
+        /// <summary>
+        /// 宿主窗口，将作为新打开窗口的所有者Owner
+        /// </summary>
+        public string ParentWindowKey { get; private set; }
+
+        public string Filter { get; private set; }
+
+        public ShowSaveFileDialogMessageAction(string parentWindowKey, string filter, Action<string> action)
+            : base(null, action)
+        {
+            Filter = filter;
+            ParentWindowKey = parentWindowKey;
+        }
+    }
+
+    public class ShowAddAccountWindowAction : NotificationMessageAction<Account>
+    {
+        /// <summary>
+        /// 宿主窗口，将作为新打开窗口的所有者Owner
+        /// </summary>
+        public string ParentWindowKey { get; private set; }
+
+        public ShowAddAccountWindowAction(string parentWindowKey, Action<Account> action)
+            : base(null, action)
+        {
+            ParentWindowKey = parentWindowKey;
+        }
+    }
+
+    public class OpenWindowMessage : MessageBase
+    {
+        /// <summary>
+        /// 宿主窗口，将作为新打开窗口的所有者Owner
+        /// </summary>
+        public string ParentWindowKey { get; private set; }
+
+        /// <summary>
+        /// 将要打开的新窗口的Key
+        /// </summary>
+        public string ToOpenWindowKey { get; private set; }
+
+        public object Parameter { get; private set; }
+
+        public OpenWindowMessage(string parentWindowKey, string toOpenWindowKey, object param = null)
+        {
+            ParentWindowKey = parentWindowKey;
+            ToOpenWindowKey = toOpenWindowKey;
+            Parameter = param;
+        }
+    }
+
+    public class CloseWindowMessage : MessageBase
+    {
+        /// <summary>
+        /// 要关闭的窗口的Key
+        /// </summary>
+        public string WindowKey { get; private set; }
+
+        public object Parameter { get; private set; }
+
+        public CloseWindowMessage(string winKey, object param = null)
+        {
+            WindowKey = winKey;
+            Parameter = param;
+        }
+    }
+
+    /// <summary>
+    /// 在宿主窗口中显示一个消息对话框
+    /// </summary>
+    public class ShowDialogMessageAction : NotificationMessageAction<MetroDialogResult>
+    {
+        public string ParentWindowKey { get; private set; }
+
+        public MetroDialogButtons Buttons { get; private set; }
+
+        public string Title { get; private set; }
+
+        public ShowDialogMessageAction(string parentWindowKey, string title, string message,
+            MetroDialogButtons buttons, Action<MetroDialogResult> action)
+            : base(message, action)
+        {
+            Buttons = buttons;
+            ParentWindowKey = parentWindowKey;
+            Title = title;
+        }
+    }
+
+    /// <summary>
+    /// 在一个宿主窗口中，显示一个用于输入的对话框，只能输入一个字符串
+    /// </summary>
+    public class ShowInputDialogMessageAction : NotificationMessageAction<string>
+    {
+        public string ParentWindowKey { get; private set; }
+
+        public MetroDialogButtons Buttons { get; private set; }
+
+        public string Input { get; set; }
+
+        public ShowInputDialogMessageAction(string parentWindowKey, string message,
+            MetroDialogButtons buttons, Action<string> callbackAction)
+            : base(message, callbackAction)
+        {
+            ParentWindowKey = parentWindowKey;
+            Buttons = buttons;
+        }
+    }
+
+    /// <summary>
+    /// 在一个宿主窗口中，显示一个用于输入用户密码的对话框
+    /// </summary>
+    public class ShowPasswordDialogAsyncMessage : NotificationMessageAction<PasswordMetroDialogResult>
+    {
+        public string ParentWindowKey { get; private set; }
+
+        public MetroDialogButtons Buttons { get; private set; }
+
+        public string AccountId { get; private set; }
+
+        private Action<PasswordMetroDialogResult> _action;
+
+        public ShowPasswordDialogAsyncMessage(string parentWindowKey, string accountId,
+            MetroDialogButtons buttons, Action<PasswordMetroDialogResult> callbackAction)
+            : base(parentWindowKey, callbackAction)
+        {
+            ParentWindowKey = parentWindowKey;
+            Buttons = buttons;
+            AccountId = accountId;
+        }
+
+        public async void ExecuteAsync(PasswordMetroDialogResult result)
+        {
+            this.Execute(result);
+        }
+    }
+
+
+    /// <summary>
+    /// 消息窗口的图标类型
+    /// </summary>
+    public enum MessageIcon
+    {
+        /// <summary>
+        /// 不显示图标
+        /// </summary>
+        None = 0,
+
+        /// <summary>
+        /// 显示错误图标
+        /// </summary>
+        Error = 16,
+
+        /// <summary>
+        /// 显示警告图标
+        /// </summary>
+        Warning = 48,
+
+        /// <summary>
+        /// 显示提示信息图标
+        /// </summary>
+        Information = 64,
+    }
+
+    /// <summary>
+    /// 在窗口中，显示一个Flyout消息
+    /// </summary>
+    public class ShowFlyoutMessage : MessageBase
+    {
+        public string ParentWindowKey { get; private set; }
+
+        /// <summary>
+        /// 要显示的消息
+        /// </summary>
+        public string Message { get; set; }
+
+        public string MessageIcon { get; set; }
+
+        /// <summary>
+        /// 关闭倒计时，单位为秒。
+        /// </summary>
+        public int? CloseCountdown { get; set; }
+
+        /// <summary>
+        /// 在窗口中显示一个飞出消息Flyout。
+        /// </summary>
+        /// <param name="parentWindowKey">窗口的key</param>
+        /// <param name="message">要显示的消息内容</param>
+        /// <param name="closeCountdown">消息消失倒计时</param>
+        public ShowFlyoutMessage(string parentWindowKey, string message, MessageIcon icon = Framework.MessageIcon.Information, int? closeCountdown = 3)
+            : base(message)
+        {
+            CloseCountdown = closeCountdown;
+            ParentWindowKey = parentWindowKey;
+            Message = message;
+        }
+    }
+}

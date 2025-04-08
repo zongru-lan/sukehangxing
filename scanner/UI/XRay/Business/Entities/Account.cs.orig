@@ -1,0 +1,124 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Security;
+using System.Text;
+
+namespace UI.XRay.Business.Entities
+{
+    /// <summary>
+    /// 表示一个用户账户
+    /// </summary>
+    public class Account : PropertyNotifiableObject
+    {
+        public Account()
+        {
+            
+        }
+
+        public Account(string id, string password, AccountRole role, bool isActive = true)
+        {
+            AccountId = id;
+            Password = password;
+            Role = role;
+            IsActive = isActive;
+        }
+
+        private string _accountId;
+
+        //[Key]
+        public string AccountId
+        {
+            get { return _accountId; }
+            set
+            {
+                _accountId = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private string _password;
+
+        public string Password
+        {
+            get { return _password; }
+            set
+            {
+                _password = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private AccountRole _role;
+
+        public AccountRole Role
+        {
+            get { return _role; }
+            set
+            {
+                _role = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private bool _isActive;
+
+        public bool IsActive
+        {
+            get { return _isActive; }
+            set
+            {
+                _isActive = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private string _displayPassword = "******";
+
+        private string _employeeId;
+
+        public string EmployeeId
+        {
+            get { return _employeeId; }
+            set { _employeeId = value; RaisePropertyChanged(); }
+        }
+
+        private string _description;
+
+        public string Description
+        {
+            get { return _description; }
+            set
+            {
+                _description = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// 用户显示的密码：在被重置前，为******，被重置后，将显示为默认密码
+        /// 此属性不存储于数据库中
+        /// </summary>
+        [NotMapped]
+        public string DisplayPassword
+        {
+            get { return _displayPassword; }
+            set
+            {
+                _displayPassword = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// 当重置时，默认使用的密码
+        /// </summary>
+        public static string DefaultPassword
+        {
+            get { return "000000"; }
+        }
+
+    }
+}

@@ -1,0 +1,83 @@
+﻿<controls:MetroWindow x:Class="UI.XRay.Security.Scanner.XRayGenWarmupWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:framework="clr-namespace:UI.XRay.Gui.Framework;assembly=UI.XRay.Gui.Framework"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:command="http://www.galasoft.ch/mvvmlight"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        mc:Ignorable="d" 
+        xmlns:viewModel="clr-namespace:UI.XRay.Security.Scanner.ViewModel"
+        FontSize="24" 
+        DataContext="{Binding XRayGenWarmupWindow, Source={StaticResource Locator}}"
+        d:DataContext="{d:DesignInstance Type=viewModel:XRayGenWarmupWindowViewModel, IsDesignTimeCreatable=True}"
+                      
+        BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="1" Background="LightGray"
+        ShowMaxRestoreButton="False" ShowSystemMenuOnRightClick="False" 
+        ShowMinButton="False" IsWindowDraggable="True"  ShowCloseButton="True" ResizeMode="NoResize"
+        WindowTransitionsEnabled="False"  ShowInTaskbar="False"
+        InputMethod.IsInputMethodEnabled="False" 
+        Title="{framework:LanguageResource Source=Warming up X-Ray Generator}" 
+        Height="180" Width="1280" ShowTitleBar="True" WindowStartupLocation="Manual">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="PreviewKeyDown">
+            <command:EventToCommand Command="{Binding PreviewKeyDownEventCommand}" PassEventArgsToCommand="True"></command:EventToCommand>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Closed">
+            <command:EventToCommand Command="{Binding ClosedEventCommand}" PassEventArgsToCommand="False"></command:EventToCommand>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <controls:MetroProgressBar Grid.Row="0" Minimum="0" Maximum="100" 
+                                   Value="{Binding PercentDone}" VerticalAlignment="Stretch"></controls:MetroProgressBar>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
+
+            <TextBlock Text="{Binding Voltage, StringFormat='F'}" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+            <TextBlock Text=" kV, " VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+            <TextBlock Text="{Binding Current, StringFormat='F'}" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+            <TextBlock Text=" mA" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+            <TextBlock Text="{framework:LanguageResource Remaining Time}" VerticalAlignment="Center" HorizontalAlignment="Center" 
+                       Margin="50,0,0,0"></TextBlock>
+            <TextBlock Text=":" VerticalAlignment="Center"></TextBlock>
+            <TextBlock Text="{Binding RemainingSeconds}" VerticalAlignment="Center" HorizontalAlignment="Center" 
+                       Margin="10,0,0,0"></TextBlock>
+            <TextBlock Text="{framework:LanguageResource Seconds}" VerticalAlignment="Center" HorizontalAlignment="Center" 
+                       Margin="5,0,0,0" MinWidth="60"></TextBlock>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Visibility="{Binding ControlSysErrorStringVisibility}" Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBlock Text="{framework:LanguageResource Error}" Foreground="Red" VerticalAlignment="Center"></TextBlock>
+            <TextBlock Text=": " Foreground="Red" VerticalAlignment="Center"></TextBlock>
+            <TextBlock Text="{framework:LanguageResource Unable to access Control Board}" 
+                   Margin="0,5" HorizontalAlignment="Center" Foreground="Red"></TextBlock>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Visibility="{Binding XrayGen1DeadStringVisibility}" Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBlock Text="{framework:LanguageResource Error}" Foreground="Red" VerticalAlignment="Center"></TextBlock>
+            <TextBlock Text=": " Foreground="Red" VerticalAlignment="Center"></TextBlock>
+            <TextBlock Text="{framework:LanguageResource X-Ray Gen 1 is dead}" 
+                   Margin="0,5" HorizontalAlignment="Center" Foreground="Red"></TextBlock>
+        </StackPanel>
+        <StackPanel Grid.Row="3" Visibility="{Binding InterlockOffStringVisibility}" Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBlock Text="{framework:LanguageResource Error}" Foreground="Red" VerticalAlignment="Center"></TextBlock>
+            <TextBlock Text=": " Foreground="Red" VerticalAlignment="Center"></TextBlock>
+            <TextBlock Text="{framework:LanguageResource Interlock switch is off}" 
+                   Margin="0,5" HorizontalAlignment="Center" Foreground="Red"></TextBlock>
+        </StackPanel>
+        <StackPanel Grid.Row="4" Visibility="{Binding EmgcSwitchOffStringVisibility}" Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBlock Text="{framework:LanguageResource Error}" Foreground="Red" VerticalAlignment="Center"></TextBlock>
+            <TextBlock Text=": " Foreground="Red" VerticalAlignment="Center"></TextBlock>
+            <TextBlock Text="{framework:LanguageResource Emergency switch is off}" 
+                   Margin="0,5" HorizontalAlignment="Center" Foreground="Red"></TextBlock>
+        </StackPanel>
+
+    </Grid>
+</controls:MetroWindow>

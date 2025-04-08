@@ -1,0 +1,18 @@
+﻿<widgets:UIWidgetBase x:Class="UI.XRay.Gui.Widgets.KeyWidget"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:widgets="clr-namespace:UI.XRay.Gui.Widgets"
+             mc:Ignorable="d" 
+             Height="48" Width="48">
+            <Viewbox>
+                <Grid Height="48" Width="48">
+                    <Canvas Width="48" Height="48">
+                        <Rectangle Name="KeyBkgRectangle" Height="48" Canvas.Left="0" Canvas.Top="0" Width="48" Fill="SeaGreen"/>
+                    </Canvas>
+                    <TextBlock Name="KeyTextBlock" FontSize="15" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" 
+                               TextTrimming="WordEllipsis" Foreground="Gold"></TextBlock>
+                </Grid>
+            </Viewbox>
+</widgets:UIWidgetBase>

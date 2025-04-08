@@ -1,0 +1,391 @@
+﻿<Page x:Class="UI.XRay.Security.Scanner.SettingViews.Image.Pages.ImsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:framework="clr-namespace:UI.XRay.Gui.Framework;assembly=UI.XRay.Gui.Framework"
+    xmlns:image="clr-namespace:UI.XRay.Security.Scanner.ViewModel.Setting.Image"
+    xmlns:converters="clr-namespace:UI.XRay.Security.Scanner.Converters"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:command="http://www.galasoft.ch/mvvmlight" xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+      mc:Ignorable="d" 
+    d:DesignHeight="800" d:DesignWidth="1280" 
+    FontSize="{StaticResource PageFontSize}"
+    d:DataContext="{d:DesignInstance Type=image:ImsPageViewModel, IsDesignTimeCreatable=True}"
+    DataContext="{Binding Source={StaticResource Locator}, Path=ImsPage}"
+    PreviewKeyDown="ImsPage_OnPreviewKeyDown"
+    Title="ImgPage">
+
+    <Page.Resources>
+        <converters:BoolVisibilityConvertor x:Key="ImagesCountBtnVisibilityConvertor"/>
+        <converters:PositiveIntBoolConverter x:Key="SelectedImagesCountBoolConverter"/>
+        <converters:DateTime2StringConverter x:Key="DateTime2StringConverter"/>
+        <Style BasedOn="{StaticResource MetroFlatButton}" TargetType="Button">
+            <Setter Property="FontSize" Value="{StaticResource PageFontSize}"></Setter>
+        </Style>
+    </Page.Resources>
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" VerticalContentAlignment="Stretch">
+        <Grid Margin="{StaticResource PageContentMargin}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,15,0,0">
+                <TextBlock Text="{framework:LanguageResource Change conditions and retrieve more images}" VerticalAlignment="Center"></TextBlock>
+                <Button HorizontalAlignment="Left" Margin="10,0" HorizontalContentAlignment="Stretch"
+                Command="{Binding RetrieveImagesCommand}" IsEnabled="{Binding IsButtonsEnabled}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" Text="{framework:LanguageResource Source=Retrieve more images}"></TextBlock>
+                        <TextBlock Grid.Column="1" Margin="15,0,0,0" Text="[F1]"  ></TextBlock>
+                    </Grid>
+                </Button>
+                <Button HorizontalAlignment="Left" Margin="10,0" HorizontalContentAlignment="Stretch" Command="{Binding ToListViewCommand}" Visibility="Collapsed">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" Text="{framework:LanguageResource Source=List View}"></TextBlock>
+                        <TextBlock Grid.Column="1" Margin="15,0,0,0" Text="[F2]"  ></TextBlock>
+                    </Grid>
+                </Button>
+            </StackPanel>
+            <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,20,0,0">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{framework:LanguageResource Source=Image retrieval results\,}" 
+               VerticalAlignment="Center"></TextBlock>
+                    <TextBlock Text="{framework:LanguageResource Source=Total}" Margin="5,0,0,0"
+               VerticalAlignment="Center"></TextBlock>
+                    <TextBlock Text="{Binding TotalImagesCount}" VerticalAlignment="Center" Margin="5,0,0,0"></TextBlock>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="30,0,0,0"
+                Visibility="{Binding ElementName=ImageListBox, Path=HasItems, Converter={StaticResource ImagesCountBtnVisibilityConvertor}}">
+                    <Button Content="-" Margin="0,0,0,0" Height="{Binding ElementName=SelectAllButton, Path=ActualHeight}" Width="35"
+              Command="{Binding MoveToPreviousCommand}" IsEnabled="{Binding IsButtonsEnabled}"></Button>
+                    <Label VerticalAlignment="Center" Margin="4,0">
+                        <Label.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="("></TextBlock>
+                                <TextBlock Text="{Binding ShowingImageMinIndex}"></TextBlock>
+                                <TextBlock Text="~"></TextBlock>
+                                <TextBlock Text="{Binding ShowingImageMaxIndex}"></TextBlock>
+                                <TextBlock Text=") / "></TextBlock>
+                                <TextBlock Text="{Binding TotalImagesCount}"></TextBlock>
+                            </StackPanel>
+                        </Label.Content>
+                    </Label>
+                    <Button Content="+" Height="{Binding ElementName=SelectAllButton, Path=ActualHeight}" Width="35"
+              Command="{Binding MoveToNextPageCommand}" IsEnabled="{Binding IsButtonsEnabled}"></Button>
+                </StackPanel>
+
+            </StackPanel>
+            <Border Grid.Row="2" BorderThickness="1" Margin="0,5,0,0" BorderBrush="{StaticResource AccentColorBrush}" Padding="10" HorizontalAlignment="Left"
+          Visibility="{Binding ElementName=ImageListBox, Path=HasItems, Converter={StaticResource ImagesCountBtnVisibilityConvertor}}">
+                <Grid>
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Vertical">
+                            <ListBox Name="ImageListBox" SelectionMode="Multiple" 
+                 ItemsSource="{Binding CurrentImages}" 
+                 InputMethod.IsInputMethodEnabled="False" Margin="0,10,0,0" 
+                 ScrollViewer.HorizontalScrollBarVisibility= "Disabled" 
+                 ScrollViewer.VerticalScrollBarVisibility="Auto" MaxHeight="522" 
+                 Padding="8"  Background="Gray" HorizontalAlignment="Left">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectionChanged">
+                                        <command:EventToCommand Command="{Binding SelectionChangedEventCommand}" PassEventArgsToCommand="True"></command:EventToCommand>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                                <ListBox.Resources>
+                                    <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                                        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                                    </Style>
+                                </ListBox.Resources>
+                                <ListBox.Style>
+                                    <Style BasedOn="{StaticResource {x:Type ListBox}}" TargetType="{x:Type ListBox}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=ImageListBox, Path=HasItems}" Value="False">
+                                                <Setter Property="Visibility" Value="Collapsed"></Setter>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ListBox.Style>
+                                <ItemsControl.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                                        <Setter Property="Control.Margin" Value="8"/>
+                                        <Setter Property="Control.Background" Value="White"></Setter>
+                                        <Setter Property="Control.Padding" Value="3"></Setter>
+                                    </Style>
+                                </ItemsControl.ItemContainerStyle>
+
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"></RowDefinition>
+                                                <RowDefinition></RowDefinition>
+                                                <RowDefinition></RowDefinition>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition></ColumnDefinition>
+                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+
+                                            <Image Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Source="{Binding Path=Thumbnail}" Width="192" Height="192" MouseLeftButtonDown="DoubleClick" >
+                                                <!--<i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="MouseButton">
+                                                    <command:EventToCommand Command="{Binding ImageListBox_DoubleOnClickCommand }" PassEventArgsToCommand="True" ></command:EventToCommand>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>-->
+                                            </Image >
+                                            
+                                            <StackPanel Grid.Row="1" Grid.Column="0"  Orientation="Horizontal">
+                                                <TextBlock Text="{framework:LanguageResource Channal Id:}"  HorizontalAlignment="Left" ></TextBlock>
+                                                <TextBlock Text="{Binding ChannalId}" VerticalAlignment="Center" HorizontalAlignment="Left" InputMethod.IsInputMethodEnabled="False"></TextBlock>
+                                            </StackPanel>
+
+                                            
+                                            <TextBlock Grid.Row="2" Grid.Column="0" InputMethod.IsInputMethodEnabled="False">
+                                                <TextBlock.Text>
+                                                    <Binding Path="ScanTime" Converter="{StaticResource DateTime2StringConverter}"></Binding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+
+
+                                            <Image Grid.Row="1" Grid.Column="1" Source="../../../Icons/Danger.png" Width="16" 
+                                               Visibility="{Binding Path=IsManualMark, Converter={StaticResource ImagesCountBtnVisibilityConvertor}}"></Image>
+                                            <Image Grid.Row="1" Grid.Column="2" Source="../../../Icons/Save.png" Width="16" 
+                                               Visibility="{Binding Path=IsLocked, Converter={StaticResource ImagesCountBtnVisibilityConvertor}}">
+                                            
+                                            <Image.Style>
+                                                <Style>
+                                                    <Setter Property="Image.Visibility" Value="Collapsed"></Setter>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Path=IsLocked}" Value="True">
+                                                            <Setter Property="Image.Visibility" Value="Visible"></Setter>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Image.Style>
+                                            
+                                        </Image>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                            </ListBox>
+
+                            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                <UniformGrid Margin="-10,10,0,0" Columns="3" Rows="3" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                    <Button Margin="10,5" VerticalAlignment="Center" Name="SelectAllButton" HorizontalContentAlignment="Stretch"
+                Command="{Binding SelectAllCommand}" IsEnabled="{Binding IsButtonsEnabled}"
+                ToolTip="{framework:LanguageResource Select all images in the list}">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition></ColumnDefinition>
+                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" Text="{framework:LanguageResource Source=Select All}"></TextBlock>
+                                            <TextBlock Grid.Column="1" Margin="15,0,0,0" Text="[1]"  ></TextBlock>
+                                        </Grid>
+                                    </Button>
+                                    <Button Margin="10,5" VerticalAlignment="Center" HorizontalContentAlignment="Stretch"
+                Command="{Binding AntiSelectAllCommand}" IsEnabled="{Binding IsButtonsEnabled}"
+                ToolTip="{framework:LanguageResource Anti-Select images}">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition></ColumnDefinition>
+                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" Text="{framework:LanguageResource Source=Anti-Select}"></TextBlock>
+                                            <TextBlock Grid.Column="1" Margin="15,0,0,0" Text="[2]"  ></TextBlock>
+                                        </Grid>
+                                    </Button>
+                                    <Button Margin="10,5" VerticalAlignment="Center" HorizontalContentAlignment="Stretch" 
+                Command="{Binding ReplayCommand}" IsEnabled="{Binding IsPlaybackButtonEnabled}"
+                ToolTip="{framework:LanguageResource Playback all selected images}">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition></ColumnDefinition>
+                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" Text="{framework:LanguageResource Playback}"></TextBlock>
+                                            <TextBlock Grid.Column="1" Margin="15,0,0,0" Text="[3]"></TextBlock>
+                                        </Grid>
+                                    </Button>
+                                    <!--<Button Margin="10,5" VerticalAlignment="Center" HorizontalContentAlignment="Stretch" 
+                ToolTip="{framework:LanguageResource Open the first selected image}"
+                Command="{Binding OpenCommand}" IsEnabled="{Binding IsOpenButtonEnabled}">
+                  <Grid>
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition></ColumnDefinition>
+                      <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" Text="{framework:LanguageResource Source=Open}"></TextBlock>
+                    <TextBlock Grid.Column="1" Margin="15,0,0,0" Text="[4]"  ></TextBlock>
+                  </Grid>
+                </Button>-->
+                                    <!--<Button Margin="10,5" VerticalAlignment="Center" HorizontalContentAlignment="Stretch" Command="{Binding DeleteCommand}"
+                IsEnabled="{Binding IsDeleteButtonEnabled}" 
+                ToolTip="{framework:LanguageResource Delete all selected images}">
+                  <Grid>
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition></ColumnDefinition>
+                      <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" Text="{framework:LanguageResource Source=Delete}"></TextBlock>
+                    <TextBlock Grid.Column="1" Margin="15,0,0,0" Text="[4]"  ></TextBlock>
+                  </Grid>
+                </Button>-->
+
+                                    <!--<Button Margin="10,5" VerticalAlignment="Center" HorizontalContentAlignment="Stretch" Visibility="Visible" Command="{Binding LockCommand}"
+                  IsEnabled="{Binding IsOpenButtonEnabled}">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition></ColumnDefinition>
+                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" Text="{framework:LanguageResource Source=Lock}"></TextBlock>
+                                            <TextBlock Grid.Column="1" Margin="15,0,0,0" Text="[4]"  ></TextBlock>
+                                        </Grid>
+                                    </Button>
+                                    <Button Margin="10,5" VerticalAlignment="Center" HorizontalContentAlignment="Stretch" Visibility="Visible" Command="{Binding UnlockCommand}"
+                  IsEnabled="{Binding IsOpenButtonEnabled}">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition></ColumnDefinition>
+                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" Text="{framework:LanguageResource Source=Unlock}"></TextBlock>
+                                            <TextBlock Grid.Column="1" Margin="15,0,0,0" Text="[5]"  ></TextBlock>
+                                        </Grid>
+                                    </Button>-->
+                                    <!--<Button Margin="10,5" VerticalAlignment="Center" HorizontalContentAlignment="Stretch" Visibility="Visible" Command="{Binding PrintCommand}"
+                  IsEnabled="{Binding IsOpenButtonEnabled}">
+                  <Grid>
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition></ColumnDefinition>
+                      <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" Text="{framework:LanguageResource Source=Print}"></TextBlock>
+                    <TextBlock Grid.Column="1" Margin="15,0,0,0" Text="[8]"  ></TextBlock>
+                  </Grid>
+                </Button>-->
+
+
+                  <Button Margin="10,5" VerticalAlignment="Center" HorizontalContentAlignment="Stretch" Command="{Binding DumpCommand}" Visibility="{Binding CanDumpToNetVisibility}"
+                  IsEnabled="{Binding IsOpenButtonEnabled}">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition></ColumnDefinition>
+                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" Text="{framework:LanguageResource Source=Dump}"></TextBlock>
+                                            <TextBlock Grid.Column="1" Margin="15,0,0,0" Text="[4]"  ></TextBlock>
+                                        </Grid>
+                                    </Button>
+                  <ComboBox VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10,5" SelectedIndex="{Binding SelectedDumpFormat}"  Visibility="{Binding CanDumpToNetVisibility}"
+                    Height="{Binding ElementName=SelectAllButton, Path=ActualHeight}" Width="{Binding ElementName=SelectAllButton, Path=ActualWidth}"
+                    IsEnabled="{Binding IsOpenButtonEnabled}">
+                                        <ComboBoxItem>jpg</ComboBoxItem>
+                                        <ComboBoxItem>png</ComboBoxItem>
+                                        <ComboBoxItem>bmp</ComboBoxItem>
+                                        <ComboBoxItem>tiff</ComboBoxItem>
+                                        <ComboBoxItem>xray</ComboBoxItem>
+                                    </ComboBox>
+
+                                    <Button Margin="10,5" VerticalAlignment="Center" HorizontalContentAlignment="Stretch" Command="{Binding DumpToNetCommand}" Visibility="{Binding CanDumpToNetVisibility}"
+                  IsEnabled="{Binding IsOpenButtonEnabled}">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition></ColumnDefinition>
+                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" Text="{framework:LanguageResource Source=DumpToNet}"></TextBlock>
+                                            <TextBlock Grid.Column="1" Margin="15,0,0,0" Text="[5]"  ></TextBlock>
+                                        </Grid>
+                                    </Button>
+                                    <Button Margin="10,5" VerticalAlignment="Center" HorizontalContentAlignment="Stretch" Visibility="{Binding CanRemoveBadChannelVisibility}"
+                ToolTip="{framework:LanguageResource Open the first selected image}"
+                Command="{Binding OpenRemoveBadChannelCommand}" IsEnabled="{Binding IsOpenButtonEnabled}">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition></ColumnDefinition>
+                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" Text="{framework:LanguageResource Source = RemoveBadChannel}"></TextBlock>
+                                            <TextBlock Grid.Column="1" Margin="15,0,0,0" Text="[6]"  ></TextBlock>
+                                        </Grid>
+                                    </Button>
+                                    <Button Margin="10,5" VerticalAlignment="Center" HorizontalContentAlignment="Stretch" ToolTip="打印图片" Command="{Binding PrintCommand}" IsEnabled="{Binding IsOpenButtonEnabled}">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition></ColumnDefinition>
+                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" Text="{framework:LanguageResource Source = Print}"></TextBlock>
+                                            <TextBlock Grid.Column="1" Margin="15,0,0,0" Text="[7]"  ></TextBlock>
+                                        </Grid>
+                                    </Button>
+                                    <ComboBox ItemsSource="{Binding ViewIndexs}" SelectedIndex="0" FontSize="18" InputMethod.IsInputMethodEnabled="False" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                              DisplayMemberPath="DisplayViewNum" SelectedValuePath="ViewNum" SelectedValue="{Binding SelectViewIndex}"></ComboBox>
+
+                                    <Button Margin="10,5" VerticalAlignment="Center" HorizontalContentAlignment="Stretch" ToolTip="错茬调整"  Command="{Binding DetectorModuleAdjustCommand}" IsEnabled="{Binding IsOpenButtonEnabled}" Visibility="{Binding DetectorModuleAdjustVisibility}">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition></ColumnDefinition>
+                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" Text="错茬调整"></TextBlock>
+                                            <TextBlock Grid.Column="1" Margin="15,0,0,0" Text="[8]"  ></TextBlock>
+                                        </Grid>
+                                    </Button>
+                                </UniformGrid>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                    <Grid Name="ProcessBar" MinWidth="600" Background="LightGray" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding ProcessBarVisibility}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <DockPanel Grid.Row="0" Grid.Column="0" Margin="10">
+                            <TextBlock Text="{framework:LanguageResource Processing...}" DockPanel.Dock="Left"></TextBlock>
+                            <TextBlock Text="(" DockPanel.Dock="Left" Margin="10 0 0 0"></TextBlock>
+                            <TextBlock Text="{Binding CurrentProcessNum}" DockPanel.Dock="Left"></TextBlock>
+                            <TextBlock Text="/" DockPanel.Dock="Left"></TextBlock>
+                            <TextBlock Text="{Binding TotalProcessNum}" DockPanel.Dock="Left"></TextBlock>
+                            <TextBlock Text=")" DockPanel.Dock="Left"></TextBlock>
+                        </DockPanel>
+                        <controls:MetroProgressBar Grid.Row="1" Grid.Column="0" Margin="10" Height="50" MinWidth="200" Minimum="0" Maximum="100" 
+                                       Value="{Binding PercentDone}" VerticalAlignment="Stretch"/>
+                        <Button  Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Margin="10" VerticalAlignment="Center" HorizontalContentAlignment="Stretch" Background="DarkGray"
+                                 BorderBrush ="Black" MinWidth="80" MinHeight="80" Command="{Binding CancelProcessBarCommand}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" Text="{framework:LanguageResource Source=Cancel}"></TextBlock>
+                                <TextBlock Grid.Column="1" Margin="5,0,0,0" Text="[0]"  ></TextBlock>
+                            </Grid>
+                        </Button>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+    </ScrollViewer>
+</Page>

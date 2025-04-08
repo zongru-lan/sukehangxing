@@ -1,0 +1,39 @@
+﻿<Page x:Class="UI.XRay.Security.Scanner.SettingViews.Device.Pages.ConveyorPESensorPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:framework="clr-namespace:UI.XRay.Gui.Framework;assembly=UI.XRay.Gui.Framework"
+      xmlns:widgets="clr-namespace:UI.XRay.Gui.Widgets;assembly=UI.XRay.Gui.Widgets"
+      mc:Ignorable="d" 
+      DataContext="{Binding Source={StaticResource Locator}, Path=ConveyorPeSensorPage}"
+      d:DesignHeight="600" d:DesignWidth="500"
+	Title="ConveyorPage">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" IsTabStop="False">
+        <StackPanel Margin="{StaticResource PageContentMargin}" HorizontalAlignment="Left">
+            <StackPanel>
+                <TextBlock Text="{framework:LanguageResource Conveyor Test}" Style="{StaticResource PageSectionHeaderTextBlockStyle}"></TextBlock>
+                <UniformGrid Columns="3">
+                    <Button Content="{framework:LanguageResource Move Left}" Command="{Binding MoveLeftCommand}" Margin="0,0,20,0"></Button>
+                    <Button Content="{framework:LanguageResource Stop}" Command="{Binding StopCommand}" Margin="0,0,20,0"></Button>
+                    <Button Content="{framework:LanguageResource Move Right}" Command="{Binding MoveRightCommand}" Margin="0,0,20,0"></Button>
+                </UniformGrid>
+            </StackPanel>
+
+            <StackPanel HorizontalAlignment="Left">
+                <TextBlock Text="{framework:LanguageResource PhotoElectric Sensors Test}" Style="{StaticResource PageSectionHeaderTextBlockStyle}"></TextBlock>
+                <UniformGrid Columns="3">
+                    <Button Content="{framework:LanguageResource Power On}" Command="{Binding PowerOnCommand}" Margin="0,0,20,0"></Button>
+                    <Button Content="{framework:LanguageResource Power Off}" Command="{Binding PowerOffCommand}" Margin="0,0,20,0"></Button>
+                </UniformGrid>
+                <Border BorderThickness="1" BorderBrush="Gray" Margin="0,20,0,0" Background="LightGray">
+                    <Canvas Width="300" Height="200">
+                        <widgets:PESensorWidget Height="200" Canvas.Left="44" SensorState="{Binding Pes1WidgetState}"></widgets:PESensorWidget>
+                        <widgets:PESensorWidget Height="200" Canvas.Left="223" SensorState="{Binding Pes3WidgetState}"></widgets:PESensorWidget>
+                    </Canvas>
+                </Border>
+            </StackPanel>
+        </StackPanel>
+        
+    </ScrollViewer>
+</Page>

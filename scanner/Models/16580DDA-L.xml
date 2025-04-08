@@ -1,0 +1,1682 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ConfigNode xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>HTXRayScanner</Name>
+  <SubConfigNodes>
+    <ConfigNode>
+      <Name>Algorithm</Name>
+      <SubConfigNodes>
+        <ConfigNode>
+          <Name>CirclePenetration</Name>
+          <Values>
+            <ConfigNode>
+              <Name>View1Circle4Threshold</Name>
+              <Value xsi:type="xsd:string">0.75</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>View1Circle5Threshold</Name>
+              <Value xsi:type="xsd:string">0.75</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>View2Circle4Threshold</Name>
+              <Value xsi:type="xsd:string">0.75</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>View2Circle5Threshold</Name>
+              <Value xsi:type="xsd:string">0.75</Value>
+            </ConfigNode>
+          </Values>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>ImageProcessAlgoRecommend</Name>
+          <Values>
+            <ConfigNode>
+              <Name>Enable</Name>
+              <Value xsi:type="xsd:string">false</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>UnshowInOrganicLimit</Name>
+              <Value xsi:type="xsd:string">0.3</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>UnshowOrganicLimit</Name>
+              <Value xsi:type="xsd:string">0.3</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>ImageValueUpperLimit</Name>
+              <Value xsi:type="xsd:string">62530</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>ImageValueLowerLimit</Name>
+              <Value xsi:type="xsd:string">4000</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>OrganicAndMixtureZLimit</Name>
+              <Value xsi:type="xsd:string">10</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>MixtureAndInOrganicZLimit</Name>
+              <Value xsi:type="xsd:string">18</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>gamma1</Name>
+              <Value xsi:type="xsd:string">40</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>gamma2</Name>
+              <Value xsi:type="xsd:string">40</Value>
+            </ConfigNode>
+          </Values>
+        </ConfigNode>
+      </SubConfigNodes>
+    </ConfigNode>
+    <ConfigNode>
+      <Name>CaptureSys</Name>
+      <SubConfigNodes>
+        <ConfigNode>
+          <Name>DT</Name>
+          <Values>
+            <ConfigNode>
+              <Name>DTDetSysType</Name>
+              <Value xsi:type="xsd:string">TCP</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>View1CardsDist</Name>
+              <Value xsi:type="xsd:string">9,9,0,0</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>DtChannels</Name>
+              <Value xsi:type="xsd:string">5</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>View2CardsDist</Name>
+              <Value xsi:type="xsd:string">14,5,0,0</Value>
+            </ConfigNode>
+          </Values>
+        </ConfigNode>
+      </SubConfigNodes>
+      <Values>
+        <ConfigNode>
+          <Name>CheckCaptureSysTimeSpan</Name>
+          <Value xsi:type="xsd:string">6</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>Type</Name>
+          <Value xsi:type="xsd:string">DtGCUSTD</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>IsDualEnergy</Name>
+          <Value xsi:type="xsd:string">True</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>LineIntegrationTime</Name>
+          <Value xsi:type="xsd:string">2.2857</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>BoardCount</Name>
+          <Value xsi:type="xsd:int">2</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>RemoteCmdPort1</Name>
+          <Value xsi:type="xsd:int">0</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>RemoteImagePort1</Name>
+          <Value xsi:type="xsd:int">0</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>RemoteCmdPort2</Name>
+          <Value xsi:type="xsd:int">0</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>RemoteImagePort2</Name>
+          <Value xsi:type="xsd:int">0</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>PingEnable</Name>
+          <Value xsi:type="xsd:string">False</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>PingTime</Name>
+          <Value xsi:type="xsd:int">0</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>HostIP</Name>
+          <Value xsi:type="xsd:string">127.0.0.1</Value>
+        </ConfigNode>
+      </Values>
+    </ConfigNode>
+    <ConfigNode>
+      <Name>ControlSys</Name>
+      <SubConfigNodes>
+        <ConfigNode>
+          <Name>ConveyorTriggerSensor</Name>
+          <Values>
+            <ConfigNode>
+              <Name>EnableConveyorTriggerSensor</Name>
+              <Value xsi:type="xsd:string">False</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>EntryConveyorTriggerSensorIndex</Name>
+              <Value xsi:type="xsd:string">2</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>MotorStopDelayTimeSpan</Name>
+              <Value xsi:type="xsd:string">20.0</Value>
+            </ConfigNode>
+          </Values>
+        </ConfigNode>
+      </SubConfigNodes>
+      <Values>
+        <ConfigNode>
+          <Name>ControlBoardIP</Name>
+          <Value xsi:type="xsd:string">192.168.1.150</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>ControlBoardPort</Name>
+          <Value xsi:type="xsd:string">10050</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>ComputerIP</Name>
+          <Value xsi:type="xsd:string">192.168.1.100</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>ComputerPort</Name>
+          <Value xsi:type="xsd:string">10050</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>ControlBoardCmdInterval</Name>
+          <Value xsi:type="xsd:string">9</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>FirmWare</Name>
+          <Value xsi:type="xsd:string">4.0</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>Protocol</Name>
+          <Value xsi:type="xsd:string">3.3</Value>
+        </ConfigNode>
+      </Values>
+    </ConfigNode>
+    <ConfigNode>
+      <Name>Extensions</Name>
+      <SubConfigNodes>
+        <ConfigNode>
+          <Name>SavePics</Name>
+          <Values>
+            <ConfigNode>
+              <Name>PrintInfoOnImage</Name>
+              <Value xsi:type="xsd:string">True</Value>
+            </ConfigNode>
+          </Values>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>SingleView</Name>
+          <Values>
+            <ConfigNode>
+              <Name>IsSendSingleViewImage</Name>
+              <Value xsi:type="xsd:string">false</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>ImageFileSuffix</Name>
+              <Value xsi:type="xsd:string">_H;_V;_All</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>CropImage</Name>
+              <Value xsi:type="xsd:string">False</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>IsScreenShotViewReverse</Name>
+              <Value xsi:type="xsd:string">False</Value>
+            </ConfigNode>
+          </Values>
+        </ConfigNode>
+      </SubConfigNodes>
+    </ConfigNode>
+    <ConfigNode>
+      <Name>Images</Name>
+      <SubConfigNodes>
+        <ConfigNode>
+          <Name>Image1</Name>
+          <Values>
+            <ConfigNode>
+              <Name>VerticalFlip</Name>
+              <Value xsi:type="xsd:string">False</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>ShowingDetView</Name>
+              <Value xsi:type="xsd:string">View1</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>ColorMode</Name>
+              <Value xsi:type="xsd:string">MaterialColor</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>MaterialClassificationIndex</Name>
+              <Value xsi:type="xsd:string">1</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>EnableEdgeEnhance</Name>
+              <Value xsi:type="xsd:string">True</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>EnableSuperEnhance</Name>
+              <Value xsi:type="xsd:string">False</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>Inversed</Name>
+              <Value xsi:type="xsd:string">False</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>Penetration</Name>
+              <Value xsi:type="xsd:string">Standard</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>MoveRightToLeft</Name>
+              <Value xsi:type="xsd:string">True</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>Height</Name>
+              <Value xsi:type="xsd:int">1640</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>AddDataAtEnd</Name>
+              <Value xsi:type="xsd:string">True</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>Anchor</Name>
+              <Value xsi:type="xsd:string">Center</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>VerticalScale</Name>
+              <Value xsi:type="xsd:string">1</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>HorizonalScale</Name>
+              <Value xsi:type="xsd:string">0.6</Value>
+            </ConfigNode>
+          </Values>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>Image2</Name>
+          <Values>
+            <ConfigNode>
+              <Name>VerticalFlip</Name>
+              <Value xsi:type="xsd:string">False</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>ShowingDetView</Name>
+              <Value xsi:type="xsd:string">View2</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>ColorMode</Name>
+              <Value xsi:type="xsd:string">MaterialColor</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>MaterialClassificationIndex</Name>
+              <Value xsi:type="xsd:string">2</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>EnableEdgeEnhance</Name>
+              <Value xsi:type="xsd:string">True</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>EnableSuperEnhance</Name>
+              <Value xsi:type="xsd:string">False</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>Inversed</Name>
+              <Value xsi:type="xsd:string">False</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>Penetration</Name>
+              <Value xsi:type="xsd:string">Standard</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>MoveRightToLeft</Name>
+              <Value xsi:type="xsd:string">True</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>Height</Name>
+              <Value xsi:type="xsd:int">1640</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>AddDataAtEnd</Name>
+              <Value xsi:type="xsd:string">True</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>Anchor</Name>
+              <Value xsi:type="xsd:string">Center</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>VerticalScale</Name>
+              <Value xsi:type="xsd:string">1</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>HorizonalScale</Name>
+              <Value xsi:type="xsd:string">0.6</Value>
+            </ConfigNode>
+          </Values>
+        </ConfigNode>
+      </SubConfigNodes>
+      <Values>
+        <ConfigNode>
+          <Name>Count</Name>
+          <Value xsi:type="xsd:int">2</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>BagMaxScanLines</Name>
+          <Value xsi:type="xsd:string">1200</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>ShowBlankSpace</Name>
+          <Value xsi:type="xsd:string">False</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>BagMinLinesCount</Name>
+          <Value xsi:type="xsd:string">75</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>DefaultAbsorbIndex</Name>
+          <Value xsi:type="xsd:int">0</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>ShowUnpenetratableRed</Name>
+          <Value xsi:type="xsd:string">False</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>MaxZoominTimes</Name>
+          <Value xsi:type="xsd:string">32</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>ZoominStep</Name>
+          <Value xsi:type="xsd:string">0</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>Zoom1XWhenStart</Name>
+          <Value xsi:type="xsd:string">False</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>Margin</Name>
+          <Value xsi:type="xsd:int">0</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>AnchorNewWhenEnd</Name>
+          <Value xsi:type="xsd:string">False</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>ExportImage5Effect</Name>
+          <Value xsi:type="xsd:string">None</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>ExportImageFormat</Name>
+          <Value xsi:type="xsd:int">0</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>CommonImageQuality</Name>
+          <Value xsi:type="xsd:string">75</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>LightenAbsorbIndex</Name>
+          <Value xsi:type="xsd:string">-15</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>ExportTimeDelay</Name>
+          <Value xsi:type="xsd:string">0</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>ClearSaveXRayQueueCount</Name>
+          <Value xsi:type="xsd:string">3</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>AllowDoubleClick</Name>
+          <Value xsi:type="xsd:string">False</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>SaveHighLowInXRay</Name>
+          <Value xsi:type="xsd:string">False</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>SuperEnhanceThreshold</Name>
+          <Value xsi:type="xsd:string">58000</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>MatDividedView</Name>
+          <Value xsi:type="xsd:string">0</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>MatExchangeDivideDirection</Name>
+          <Value xsi:type="xsd:string">true</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>MatDividedIndex</Name>
+          <Value xsi:type="xsd:string">640</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>BrighterAbsorptivity</Name>
+          <Value xsi:type="xsd:string">-15</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>DarkerAbsorptivity</Name>
+          <Value xsi:type="xsd:string">25</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>DividedView</Name>
+          <Value xsi:type="xsd:int">0</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>ExchangeDivideDirection</Name>
+          <Value xsi:type="xsd:string">true</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>DividedIndex</Name>
+          <Value xsi:type="xsd:int">640</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>CanMoveWhenZoomIn</Name>
+          <Value xsi:type="xsd:string">False</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>SESifenbianRegionLower</Name>
+          <Value xsi:type="xsd:string">0.763</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>SESifenbianRegionUpper</Name>
+          <Value xsi:type="xsd:string">0.9</Value>
+        </ConfigNode>
+      </Values>
+    </ConfigNode>
+    <ConfigNode>
+      <Name>Intellisense</Name>
+      <SubConfigNodes>
+        <ConfigNode>
+          <Name>AutoDetection</Name>
+          <Values>
+            <ConfigNode>
+              <Name>IsEnable</Name>
+              <Value xsi:type="xsd:string">False</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>EIItemsList</Name>
+              <Value xsi:type="xsd:string">1,2,3,4,13,14,15,16,20</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>GunBorderColor</Name>
+              <Value xsi:type="xsd:int">2</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>GunAudibleAlarm</Name>
+              <Value xsi:type="xsd:string">False</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>GunLightAlarm</Name>
+              <Value xsi:type="xsd:string">False</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>GunStopConveyor</Name>
+              <Value xsi:type="xsd:string">False</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>GunItemsList</Name>
+              <Value xsi:type="xsd:string">10,21,22</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>KnifeBorderColor</Name>
+              <Value xsi:type="xsd:int">2</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>KnifeAudibleAlarm</Name>
+              <Value xsi:type="xsd:string">False</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>KnifeLightAlarm</Name>
+              <Value xsi:type="xsd:string">False</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>KnifeStopConveyor</Name>
+              <Value xsi:type="xsd:string">False</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>KnifeItemsList</Name>
+              <Value xsi:type="xsd:string">5,6,7,8,9,11,12,17,18,19</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>LabelHeightRatio</Name>
+              <Value xsi:type="xsd:string">1.5</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>LabelWidthRatio</Name>
+              <Value xsi:type="xsd:string">1.2</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>LabelMaxHeightRatio</Name>
+              <Value xsi:type="xsd:string">0.95</Value>
+            </ConfigNode>
+          </Values>
+        </ConfigNode>
+      </SubConfigNodes>
+      <Values>
+        <ConfigNode>
+          <Name>IsHDIEnabled</Name>
+          <Value xsi:type="xsd:string">False</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>IsDEIEnabled</Name>
+          <Value xsi:type="xsd:string">False</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>IsEIEnabled</Name>
+          <Value xsi:type="xsd:string">False</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>HDISensitivity</Name>
+          <Value xsi:type="xsd:int">3</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>DEISensitivity</Name>
+          <Value xsi:type="xsd:int">3</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>EISensitivity</Name>
+          <Value xsi:type="xsd:int">3</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>DrugHighZ</Name>
+          <Value xsi:type="xsd:string">11</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>DrugHighX</Name>
+          <Value xsi:type="xsd:string">11</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>DrugLowZ</Name>
+          <Value xsi:type="xsd:string">8.5</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>ExplosivesHighZ</Name>
+          <Value xsi:type="xsd:string">7</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>ExplosivesHighX</Name>
+          <Value xsi:type="xsd:string">46000</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>ExplosivesLowZ</Name>
+          <Value xsi:type="xsd:string">5</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>DeiAudibleAlarm</Name>
+          <Value xsi:type="xsd:string">False</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>DeiLightAlarm</Name>
+          <Value xsi:type="xsd:string">False</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>EiAudibleAlarm</Name>
+          <Value xsi:type="xsd:string">False</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>EiLightAlarm</Name>
+          <Value xsi:type="xsd:string">False</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>DeiStopConveyor</Name>
+          <Value xsi:type="xsd:string">False</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>EiStopConveyor</Name>
+          <Value xsi:type="xsd:string">False</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>HdiAudibleAlarm</Name>
+          <Value xsi:type="xsd:string">False</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>HdiLightAlarm</Name>
+          <Value xsi:type="xsd:string">False</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>HdiStopConveyor</Name>
+          <Value xsi:type="xsd:string">False</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>HdiBorderColor</Name>
+          <Value xsi:type="xsd:string">8</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>DeiBorderColor</Name>
+          <Value xsi:type="xsd:string">3</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>EiBorderColor</Name>
+          <Value xsi:type="xsd:string">7</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>AlarmLight</Name>
+          <Value xsi:type="xsd:int">1</Value>
+        </ConfigNode>
+      </Values>
+    </ConfigNode>
+    <ConfigNode>
+      <Name>Keyboard</Name>
+      <SubConfigNodes>
+        <ConfigNode>
+          <Name>FunctionKeys</Name>
+          <SubConfigNodes>
+            <ConfigNode>
+              <Name>F1</Name>
+              <Values>
+                <ConfigNode>
+                  <Name>ActionType</Name>
+                  <Value xsi:type="xsd:string" />
+                </ConfigNode>
+                <ConfigNode>
+                  <Name>EffectsComposition</Name>
+                  <Value xsi:type="xsd:string">PseudoColor2,LowPenetrate,False,True</Value>
+                </ConfigNode>
+              </Values>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>F2</Name>
+              <Values>
+                <ConfigNode>
+                  <Name>ActionType</Name>
+                  <Value xsi:type="xsd:string" />
+                </ConfigNode>
+                <ConfigNode>
+                  <Name>EffectsComposition</Name>
+                  <Value xsi:type="xsd:string">Grey,LowPenetrate,False,True</Value>
+                </ConfigNode>
+              </Values>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>F3</Name>
+              <Values>
+                <ConfigNode>
+                  <Name>ActionType</Name>
+                  <Value xsi:type="xsd:string" />
+                </ConfigNode>
+                <ConfigNode>
+                  <Name>EffectsComposition</Name>
+                  <Value xsi:type="xsd:string">MaterialColor,SlicePenetrate,False,False</Value>
+                </ConfigNode>
+              </Values>
+            </ConfigNode>
+          </SubConfigNodes>
+          <Values>
+            <ConfigNode>
+              <Name>EnableActionKey</Name>
+              <Value xsi:type="xsd:string">true</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>F2</Name>
+              <Value xsi:type="xsd:string">MaterialColor</Value>
+            </ConfigNode>
+          </Values>
+        </ConfigNode>
+      </SubConfigNodes>
+      <Values>
+        <ConfigNode>
+          <Name>ComName</Name>
+          <Value xsi:type="xsd:string">USB Serial Port</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>AutoDetect</Name>
+          <Value xsi:type="xsd:string">True</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>BackwardKeydownCountThr</Name>
+          <Value xsi:type="xsd:string">6</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>IsConveyorKeyReversed</Name>
+          <Value xsi:type="xsd:string">True</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>IsKeyboardReversed</Name>
+          <Value xsi:type="xsd:string">True</Value>
+        </ConfigNode>
+      </Values>
+    </ConfigNode>
+    <ConfigNode>
+      <Name>Machine</Name>
+      <SubConfigNodes>
+        <ConfigNode>
+          <Name>BeltEdge</Name>
+          <SubConfigNodes>
+            <ConfigNode>
+              <Name>View1</Name>
+              <Values>
+                <ConfigNode>
+                  <Name>BeginPosition</Name>
+                  <Value xsi:type="xsd:int">13</Value>
+                </ConfigNode>
+                <ConfigNode>
+                  <Name>EndPosition</Name>
+                  <Value xsi:type="xsd:int">25</Value>
+                </ConfigNode>
+                <ConfigNode>
+                  <Name>Edge1StartPosition</Name>
+                  <Value xsi:type="xsd:int">0</Value>
+                </ConfigNode>
+                <ConfigNode>
+                  <Name>Edge1EndPosition</Name>
+                  <Value xsi:type="xsd:int">0</Value>
+                </ConfigNode>
+                <ConfigNode>
+                  <Name>Edge2StartPosition</Name>
+                  <Value xsi:type="xsd:int">0</Value>
+                </ConfigNode>
+                <ConfigNode>
+                  <Name>Edge2EndPosition</Name>
+                  <Value xsi:type="xsd:int">0</Value>
+                </ConfigNode>
+              </Values>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>View2</Name>
+              <Values>
+                <ConfigNode>
+                  <Name>BeginPosition</Name>
+                  <Value xsi:type="xsd:int">0</Value>
+                </ConfigNode>
+                <ConfigNode>
+                  <Name>EndPosition</Name>
+                  <Value xsi:type="xsd:int">0</Value>
+                </ConfigNode>
+                <ConfigNode>
+                  <Name>Edge1StartPosition</Name>
+                  <Value xsi:type="xsd:int">0</Value>
+                </ConfigNode>
+                <ConfigNode>
+                  <Name>Edge1EndPosition</Name>
+                  <Value xsi:type="xsd:int">0</Value>
+                </ConfigNode>
+                <ConfigNode>
+                  <Name>Edge2StartPosition</Name>
+                  <Value xsi:type="xsd:int">0</Value>
+                </ConfigNode>
+                <ConfigNode>
+                  <Name>Edge2EndPosition</Name>
+                  <Value xsi:type="xsd:int">0</Value>
+                </ConfigNode>
+              </Values>
+            </ConfigNode>
+          </SubConfigNodes>
+          <Values>
+            <ConfigNode>
+              <Name>RoundPixelCount</Name>
+              <Value xsi:type="xsd:string">5</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>AirThreshold</Name>
+              <Value xsi:type="xsd:string">62500</Value>
+            </ConfigNode>
+          </Values>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>Direction</Name>
+          <Values>
+            <ConfigNode>
+              <Name>ExchangePESensor</Name>
+              <Value xsi:type="xsd:string">True</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>ExchangeXrayGen</Name>
+              <Value xsi:type="xsd:string">True</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>ExchangeDetector</Name>
+              <Value xsi:type="xsd:string">True</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>ExchangeConveyor</Name>
+              <Value xsi:type="xsd:string">True</Value>
+            </ConfigNode>
+          </Values>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>InterruptMode</Name>
+          <Values>
+            <ConfigNode>
+              <Name>AutoRewind</Name>
+              <Value xsi:type="xsd:string">True</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>StartCalCols</Name>
+              <Value xsi:type="xsd:int">1</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>RegisterDataCacheCount</Name>
+              <Value xsi:type="xsd:int">500</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>AllAirTemplateDataDumpDataCount</Name>
+              <Value xsi:type="xsd:int">200</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>BackgroundValue</Name>
+              <Value xsi:type="xsd:int">61500</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>RollbackDistance</Name>
+              <Value xsi:type="xsd:string">0.3</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>MatchLineCount</Name>
+              <Value xsi:type="xsd:string">48</Value>
+            </ConfigNode>
+          </Values>
+        </ConfigNode>
+      </SubConfigNodes>
+      <Values>
+        <ConfigNode>
+          <Name>ConveyorSpeed</Name>
+          <Value xsi:type="xsd:string">0.35</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>ConveyorMaxSpeed</Name>
+          <Value xsi:type="xsd:string">0.5</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>ConveyorMinSpeed</Name>
+          <Value xsi:type="xsd:string">0.15</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>CanChangeConveyorSpeed</Name>
+          <Value xsi:type="xsd:string">True</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>ConveyorStartTime</Name>
+          <Value xsi:type="xsd:string">3</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>ConveyorStopTime</Name>
+          <Value xsi:type="xsd:string">3</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>ConveyorSpeeedChangeRatio</Name>
+          <Value xsi:type="xsd:int">12100</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>ViewsCount</Name>
+          <Value xsi:type="xsd:int">2</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>ConveyorLength</Name>
+          <Value xsi:type="xsd:string">2</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>EntryPESensorToXRayGenDistance</Name>
+          <Value xsi:type="xsd:string">0.58</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>ExitPESensorToXRayGenDistance</Name>
+          <Value xsi:type="xsd:string">0.58</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>DistanceDelayShowImage</Name>
+          <Value xsi:type="xsd:string">0.0</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>BiDirectionScan</Name>
+          <Value xsi:type="xsd:string">False</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>ViewsDistanceForBackward</Name>
+          <Value xsi:type="xsd:string">0.32</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>ConveyorDefaultDirection</Name>
+          <Value xsi:type="xsd:string">true</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>ViewsDistance</Name>
+          <Value xsi:type="xsd:string">0.3</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>XRayOnPosBeforeXRayGen</Name>
+          <Value xsi:type="xsd:string">0.58</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>XRayOffPosAfterXRayGen</Name>
+          <Value xsi:type="xsd:string">0.45</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>ExchangeViewsOrder</Name>
+          <Value xsi:type="xsd:string">False</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>SanitizeConveySpeed</Name>
+          <Value xsi:type="xsd:string">0</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>MultiFfrequency</Name>
+          <Value xsi:type="xsd:string">False</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>SanitizeConveyStartTime</Name>
+          <Value xsi:type="xsd:string">3</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>SanitizeConveyStopTime</Name>
+          <Value xsi:type="xsd:string">3</Value>
+        </ConfigNode>
+      </Values>
+    </ConfigNode>
+    <ConfigNode>
+      <Name>Options</Name>
+      <SubConfigNodes>
+        <ConfigNode>
+          <Name>AutoLogin</Name>
+          <Values>
+            <ConfigNode>
+              <Name>IsEnabled</Name>
+              <Value xsi:type="xsd:string">True</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>UserId</Name>
+              <Value xsi:type="xsd:string">1234</Value>
+            </ConfigNode>
+          </Values>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>Group</Name>
+          <Values>
+            <ConfigNode>
+              <Name>IsGroup</Name>
+              <Value xsi:type="xsd:string">True</Value>
+            </ConfigNode>
+          </Values>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>IsNetDumpToOperator</Name>
+          <Values>
+            <ConfigNode>
+              <Name>IsEnabled</Name>
+              <Value xsi:type="xsd:string">False</Value>
+            </ConfigNode>
+          </Values>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>PkgCounter</Name>
+          <Values>
+            <ConfigNode>
+              <Name>ResetSessionCounterWhenLogin</Name>
+              <Value xsi:type="xsd:string">True</Value>
+            </ConfigNode>
+          </Values>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>RMInstableUI</Name>
+          <Values>
+            <ConfigNode>
+              <Name>IsRemoveEdge</Name>
+              <Value xsi:type="xsd:string">True</Value>
+            </ConfigNode>
+          </Values>
+        </ConfigNode>
+      </SubConfigNodes>
+      <Values>
+        <ConfigNode>
+          <Name>ShowImageBasedOnMotorDirection</Name>
+          <Value xsi:type="xsd:string">False</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>AddPureWhiteSeperateLinesBetweenObject</Name>
+          <Value xsi:type="xsd:string">False</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>NetworkStateCheckLoopTimes</Name>
+          <Value xsi:type="xsd:string">10</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>PullPlaySpeedRatio</Name>
+          <Value xsi:type="xsd:string">30</Value>
+        </ConfigNode>
+      </Values>
+    </ConfigNode>
+    <ConfigNode>
+      <Name>PreProc</Name>
+      <SubConfigNodes>
+        <ConfigNode>
+          <Name>Class</Name>
+          <Values>
+            <ConfigNode>
+              <Name>UnpenetratableThreshold</Name>
+              <Value xsi:type="xsd:string">3000</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>BkgThreshold</Name>
+              <Value xsi:type="xsd:string">61500</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>BgbThreshold</Name>
+              <Value xsi:type="xsd:string">53500</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>DarkFieldAverage</Name>
+              <Value xsi:type="xsd:string">8000</Value>
+            </ConfigNode>
+          </Values>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>Correction</Name>
+          <Values>
+            <ConfigNode>
+              <Name>GroundHighAvgUpper</Name>
+              <Value xsi:type="xsd:string">4000</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>GroundHighSingleUpper</Name>
+              <Value xsi:type="xsd:string">4000</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>GroundLowAvgUpper</Name>
+              <Value xsi:type="xsd:string">4000</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>GroundLowSingleUpper</Name>
+              <Value xsi:type="xsd:string">4000</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>GroundUpdateRateUpper</Name>
+              <Value xsi:type="xsd:string">0.01</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>AirHighAvgLower</Name>
+              <Value xsi:type="xsd:string">7500</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>AirUpdateRateUpper</Name>
+              <Value xsi:type="xsd:string">0.05</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>AirHighSingleLower</Name>
+              <Value xsi:type="xsd:string">7500</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>AirLowAvgLower</Name>
+              <Value xsi:type="xsd:string">7500</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>AirLowSingleLower</Name>
+              <Value xsi:type="xsd:string">7500</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>AutoDetectBadChannels</Name>
+              <Value xsi:type="xsd:string">False</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>AirUpdateMode</Name>
+              <Value xsi:type="xsd:string">2</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>AirPixelThreshold</Name>
+              <Value xsi:type="xsd:string">60800</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>AvgFilterWindowSize</Name>
+              <Value xsi:type="xsd:string">3</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>OnlyAllAirLine</Name>
+              <Value xsi:type="xsd:string">True</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>ForceUpdateRefrenceAirTime</Name>
+              <Value xsi:type="xsd:string">30</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>ForceAirUpdateRateUpper</Name>
+              <Value xsi:type="xsd:string">0.08</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>AvgChangeRate</Name>
+              <Value xsi:type="xsd:string">0.02</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>DynamicUpdateLineCount</Name>
+              <Value xsi:type="xsd:string">48</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>GroundUpdateAfterXRayOff</Name>
+              <Value xsi:type="xsd:string">5</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>GroundUpdatePreXRayOn</Name>
+              <Value xsi:type="xsd:string">5</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>OpenNewPenetrationAlgorithm</Name>
+              <Value xsi:type="xsd:string">False</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>AlwaysUseNewAirUpdate</Name>
+              <Value xsi:type="xsd:string">False</Value>
+            </ConfigNode>
+          </Values>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>DetectConstantLine</Name>
+          <Values>
+            <ConfigNode>
+              <Name>IsEnable</Name>
+              <Value xsi:type="xsd:string">True</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>View1PointIndex</Name>
+              <Value xsi:type="xsd:string">48,96,160,224,288,352,416,480,544,608,672,736,800,864,928,992,1056,1120,1184</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>View1AirThr</Name>
+              <Value xsi:type="xsd:string">62000</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>View1Diff</Name>
+              <Value xsi:type="xsd:string">2500</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>View2PointIndex</Name>
+              <Value xsi:type="xsd:string">48,96,160,224,288,352,416,480,544,608,672,736,800,864,928,992,1056,1120,1184</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>View2AirThr</Name>
+              <Value xsi:type="xsd:string">62000</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>View2Diff</Name>
+              <Value xsi:type="xsd:string">2500</Value>
+            </ConfigNode>
+          </Values>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>Filter</Name>
+          <Values>
+            <ConfigNode>
+              <Name>Enable</Name>
+              <Value xsi:type="xsd:string">true</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>BagEdgeReserved</Name>
+              <Value xsi:type="xsd:int">25</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>BlankPoint</Name>
+              <Value xsi:type="xsd:string">65500</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>KernelSize</Name>
+              <Value xsi:type="xsd:int">3</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>SmoothFunc</Name>
+              <Value xsi:type="xsd:int">0</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>LinesCount</Name>
+              <Value xsi:type="xsd:int">16</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>TestFilterSize</Name>
+              <Value xsi:type="xsd:int">11</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>TestPixelCountThr</Name>
+              <Value xsi:type="xsd:int">4</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>BkgThreshold</Name>
+              <Value xsi:type="xsd:string">62500</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>BagBlockSize</Name>
+              <Value xsi:type="xsd:int">16</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>FindBorder</Name>
+              <Value xsi:type="xsd:int">2</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>AirRegionsMinDistance</Name>
+              <Value xsi:type="xsd:int">10</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>DirtyBKG</Name>
+              <Value xsi:type="xsd:int">60000</Value>
+            </ConfigNode>
+          </Values>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>Histogram</Name>
+          <Values>
+            <ConfigNode>
+              <Name>HistogramBegin</Name>
+              <Value xsi:type="xsd:string">1860</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>HistogramEnd</Name>
+              <Value xsi:type="xsd:string">2720</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>StretchBegin</Name>
+              <Value xsi:type="xsd:string">0</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>StretchEnd</Name>
+              <Value xsi:type="xsd:string">65535</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>ShowThreshold</Name>
+              <Value xsi:type="xsd:string">3000</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>EnableFilter</Name>
+              <Value xsi:type="xsd:string">true</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>WindowSize</Name>
+              <Value xsi:type="xsd:string">3</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>NewEnable</Name>
+              <Value xsi:type="xsd:string">false</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>CalHistogramAlpha</Name>
+              <Value xsi:type="xsd:string">false</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>FindEndThreshold</Name>
+              <Value xsi:type="xsd:string">2300</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>Lower</Name>
+              <Value xsi:type="xsd:string">0</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>Upper</Name>
+              <Value xsi:type="xsd:string">65530</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>UnpenHeight</Name>
+              <Value xsi:type="xsd:string">100</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>UnpenWidth</Name>
+              <Value xsi:type="xsd:string">50</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>Sifenbian</Name>
+              <Value xsi:type="xsd:string">3</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>TestMode</Name>
+              <Value xsi:type="xsd:string">false</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>View1High</Name>
+              <Value xsi:type="xsd:string">0</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>View1Low</Name>
+              <Value xsi:type="xsd:string">0</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>View2High</Name>
+              <Value xsi:type="xsd:string">0</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>View2Low</Name>
+              <Value xsi:type="xsd:string">0</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>Num1</Name>
+              <Value xsi:type="xsd:string">0</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>Num2</Name>
+              <Value xsi:type="xsd:string">0</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>Num3</Name>
+              <Value xsi:type="xsd:string">0</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>Num4</Name>
+              <Value xsi:type="xsd:string">0</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>Num5</Name>
+              <Value xsi:type="xsd:string">0</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>Num6</Name>
+              <Value xsi:type="xsd:string">0</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>Num7</Name>
+              <Value xsi:type="xsd:string">0</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>Num8</Name>
+              <Value xsi:type="xsd:string">0</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>Bool1</Name>
+              <Value xsi:type="xsd:string">false</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>Bool2</Name>
+              <Value xsi:type="xsd:string">false</Value>
+            </ConfigNode>
+          </Values>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>ShowCache</Name>
+          <Values>
+            <ConfigNode>
+              <Name>CacheCount</Name>
+              <Value xsi:type="xsd:int">150</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>ShowTimespan</Name>
+              <Value xsi:type="xsd:int">300</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>AppendTimespan</Name>
+              <Value xsi:type="xsd:int">350</Value>
+            </ConfigNode>
+          </Values>
+        </ConfigNode>
+      </SubConfigNodes>
+      <Values>
+        <ConfigNode>
+          <Name>WienerLinesCount</Name>
+          <Value xsi:type="xsd:string">24</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>ImageProcessLinesCount</Name>
+          <Value xsi:type="xsd:string">24</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>ImageProcessCacheCount</Name>
+          <Value xsi:type="xsd:string">8</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>WienerEnabled</Name>
+          <Value xsi:type="xsd:string">true</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>ChannelBadFlags</Name>
+          <Value xsi:type="xsd:string">true</Value>
+        </ConfigNode>
+      </Values>
+    </ConfigNode>
+    <ConfigNode>
+      <Name>System</Name>
+      <SubConfigNodes>
+        <ConfigNode>
+          <Name>AutoStoreUPFImage</Name>
+          <Values>
+            <ConfigNode>
+              <Name>AutoStoreUpfImage</Name>
+              <Value xsi:type="xsd:string">False</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>AutoStoreUpfImagePath</Name>
+              <Value xsi:type="xsd:string">D:\SecurityScanner\UPFImages</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>AutoStoreUpfImageStrategy</Name>
+              <Value xsi:type="xsd:string">All</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>AutoStoreUpfImageFormat</Name>
+              <Value xsi:type="xsd:string">jpg</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>MergeTwoViewImage</Name>
+              <Value xsi:type="xsd:string">False</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>AutoStoreXrayImage</Name>
+              <Value xsi:type="xsd:string">False</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>LimitAutoStoreUpfImageCount</Name>
+              <Value xsi:type="xsd:string">True</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>AutoStoreUpfImageCount</Name>
+              <Value xsi:type="xsd:int">1</Value>
+            </ConfigNode>
+          </Values>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>Version</Name>
+          <Values>
+            <ConfigNode>
+              <Name>Software</Name>
+              <Value xsi:type="xsd:string">1.5.8.22109.13</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>Algorithm</Name>
+              <Value xsi:type="xsd:string">1.3.2.22104.6</Value>
+            </ConfigNode>
+          </Values>
+        </ConfigNode>
+      </SubConfigNodes>
+      <Values>
+        <ConfigNode>
+          <Name>Language</Name>
+          <Value xsi:type="xsd:string">Chinese</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>TouchUI</Name>
+          <Value xsi:type="xsd:string">False</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>DateFormat</Name>
+          <Value xsi:type="xsd:int">2</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>ImageStorePath</Name>
+          <Value xsi:type="xsd:string">D:\SecurityScanner\Images</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>CompanyName</Name>
+          <Value xsi:type="xsd:string" />
+        </ConfigNode>
+        <ConfigNode>
+          <Name>Description</Name>
+          <Value xsi:type="xsd:string">X-Ray Inspection System</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>LastRemindTime</Name>
+          <Value xsi:type="xsd:string">0</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>RemindTimeInterval</Name>
+          <Value xsi:type="xsd:string">-1</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>Model</Name>
+          <Value xsi:type="xsd:string">16580DDA</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>SoftwareVersion</Name>
+          <Value xsi:type="xsd:string">SecurityScannerPS_V1.0</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>EnableTestData</Name>
+          <Value xsi:type="xsd:string">False</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>WaitingTimeWhenRecoverFromInterrupt</Name>
+          <Value xsi:type="xsd:string">0.5</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>CleanTunnelContinueTime</Name>
+          <Value xsi:type="xsd:string">10</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>TotalBagCount</Name>
+          <Value xsi:type="xsd:int">313</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>AlgorithmVersion</Name>
+          <Value xsi:type="xsd:string">1.3.1</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>MachineNum</Name>
+          <Value xsi:type="xsd:string">Unknown</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>CleanTunnelMoveBackward</Name>
+          <Value xsi:type="xsd:string">true</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>IsEnableShiftKey</Name>
+          <Value xsi:type="xsd:string">True</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>IsLeaveHarborEnable</Name>
+          <Value xsi:type="xsd:string">False</Value>
+        </ConfigNode>
+      </Values>
+    </ConfigNode>
+    <ConfigNode>
+      <Name>XRayGen</Name>
+      <SubConfigNodes>
+        <ConfigNode>
+          <Name>Warmup</Name>
+          <Values>
+            <ConfigNode>
+              <Name>KWDKv</Name>
+              <Value xsi:type="xsd:string">140, 140, 145, 145, 150, 150, 155, 155, 160, 160</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>KWDMa</Name>
+              <Value xsi:type="xsd:string">0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>Spellman160Kv</Name>
+              <Value xsi:type="xsd:string">140, 140, 145, 145, 150, 150, 155, 155, 160, 160</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>Spellman160Ma</Name>
+              <Value xsi:type="xsd:string">0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>VJ160Kv</Name>
+              <Value xsi:type="xsd:string">80, 90, 100, 110, 120, 130, 140, 150, 160, 160</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>VJ160Ma</Name>
+              <Value xsi:type="xsd:string">0.2, 0.305, 0.41, 0.515, 0.62, 0.725, 0.83, 0.935, 1.04, 1.25</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>VJ200Kv</Name>
+              <Value xsi:type="xsd:string">80, 93, 106, 119, 132, 145, 158, 171, 184, 200</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>VJ200Ma</Name>
+              <Value xsi:type="xsd:string">0.2, 0.445, 0.71, 0.965, 1.220, 1.475, 1.73, 1.985, 2.240, 2.5</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>SAXGKv</Name>
+              <Value xsi:type="xsd:string">140, 140, 145, 145, 150, 150, 155, 155, 160, 160</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>SAXGMa</Name>
+              <Value xsi:type="xsd:string">0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95</Value>
+            </ConfigNode>
+          </Values>
+        </ConfigNode>
+      </SubConfigNodes>
+      <Values>
+        <ConfigNode>
+          <Name>PCControlXRayGen</Name>
+          <Value xsi:type="xsd:string">False</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>XRayGen1ComName</Name>
+          <Value xsi:type="xsd:string">COM1</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>XRayGen2ComName</Name>
+          <Value xsi:type="xsd:string">COM2</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>KV</Name>
+          <Value xsi:type="xsd:string">180</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>MA</Name>
+          <Value xsi:type="xsd:string">0.8</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>KV2</Name>
+          <Value xsi:type="xsd:string">180</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>MA2</Name>
+          <Value xsi:type="xsd:string">0.8</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>Type</Name>
+          <Value xsi:type="xsd:string">XRayGen_VJ160_A</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>RisingTimespan</Name>
+          <Value xsi:type="xsd:string">0.6</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>Count</Name>
+          <Value xsi:type="xsd:int">2</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>AlwaysWarmup</Name>
+          <Value xsi:type="xsd:string">True</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>Timeout</Name>
+          <Value xsi:type="xsd:int">110</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>ShowState</Name>
+          <Value xsi:type="xsd:string">false</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>WorkCount</Name>
+          <Value xsi:type="xsd:int">27</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>XRayGenLastWarmupResult</Name>
+          <Value xsi:type="xsd:string">False</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>LastWarmupTime</Name>
+          <Value xsi:type="xsd:string">638137779586500558</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>MARatio</Name>
+          <Value xsi:type="xsd:string">1</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>MARatio2</Name>
+          <Value xsi:type="xsd:string">1</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>KVRatio</Name>
+          <Value xsi:type="xsd:string">1</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>KVRatio2</Name>
+          <Value xsi:type="xsd:string">1</Value>
+        </ConfigNode>
+      </Values>
+    </ConfigNode>
+  </SubConfigNodes>
+</ConfigNode>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ConfigNode xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>HTXRayScanner</Name>
+  <SubConfigNodes>
+    <ConfigNode>
+      <Name>System</Name>
+      <Values>
+	  <ConfigNode>
+          <Name>Language</Name>
+          <Value xsi:type="xsd:string">Russian</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>DateFormat</Name>
+          <Value xsi:type="xsd:string">1</Value>
+        </ConfigNode>
+      </Values>
+    </ConfigNode>
+	<ConfigNode>
+		<Name>Extensions</Name>
+		<SubConfigNodes>
+			<ConfigNode>
+				<Name>Ru</Name>
+				<Values>
+					<ConfigNode>
+						<Name>IsSaveModeEnable</Name>
+						<Value xsi:type="xsd:string">true</Value>
+					</ConfigNode>
+				</Values>
+			</ConfigNode>
+		</SubConfigNodes>
+	</ConfigNode>
+	<ConfigNode>
+		<Name>Keyboard</Name>
+		<Values>
+		<ConfigNode>
+			<Name>ComName</Name>
+			<Value xsi:type="xsd:string">USB Common Keyboard</Value>
+		</ConfigNode>
+		</Values>
+	</ConfigNode>
+  </SubConfigNodes>
+</ConfigNode>

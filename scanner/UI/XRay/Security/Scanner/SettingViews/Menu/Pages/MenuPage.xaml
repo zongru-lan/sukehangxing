@@ -1,0 +1,162 @@
+﻿<Page x:Class="UI.XRay.Security.Scanner.SettingViews.Menu.Pages.MenuPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:framework="clr-namespace:UI.XRay.Gui.Framework;assembly=UI.XRay.Gui.Framework"
+      mc:Ignorable="d" 
+      d:DesignHeight="700" d:DesignWidth="1440"
+      Background="{StaticResource WindowBackgroundBrush}"
+      DataContext="{Binding MainMenuPage, Source={StaticResource Locator}}"
+	  Title="MainMenuPage">
+
+    <Page.Resources>
+        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MetroFlatButton}">
+            <Setter Property="Background" Value="{x:Null}"></Setter>
+            <Setter Property="Width" Value="160"></Setter>
+            <Setter Property="Height" Value="160"></Setter>
+            <Setter Property="Margin" Value="5"></Setter>
+            <Setter Property="FontSize" Value="18"></Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseCaptured" Value="True">
+                    <Setter Property="Effect">
+                        <Setter.Value>
+                            <BlurEffect Radius="2" RenderingBias="Quality" KernelType="Gaussian"></BlurEffect>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" IsTabStop="False" Background="#0066cb" Foreground="White">
+            <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="900" Background="#0176D6" >
+                <Button  Command="{Binding NavigateToImagePageCommand}" Visibility="{Binding ImageVisibility}" x:Name="ImageButton" Foreground="White">
+                    <Grid VerticalAlignment="Center">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Image Grid.Row="0" Source="../../../Icons/Image.png" Width="72" Height="72"/>
+                        <TextBlock Grid.Row="1"  HorizontalAlignment="Center" TextWrapping="Wrap" Text="{framework:LanguageResource Image}"/>
+                    </Grid>
+                </Button>
+
+                <Button Command="{Binding NavigateToAccountPageCommand}" Visibility="{Binding AccountVisibility}" Foreground="White">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Image Grid.Row="0" Source="../../../Icons/Account.png" Width="72" Height="72"/>
+                        <TextBlock Grid.Row="1" HorizontalAlignment="Center" TextWrapping="Wrap" Text="{framework:LanguageResource Source=Accounts}"/>
+                    </Grid>
+                </Button>
+
+                <Button Command="{Binding NavigateToDevicePageCommand}" Visibility="{Binding DeviceVisibility}"  Foreground="White">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Image Grid.Row="0" Source="../../../Icons/Device.png" Width="72" Height="72"/>
+                        <TextBlock Grid.Row="1" HorizontalAlignment="Center" TextWrapping="Wrap" Text="{framework:LanguageResource Device}"/>
+                    </Grid>
+                </Button>
+
+                <Button Command="{Binding NavigateToRecordsPageCommand}" Visibility="{Binding RecordsVisibility}"  Foreground="White">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Image Grid.Row="0" Source="../../../Icons/Records.png" Width="72" Height="72"/>
+                        <TextBlock Grid.Row="1" HorizontalAlignment="Center" TextWrapping="Wrap" Text="{framework:LanguageResource Logs}"/>
+                    </Grid>
+                </Button>
+                <Button Command="{Binding NavigateToSettingPageCommand}" Visibility="{Binding SettingVisibility}" Foreground="White">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Image Grid.Row="0" Source="../../../Icons/System.png" Width="72" Height="72"/>
+                        <TextBlock Grid.Row="1" HorizontalAlignment="Center" TextWrapping="Wrap" Text="{framework:LanguageResource Setting}"/>
+                    </Grid>
+                </Button>
+                <Button Command="{Binding NavigateToTrainingPageCommand}" Visibility="{Binding TrainingVisibility}" Foreground="White">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Image Grid.Row="0" Source="../../../Icons/Training.png" Width="72" Height="72"/>
+                        <TextBlock Grid.Row="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{framework:LanguageResource Training}" Margin="1,0,0,0" />
+                    </Grid>
+                </Button>
+                <Button Command="{Binding NavigateToTipPageCommand}" Visibility="{Binding TipVisibility}"  Foreground="White">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Image Grid.Row="0" Source="../../../Icons/TIP.png" Width="72" Height="72"/>
+                        <TextBlock Grid.Row="1" HorizontalAlignment="Center" TextWrapping="Wrap" Text="{framework:LanguageResource Tip}"/>
+                    </Grid>
+                </Button>
+                <Button Command="{Binding ManualCalibrateCommand}" Foreground="White">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Image Grid.Row="0" Source="../../../Icons/Calibration.png" Width="72" Height="72"/>
+                        <TextBlock Grid.Row="1" HorizontalAlignment="Center" TextWrapping="Wrap" Text="{framework:LanguageResource Calibrate}"/>
+                    </Grid>
+                </Button>
+                <Button Command="{Binding LogoutCommand}"  Foreground="White">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Image Grid.Row="0" Source="../../../Icons/Logout.png" Width="72" Height="72"/>
+                        <TextBlock Grid.Row="1" HorizontalAlignment="Center" TextWrapping="Wrap" Text="{framework:LanguageResource LogOut}"/>
+                    </Grid>
+                </Button>
+                <Button Command="{Binding ShutdownCommand}"  Foreground="White">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Image Grid.Row="0" Source="../../../Icons/Shutdown.png" Width="72" Height="72"/>
+                        <TextBlock Grid.Row="1" HorizontalAlignment="Center" TextWrapping="Wrap" Text="{framework:LanguageResource Shutdown}"/>
+                    </Grid>
+                </Button>
+                <Button Command="{Binding ExitToDesktopCommand}" Visibility="{Binding ExitVisibility}" Foreground="White">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Image Grid.Row="0" Source="../../../Icons/Exit.png" Width="72" Height="72"/>
+                        <TextBlock Grid.Row="1" HorizontalAlignment="Center" TextWrapping="Wrap" Text="{framework:LanguageResource Exit}"/>
+                    </Grid>
+                </Button>
+                <Button Command="{Binding NavigateToAboutPageCommand}"  Foreground="White">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Image Grid.Row="0" Source="../../../Icons/About.png" Width="72" Height="72"/>
+                        <TextBlock Grid.Row="1" HorizontalAlignment="Center" TextWrapping="Wrap" Text="{framework:LanguageResource About}"/>
+                    </Grid>
+                </Button>
+
+            </WrapPanel>
+        </ScrollViewer>
+
+    </Grid>
+</Page>

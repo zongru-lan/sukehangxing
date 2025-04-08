@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ConfigNode xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>HTXRayScanner</Name>
+  <SubConfigNodes>
+    <ConfigNode>
+      <Name>CaptureSys</Name>
+      <SubConfigNodes>
+        <ConfigNode>
+          <Name>DT</Name>
+          <Values>
+            <ConfigNode>
+              <Name>View1CardsDist</Name>
+              <Value xsi:type="xsd:string">9,9,0,0</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>View2CardsDist</Name>
+              <Value xsi:type="xsd:string">14,5,0,0</Value>
+            </ConfigNode>
+          </Values>
+        </ConfigNode>
+      </SubConfigNodes>
+      <Values>
+        <ConfigNode>
+          <Name>Type</Name>
+          <Value xsi:type="xsd:string">DtGCUSTD</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>IsDualEnergy</Name>
+          <Value xsi:type="xsd:string">True</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>LineIntegrationTime</Name>
+          <Value xsi:type="xsd:string">2.2857</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>BoardCount</Name>
+          <Value xsi:type="xsd:string">2</Value>
+        </ConfigNode>
+      </Values>
+    </ConfigNode>
+    <ConfigNode>
+      <Name>Machine</Name>
+      <SubConfigNodes>
+        <ConfigNode>
+          <Name>BeltEdge</Name>
+          <SubConfigNodes>
+            <ConfigNode>
+              <Name>View1</Name>
+              <Values>
+                <ConfigNode>
+                  <Name>BeginPosition</Name>
+                  <Value xsi:type="xsd:int">0</Value>
+                </ConfigNode>
+                <ConfigNode>
+                  <Name>EndPosition</Name>
+                  <Value xsi:type="xsd:int">0</Value>
+                </ConfigNode>
+              </Values>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>View2</Name>
+              <Values>
+                <ConfigNode>
+                  <Name>BeginPosition</Name>
+                  <Value xsi:type="xsd:int">0</Value>
+                </ConfigNode>
+                <ConfigNode>
+                  <Name>EndPosition</Name>
+                  <Value xsi:type="xsd:int">0</Value>
+                </ConfigNode>
+                <ConfigNode>
+                  <Name>Edge1StartPosition</Name>
+                  <Value xsi:type="xsd:int">0</Value>
+                </ConfigNode>
+                <ConfigNode>
+                  <Name>Edge1EndPosition</Name>
+                  <Value xsi:type="xsd:int">0</Value>
+                </ConfigNode>
+                <ConfigNode>
+                  <Name>Edge2StartPosition</Name>
+                  <Value xsi:type="xsd:int">0</Value>
+                </ConfigNode>
+                <ConfigNode>
+                  <Name>Edge2EndPosition</Name>
+                  <Value xsi:type="xsd:int">0</Value>
+                </ConfigNode>
+              </Values>
+            </ConfigNode>
+          </SubConfigNodes>
+        </ConfigNode>
+        <ConfigNode>
+              <Name>InterruptMode</Name>
+              <Values>
+                <ConfigNode>
+                  <Name>RollbackDistance</Name>
+                  <Value xsi:type="xsd:string">0.3</Value>
+                </ConfigNode>
+              </Values>
+            </ConfigNode>
+      </SubConfigNodes>
+      <Values>
+        <ConfigNode>
+          <Name>ViewsCount</Name>
+          <Value xsi:type="xsd:int">2</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>ViewsDistance</Name>
+          <Value xsi:type="xsd:string">0.3</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>ConveyorLength</Name>
+          <Value xsi:type="xsd:string">2.0</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>EntryPESensorToXRayGenDistance</Name>
+          <Value xsi:type="xsd:string">0.58</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>ExitPESensorToXRayGenDistance</Name>
+          <Value xsi:type="xsd:string">0.58</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>XRayOnPosBeforeXRayGen</Name>
+          <Value xsi:type="xsd:string">0.4</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>XRayOffPosAfterXRayGen</Name>
+          <Value xsi:type="xsd:string">0.45</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>ConveyorSpeed</Name>
+          <Value xsi:type="xsd:string">0.35</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>ConveyorSpeeedChangeRatio</Name>
+          <Value xsi:type="xsd:string">11600</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>CanChangeConveyorSpeed</Name>
+          <Value xsi:type="xsd:string">True</Value>
+        </ConfigNode>
+      </Values>
+    </ConfigNode>
+    <ConfigNode>
+      <Name>Images</Name>
+      <SubConfigNodes>
+        <ConfigNode>
+          <Name>Image1</Name>
+          <Values>
+            <ConfigNode>
+              <Name>VerticalFlip</Name>
+              <Value xsi:type="xsd:string">False</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>ShowingDetView</Name>
+              <Value xsi:type="xsd:string">View1</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>ColorMode</Name>
+              <Value xsi:type="xsd:string">MaterialColor</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>EnableEdgeEnhance</Name>
+              <Value xsi:type="xsd:string">True</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>EnableSuperEnhance</Name>
+              <Value xsi:type="xsd:string">False</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>Inversed</Name>
+              <Value xsi:type="xsd:string">False</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>Penetration</Name>
+              <Value xsi:type="xsd:string">Standard</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>MoveRightToLeft</Name>
+              <Value xsi:type="xsd:string">True</Value>
+            </ConfigNode>
+			<ConfigNode>
+              <Name>Height</Name>
+              <Value xsi:type="xsd:string">1580</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>HorizonalScale</Name>
+              <Value xsi:type="xsd:string">0.6</Value>
+            </ConfigNode>
+          </Values>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>Image2</Name>
+          <Values>
+            <ConfigNode>
+              <Name>VerticalFlip</Name>
+              <Value xsi:type="xsd:string">False</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>ShowingDetView</Name>
+              <Value xsi:type="xsd:string">View2</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>ColorMode</Name>
+              <Value xsi:type="xsd:string">MaterialColor</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>EnableEdgeEnhance</Name>
+              <Value xsi:type="xsd:string">True</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>EnableSuperEnhance</Name>
+              <Value xsi:type="xsd:string">False</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>Inversed</Name>
+              <Value xsi:type="xsd:string">False</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>Penetration</Name>
+              <Value xsi:type="xsd:string">Standard</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>MoveRightToLeft</Name>
+              <Value xsi:type="xsd:string">True</Value>
+            </ConfigNode>
+			<ConfigNode>
+              <Name>Height</Name>
+              <Value xsi:type="xsd:string">1580</Value>
+            </ConfigNode>
+            <ConfigNode>
+              <Name>HorizonalScale</Name>
+              <Value xsi:type="xsd:string">0.6</Value>
+            </ConfigNode>
+          </Values>
+        </ConfigNode>
+      </SubConfigNodes>
+      <Values>
+        <ConfigNode>
+          <Name>Count</Name>
+          <Value xsi:type="xsd:int">2</Value>
+        </ConfigNode>
+       </Values>
+    </ConfigNode>
+    <ConfigNode>
+      <Name>System</Name>
+      <Values>
+        <ConfigNode>
+          <Name>Model</Name>
+          <Value xsi:type="xsd:string">8380DA</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>SoftwareVersion</Name>
+          <Value xsi:type="xsd:string">SecurityScannerPS_V1.0</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>AlgorithmVersion</Name>
+          <Value xsi:type="xsd:string">1.3.1</Value>
+        </ConfigNode>
+      </Values>
+    </ConfigNode>
+    <ConfigNode>
+      <Name>XRayGen</Name>
+      <Values>
+        <ConfigNode>
+          <Name>KV</Name>
+          <Value xsi:type="xsd:string">180</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>MA</Name>
+          <Value xsi:type="xsd:string">0.8</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>KV2</Name>
+          <Value xsi:type="xsd:string">180</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>MA2</Name>
+          <Value xsi:type="xsd:string">0.8</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>Type</Name>
+          <Value xsi:type="xsd:string">XRayGen_VJ160_A</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>RisingTimespan</Name>
+          <Value xsi:type="xsd:string">0.6</Value>
+        </ConfigNode>
+        <ConfigNode>
+          <Name>Count</Name>
+          <Value xsi:type="xsd:int">2</Value>
+        </ConfigNode>
+      </Values>
+    </ConfigNode>
+  </SubConfigNodes>
+</ConfigNode>

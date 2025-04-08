@@ -1,0 +1,90 @@
+﻿<UserControl x:Class="UI.XRay.Security.Configer.UserControl.SystemSettingsUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:framework="clr-namespace:UI.XRay.Gui.Framework;assembly=UI.XRay.Gui.Framework"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             mc:Ignorable="d" HorizontalAlignment="Left" VerticalAlignment="Top"
+             DataContext="{Binding Source={StaticResource Locator}, Path=SystemSettings}"
+             MinWidth="400" FontSize="{StaticResource PageFontSize}"
+             d:DesignHeight="1600" d:DesignWidth="400">
+    <StackPanel Orientation="Vertical" Margin="20">
+        <Label Content="{framework:LanguageResource ViewSection=Configer, Source=Run Scanner software when Windows starts}" VerticalAlignment="Bottom"/>
+        <controls:ToggleSwitch OnLabel="{framework:LanguageResource Yes}" OffLabel="{framework:LanguageResource No}" IsChecked="{Binding IsAutoStartupEnabled}"
+                               ContentDirection="RightToLeft" HorizontalAlignment="Left"></controls:ToggleSwitch>
+
+        <StackPanel>
+            <Label Content="{framework:LanguageResource Operator can export the image}" VerticalAlignment="Bottom"/>
+            <controls:ToggleSwitch OnLabel="{framework:LanguageResource Yes}" OffLabel="{framework:LanguageResource No}" IsChecked="{Binding IsCanNetDumpToOperator}"
+                               ContentDirection="RightToLeft" HorizontalAlignment="Left" ></controls:ToggleSwitch>
+
+        </StackPanel>
+        <StackPanel>
+            <Label Content="是否开启Shift功能键" VerticalAlignment="Bottom"/>
+            <controls:ToggleSwitch IsChecked="{Binding IsEnableShiftKey}"  OnLabel="{framework:LanguageResource Yes}" OffLabel="{framework:LanguageResource No}" ContentDirection="RightToLeft" HorizontalAlignment="Left"/>
+        </StackPanel>
+
+        <StackPanel>
+            <Label Content="是否开启离港信息显示" VerticalAlignment="Bottom"/>
+            <controls:ToggleSwitch IsChecked="{Binding IsEnableLeaveHarbor}"  OnLabel="{framework:LanguageResource Yes}" OffLabel="{framework:LanguageResource No}" ContentDirection="RightToLeft" HorizontalAlignment="Left"/>
+        </StackPanel>
+        <!--<GroupBox Margin="15 15 15 0" Header="{framework:LanguageResource ViewSection=Configer, Source=Centralized Management Configure}" Visibility="{Binding ShowFtpStoreSetting}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Margin="0,15,0,0" Content="{framework:LanguageResource ViewSection=Configer, Source=Ftp IP Address}" VerticalAlignment="Bottom"/>
+                <TextBox Grid.Row="1" Text="{Binding FtpIpAddress}" FontSize="{StaticResource PageFontSize}"/>
+                <Label Grid.Row="2" Margin="0,15,0,0" Content="{framework:LanguageResource ViewSection=Configer, Source=Ftp User Name}" VerticalAlignment="Bottom"/>
+                <TextBox Grid.Row="3" Text="{Binding FtpUserName}" FontSize="{StaticResource PageFontSize}"/>
+                <Label Grid.Row="4" Margin="0,15,0,0" Content="{framework:LanguageResource ViewSection=Configer, Source=Ftp User Password}" VerticalAlignment="Bottom"/>
+                <TextBox Grid.Row="5" Text="{Binding FtpUserPassword}" FontSize="{StaticResource PageFontSize}"/>
+            </Grid>
+        </GroupBox>-->
+        
+        <StackPanel>
+            <Label Content="{framework:LanguageResource Auto Login}" VerticalAlignment="Bottom"/>
+            <controls:ToggleSwitch OnLabel="{framework:LanguageResource Yes}" OffLabel="{framework:LanguageResource No}" IsChecked="{Binding IsAutoLogin}"
+                               ContentDirection="RightToLeft" HorizontalAlignment="Left" ></controls:ToggleSwitch>
+
+        </StackPanel>
+        <GroupBox  Visibility="{Binding IsAutoLoginVisibility}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Content="{framework:LanguageResource Login with account when system starts}" VerticalAlignment="Bottom"/>
+                <TextBox Grid.Row="1" Text="{Binding AutoLoginUserID}"/>
+            </Grid>
+        </GroupBox>
+
+        <Label Content="{framework:LanguageResource ViewSection=Configer, Source=Using Touch Interface}" VerticalAlignment="Bottom"/>
+        <controls:ToggleSwitch OnLabel="{framework:LanguageResource Yes}" OffLabel="{framework:LanguageResource No}" IsChecked="{Binding IsUsingTouchUI}"
+                               ContentDirection="RightToLeft" HorizontalAlignment="Left"></controls:ToggleSwitch>
+       
+
+
+            <Label Margin="0,15,0,0" Content="{framework:LanguageResource ViewSection=Configer, Source=Language}" VerticalAlignment="Bottom"/>
+        <ComboBox ItemsSource="{Binding AvailableLanguages}" SelectedItem="{Binding Language}"
+                  FontSize="{StaticResource PageFontSize}"/>
+        
+        <Label Margin="0,15,0,0" Content="{framework:LanguageResource ViewSection=Configer, Source=Company Name}" VerticalAlignment="Bottom"/>
+        <TextBox Text="{Binding CompanyName}" FontSize="{StaticResource PageFontSize}"/>
+        <Label Margin="0,15,0,0" Content="{framework:LanguageResource ViewSection=Configer, Source=Machine Number}" VerticalAlignment="Bottom"/>
+        <TextBox Text="{Binding MachineNumber}" FontSize="{StaticResource PageFontSize}"/>
+        <Label Margin="0,15,0,0" Content="{framework:LanguageResource ViewSection=Configer, Source=Production Date}" VerticalAlignment="Bottom"/>
+        <TextBox Text="{Binding ProductionDate}" FontSize="{StaticResource PageFontSize}"/>
+        <Label Margin="0,15,0,0" Content="{framework:LanguageResource ViewSection=Configer, Source=Model}" VerticalAlignment="Bottom"/>
+        <TextBox Text="{Binding Model}" FontSize="{StaticResource PageFontSize}" IsReadOnly="False"/>
+        <!--<Label Margin="0,15,0,0" Content="{framework:LanguageResource ViewSection=Configer, Source=Description}" VerticalAlignment="Bottom"/>
+        <TextBox TextWrapping="Wrap" Text="{Binding Description}" FontSize="{StaticResource PageFontSize}" MaxLength="64" 
+                 CharacterCasing="Normal"/>-->
+    </StackPanel>
+</UserControl>

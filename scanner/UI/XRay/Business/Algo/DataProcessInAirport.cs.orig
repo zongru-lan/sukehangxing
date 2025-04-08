@@ -1,0 +1,317 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using UI.XRay.Business.Entities;
+using UI.XRay.ImagePlant.Classify;
+using Emgu.CV;
+using Emgu.Util;
+using Emgu.CV.Structure;
+using UI.XRay.ImageProcess;
+using System.IO;
+using UI.XRay.Business.DataAccess.Config;
+
+namespace UI.XRay.Business.Algo
+{
+    public class DataProcessInAirport
+    {
+        private MaterialColorMapper _mapper;
+        private UI.XRay.ImageProcess.ImageProcess process;
+
+        int _linesCacheCount = 50;
+        int _cacheLinesCount = 10;
+        List<DisplayScanlineDataBundle> DataList = new List<DisplayScanlineDataBundle>();
+        List<DisplayScanlineData> _cacheLinesView1 = new List<DisplayScanlineData>();
+        List<DisplayScanlineData> _cacheLinesView2 = new List<DisplayScanlineData>();
+        public DataProcessInAirport()
+        {
+            _mapper = new MaterialColorMapper();
+            process = new ImageProcess.ImageProcess();
+            if (!ScannerConfig.Read(ConfigPath.PreProcImageProcessLinesCount, out _linesCacheCount))
+            {
+                _linesCacheCount = 50;
+            }
+        }
+        public double[] Alpha
+        {
+            set { process.Alpha = value; }
+        }
+        private double[] _seg;
+        public double[] Seg
+        {
+            set { process.Seg = value; }
+        }
+        private double[] _beta;
+        public double[] Beta
+        {
+            set { process.Beta = value; }
+        }
+
+        public List<DisplayScanlineDataBundle> AirPortDataProcess(DisplayScanlineDataBundle line)
+        {
+            List<DisplayScanlineData> outputdata1 = new List<DisplayScanlineData>();
+            List<DisplayScanlineData> outputdata2 = new List<DisplayScanlineData>();
+            if (DataList.Count >= _linesCacheCount)
+            {
+                DataList.Clear();
+            }
+            DataList.Add(line);
+            if (DataList.Count >= _linesCacheCount)
+            {
+                //Filter
+                DataProcess(DataList.Select(c => c.View1Data).ToList(), DetectViewIndex.View1, out outputdata1);
+                if (line.View2Data != null)
+                {
+                    //Filter
+                    DataProcess(DataList.Select(c => c.View2Data).ToList(), DetectViewIndex.View2, out outputdata2);
+                }
+                List<DisplayScanlineDataBundle> list = new List<DisplayScanlineDataBundle>();
+                for (int i = 0; i < outputdata1.Count; i++)
+                {
+                    if (line.View2Data != null)
+                        list.Add(new DisplayScanlineDataBundle(outputdata1[i], outputdata2[i]));
+                    else
+                        list.Add(new DisplayScanlineDataBundle(outputdata1[i], null));
+                }
+                return list;
+            }
+            else
+            {
+                return new List<DisplayScanlineDataBundle>(0);
+            }
+        }
+
+        public void DataProcess(List<DisplayScanlineData> inputdata, DetectViewIndex view, out List<DisplayScanlineData> outputdata)
+        {
+            outputdata = new List<DisplayScanlineData>(0);
+            //List<DisplayScanlineData> outputdatatemp = new List<DisplayScanlineData>(0);
+            int _rows = inputdata.Count;
+            int _cols = inputdata[0].XRayData.Length;
+            if (_rows < 1 || _cols < 1)
+                return;
+            var cache = view == DetectViewIndex.View1 ? _cacheLinesView1 : _cacheLinesView2;
+
+            if (cache == null || cache.Count != _cacheLinesCount)
+            {
+                cache = new List<DisplayScanlineData>();
+                for (int i = 0; i < _cacheLinesCount; i++)
+                {
+                    cache.Add(inputdata[0]);
+                }
+            }
+
+            int margin = (int)(_cacheLinesCount / 2);
+
+            //Image<Gray, byte> materialimg = new Image<Gray, byte>(_cols, _rows + _cacheLinesCount);
+            List<ushort[]> RawData = new List<ushort[]>();
+            List<ushort[]> material = new List<ushort[]>();
+            ushort[] colorindex = new ushort[_rows];
+            List<ushort[]> Data = new List<ushort[]>();
+
+            foreach (DisplayScanlineData dsd in cache)
+                RawData.Add((ushort[])dsd.XRayData.Clone());
+            foreach (DisplayScanlineData dsd in inputdata)
+                RawData.Add((ushort[])dsd.XRayData.Clone());
+
+            //for (int i = 0; i < _cacheLinesCount;i++)
+            //{
+            //    for (int j = 0; j < _cols;j++ )
+            //    {
+            //        materialimg.Data[i, j, 0] = (byte)cache[i].Material[j];
+            //    }
+            //}
+            //for (int i = 0; i < _rows; i++)
+            //{
+            //    for (int j = 0; j < _cols; j++)
+            //        materialimg.Data[i + _cacheLinesCount, j, 0] = (byte)inputdata[i].Material[j];
+            //}
+            //MaterialFilter(RawData, materialimg, out material);  //0503
+            List<ushort[]> materialinput = new List<ushort[]>();
+            foreach (DisplayScanlineData dsd in cache)
+                materialinput.Add(dsd.Material);
+            foreach (DisplayScanlineData dsd in inputdata)
+                materialinput.Add(dsd.Material);
+            //DilateAndErode(materialinput, 9, out material);
+            //EdgeIntensity(RawData, out Data);
+
+            try
+            {
+                for (int i = 0; i < _rows; i++)
+                {
+                    //_mapper.Map(material[i + margin], out colorindex);
+                    //_mapper.Map(inputdata[i].Material, out colorindex);//20200507 由于添加了闭运算而不再使用
+                    _mapper.Map(materialinput[i + margin], out colorindex);
+
+                    if (i < margin)
+                    {
+                        //ClassifiedLineData cld = new ClassifiedLineData(cache[margin + i].ViewIndex, cache[margin + i].XRayData, Data[i + margin], material[i + margin], cache[margin + i].LowData, cache[margin + i].HighData, cache[margin + i].IsAir);
+                        ClassifiedLineData cld = new ClassifiedLineData(cache[margin + i].ViewIndex, cache[margin + i].XRayData, RawData[i + margin], materialinput[i + margin], cache[margin + i].LowData, cache[margin + i].HighData, cache[margin + i].IsAir);
+                        DisplayScanlineData ds = new DisplayScanlineData(cld, colorindex, inputdata[i].LineNumber);
+                        outputdata.Add(ds);
+                    }
+                    else
+                    {
+                        //ClassifiedLineData cld = new ClassifiedLineData(inputdata[i - margin].ViewIndex, inputdata[i - margin].XRayData, Data[i + margin], material[i + margin], inputdata[i - margin].LowData, inputdata[i - margin].HighData, inputdata[i - margin].IsAir);
+                        ClassifiedLineData cld = new ClassifiedLineData(inputdata[i - margin].ViewIndex, inputdata[i - margin].XRayData, RawData[i + margin], materialinput[i + margin], inputdata[i - margin].LowData, inputdata[i - margin].HighData, inputdata[i - margin].IsAir);
+                        DisplayScanlineData ds = new DisplayScanlineData(cld, colorindex, inputdata[i].LineNumber);
+                        outputdata.Add(ds);
+                    }
+
+                    //ClassifiedLineData cld = new ClassifiedLineData(inputdata[i].ViewIndex, inputdata[i].XRayData, Data[i], inputdata[i].Material, inputdata[i].LowData, inputdata[i].HighData, inputdata[i].IsAir);
+                    //DisplayScanlineData ds = new DisplayScanlineData(cld, colorindex, inputdata[i].LineNumber);
+                    //outputdata.Add(ds);
+                }
+                if (view == DetectViewIndex.View1)
+                {
+                    _cacheLinesView1.Clear();
+                    for (int i = 0; i < _cacheLinesCount; i++)
+                    {
+                        _cacheLinesView1.Add(inputdata[inputdata.Count - _cacheLinesCount + i]);
+                    }
+                }
+                else
+                {
+                    _cacheLinesView2.Clear();
+                    for (int i = 0; i < _cacheLinesCount; i++)
+                    {
+                        _cacheLinesView2.Add(inputdata[inputdata.Count - _cacheLinesCount + i]);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error !");
+                Console.WriteLine(ex.ToString());
+            }
+        }
+
+        /// <summary>
+        /// 材质滤波
+        /// </summary>
+        /// <param name="RawDataList"></param>
+        /// <param name="material"></param>
+        /// <param name="materialfilter"></param>
+        private void MaterialFilter(List<ushort[]> RawDataList, Image<Gray, Byte> material, out List<ushort[]> materialfilter)
+        {
+            materialfilter = new List<ushort[]>();
+            int cols1 = material.Cols;
+            int rows1 = material.Rows;
+            Image<Gray, UInt16> src = new Image<Gray, ushort>(cols1, rows1);
+            try
+            {
+                unsafe
+                {
+                    int index = 0;
+                    fixed (ushort* p = src.Data)
+                        foreach (ushort[] data in RawDataList)
+                        {
+                            for (int i = 0; i < data.Length; i++)
+                            {
+                                p[index + i] = data[i];
+                            }
+                            index += data.Length;
+                        }
+                }
+                Image<Gray, Byte> materialout = process.Material(src.Mat, material);
+                unsafe
+                {
+                    int cols = materialout.Cols;
+                    int rows = materialout.Rows;
+                    for (int i = 0; i < rows; i++)
+                    {
+                        ushort[] temp = new ushort[cols];
+                        for (int j = 0; j < cols; j++)
+                        {
+                            temp[j] = (ushort)materialout.Data[i, j, 0];
+                            if (temp[j] == 253 || temp[j] == 252)
+                                temp[j] = 0;
+                        }
+                        materialfilter.Add(temp);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("MaterialFilter Error： " + ex.ToString());
+            }
+        }
+
+        /// <summary>
+        /// 边缘增强
+        /// </summary>
+        /// <param name="rawdataview"></param>
+        /// <param name="rawdataview2"></param>
+        /// <param name="dataview"></param>
+        /// <param name="dataview2"></param>
+        private void EdgeIntensity(List<ushort[]> rawdataview, out List<ushort[]> dataview)
+        {
+            dataview = new List<ushort[]>();
+            int cols = rawdataview[0].Length;
+            int rows = rawdataview.Count;
+            Matrix<ushort> m1 = new Matrix<ushort>(rows, cols);
+
+            try
+            {
+                for (int i = 0; i < rows; i++)
+                {
+                    Buffer.BlockCopy(rawdataview[i], 0, m1.Data, i * cols * sizeof(ushort), cols * sizeof(ushort));
+                }
+                Matrix<UInt16> outm1 = process.EdgeIntensity(m1.Mat);
+
+                for (int i = 0; i < rows; i++)
+                {
+                    ushort[] tempdst1 = new ushort[cols];
+                    Buffer.BlockCopy(outm1.Data, i * cols * sizeof(ushort), tempdst1, 0, cols * sizeof(ushort));
+                    dataview.Add(tempdst1);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("边缘增强" + ex.ToString());
+            }
+        }
+
+        /// <summary>
+        /// 闭运算
+        /// </summary>
+        /// <param name="MaterialView1"></param>
+        /// <param name="MaterialView2"></param>
+        /// <param name="N"></param>
+        /// <param name="NewMaterialView1"></param>
+        /// <param name="NewMaterialView2"></param>
+        private void DilateAndErode(List<ushort[]> Material, int N, out List<ushort[]> NewMaterial)
+        {
+            NewMaterial = new List<ushort[]>();
+            process.DilateAndErode(Material, N, out NewMaterial);
+        }
+
+        public void ReadCsv(string filepath, out double[] output)
+        {
+            List<double> _list = new List<double>();
+
+            try
+            {
+                FileStream fs = new FileStream(filepath, System.IO.FileMode.Open, System.IO.FileAccess.Read);
+                StreamReader sr = new StreamReader(fs, System.Text.ASCIIEncoding.ASCII);
+                string strLine = "";
+                string[] tempcontent = null;
+                while ((strLine = sr.ReadLine()) != null)
+                {
+                    tempcontent = strLine.Split(',');
+                    foreach (string str in tempcontent)
+                        _list.Add(Convert.ToDouble(str));
+                }
+                output = _list.ToArray();
+            }
+            catch (Exception ex)
+            {
+                Console.Out.WriteLine(ex.ToString());
+                Console.Out.WriteLine("CSV ERROR !");
+                output = null;
+            }
+        }
+
+    }
+}

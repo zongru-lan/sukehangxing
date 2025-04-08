@@ -1,0 +1,71 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using UI.XRay.Business.Entities;
+using UI.XRay.Flows.Controllers;
+using UI.XRay.Flows.Services;
+using UI.XRay.Gui.Framework;
+
+namespace UI.XRay.Security.Scanner.ViewModel.Setting.Account
+{
+    /// <summary>
+    /// 根据当前登陆的用户角色，返回其可管理的角色列表
+    /// </summary>
+    internal class AccountRoleStringsProvider
+    {
+        public static string GetStringForRole(AccountRole role)
+        {
+            switch (role)
+            {
+                case AccountRole.System:
+                    return TranslationService.FindTranslation("AccountRole", "System");
+                case AccountRole.Admin:
+                    return TranslationService.FindTranslation("AccountRole", "Admin");
+                case AccountRole.Maintainer:
+                    return TranslationService.FindTranslation("AccountRole", "Maintainer");
+                case AccountRole.Operator:
+                    return TranslationService.FindTranslation("AccountRole", "Operator");
+            }
+
+            return string.Empty;
+        }
+
+        /// <summary>
+        /// 根据当前用户等级，获取比其更低的用户等级
+        /// </summary>
+        /// <returns></returns>
+        public static ObservableCollection<AccountRoleEnumString> GetManageableRoleStringPairList()
+        {
+            var result = new ObservableCollection<AccountRoleEnumString>();
+            result.Add(new AccountRoleEnumString(AccountRole.Operator, GetStringForRole(AccountRole.Operator)));
+
+            if (LoginAccountManager.CurrentAccount != null)
+            {
+                if (LoginAccountManager.CurrentAccount.Role == AccountRole.System)
+                {
+                    result.Add(new AccountRoleEnumString(AccountRole.Admin, GetStringForRole(AccountRole.Admin)));
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 获取所有的用户角色字符串
+        /// </summary>
+        /// <returns></returns>
+        public static ObservableCollection<AccountRoleEnumString> GetAllRoleStringPairList()
+        {
+            var result = new ObservableCollection<AccountRoleEnumString>();
+            result.Add(new AccountRoleEnumString(AccountRole.Operator,GetStringForRole(AccountRole.Operator)));
+            result.Add(new AccountRoleEnumString(AccountRole.Admin, GetStringForRole(AccountRole.Admin)));
+            result.Add(new AccountRoleEnumString(AccountRole.Maintainer, GetStringForRole(AccountRole.Maintainer)));
+            result.Add(new AccountRoleEnumString(AccountRole.System, GetStringForRole(AccountRole.System)));
+
+            return result;
+        }
+    }
+}

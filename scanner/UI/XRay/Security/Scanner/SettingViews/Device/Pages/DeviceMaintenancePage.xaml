@@ -1,0 +1,65 @@
+﻿<Page x:Class="UI.XRay.Security.Scanner.SettingViews.Device.Pages.DeviceMaintenancePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:framework="clr-namespace:UI.XRay.Gui.Framework;assembly=UI.XRay.Gui.Framework"
+      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+      xmlns:collections="clr-namespace:System.Collections;assembly=mscorlib"
+      xmlns:system="clr-namespace:System;assembly=mscorlib"
+      xmlns:converters="clr-namespace:UI.XRay.Security.Scanner.Converters"
+      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+      xmlns:command="http://www.galasoft.ch/mvvmlight"
+      xmlns:local="clr-namespace:UI.XRay.Security.Scanner.SettingViews.Device.Pages"
+      mc:Ignorable="d" FontSize="{StaticResource PageFontSize}"
+      DataContext="{Binding Source={StaticResource Locator}, Path=DeviceMaintenancePage}"
+      d:DesignHeight="1000" d:DesignWidth="900"
+      Title="DeviceMaintenancePage">
+    <Page.Resources>
+        <converters:BoolVisibilityConvertor x:Key="BoolVisibilityConvertor"/>
+    </Page.Resources>
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" IsTabStop="False">
+        <StackPanel Margin="{StaticResource PageContentMargin}" HorizontalAlignment="Left">
+        <!--是否启用-->
+        <TextBlock Margin="0,15,0,0" Text="{framework:LanguageResource Enable Device Maintenance Reminder, ViewSection=Device Maintenance}" VerticalAlignment="Bottom"/>
+        <controls:ToggleSwitch OnLabel="{framework:LanguageResource Yes}" OffLabel="{framework:LanguageResource No}" Margin="-5,5,0,0"
+                             CheckChangedCommand="{Binding ChangeEnableDeviceMantenanceCommand}" ContentDirection="RightToLeft"
+                             HorizontalAlignment="Left" IsChecked="{Binding IsEnableDeviceMaintenance}"/>
+
+        <!--是否循环提示-->
+        <TextBlock Margin="0,15,0,0" Text="{framework:LanguageResource Is Loop Remind, ViewSection=Device Maintenance}" VerticalAlignment="Bottom"
+                 Visibility="{Binding IsEnableDeviceMaintenance, Converter={StaticResource BoolVisibilityConvertor}}"/>
+        <controls:ToggleSwitch OnLabel="{framework:LanguageResource Yes}" OffLabel="{framework:LanguageResource No}" Margin="-5,5,0,0"
+                             CheckChangedCommand="{Binding ChangeLoopRemindCommand}" ContentDirection="RightToLeft"
+                             HorizontalAlignment="Left" IsChecked="{Binding IsLoopRemind}"
+                             Visibility="{Binding IsEnableDeviceMaintenance, Converter={StaticResource BoolVisibilityConvertor}}"/>
+
+        <!--维修保养时间间隔-->
+        <TextBlock Margin="0,15,0,0" Text="{framework:LanguageResource Device Maintenance Interval, ViewSection=Device Maintenance}" VerticalAlignment="Bottom"
+                 Visibility="{Binding IsEnableDeviceMaintenance, Converter={StaticResource BoolVisibilityConvertor}}"/>
+        <Grid Visibility="{Binding IsEnableDeviceMaintenance, Converter={StaticResource BoolVisibilityConvertor}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <ComboBox Grid.Column="0" Margin="0,0,10,0" MinWidth="200" ItemsSource="{Binding MaintenanceRemindInterval}" SelectedIndex="{Binding SelectedIntervalIndex}"/>
+            <Button Grid.Column="1" MinWidth="80" Content="{framework:LanguageResource Save}" HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                Command="{Binding SaveMaintenanceIntervalCommand}"/>
+        </Grid>
+      
+        <!--上次维护时间-->
+        <TextBlock Margin="0,15,0,0" Text="{framework:LanguageResource Last Maintenance Time, ViewSection=Device Maintenance}" VerticalAlignment="Bottom"
+                 Visibility="{Binding IsEnableDeviceMaintenance, Converter={StaticResource BoolVisibilityConvertor}}"/>
+        <Grid Visibility="{Binding IsEnableDeviceMaintenance, Converter={StaticResource BoolVisibilityConvertor}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock  Grid.Column="0" Margin="0,0,10,0" MinWidth="200" Text="{Binding LastMaintenanceTimeStr}" VerticalAlignment="Center"></TextBlock>
+            <Button Grid.Column="1" MinWidth="80" Content="{framework:LanguageResource Update, ViewSection=Device Maintenance}" HorizontalAlignment="Center"
+                VerticalAlignment="Bottom" Command="{Binding UpdateLastMaintenanceTimeCommand}"/>
+        </Grid>
+            
+        </StackPanel>
+  </ScrollViewer>
+</Page>

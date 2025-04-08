@@ -1,0 +1,237 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace UI.XRay.Business.Entities
+{
+    public class TipPlan : PropertyNotifiableObject
+    {
+        private long _tipPlanId;
+
+        /// <summary>
+        /// 此Tip注入计划的别名
+        /// </summary>
+        private string _alias;
+
+        /// <summary>
+        /// 优先级，1-5
+        /// </summary>
+        private int _priority = 1;
+
+        /// <summary>
+        /// 插入概率百分比，如90表示对90%的图像都插入Tip
+        /// </summary>
+        private int _probability = 50;
+
+        /// <summary>
+        /// 此计划是否生效
+        /// </summary>
+        private bool _isEnabled = true;
+
+        /// <summary>
+        /// 此计划的创建时间
+        /// </summary>
+        private DateTime _creationTime = DateTime.Now;
+
+        /// <summary>
+        /// 此计划的有效起始时间
+        /// </summary>
+        private DateTime _startTime;
+
+        /// <summary>
+        /// 此计划的有效结束时间
+        /// </summary>
+        private DateTime _endTime;
+
+        /// <summary>
+        /// Tip插入完成后，用户在线（不停输送机）判读的最长秒数
+        /// </summary>
+        private int _onlineRecMaxSeconds = 4;
+
+        /// <summary>
+        /// Tip插入完成后，用户线下（停输送机后）判读的最长秒数
+        /// </summary>
+        private int _offlineRecMaxSeconds = 8;
+
+        /// <summary>
+        /// 刀具插入的权重，1-10
+        /// </summary>
+        private int _knivesWeight = 5;
+
+        /// <summary>
+        /// 枪支插入的权重，1-10
+        /// </summary>
+        private int _gunsWeight = 5;
+
+        /// <summary>
+        /// 炸药插入的权重，1-10
+        /// </summary>
+        private int _explosivesWeight = 5;
+
+        /// <summary>
+        /// 其它物品的插入权重，1-10
+        /// </summary>
+        private int _otherObjectsWeight = 5;
+
+        /// <summary>
+        /// 此Tip考核项，考核的目标用户角色类型：
+        /// 如果目标为System，则考核所有用户；
+        /// 如果目标为Admin，则仅考核Admin和Operator
+        /// 如果目标为Operator，则仅考核Operator
+        /// </summary>
+        private AccountRole _targetRole;
+
+        public TipPlan()
+        {
+            StartTime = DateTime.Now;
+            EndTime = DateTime.Now + TimeSpan.FromDays(30);
+        }
+
+        [Key]
+        public long TipPlanId
+        {
+            get { return _tipPlanId; }
+            set { _tipPlanId = value; RaisePropertyChanged(); }
+        }
+
+        /// <summary>
+        /// 此Tip注入计划的别名
+        /// </summary>
+        public string Alias
+        {
+            get { return _alias; }
+            set { _alias = value; RaisePropertyChanged(); }
+        }
+
+        /// <summary>
+        /// 优先级，1-5
+        /// </summary>
+        public int Priority
+        {
+            get { return _priority; }
+            set { _priority = value; RaisePropertyChanged(); }
+        }
+
+        /// <summary>
+        /// 插入概率百分比，如90表示对90%的图像都插入Tip
+        /// </summary>
+        public int Probability
+        {
+            get { return _probability; }
+            set { _probability = value; RaisePropertyChanged(); }
+        }
+
+        /// <summary>
+        /// 此计划是否生效
+        /// </summary>
+        public bool IsEnabled
+        {
+            get { return _isEnabled; }
+            set { _isEnabled = value; RaisePropertyChanged(); }
+        }
+
+        /// <summary>
+        /// 此计划的创建时间
+        /// </summary>
+        public DateTime CreationTime
+        {
+            get { return _creationTime; }
+            set { _creationTime = value; RaisePropertyChanged(); }
+        }
+
+        /// <summary>
+        /// 此计划的有效起始时间
+        /// </summary>
+        public DateTime StartTime
+        {
+            get { return _startTime; }
+            set { _startTime = value; RaisePropertyChanged(); }
+        }
+
+        /// <summary>
+        /// 此计划的有效结束时间
+        /// </summary>
+        public DateTime EndTime
+        {
+            get { return _endTime; }
+            set { _endTime = value; RaisePropertyChanged(); }
+        }
+
+        /// <summary>
+        /// Tip插入完成后，用户在线（不停输送机）判读的最长秒数
+        /// </summary>
+        public int OnlineRecMaxSeconds
+        {
+            get { return _onlineRecMaxSeconds; }
+            set { _onlineRecMaxSeconds = value; RaisePropertyChanged(); }
+        }
+
+        /// <summary>
+        /// Tip插入完成后，用户线下（停输送机后）判读的最长秒数
+        /// </summary>
+        public int OfflineRecMaxSeconds
+        {
+            get { return _offlineRecMaxSeconds; }
+            set { _offlineRecMaxSeconds = value; RaisePropertyChanged(); }
+        }
+
+        /// <summary>
+        /// 刀具插入的权重，1-10
+        /// </summary>
+        public int KnivesWeight
+        {
+            get { return _knivesWeight; }
+            set { _knivesWeight = value; RaisePropertyChanged();}
+        }
+
+        /// <summary>
+        /// 枪支插入的权重，1-10
+        /// </summary>
+        public int GunsWeight
+        {
+            get { return _gunsWeight; }
+            set { _gunsWeight = value; RaisePropertyChanged();}
+        }
+
+        /// <summary>
+        /// 炸药插入的权重，1-10
+        /// </summary>
+        public int ExplosivesWeight
+        {
+            get { return _explosivesWeight; }
+            set { _explosivesWeight = value; RaisePropertyChanged(); }
+        }
+
+        /// <summary>
+        /// 其它物品的插入权重，1-10
+        /// </summary>
+        public int OtherObjectsWeight
+        {
+            get { return _otherObjectsWeight; }
+            set { _otherObjectsWeight = value; RaisePropertyChanged();}
+        }
+
+        /// <summary>
+        /// 获取四种Tip图像的总权重
+        /// </summary>
+        public int TotalWeights
+        {
+            get { return ExplosivesWeight + KnivesWeight + GunsWeight + OtherObjectsWeight; }
+        }
+
+        /// <summary>
+        /// 此Tip考核项，考核的目标用户角色类型：
+        /// 如果目标为System，则考核所有用户；
+        /// 如果目标为Admin，则仅考核Admin和Operator
+        /// 如果目标为Operator，则仅考核Operator
+        /// </summary>
+        public AccountRole TargetRole
+        {
+            get { return _targetRole; }
+            set { _targetRole = value; RaisePropertyChanged(); }
+        }
+    }
+}

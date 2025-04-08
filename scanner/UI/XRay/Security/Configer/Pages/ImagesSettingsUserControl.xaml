@@ -1,0 +1,204 @@
+﻿<UserControl x:Class="UI.XRay.Security.Configer.UserControl.ImagesSettingsUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:framework="clr-namespace:UI.XRay.Gui.Framework;assembly=UI.XRay.Gui.Framework"
+             mc:Ignorable="d" HorizontalAlignment="Left" VerticalAlignment="Top"
+             DataContext="{Binding Source={StaticResource Locator}, Path=ImagesSettings}"
+             d:DesignHeight="820" d:DesignWidth="600">
+    <StackPanel Margin="20">
+    <Label VerticalAlignment="Center" Content="{framework:LanguageResource ViewSection=Configer, Source=Send Line Data}"/>
+
+    <!--<Label Margin="0,15,0,0" Content="{framework:LanguageResource ViewSection=Configer, Source=Image Store Path}" VerticalAlignment="Bottom"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Text="{Binding ImageStorePath}" FontSize="{StaticResource PageFontSize}"/>
+            <Button Grid.Column="1" Content="..." Command="{Binding ChangeImageStorePathCommand}"/>
+        </Grid>-->
+        <Label Content="{framework:LanguageResource ViewSection=Configer, Source=Automatically Save Image In Common Image Format}" VerticalAlignment="Bottom"/>
+        <controls:ToggleSwitch OnLabel="{framework:LanguageResource Yes}" OffLabel="{framework:LanguageResource No}" IsChecked="{Binding IsAutoSaveUpfImage}"
+                               ContentDirection="RightToLeft" HorizontalAlignment="Left"></controls:ToggleSwitch>
+
+        <GroupBox Margin="0 15 0 0" Header="{framework:LanguageResource ViewSection=Configer, Source=Common Format Image Store Setting}" Visibility="{Binding ShowUpfImageStoreSetting}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Content="{framework:LanguageResource ViewSection=Configer, Source=Image Store Path}" VerticalAlignment="Bottom" HorizontalContentAlignment="Left"/>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox Text="{Binding UpfImageStorePath}" FontSize="{StaticResource PageFontSize}"/>
+                    <Button Grid.Column="1" Content="..." Command="{Binding ChangeUpfImageStorePathCommand}"/>
+                </Grid>
+                <Label Grid.Row="2" Margin="0,15,0,0" Content="{framework:LanguageResource ViewSection=Configer, Source=Image Store Strategy}" VerticalAlignment="Bottom"/>
+                <ComboBox Grid.Row="3" ItemsSource="{Binding UpfImageStoreStrategies}" SelectedItem="{Binding UpfImageStoreStrategy}"
+                  FontSize="{StaticResource PageFontSize}"/>
+                <Label Grid.Row="4" Margin="0,15,0,0" Content="{framework:LanguageResource ViewSection=Configer, Source=Image Store Format}" VerticalAlignment="Bottom"/>
+                <ComboBox Grid.Row="5" ItemsSource="{Binding UpfImageStoreFormats}" SelectedItem="{Binding UpfImageStoreFormat}"
+                  FontSize="{StaticResource PageFontSize}"/>
+                <!--<Label Grid.Row="6" Content="{framework:LanguageResource ViewSection=Configer, Source=Merge Two View Image}" VerticalAlignment="Bottom" Visibility="{Binding ShowMergeTwoViewImage}"/>
+                <controls:ToggleSwitch Grid.Row="7" OnLabel="{framework:LanguageResource Yes}" OffLabel="{framework:LanguageResource No}" IsChecked="{Binding IsMergeTwoViewImage}"
+                               ContentDirection="RightToLeft" HorizontalAlignment="Left" Visibility="{Binding ShowMergeTwoViewImage}"></controls:ToggleSwitch>-->
+                <Label Grid.Row="8" Content="{framework:LanguageResource ViewSection=Configer, Source=Auto Store Xray Image To Same Path}" VerticalAlignment="Bottom"/>
+                <controls:ToggleSwitch Grid.Row="9" OnLabel="{framework:LanguageResource Yes}" OffLabel="{framework:LanguageResource No}" IsChecked="{Binding IsAutoStoreXrayImage}"
+                               ContentDirection="RightToLeft" HorizontalAlignment="Left"></controls:ToggleSwitch>
+                <Label Grid.Row="10" Content="{framework:LanguageResource ViewSection=Configer, Source=Limit Auto Store Common Format Image Count}" VerticalAlignment="Bottom"/>
+                <controls:ToggleSwitch Grid.Row="11" OnLabel="{framework:LanguageResource Yes}" OffLabel="{framework:LanguageResource No}" IsChecked="{Binding IsLimitAutoStoreUpfImageCount}"
+                               ContentDirection="RightToLeft" HorizontalAlignment="Left"></controls:ToggleSwitch>
+                <Label Grid.Row="12" Content="{framework:LanguageResource ViewSection=Configer, Source=Upper Limit}" VerticalAlignment="Bottom" Visibility="{Binding ShowUpfImageCountLimit}"/>
+                <TextBox Grid.Row="13" Text="{Binding UpfImageCountUpperLimit}" FontSize="{StaticResource PageFontSize}" Visibility="{Binding ShowUpfImageCountLimit}"/>
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Margin="0 15 0 0" Header="{framework:LanguageResource ViewSection=Configer, Source=Image effects for export}" Visibility ="Visible">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Margin="5" Content="{framework:LanguageResource ViewSection=Configer, Source=Image1}"/>
+                <Label Grid.Row="1" Grid.Column="0" Margin="5" Content="{framework:LanguageResource ViewSection=Configer, Source=Image2}"/>
+                <Label Grid.Row="2" Grid.Column="0" Margin="5" Content="{framework:LanguageResource ViewSection=Configer, Source=Image3}"/>
+                <Label Grid.Row="3" Grid.Column="0" Margin="5" Content="{framework:LanguageResource ViewSection=Configer, Source=Image4}"/>
+                <Label Grid.Row="4" Grid.Column="0" Margin="5" Content="{framework:LanguageResource ViewSection=Configer, Source=Image5}"/>
+
+                <TextBlock Grid.Row="0" Grid.Column="1" Margin="5" Text="{Binding Image1Effect}" IsEnabled="False"/>
+                <TextBlock Grid.Row="1" Grid.Column="1" Margin="5" Text="{Binding Image2Effect}" IsEnabled="False"/>
+                <TextBlock Grid.Row="2" Grid.Column="1" Margin="5" Text="{Binding Image3Effect}" IsEnabled="False"/>
+                <TextBlock Grid.Row="3" Grid.Column="1" Margin="5" Text="{Binding Image4Effect}" IsEnabled="False"/>
+                <ComboBox Grid.Row="4" Grid.Column="1" Margin="5" ItemsSource="{Binding ImageEffects}" 
+                          SelectedItem="{Binding Image5Effect}" IsEnabled="True" MaxDropDownHeight="180"/>
+
+                <Label Grid.Row="5"  Margin="5" Content="{framework:LanguageResource ViewSection=Configer, Source=Image Store Format}" VerticalAlignment="Bottom"/>
+                <ComboBox Grid.Row="5" Grid.Column="1" Margin="5" ItemsSource="{Binding UpfImageStoreFormats}" SelectedIndex="{Binding ExportImageFormat}"
+                  FontSize="{StaticResource PageFontSize}"/>
+            </Grid>            
+        </GroupBox>
+
+        <!--<Label Margin="0,15,0,0" Content="Remove Blank Space Between Bags"/>
+        <controls:ToggleSwitch OnLabel="{framework:LanguageResource Yes}" OffLabel="{framework:LanguageResource No}" HorizontalAlignment="Left" ContentDirection="RightToLeft" IsChecked="{Binding RemoveBlankSpaceBetBags}"/>
+        
+        <Label Margin="0,15,0,0" Content="Show Unpenetratable in Red"/>
+        <controls:ToggleSwitch HorizontalAlignment="Left" ContentDirection="RightToLeft" OnLabel="{framework:LanguageResource Yes}" OffLabel="{framework:LanguageResource No}" IsChecked="{Binding ShowUnpenetratableRed}"/>-->
+
+        <!--<StackPanel Margin="0,15,0,0" Orientation="Horizontal">
+            <Label Content="Default Absorb Index"/>
+            <Label Content="{Binding DefaultAbsorbIndex}" Margin="10,0,0,0"/>
+        </StackPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <Slider Minimum="-25" Maximum="25" Value="{Binding DefaultAbsorbIndex}" AutoToolTipPlacement="BottomRight" />
+        </Grid>-->
+
+        <!--<Label Margin="0,15,0,0" Content="Max Zoomin Times" VerticalAlignment="Bottom"/>
+        <ComboBox IsEditable="False" ItemsSource="{Binding MaxZoominTimesSource}" SelectedItem="{Binding MaxZoominTimes}"/>-->
+
+        <Label Margin="0,15,0,0" Content="{framework:LanguageResource ViewSection=Configer, Source=Images Count}" VerticalAlignment="Bottom"/>
+        <ComboBox ItemsSource="{Binding ImagesCountSource}" SelectedItem="{Binding ImagesCount}" IsEditable="False"/>
+        <!--<Label Margin="0,15,0,0" Content="{framework:LanguageResource ViewSection=Configer, Source=AirEnhence}"></Label>
+        <controls:ToggleSwitch ContentDirection="RightToLeft" OnLabel="{framework:LanguageResource Yes}" OffLabel="{framework:LanguageResource No}" HorizontalAlignment="Left" IsChecked="{Binding EnableAirEnhance}"/>
+        <Label Margin="0,15,0,0" Content="{framework:LanguageResource ViewSection=Configer, Source=SpecialEnhence}"></Label>
+        <controls:ToggleSwitch ContentDirection="RightToLeft" OnLabel="{framework:LanguageResource Yes}" OffLabel="{framework:LanguageResource No}" HorizontalAlignment="Left" IsChecked="{Binding EnableSpecialEnhance}"/>-->
+
+        <Border BorderThickness="1" Margin="0,15,0,0" BorderBrush="{StaticResource AccentColorBrush}">
+            <Grid Height="553">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="1" Grid.Column="0" Margin="5" Content="{framework:LanguageResource ViewSection=Configer, Source=Showing Detect View}"/>
+                <Label Grid.Row="2" Grid.Column="0" Margin="5" Content="{framework:LanguageResource ViewSection=Configer, Source=Color Mode}"/>
+                <Label Grid.Row="3" Grid.Column="0" Margin="5" Content="{framework:LanguageResource ViewSection=Configer, Source=Penetration}"/>
+                <Label Grid.Row="4" Grid.Column="0" Margin="5" Content="{framework:LanguageResource ViewSection=Configer, Source=Vertical Flip}"/>
+                <Label Grid.Row="5" Grid.Column="0" Margin="5" Content="{framework:LanguageResource ViewSection=Configer, Source=Edge Enhance}"/>
+                <!--<Label Grid.Row="6" Grid.Column="0" Margin="5" Content="{framework:LanguageResource ViewSection=Configer, Source=Super Enhance}" Visibility="Collapsed"/>-->
+                <Label Grid.Row="6" Grid.Column="0" Margin="5" Content="{framework:LanguageResource ViewSection=Configer, Source=Inversed}"/>
+                <Label Grid.Row="7" Grid.Column="0" Margin="5" Content="{framework:LanguageResource ViewSection=Configer, Source=Move From Right to Left}"/>
+                <Label Grid.Row="0" Grid.Column="1" Margin="5" Content="{framework:LanguageResource ViewSection=Common, Source=Image1}"/>
+                <ComboBox Grid.Row="1" Grid.Column="1" Margin="5" ItemsSource="{Binding ImageShowingDetViews}" SelectedItem="{Binding Image1ShowingDetView}"/>
+                <ComboBox Grid.Row="2" Grid.Column="1" Margin="5" ItemsSource="{Binding ImageColorModes}" SelectedItem="{Binding Image1ColorMode}"/>
+                <ComboBox Grid.Row="3" Grid.Column="1" Margin="5" ItemsSource="{Binding ImagePenetrationModes}" SelectedItem="{Binding Image1Penetration}"/>
+                <controls:ToggleSwitch  Grid.Row="4" Grid.Column="1" OnLabel="{framework:LanguageResource Yes}" OffLabel="{framework:LanguageResource No}" ContentDirection="RightToLeft" HorizontalAlignment="Left"  Margin="5" VerticalAlignment="Center" IsChecked="{Binding Image1VerticalFlip}"/>
+                <controls:ToggleSwitch Grid.Row="5" Grid.Column="1" Margin="5" OnLabel="{framework:LanguageResource Yes}" OffLabel="{framework:LanguageResource No}" ContentDirection="RightToLeft" HorizontalAlignment="Left" VerticalAlignment="Center" IsChecked="{Binding Image1EnableEdgeEnhance}"/>
+                <!--<controls:ToggleSwitch Visibility="Collapsed" Grid.Row="6" Grid.Column="1" Margin="5" OnLabel="{framework:LanguageResource Yes}" OffLabel="{framework:LanguageResource No}" ContentDirection="RightToLeft" HorizontalAlignment="Left"   VerticalAlignment="Center" IsChecked="{Binding Image1EnableSuperEnhance}"/>-->
+                <controls:ToggleSwitch Grid.Row="6" Grid.Column="1" Margin="5" OnLabel="{framework:LanguageResource Yes}" OffLabel="{framework:LanguageResource No}" ContentDirection="RightToLeft" HorizontalAlignment="Left"  VerticalAlignment="Center" IsChecked="{Binding Image1Inversed}"/>
+                <controls:ToggleSwitch Grid.Row="7" Grid.Column="1" OnLabel="{framework:LanguageResource Yes}" OffLabel="{framework:LanguageResource No}" ContentDirection="RightToLeft" HorizontalAlignment="Left" Margin="5" IsChecked="{Binding Image1RightToLeft}"/>
+
+                <Label Grid.Row="0" Grid.Column="2" Margin="5" Content="{framework:LanguageResource ViewSection=Common, Source=Image2}" Visibility="{Binding ShowImage2Settings}"/>
+                <ComboBox Grid.Row="1" Grid.Column="2"   Margin="5" Visibility="{Binding ShowImage2Settings}" ItemsSource="{Binding ImageShowingDetViews}" SelectedItem="{Binding Image2ShowingDetView}"/>
+                <ComboBox Grid.Row="2" Grid.Column="2"  Margin="5" Visibility="{Binding ShowImage2Settings}" ItemsSource="{Binding ImageColorModes}" SelectedItem="{Binding Image2ColorMode}"/>
+                <ComboBox Grid.Row="3" Grid.Column="2"  Margin="5" Visibility="{Binding ShowImage2Settings}" ItemsSource="{Binding ImagePenetrationModes}" SelectedItem="{Binding Image2Penetration}"/>
+                <controls:ToggleSwitch Grid.Column="2"  Grid.Row="4" Visibility="{Binding ShowImage2Settings}" Margin="5" OnLabel="{framework:LanguageResource Yes}" OffLabel="{framework:LanguageResource No}" ContentDirection="RightToLeft" HorizontalAlignment="Left"  VerticalAlignment="Center" IsChecked="{Binding Image2VerticalFlip}"/>
+                <controls:ToggleSwitch Grid.Column="2"  Grid.Row="5" Visibility="{Binding ShowImage2Settings}" Margin="5" OnLabel="{framework:LanguageResource Yes}" OffLabel="{framework:LanguageResource No}" ContentDirection="RightToLeft" HorizontalAlignment="Left"   VerticalAlignment="Center" IsChecked="{Binding Image2EnableEdgeEnhance}"/>
+                <!--<controls:ToggleSwitch Grid.Column="2"   Visibility="Collapsed" Grid.Row="6" Margin="5" OnLabel="{framework:LanguageResource Yes}" OffLabel="{framework:LanguageResource No}" ContentDirection="RightToLeft" HorizontalAlignment="Left"   VerticalAlignment="Center" IsChecked="{Binding Image2EnableSuperEnhance}"/>-->
+                <controls:ToggleSwitch Grid.Row="6" Grid.Column="2" Visibility="{Binding ShowImage2Settings}"  Margin="5" OnLabel="{framework:LanguageResource Yes}" OffLabel="{framework:LanguageResource No}" ContentDirection="RightToLeft" HorizontalAlignment="Left"   VerticalAlignment="Center" IsChecked="{Binding Image2Inversed}"/>
+                <controls:ToggleSwitch  Grid.Row="7" Grid.Column="2" Visibility="{Binding ShowImage2Settings}" Margin="5" OnLabel="{framework:LanguageResource Yes}" OffLabel="{framework:LanguageResource No}" ContentDirection="RightToLeft" HorizontalAlignment="Left"  IsChecked="{Binding Image2RightToLeft}"/>
+
+                <Label Grid.Row="8" Grid.Column="0" Margin="5" Content="{framework:LanguageResource ViewSection=Configer, Source=Height}"/>
+                <TextBox Grid.Row="8" Grid.Column="1" Margin="5"  Text="{Binding Image1Height}"/>
+                <TextBox Grid.Row="8" Grid.Column="2" Margin="5"  Text="{Binding Image2Height}" Visibility="{Binding ShowImage2Settings}"/>
+
+                <Label Grid.Row="9" Grid.Column="0" Margin="5" Content="{framework:LanguageResource ViewSection=Configer, Source=Anchor}"/>
+                <ComboBox Grid.Row="9" Grid.Column="1" Margin="5" x:Name="cbAnchor" ItemsSource="{Binding ImageAnchors}" SelectedItem="{Binding Image1Anchor}"/>
+                <ComboBox Grid.Row="9" Grid.Column="2" Margin="5" ItemsSource="{Binding ImageAnchors}" SelectedItem="{Binding Image2Anchor}"
+                          Visibility="{Binding ShowImage2Settings}"/>
+
+                <Label Grid.Column="0" Grid.Row="10" Margin="5" VerticalAlignment="Center"  Content="{framework:LanguageResource ViewSection=Configer, Source=Image Margin}" />
+                <TextBox Grid.Column="2" Grid.Row="10" Margin="5" Width="{Binding ElementName=cbAnchor,Path=ActualWidth}" HorizontalAlignment="Center" Text="{Binding ImageMargin}"/>
+
+                <Label Grid.Column="0" Grid.Row="11" Grid.ColumnSpan="2" Margin="5" VerticalAlignment="Center"  Content="{framework:LanguageResource ViewSection=Configer, Source=Anchor New Image When End}" />
+                <controls:ToggleSwitch Grid.Column="2" Grid.Row="11" Margin="5"  OnLabel="{framework:LanguageResource Yes}" OffLabel="{framework:LanguageResource No}" ContentDirection="RightToLeft" HorizontalAlignment="Left" IsChecked="{Binding AnchorNewImage}"/>
+
+            </Grid>
+        </Border>
+    </StackPanel>
+</UserControl>

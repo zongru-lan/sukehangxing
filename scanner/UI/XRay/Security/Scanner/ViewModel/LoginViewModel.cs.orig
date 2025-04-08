@@ -1,0 +1,227 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms.VisualStyles;
+using System.Windows.Input;
+using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
+using MahApps.Metro.Controls.Dialogs;
+using UI.Common.Tracers;
+using UI.XRay.Business.DataAccess;
+using UI.XRay.Business.DataAccess.Db;
+using UI.XRay.Business.Entities;
+using UI.XRay.Flows.Controllers;
+using UI.XRay.Flows.Services.Db;
+using UI.XRay.Gui.Framework;
+using UI.XRay.Parts.Keyboard;
+using UI.XRay.Flows.Services;
+
+namespace UI.XRay.Security.Scanner.ViewModel
+{
+    /// <summary>
+    /// 登录窗口的视图模型
+    /// </summary>
+    public class LoginViewModel : ViewModelBase
+    {
+        public RelayCommand<KeyEventArgs> KeyDownEventCommand { get; set; }
+        public RelayCommand<KeyEventArgs> PreviewKeyDownEventCommand { get; set; }
+        public RelayCommand<KeyEventArgs> PreviewKeyUpEventCommand { get; set; }
+        public RelayCommand<KeyEventArgs> KeyUpEventCommand { get; set; }
+
+        public RelayCommand ResetCommand { get; set; }
+
+        public RelayCommand LoginCommand { get; set; }
+
+        public RelayCommand KeyboardCommand { get; set; }
+
+        private bool _isLoginEnabled;
+
+        public bool IsLoginEnabled
+        {
+            get { return _isLoginEnabled; }
+            set
+            {
+                _isLoginEnabled = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private string _accountId;
+
+        public string AccountId
+        {
+            get { return _accountId; }
+            set
+            {
+                _accountId = value; RaisePropertyChanged();
+                IsLoginEnabled = !string.IsNullOrEmpty(_accountId.Trim());
+            }
+        }
+
+        private string _password;
+
+        public string Password
+        {
+            get { return _password; }
+            set { _password = value; RaisePropertyChanged(); }
+        }
+
+        /// <summary>
+        /// 维护用户 
+        /// </summary>
+        Account maintainAccount = null;
+
+        public LoginViewModel()
+        {
+            PreviewKeyDownEventCommand = new RelayCommand<KeyEventArgs>(PreviewKeyDownEventCommandExecute);
+            PreviewKeyUpEventCommand = new RelayCommand<KeyEventArgs>(PreviewKeyUpEventCommandExecute);
+            KeyUpEventCommand = new RelayCommand<KeyEventArgs>(KeyUpEventCommandExecute);
+            KeyDownEventCommand = new RelayCommand<KeyEventArgs>(KeyDownEventCommandExecute);
+            LoginCommand = new RelayCommand(LoginCommandExecute);
+            ResetCommand = new RelayCommand(ResetCommandExecute);
+            KeyboardCommand = new RelayCommand(KeyboardCommandExceute);
+            maintainAccount = new Account("1234239", "88888", AccountRole.Maintainer,true);
+        }
+
+        private void LoginCommandExecute()
+        {
+            Account loginAccount = null;
+            try
+            {
+                var controller = new AccountDbSet();
+                loginAccount = controller.Find(AccountId);
+            }
+            catch (Exception exception)
+            {
+                Tracer.TraceException(exception, "Exception caught when try to login.");
+
+                var builder = new StringBuilder(200);
+                builder.Append(TranslationService.FindTranslation("Failed to login because of exception"))
+                    .AppendLine()
+                    .Append("Exception: ")
+                    .Append(exception.Message);
+
+                MessengerInstance.Send(new ShowDialogMessageAction("LoginWindow", TranslationService.FindTranslation("Exception"),
+                        builder.ToString(), MetroDialogButtons.Ok, result => { }));
+
+                return;
+            }
+            
+            if (loginAccount != null)
+            {
+                if (string.Equals(loginAccount.Password, Password, StringComparison.OrdinalIgnoreCase))
+                {
+                    if (loginAccount.IsActive)
+                    {
+                        CloseLoginWindow();
+                        LoginAccountManager.Login(loginAccount);
+                    }
+                    else
+                    {
+                        MessengerInstance.Send(new ShowDialogMessageAction("LoginWindow", TranslationService.FindTranslation("Login Failed"),
+                        TranslationService.FindTranslation("The account has been disabled. Please ask Administrator to activate it."), MetroDialogButtons.Ok, result => { }));
+                    }
+                }
+                else
+                {
+                    MessengerInstance.Send(new ShowDialogMessageAction("LoginWindow", TranslationService.FindTranslation("Login Failed"),
+                        TranslationService.FindTranslation("The password you typed is incorrect."), MetroDialogButtons.Ok, result => { }));
+                }
+            }
+            else
+            {
+                if (string.Equals(maintainAccount.AccountId, AccountId, StringComparison.OrdinalIgnoreCase))
+                {
+                    if (string.Equals(maintainAccount.Password, Password, StringComparison.OrdinalIgnoreCase))
+                    {
+                        CloseLoginWindow();
+                        LoginAccountManager.Login(maintainAccount);  
+                    }
+                    else
+                    {
+                        MessengerInstance.Send(new ShowDialogMessageAction("LoginWindow", TranslationService.FindTranslation("Login Failed"),
+                        TranslationService.FindTranslation("The password you typed is incorrect."), MetroDialogButtons.Ok, result => { }));
+                    }          
+                }
+                else
+                {
+                    MessengerInstance.Send(new ShowDialogMessageAction("LoginWindow", TranslationService.FindTranslation("Login Failed"),
+                                            TranslationService.FindTranslation("The account has been disabled. Please ask Administrator to activate it."), MetroDialogButtons.Ok, result => { }));
+                }
+            }
+        }
+
+        private void KeyboardCommandExceute()
+        {
+            TouchKeyboardService.Service.OpenKeyboardWindow("HXkeyboard");
+        }
+
+        private void ResetCommandExecute()
+        {
+            AccountId = null;
+            Password = null;
+        }
+
+        /// <summary>
+        /// 关闭登陆窗口
+        /// </summary>
+        private void CloseLoginWindow()
+        {
+            this.MessengerInstance.Send(new CloseWindowMessage("LoginWindow"));
+        }
+
+        private void KeyDownEventCommandExecute(KeyEventArgs args)
+        {
+            switch (args.Key)
+            {
+                // 用户按下F3功能键或者计算机键盘中的Esc键时，关闭登录窗口
+                case Key.F3:
+                case Key.Escape:
+                    CloseWindowInDebugMode();
+                    args.Handled = true;
+                    break;
+
+                // 用户按下F1功能键时，执行登录
+                case Key.F1:
+                case Key.Enter:
+                    if (IsLoginEnabled)
+                    {
+                        LoginCommandExecute();
+                    }
+                    args.Handled = true;
+                    break;
+            }
+        }
+
+        [Conditional("DEBUG")]
+        private void CloseWindowInDebugMode()
+        {
+            CloseLoginWindow();
+        }
+
+        private void KeyUpEventCommandExecute(KeyEventArgs args)
+        {
+            
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="args"></param>
+        private void PreviewKeyUpEventCommandExecute(KeyEventArgs args)
+        {
+            ConveyorKeyEventsConvertor.HandlePreviewKeyUp(args);
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="args"></param>
+        private void PreviewKeyDownEventCommandExecute(KeyEventArgs args)
+        {
+            ConveyorKeyEventsConvertor.HandlePreviewKeyDown(args);
+        }
+    }
+}

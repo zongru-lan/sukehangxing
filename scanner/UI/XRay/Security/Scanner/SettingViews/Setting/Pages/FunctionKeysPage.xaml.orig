@@ -1,0 +1,179 @@
+﻿<Page x:Class="UI.XRay.Security.Scanner.SettingViews.Setting.Pages.FunctionKeysPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:framework="clr-namespace:UI.XRay.Gui.Framework;assembly=UI.XRay.Gui.Framework"
+      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+      xmlns:device="clr-namespace:UI.XRay.Security.Scanner.ViewModel.Setting.Device"
+      xmlns:converters="clr-namespace:UI.XRay.Security.Scanner.Converters"
+      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+      xmlns:command="http://www.galasoft.ch/mvvmlight"
+      xmlns:setting="clr-namespace:UI.XRay.Security.Scanner.ViewModel.Setting.Setting"
+      FontSize="{StaticResource PageFontSize}"
+      mc:Ignorable="d" 
+      DataContext="{Binding Source={StaticResource Locator}, Path= FunctionKeysPage}"
+      d:DataContext="{d:DesignInstance Type=setting:FunctionKeysPageViewModel, IsDesignTimeCreatable=True}"
+      d:DesignHeight="400" d:DesignWidth="800"
+	  Title="KeyboardPage">
+    <Page.Resources>
+        <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="FontSize" Value="{StaticResource PageFontSize}"></Setter>
+            <Setter Property="Margin" Value="3,0"></Setter>
+        </Style>
+        <converters:NotNullEmptyObjectBoolConverter x:Key="NotNullEmptyObjectBoolConverter"/>
+        <converters:BoolVisibilityConvertor x:Key="BoolVisibilityConvertor"/>
+    </Page.Resources>
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" IsTabStop="False">
+        <StackPanel Margin="{StaticResource PageContentMargin}">
+            <TextBlock Text="{framework:LanguageResource Source=Function Key Definition}" Style="{StaticResource PageSectionHeaderTextBlockStyle}"></TextBlock>
+            <Border BorderThickness="1" BorderBrush="{StaticResource AccentColorBrush}" HorizontalAlignment="Left" Padding="10">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="60"></ColumnDefinition>
+                        <ColumnDefinition Width="160"></ColumnDefinition>
+                        <ColumnDefinition Width="160"></ColumnDefinition>
+                        <ColumnDefinition Width="140"></ColumnDefinition>
+                        <ColumnDefinition Width="140"></ColumnDefinition>
+                        <ColumnDefinition Width="160"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Row="0" Grid.Column="1" Content="{framework:LanguageResource Color Mode}" HorizontalAlignment="Center"></Label>
+                    <Label Grid.Row="0" Grid.Column="2" Content="{framework:LanguageResource Penetration}" HorizontalAlignment="Center"></Label>
+                    <Label Grid.Row="0" Grid.Column="3" Content="{framework:LanguageResource Inversed}" HorizontalAlignment="Center"></Label>
+                    <Label Grid.Row="0" Grid.Column="4" Content="{framework:LanguageResource SuperEnhance}" HorizontalAlignment="Center"></Label>
+                    <Label Grid.Row="0" Grid.Column="5" Content="{framework:LanguageResource Action}" HorizontalAlignment="Center" Visibility="{Binding IsKeyActionEnable, Converter={StaticResource BoolVisibilityConvertor}}"></Label>
+                    <!--<Label Content="F1" Grid.Row="1" Grid.Column="0" VerticalAlignment="Bottom"/>-->
+                    <Label Content="F2" Grid.Row="2" Grid.Column="0" VerticalAlignment="Bottom"/>
+                    <Label Content="F3" Grid.Row="3" Grid.Column="0" VerticalAlignment="Bottom"/>
+                    <!--<ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding ColorModesList}" IsEnabled="{Binding F1KeyAction, Converter={StaticResource NotNullEmptyObjectBoolConverter}}"
+                          DisplayMemberPath="String" SelectedValuePath="Value" SelectedValue="{Binding F1EffectsComposition.ColorMode}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <command:EventToCommand Command="{Binding FunctionKeySelectionChangedEventCommand}" PassEventArgsToCommand="True"></command:EventToCommand>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ComboBox>-->
+                    <ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding ColorModesList}" IsEnabled="{Binding F2KeyAction, Converter={StaticResource NotNullEmptyObjectBoolConverter}}"
+                          DisplayMemberPath="String" SelectedValuePath="Value" SelectedValue="{Binding F2EffectsComposition.ColorMode}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <command:EventToCommand Command="{Binding FunctionKeySelectionChangedEventCommand}" PassEventArgsToCommand="True"></command:EventToCommand>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ComboBox>
+                    <ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding ColorModesList}" IsEnabled="{Binding F3KeyAction, Converter={StaticResource NotNullEmptyObjectBoolConverter}}"
+                          DisplayMemberPath="String" SelectedValuePath="Value" SelectedValue="{Binding F3EffectsComposition.ColorMode}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <command:EventToCommand Command="{Binding FunctionKeySelectionChangedEventCommand}" PassEventArgsToCommand="True"></command:EventToCommand>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ComboBox>
+                    <!--<ComboBox Grid.Row="1" Grid.Column="2" ItemsSource="{Binding PenetrationList}" IsEnabled="{Binding F1KeyAction, Converter={StaticResource NotNullEmptyObjectBoolConverter}}"
+                          DisplayMemberPath="String" SelectedValuePath="Value" SelectedValue="{Binding F1EffectsComposition.Penetration}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <command:EventToCommand Command="{Binding FunctionKeySelectionChangedEventCommand}" PassEventArgsToCommand="True"></command:EventToCommand>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ComboBox>-->
+                    <ComboBox Grid.Row="2" Grid.Column="2" ItemsSource="{Binding PenetrationList}"  IsEnabled="{Binding F2KeyAction, Converter={StaticResource NotNullEmptyObjectBoolConverter}}"
+                          DisplayMemberPath="String" SelectedValuePath="Value" SelectedValue="{Binding F2EffectsComposition.Penetration}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <command:EventToCommand Command="{Binding FunctionKeySelectionChangedEventCommand}" PassEventArgsToCommand="True"></command:EventToCommand>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ComboBox>
+                    <ComboBox Grid.Row="3" Grid.Column="2" ItemsSource="{Binding PenetrationList}" IsEnabled="{Binding F3KeyAction, Converter={StaticResource NotNullEmptyObjectBoolConverter}}"
+                          DisplayMemberPath="String" SelectedValuePath="Value" SelectedValue="{Binding F3EffectsComposition.Penetration}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <command:EventToCommand Command="{Binding FunctionKeySelectionChangedEventCommand}" PassEventArgsToCommand="True"></command:EventToCommand>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ComboBox>
+                    <!--<ComboBox Grid.Row="1" Grid.Column="3" ItemsSource="{Binding BoolList}" IsEnabled="{Binding F1KeyAction, Converter={StaticResource NotNullEmptyObjectBoolConverter}}"
+                          DisplayMemberPath="String" SelectedValuePath="Value" SelectedValue="{Binding F1EffectsComposition.IsInversed}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <command:EventToCommand Command="{Binding FunctionKeySelectionChangedEventCommand}" PassEventArgsToCommand="True"></command:EventToCommand>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ComboBox>-->
+                    <ComboBox Grid.Row="2" Grid.Column="3" ItemsSource="{Binding BoolList}"  IsEnabled="{Binding F2KeyAction, Converter={StaticResource NotNullEmptyObjectBoolConverter}}"
+                          DisplayMemberPath="String" SelectedValuePath="Value" SelectedValue="{Binding F2EffectsComposition.IsInversed}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <command:EventToCommand Command="{Binding FunctionKeySelectionChangedEventCommand}" PassEventArgsToCommand="True"></command:EventToCommand>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ComboBox>
+                    <ComboBox Grid.Row="3" Grid.Column="3" ItemsSource="{Binding BoolList}" IsEnabled="{Binding F3KeyAction, Converter={StaticResource NotNullEmptyObjectBoolConverter}}"
+                          DisplayMemberPath="String" SelectedValuePath="Value" SelectedValue="{Binding F3EffectsComposition.IsInversed}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <command:EventToCommand Command="{Binding FunctionKeySelectionChangedEventCommand}" PassEventArgsToCommand="True"></command:EventToCommand>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ComboBox>
+                    <!--<ComboBox Grid.Row="1" Grid.Column="4" ItemsSource="{Binding BoolList}" IsEnabled="{Binding F1KeyAction, Converter={StaticResource NotNullEmptyObjectBoolConverter}}"
+                          DisplayMemberPath="String" SelectedValuePath="Value" SelectedValue="{Binding F1EffectsComposition.IsSenEnabled}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <command:EventToCommand Command="{Binding FunctionKeySelectionChangedEventCommand}" PassEventArgsToCommand="True"></command:EventToCommand>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ComboBox>-->
+                    <ComboBox Grid.Row="2" Grid.Column="4" ItemsSource="{Binding BoolList}" IsEnabled="{Binding F2KeyAction, Converter={StaticResource NotNullEmptyObjectBoolConverter}}"
+                          DisplayMemberPath="String" SelectedValuePath="Value" SelectedValue="{Binding F2EffectsComposition.IsSenEnabled}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <command:EventToCommand Command="{Binding FunctionKeySelectionChangedEventCommand}" PassEventArgsToCommand="True"></command:EventToCommand>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ComboBox>
+                    <ComboBox Grid.Row="3" Grid.Column="4" ItemsSource="{Binding BoolList}" IsEnabled="{Binding F3KeyAction, Converter={StaticResource NotNullEmptyObjectBoolConverter}}"
+                          DisplayMemberPath="String" SelectedValuePath="Value" SelectedValue="{Binding F3EffectsComposition.IsSenEnabled}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <command:EventToCommand Command="{Binding FunctionKeySelectionChangedEventCommand}" PassEventArgsToCommand="True"></command:EventToCommand>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ComboBox>
+                    <ComboBox Grid.Row="1" Grid.Column="5" ItemsSource="{Binding ActionList}"  Visibility="{Binding IsKeyActionEnable, Converter={StaticResource BoolVisibilityConvertor}}"
+                          DisplayMemberPath="String" SelectedValuePath="Value" SelectedValue="{Binding F1KeyAction}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <command:EventToCommand Command="{Binding FunctionKeySelectionChangedEventCommand}" PassEventArgsToCommand="True"></command:EventToCommand>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ComboBox>
+                    <ComboBox Grid.Row="2" Grid.Column="5" ItemsSource="{Binding ActionList}"  Visibility="{Binding IsKeyActionEnable, Converter={StaticResource BoolVisibilityConvertor}}"
+                          DisplayMemberPath="String" SelectedValuePath="Value" SelectedValue="{Binding F2KeyAction}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <command:EventToCommand Command="{Binding FunctionKeySelectionChangedEventCommand}" PassEventArgsToCommand="True"></command:EventToCommand>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ComboBox>
+                    <ComboBox Grid.Row="3" Grid.Column="5" ItemsSource="{Binding ActionList}"  Visibility="{Binding IsKeyActionEnable, Converter={StaticResource BoolVisibilityConvertor}}"
+                          DisplayMemberPath="String" SelectedValuePath="Value" SelectedValue="{Binding F3KeyAction}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <command:EventToCommand Command="{Binding FunctionKeySelectionChangedEventCommand}" PassEventArgsToCommand="True"></command:EventToCommand>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ComboBox>
+                </Grid>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

@@ -1,0 +1,124 @@
+﻿<UserControl x:Class="UI.XRay.Security.Configer.UserControl.CaptureSystemSettingsUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:userControls="clr-namespace:UI.XRay.Security.Configer.UserControl"
+             xmlns:configer="clr-namespace:UI.XRay.Security.Configer"
+             xmlns:framework="clr-namespace:UI.XRay.Gui.Framework;assembly=UI.XRay.Gui.Framework"
+             mc:Ignorable="d" HorizontalAlignment="Left" VerticalAlignment="Top"
+             FontSize="{StaticResource PageFontSize}"
+             DataContext="{Binding Source={StaticResource Locator}, Path=CaptureSystemSettings}"
+             d:DesignHeight="1160" d:DesignWidth="300">
+
+    <UserControl.Resources>
+        <configer:IPAddressToStringConverter x:Key="IPConvertor"/>
+    </UserControl.Resources>
+    
+    <StackPanel Orientation="Vertical" Margin="20">
+        <Label Content="{framework:LanguageResource ViewSection=Configer, Source=Capture System Type}" VerticalAlignment="Bottom"/>
+        <ComboBox ItemsSource="{Binding CaptureSysTypes}" SelectedItem="{Binding CaptureSysType}"/>
+        <Label Grid.Row="2" Margin="0,5,0,0" Content="{framework:LanguageResource ViewSection=Configer, Source=Capture Board Count}" VerticalAlignment="Bottom"/>
+        <ComboBox Grid.Row="3" ItemsSource="{Binding BoardCountSource}" SelectedItem="{Binding BoardCount}" IsEditable="False"/>
+        <Grid Visibility="{Binding DeviceInterfaceVisibility}">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Margin="0,5,0,0" Content="{framework:LanguageResource ViewSection=Configer, Source=Select Device Interface}" VerticalAlignment="Bottom"/>
+            <ComboBox Grid.Row="1" IsEditable="False" ItemsSource="{Binding DtDetSysTypes}" SelectedItem="{Binding DtDetSysType}"/>            
+        </Grid>
+
+
+
+        <CheckBox Margin="0,15,0,0" Content="{framework:LanguageResource ViewSection=Configer, Source=Is Dual Energy}" VerticalAlignment="Center" IsChecked="{Binding IsDualEnergy}" FontSize="20"/>
+        <Label Margin="0,15,0,0" Content="{framework:LanguageResource ViewSection=Configer, Source=Line Integration Time (ms)}" VerticalAlignment="Bottom"/>
+        <TextBox Text="{Binding LineIntegrationTime}"></TextBox>
+        <!--HighSpeed visibility -->
+        <Grid Visibility="{Binding RemoteIPVisibility}">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Margin="0,15,0,0" Content="{framework:LanguageResource ViewSection=Configer, Source=Capture System Host IP}" VerticalAlignment="Bottom"/>
+            <ComboBox Grid.Row="1" IsEditable="False" ItemsSource="{Binding ComputerIpList}" SelectedItem="{Binding CaptureHostIP}"></ComboBox>
+        </Grid>
+        <!--Pb capture system visibility -->
+        <Grid Visibility="{Binding PbControlParamVisibility}">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Margin="0,15,0,0" Content="{framework:LanguageResource ViewSection=Configer, Source=Capture System Host IP}" VerticalAlignment="Bottom"/>
+            <ComboBox Grid.Row="1" IsEditable="False" ItemsSource="{Binding ComputerIpList}" SelectedItem="{Binding CaptureHostIP}"></ComboBox>
+
+            <Label Grid.Row="2" Margin="0,15,0,0" Content="{framework:LanguageResource ViewSection=Configer, Source=Board 1 IP}" VerticalAlignment="Bottom"/>
+            <TextBox Grid.Row="3" Text="{Binding CaptureRemoteIP1}"></TextBox>
+            <Label Grid.Row="4" Margin="0,15,0,0" Content="{framework:LanguageResource ViewSection=Configer, Source=Board 1 Command Port}" VerticalAlignment="Bottom"/>
+            <TextBox Grid.Row="5" Text="{Binding CaptureRemoteCmdPort1}"></TextBox>
+            <Label Grid.Row="6" Margin="0,15,0,0" Content="{framework:LanguageResource ViewSection=Configer, Source=Board 1 Image Port}" VerticalAlignment="Bottom"/>
+            <TextBox Grid.Row="7" Text="{Binding CaptureRemoteImagePort1}"></TextBox>
+
+            <Grid Grid.Row="8" Visibility="{Binding ShowView2Settings}">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Margin="0,15,0,0" Content="{framework:LanguageResource ViewSection=Configer, Source=Board 2 IP}" VerticalAlignment="Bottom"/>
+                <TextBox Grid.Row="1" Text="{Binding CaptureRemoteIP2}"></TextBox>
+                <Label Grid.Row="2" Margin="0,15,0,0" Content="{framework:LanguageResource ViewSection=Configer, Source=Board 2 Command Port}" VerticalAlignment="Bottom"/>
+                <TextBox Grid.Row="3" Text="{Binding CaptureRemoteCmdPort2}"></TextBox>
+                <Label Grid.Row="4" Margin="0,15,0,0" Content="{framework:LanguageResource ViewSection=Configer, Source=Board 2 Image Port}" VerticalAlignment="Bottom"/>
+                <TextBox Grid.Row="5" Text="{Binding CaptureRemoteImagePort2}"></TextBox>
+            </Grid>
+            
+            <Grid Grid.Row="9" Margin="0,15,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Content="{framework:LanguageResource ViewSection=Configer, Source=Board Ping Enable}" VerticalAlignment="Bottom"/>
+                <controls:ToggleSwitch Grid.Row="1" OnLabel="{framework:LanguageResource Yes}" OffLabel="{framework:LanguageResource No}" IsChecked="{Binding CapturePingEnable}"
+                               ContentDirection="RightToLeft" HorizontalAlignment="Left"></controls:ToggleSwitch>
+
+                <Label Margin="0,0,0,0" Grid.Row="2"  Content="{framework:LanguageResource ViewSection=Configer, Source=Board Ping Value}" VerticalAlignment="Bottom"
+                   Visibility="{Binding PingTimeVisibility}"/>
+                <TextBox Margin="10,0,0,0" Grid.Row="3" Text="{Binding CapturePingTime}" Visibility="{Binding PingTimeVisibility}"></TextBox>
+            </Grid>
+        </Grid>
+        
+        <Grid Margin="0,15,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Content="{framework:LanguageResource ViewSection=Configer, Source=View1 Cards Distribution}" VerticalAlignment="Bottom"/>
+            <TextBox Grid.Row="1" Text="{Binding View1CardsDist}"/>
+            <Grid Grid.Row="2" Visibility="{Binding ShowView2Settings}">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Margin="0,15,0,0" Content="{framework:LanguageResource ViewSection=Configer, Source=View2 Cards Distribution}" VerticalAlignment="Bottom"/>
+                <TextBox Grid.Row="1" Text="{Binding View2CardsDist}"/>
+            </Grid>
+        </Grid>
+    </StackPanel>
+</UserControl>

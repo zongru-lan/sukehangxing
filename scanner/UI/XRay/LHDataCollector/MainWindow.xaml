@@ -1,0 +1,60 @@
+﻿<Window x:Class="UI.XRay.LHDataCollector.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="600" Width="800" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <GroupBox Grid.Row="0" Grid.Column="0" Name="ImageRegion" Header="Image"  Margin="2 5 2 5">
+            <Image Name="Image" Stretch="Uniform" Source="{Binding ShowImage}" MinWidth="650" MinHeight="450"></Image>
+        </GroupBox>
+        
+        <GroupBox Grid.Row="1" Grid.Column="0" Name="Control" Header="Control" Margin="2 5 2 5">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <DockPanel Grid.Row="0" Margin="5 5 5 5 ">
+                    <Button Content="StartCapture" Click="{Binding StartCapture}" MinWidth="100" MaxWidth="200" Visibility="{Binding StartCaptureButtonVisibility}"></Button>
+                    <Button Content="StopCapture" Click="{Binding StopCapture}" MinWidth="100" MaxWidth="200" Visibility="{Binding StopCaptureButtonVisibility}"></Button>
+                </DockPanel>
+                <UniformGrid Grid.Row="1" Columns="3">
+                    <Button Content="MoveLeft"  Click="{Binding MoveLeft}" Margin="5 5 5 5"></Button>
+                    <Button Content="Stop" Click="{Binding Stop}" Margin="5 5 5 5"></Button>
+                    <Button Content="MoveRight" Click="{Binding MoveRight}" Margin="5 5 5 5"></Button>
+                </UniformGrid>
+            </Grid>
+        </GroupBox>
+        
+        <GroupBox Grid.Row="0" Grid.Column="1" Header="ImageOption" Width="auto">
+            <StackPanel Margin="5 5">
+                <ComboBox Margin="5 5" Name="View" SelectedIndex="{Binding ViewIndex}" SelectionChanged="{Binding ViewChanged}">
+                    <ComboBoxItem Content="View1"></ComboBoxItem>
+                    <ComboBoxItem Content="View2"></ComboBoxItem>
+                </ComboBox>
+
+                <ComboBox Margin="5 5" Name="Hl" SelectedIndex="{Binding HlIndex}" SelectionChanged="{Binding HlChanged}">
+                    <ComboBoxItem Content="LData"></ComboBoxItem>
+                    <ComboBoxItem Content="HData"></ComboBoxItem>
+                </ComboBox>
+
+                <ComboBox Margin="5 30" Name="ImageSaveType" SelectedIndex="{Binding ImageSaveTypeIndex}" SelectionChanged="{Binding ImageSaveTypeChanged}">
+                    <ComboBoxItem Content="dat"/>
+                    <ComboBoxItem Content="bmp"/>
+                    <ComboBoxItem Content="jpg"/>
+                </ComboBox>
+                
+                <Button Margin="5 20" Content="Save" Click="{Binding SaveImage}"></Button>
+            </StackPanel>
+            
+        </GroupBox>
+    </Grid>
+</Window>

@@ -1,0 +1,31 @@
+﻿<Page x:Class="UI.XRay.Security.Scanner.SettingViews.Tip.TipMenu"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:framework="clr-namespace:UI.XRay.Gui.Framework;assembly=UI.XRay.Gui.Framework"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="400" 
+      DataContext="{Binding TipMenu, Source={StaticResource Locator}}"
+	  Title="{framework:LanguageResource Source=Tip}">
+    <Page.Resources>
+        <Style TargetType="RadioButton" BasedOn="{StaticResource RadioMenuButtonStyle}"></Style>
+    </Page.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel HorizontalAlignment="Left" Orientation="Vertical" Width="{StaticResource SettingPageLeftPanelWidth}">
+            <RadioButton Command="{Binding NaviToTipPlansPageCommand}" IsChecked="True">
+                <TextBlock TextWrapping="Wrap" Text="{framework:LanguageResource TIP Plans}"></TextBlock>
+            </RadioButton>
+
+            <RadioButton Command="{Binding NaviToTipImagesPageCommand}" >
+                <TextBlock TextWrapping="Wrap" Text="{framework:LanguageResource TIP Images Library}"></TextBlock>
+            </RadioButton>
+            
+            <RadioButton  Command="{Binding NaviToTipExamRecordsPageCommand}">
+                <TextBlock TextWrapping="Wrap" Text="{framework:LanguageResource TIP Examination Logs}"></TextBlock>
+            </RadioButton>
+        </StackPanel>
+    </ScrollViewer>
+</Page>
+

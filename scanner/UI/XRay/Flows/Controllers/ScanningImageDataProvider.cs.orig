@@ -1,0 +1,1144 @@
+﻿
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Data;
+using System.Diagnostics.Eventing.Reader;
+using System.IO;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
+using System.Windows;
+using UI.Common.Tracers;
+using UI.XRay.Business.Algo;
+using UI.XRay.Business.DataAccess.Config;
+using UI.XRay.Business.Entities;
+using UI.XRay.Common.Utilities;
+using UI.XRay.Control;
+using UI.XRay.ControlWorkflows;
+using UI.XRay.Flows.Services;
+using UI.XRay.Flows.Services.DataProcess;
+using UI.XRay.RenderEngine;
+using UI.XRay.Test.TestData;
+using XRayGeneratorIndex = UI.XRay.Control.XRayGeneratorIndex;
+
+namespace UI.XRay.Flows.Controllers
+{
+    /// <summary>
+    /// 扫描图像数据控制：控制扫描数据的预处理与显示流程
+    /// </summary>
+    public class ScanningImageDataProvider : IRollingImageDataProvider
+    {
+        public event Action<DisplayScanlineDataBundle> DataReady;
+
+        /// <summary>
+        /// 事件：当前物体图像存储完毕
+        /// </summary>
+        public event Action BagImageSaved;
+
+        //public event Action<int> SessionBagCountChanged;
+        /// <summary>
+        /// 等待预处理的数据队列：数据一旦进入此队列，将必定会被处理并显示（射线未发射时的数据不会进入此队列）
+        /// </summary>
+        private ConcurrentQueue<RawScanlineDataBundle> _waitingProcessQueue = new ConcurrentQueue<RawScanlineDataBundle>();
+
+        private ConcurrentQueue<ClassifiedLineDataBundle> _afterProcessQueue = new ConcurrentQueue<ClassifiedLineDataBundle>();
+
+        private ConcurrentQueue<DisplayScanlineDataBundle> _imageEnhanceQueue = new ConcurrentQueue<DisplayScanlineDataBundle>();
+        /// <summary>
+        /// Dedicated work thread for preprocessing
+        /// </summary>
+        private Thread _preProcessingThread;
+
+        private Thread _processingThread;
+
+        private Thread _imageEnhanceThread;
+
+        /// <summary>
+        /// 预处理线程退出信号
+        /// </summary>
+        private bool _preprocessThreadExitSignal = true;
+
+        /// <summary>
+        /// 数据预处理服务
+        /// </summary>
+        public PreprocessService Preprocess { get; private set; }
+
+        /// <summary>
+        /// 本底、满度更新服务：支持自动更新以及强制更新
+        /// </summary>
+        public AutoCalibrationServiceBase AutoCalibration { get; private set; }
+
+        /// <summary>
+        /// 当前的电机方向
+        /// </summary>
+        public ConveyorDirection Direction { get; private set; }
+
+        /// <summary>
+        /// 记录上一次电机不是停止状态的方向
+        /// </summary>
+        private ConveyorDirection _lastNotStpMoveDirection = ConveyorDirection.MoveBackward;
+
+        /// <summary>
+        /// 是否翻转电机键
+        /// </summary>
+        private bool _reverseMotorDirection;
+
+        /// <summary>
+        /// 当前的射线状态
+        /// </summary>
+        public bool IsXRayOn { get; private set; }
+
+        /// <summary>
+        /// 射线上一次由关闭变为发射的时刻
+        /// </summary>
+        public DateTime LastXRayOnTime { get; private set; }
+
+        /// <summary>
+        /// 急停开关是否接通
+        /// </summary>
+        public bool _isEmgcSwitchOn = true;
+
+        /// <summary>
+        /// 当前是否处于X射线刚打开的上升沿期间：射线刚刚打开的一小会时间
+        /// </summary>
+        private bool IsXRayRisingNow
+        {
+            get { return IsXRayOn && (DateTime.Now - LastXRayOnTime) <= XRayRisingTimeSpan; }
+        }
+
+        /// <summary>
+        /// 探测视角的个数
+        /// </summary>
+        private int _viewsCount = 1;
+
+        public bool IsDualView
+        {
+            get { return _viewsCount > 1; }
+        }
+
+        private DualViewMatchingService _dualViewMatchingService;
+
+        /// <summary>
+        /// 中断拼图服务
+        /// </summary>
+        private InterruptAndMatchService _interruptAndMatchService;
+
+        /// <summary>
+        /// 射线源的上升沿时间，单位为毫秒.todo:上升沿时间没有从配置中获取
+        /// </summary>
+        public readonly TimeSpan XRayRisingTimeSpan = TimeSpan.FromMilliseconds(400);
+
+        private ScanningScanLinesPool _scanlinesPool;
+
+        /// <summary>
+        /// 当前扫描线的最大编号，每增加一线新数据，编号+1
+        /// </summary>
+        private int NextLineNumber { get; set; }
+
+        /// <summary>
+        /// 物体图像分离控制
+        /// </summary>
+        private ObjectSeparater _separater;
+
+        /// <summary>
+        /// 白线检测
+        /// </summary>
+        private AirCheckingService _airLineChecking;
+
+        /// <summary>
+        /// 测试数据类
+        /// </summary>
+        private readonly TestDataProvider _testDataProvider;
+        /// <summary>
+        /// 是否处于测试模式
+        /// </summary>
+        public bool InTestDataMode { get { return _testDataProvider != null; } }
+
+        public bool InInterruptMode
+        {
+            get { return _interruptAndMatchService != null && _interruptAndMatchService.InInterruptMode; }
+        }
+
+        /// <summary>
+        /// 设备编号
+        /// </summary>
+        private string _machineNumber;
+
+        private AutoCalibrationMode _airAutoCalibrationMode;
+        /// <summary>
+        private bool _addPureWhiteSeperateLinesBetweenObject = false;
+
+        /// <summary>
+        /// 是否保存过图像，主要用于分隔图像
+        /// </summary>
+        private bool _hasSavedImage = false;
+
+        /// <summary>
+        /// 分包模式 0：根据空白；1：根据光电传感器
+        /// </summary>
+        private int _bagSeparateMode;
+        private List<ClassifiedLineDataBundle> _seperateDataBundles = null;
+
+        /// <summary>
+        ///  包前和包后各增加10线的纯空白线，用于分隔图像
+        /// </summary>
+        private const int _seperateBundleCount = 50;
+
+        private int _view1Length;
+        private int _view2Length;
+
+        private DataProcessInAirport dpa;
+
+        public ScanningImageDataProvider(int screenMaxLines)
+        {
+            _scanlinesPool = new ScanningScanLinesPool(screenMaxLines);
+            Direction = ConveyorDirection.Stop;
+
+            if (!ScannerConfig.Read(ConfigPath.KeyboardIsConveyorKeyReversed, out _reverseMotorDirection))
+            {
+                _reverseMotorDirection = false;
+            }
+
+            double risingTimeSpan;
+            if (ScannerConfig.Read(ConfigPath.XRayGenRisingTimespan, out risingTimeSpan))
+            {
+                XRayRisingTimeSpan = TimeSpan.FromSeconds(risingTimeSpan);
+            }
+
+            ScannerConfig.Read(ConfigPath.SystemMachineNum, out _machineNumber);
+
+            if (!ScannerConfig.Read(ConfigPath.AddPureWhiteSeperateLinesBetweenObject, out _addPureWhiteSeperateLinesBetweenObject))
+            {
+                _addPureWhiteSeperateLinesBetweenObject = false;
+            }
+            if (!ScannerConfig.Read(ConfigPath.BagSeparateMode,out _bagSeparateMode))
+            {
+                _bagSeparateMode = 0;
+            }
+
+            ScannerConfig.Read(ConfigPath.SystemMachineNum, out _machineNumber);
+
+            ScannerConfig.ConfigChanged += ScannerConfigOnConfigChanged;
+            
+            ResetSeperator();
+
+            //testdata，todo：后续从配置表中读取参数
+            bool enableTestData;
+            try
+            {
+                ScannerConfig.Read(ConfigPath.EnableTestData, out enableTestData);
+                ScannerConfig.Read(ConfigPath.PreProcAirUpdateMode, out _airAutoCalibrationMode);
+            }
+            catch (Exception e)
+            {
+                Tracer.TraceException(e);
+                enableTestData = false;
+                _airAutoCalibrationMode = AutoCalibrationMode.BeforeScanning;
+            }
+            if (enableTestData)
+            {
+                _testDataProvider = new TestDataProvider();
+            }
+            dpa = new DataProcessInAirport();
+            //民航算法初始化
+            dpa = new DataProcessInAirport();
+            double[] seg_y, alpha_y, beta_y;//从CSV文件中读出的系数
+            dpa.ReadCsv("seg.csv", out seg_y);
+            dpa.ReadCsv("alpha.csv", out alpha_y);
+            dpa.ReadCsv("beta.csv", out beta_y);
+            dpa.Alpha = alpha_y;
+            dpa.Beta = beta_y;
+            dpa.Seg = seg_y;
+        }
+
+        private void ScannerConfigOnConfigChanged(object sender, EventArgs eventArgs)
+        {
+            // 配置发生变化后，重置图像分离器
+            ResetSeperator();
+
+            if (!ScannerConfig.Read(ConfigPath.KeyboardIsConveyorKeyReversed, out _reverseMotorDirection))
+            {
+                _reverseMotorDirection = false;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        private void ResetSeperator()
+        {
+            bool showBlankSpace;
+            if (!ScannerConfig.Read(ConfigPath.ImagesShowBlankSpace, out showBlankSpace))
+            {
+                showBlankSpace = false;
+            }
+
+            _separater = new ObjectSeparater(showBlankSpace);
+        }
+
+        /// <summary>
+        /// 启动数据预处理服务：可以接收新数据，并在后台线程中进行处理，之后再以事件的方式外传
+        /// </summary>
+        /// <returns></returns>
+        public bool StartService()
+        {
+            AutoCalibration = GetAutoCalibrationService(_airAutoCalibrationMode);
+
+            Preprocess = new PreprocessService();
+            Preprocess.ProcessDataReady += Preprocess_AfterPreDataReady;
+            Preprocess.SetDynamicUpdateAirService(AutoCalibration);
+
+            if (!ScannerConfig.Read(ConfigPath.MachineViewsCount, out _viewsCount))
+            {
+                _viewsCount = 1;
+            }
+
+            if (_viewsCount > 1)
+            {
+                _dualViewMatchingService = new DualViewMatchingService();
+            }
+
+            //开启中断模式
+            bool enableInterruptMode;
+
+            if (!ScannerConfig.Read(ConfigPath.MachineAutoRewind, out enableInterruptMode))
+            {
+                enableInterruptMode = false;
+            }
+            if (enableInterruptMode)
+            {
+                _interruptAndMatchService = new InterruptAndMatchService(Preprocess.Normalization);
+            }
+
+            ConfigHelper.GetView1ChannelsCount(out _view1Length);
+
+            if (_viewsCount > 1)
+            {
+                ConfigHelper.GetView2ChannelsCount(out _view2Length);
+                if (_dualViewMatchingService != null )
+                {
+                    _dualViewMatchingService.SetViewsCount(_view1Length, _view2Length);
+                }
+            }
+            bool _enableFilter;
+            if (!ScannerConfig.Read(ConfigPath.PreProcFilterEnable, out _enableFilter))
+            {
+                _enableFilter = false;
+            }
+            if (_enableFilter)
+                _airLineChecking = new AirLinesCheckingService();
+            else
+                _airLineChecking = new AirLineCheckingService();
+            _preprocessThreadExitSignal = false;
+
+            // 初始化数据预处理专用线程
+            if (_preProcessingThread == null)
+            {
+                _preProcessingThread = new Thread(PreProcessingThreadRoutine)
+                {
+                    IsBackground = true
+                };
+                _preProcessingThread.Start();
+            }
+
+            if (_processingThread == null)
+            {
+                _processingThread = new Thread(ProcessingThreadRoutine)
+                {
+                    IsBackground = true
+                };
+                _processingThread.Start();
+            }
+
+            if (_imageEnhanceThread == null)
+            {
+                _imageEnhanceThread = new Thread(ImageEnhanceThreadRoutine)
+                {
+                    IsBackground = true
+                };
+                _imageEnhanceThread.Start();
+            }
+
+            CaptureService.ServicePart.ScanlineCaptured += ServicePartOnScanlineCaptured;
+
+            ControlService.ServicePart.XRayStateChanged += ServicePartOnXRayStateChanged;
+            ControlService.ServicePart.ConveyorDirectionChanged += ServicePartOnConveyorDirectionChanged;
+            ControlService.ServicePart.SwitchStateChanged += ServicePartOnSwitchStateChanged;
+            ControlService.ServicePart.EnterInterruptMode += ServicePart_EnterInterruptMode;
+
+            if (_testDataProvider != null)
+            {
+                _testDataProvider.SimuScanlineCaptured += ServicePartOnScanlineCaptured;
+                _testDataProvider.SimuXRayStateChanged += OnSimuXrayStateChanged;
+                _testDataProvider.SimuMotorStateChanged += OnSimuMotorStateChanged;
+            }
+
+            ManualCalibrationService.Service.AirCalibratedWeakEvent += ServiceOnAirCalibratedWeakEvent;
+            ManualCalibrationService.Service.GroundCalibratedWeakEvent += ServiceOnGroundCalibratedWeakEvent;
+
+            //BagSeparateService.Service.NeedSeparateBagUpdated += SaveObjectAndFireEvent;
+            //BagSeparateService.Service.ClearDataUpdated += Service_ClearDataUpdated;
+            return true;
+        }
+
+        void Service_ClearDataUpdated()
+        {
+            try
+            {
+                if (_scanlinesPool != null)
+                {
+                    _scanlinesPool.ClearUnsavedScanLines();
+                }
+                Tracer.TraceInfo("Clear UnsavedScanLines.");
+            }
+            catch (Exception e)
+            {
+                Tracer.TraceException(e);
+            }
+        }
+
+        void Preprocess_AfterPreDataReady(ClassifiedLineDataBundle obj)
+        {
+            _afterProcessQueue.Enqueue(obj);
+        }
+
+        private AutoCalibrationServiceBase GetAutoCalibrationService(AutoCalibrationMode mode)
+        {
+            switch (mode)
+            {
+                case AutoCalibrationMode.None:
+                case AutoCalibrationMode.BeforeScanning:
+                    return new AutoCalibrationService();
+                case AutoCalibrationMode.DynamicUpdate:
+                    return new DynamicAutoCalibrationService();
+                default:
+                    return new AutoCalibrationService();
+            }
+        }
+
+        /// <summary>
+        /// 相应中断拼图模式改变事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void ServicePart_EnterInterruptMode(object sender, EventArgs e)
+        {
+            if (_interruptAndMatchService != null)
+            {
+                _interruptAndMatchService.ServicePart_EnterInterruptMode();
+                //BagSeparateService.Service.SetInterruptMode(_interruptAndMatchService.InInterruptMode);
+            }
+        }
+
+        private void ServicePartOnSwitchStateChanged(object sender, SwitchStateChangedEventArgs args)
+        {
+            if (args.Switch == CtrlSysSwitch.EmergencySwitch)
+            {
+                //// 
+                //ControlService.ServicePart.DriveConveyor(ConveyorDirection.Stop);
+
+                // 急停开关被按下
+                _isEmgcSwitchOn = args.New;
+            }
+        }
+
+        /// <summary>
+        /// 停止数据预处理服务：不再接收新数据，也不再向外传输处理结果
+        /// </summary>
+        public void StopService()
+        {
+            _preprocessThreadExitSignal = true;
+            if(_preProcessingThread != null)
+                _preProcessingThread.Join();
+            _preProcessingThread = null;
+
+            if(_processingThread != null)
+                _processingThread.Join();
+            _processingThread = null;
+
+            if (_imageEnhanceThread != null)
+            {
+                _imageEnhanceThread.Join();
+            }
+            _imageEnhanceThread = null;
+
+            Preprocess.ProcessDataReady -= Preprocess_AfterPreDataReady;
+
+            SaveCurrentImage();
+
+            ControlService.ServicePart.XRayStateChanged -= ServicePartOnXRayStateChanged;
+            ControlService.ServicePart.ConveyorDirectionChanged -= ServicePartOnConveyorDirectionChanged;
+            ControlService.ServicePart.EnterInterruptMode -= ServicePart_EnterInterruptMode;
+
+            ManualCalibrationService.Service.AirCalibratedWeakEvent -= ServiceOnAirCalibratedWeakEvent;
+            ManualCalibrationService.Service.GroundCalibratedWeakEvent -= ServiceOnGroundCalibratedWeakEvent;
+
+            //ImageProcessController.GetImageLines -= ControllerOnGetImageLines;
+            CaptureService.ServicePart.ScanlineCaptured -= ServicePartOnScanlineCaptured;
+            //BagSeparateService.Service.NeedSeparateBagUpdated -= SaveObjectAndFireEvent;
+            //BagSeparateService.Service.ClearDataUpdated -= Service_ClearDataUpdated;
+
+            if(_scanlinesPool != null)
+                _scanlinesPool.ShutDown();
+
+            if (_testDataProvider != null)
+            {
+                _testDataProvider.SimuScanlineCaptured -= ServicePartOnScanlineCaptured;
+                _testDataProvider.SimuXRayStateChanged -= OnSimuXrayStateChanged;
+                _testDataProvider.SimuMotorStateChanged -= OnSimuMotorStateChanged;
+            }
+        }
+
+        /// <summary>
+        /// 手动校正本底成功
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="ground"></param>
+        private void ServiceOnGroundCalibratedWeakEvent(object sender, ScanlineDataBundle ground)
+        {
+            if (ground != null)
+            {
+                AutoCalibration.ResetManualCalibratedGround(ground);
+                Preprocess.ResetGround(ground);
+            }
+        }
+
+        /// <summary>
+        /// 手动校正满度成功
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="air"></param>
+        private void ServiceOnAirCalibratedWeakEvent(object sender, ScanlineDataBundle air)
+        {
+            if (air != null)
+            {
+                AutoCalibration.ResetManualCalibratedAir(air);
+                Preprocess.ResetAir(air);
+            }
+        }
+
+        /// <summary>
+        /// 控制系统事件：输送机方向发生变化
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        private void ServicePartOnConveyorDirectionChanged(object sender, ConveyorDirectionChangedEventArgs args)
+        {
+            Direction = args.New;
+            Tracer.TraceInfo("Converyor direction changed! New direction is " + Direction.ToString());
+
+            if (_interruptAndMatchService != null)
+            {
+                _interruptAndMatchService.OnConveyorDirectionChanged(Direction);
+            }
+        }
+
+        /// <summary>
+        /// 控制系统事件：X射线状态发生变化
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        private void ServicePartOnXRayStateChanged(object sender, XRayStateChangedEventArgs args)
+        {
+            if (args.State == XRayState.Radiating)
+            {
+                LastXRayOnTime = DateTime.Now;
+                IsXRayOn = true;
+                if (_interruptAndMatchService != null)
+                {
+                    AutoCalibration.InInterruptMode = _interruptAndMatchService.InInterruptMode;
+                }
+                AutoCalibration.OnXRayStateChanged(true);
+                Tracer.TraceInfo("The Xray state changed! Xray is Opened! XrayGeneratorIndex is " + args.XRayGen.ToString());
+            }
+            else if (args.State == XRayState.Closing)
+            {
+                IsXRayOn = false;
+                Tracer.TraceInfo("The Xray state changed! Xray is Closing! XrayGeneratorIndex is " + args.XRayGen.ToString());
+
+
+            }
+            else if (args.State == XRayState.Closed)
+            {
+                IsXRayOn = false;
+                AutoCalibration.OnXRayStateChanged(false);
+                Tracer.TraceInfo("The Xray state changed! Xray is Closed! XrayGeneratorIndex is " + args.XRayGen.ToString());
+
+                //射线关闭，非中断拼图模式下尝试分包，todo：这里因为数据的异步会出现问题
+                //if (!InInterruptMode)
+                //{
+                //    if (SaveCurrentImage())
+                //    {
+                //        if (BagImageSaved != null)
+                //        {
+                //            BagImageSaved();
+                //        }
+
+                //        BagCounterService.Service.Increase();
+
+                //        _hasSavedImage = true;
+                //    }
+                //}
+            }
+        }
+
+        /// <summary>
+        /// 预处理专用线程：将待处理队列中的数据取出，进行处理，填充进显示队列中
+        /// </summary>
+        private void PreProcessingThreadRoutine()
+        {
+            while (!_preprocessThreadExitSignal)
+            {
+                try
+                {
+                    // 每次取出一线数据进行处理,然后填充到显示队列中
+                    RawScanlineDataBundle scanlineData;
+                    while (_waitingProcessQueue.TryDequeue(out scanlineData))
+                    {
+                        // 填充数据，进行预处理
+                        Preprocess.Feed(scanlineData);
+                    }
+                }
+                catch (Exception exception)
+                {
+                    Tracer.TraceException(exception, "Unexpected exception in preProcessingThreadRoutine");
+                }
+
+                Thread.Sleep(1);
+            }
+        }
+
+        private void ProcessingThreadRoutine()
+        {
+            while (!_preprocessThreadExitSignal)
+            {
+                try
+                {
+                    while (_afterProcessQueue.Count > 0)
+                    {
+                        ClassifiedLineDataBundle bundle;
+                        while (_afterProcessQueue.TryDequeue(out bundle))
+                        {
+                            //刚保存了图像，则下次数据到来之前先显示一段纯空白线
+                            
+
+                            // 进行白线判断
+                            var bundleList = _airLineChecking.CheckAirLine(bundle);
+                            bool objScanOver = false;
+                            foreach (var item in bundleList)
+                            {
+                                if (_bagSeparateMode == 0)
+                                {
+                                    objScanOver = _separater.Separate(item);
+                                }
+                                else if (_bagSeparateMode == 1)
+                                {
+                                    _separater.Separate(item);
+                                    if (_separater.IsForceBagSeparate())
+                                    {
+                                        objScanOver = true;
+                                    }
+                                }
+                            }
+                            Queue<ClassifiedLineDataBundle> nonAirLinesOutput = null;
+
+                            // 先处理分离结果，然后再将处理信号objScanOver
+                            nonAirLinesOutput = _separater.OutputQueue;
+
+                            while (nonAirLinesOutput.Count > 0)
+                            {
+                                var line = nonAirLinesOutput.Dequeue();
+                                CacheLineAndShow(line);
+                            }
+
+                            // 物体扫描结束，则将当前尚未存储的数据全部存储
+                            if (objScanOver)
+                            {
+                                //保存图像后添加一段空白线
+                                SaveObjectAndFireEvent();
+                            }
+                            
+                                                      
+                            bundleList = null;
+                        }
+                    }
+                }
+                catch (Exception exception)
+                {
+                    Tracer.TraceException(exception, "Unexpected exception in processingThreadRoutine");
+                }
+                Thread.Sleep(1);
+            }
+        }
+
+        private void ImageEnhanceThreadRoutine()
+        {
+            while (!_preprocessThreadExitSignal)
+            {
+                try
+                {
+                    while (_imageEnhanceQueue.Count > 0)
+                    {
+                        DisplayScanlineDataBundle bundle;
+                        while (_imageEnhanceQueue.TryDequeue(out bundle))
+                        {
+                            var lines = dpa.AirPortDataProcess(bundle);
+
+                            // 将显示数据加入显示缓存，同时输出显示
+                            foreach (DisplayScanlineDataBundle dsd in lines)
+                            {
+                                //Console.WriteLine("1231231231231312312");
+                                _scanlinesPool.AppendNewScanLine(dsd);
+                                if (DataReady != null)
+                                    DataReady(dsd);
+                            }
+                        }
+                    }
+                }
+                catch (Exception exception)
+                {
+                    Tracer.TraceException(exception, "Unexpected exception in ImageEnhanceThreadRoutine");
+                }
+                Thread.Sleep(1);
+            }
+        }
+
+        /// <summary>
+        ///  保存图像并发送事件通知
+        /// </summary>
+        private void SaveObjectAndFireEvent()
+        {
+            if (SaveCurrentImage())
+            {
+                if (BagImageSaved != null)
+                {
+                    BagImageSaved();
+                }
+
+                BagCounterService.Service.Increase();
+
+                _hasSavedImage = true;
+            }
+        }
+
+        /// <summary>
+        /// 将缓冲区中当前尚未存储的图像，全部存储到磁盘中
+        /// </summary>
+        private bool SaveCurrentImage()
+        {
+            //if (_addPureWhiteSeperateLinesBetweenObject)
+            //{
+            //    if (_seperateDataBundles == null)
+            //    {
+            //        _seperateDataBundles = GetWhiteDisplayBundles(_seperateBundleCount,
+            //            _view1Length, _viewsCount > 1 ? _view2Length : 0);
+            //    }
+            //    foreach (var classifiedLineDataBundle in _seperateDataBundles)
+            //    {
+            //        CacheLineAndShow(classifiedLineDataBundle);
+            //    }
+            //}
+            
+
+            // 根据当前时间，分别生成文件存储路径和文件名
+            var scanTime = DateTime.Now;
+
+            string path = ImageFileStorePathHelper.GenerateFilePath(scanTime);
+            string fileName = ImageFileStorePathHelper.GenerateFileName(_machineNumber, LoginAccountManager.AccountId,
+                scanTime);
+
+            Directory.CreateDirectory(path);
+            return _scanlinesPool.SaveNewLinesIntoImage(Path.Combine(path, fileName));
+        }
+
+        /// <summary>
+        /// 缓存并显示图像列
+        /// </summary>
+        /// <param name="bundle"></param>
+        private void CacheLineAndShow(ClassifiedLineDataBundle bundle)
+        {
+            if (DataReady != null)
+            {
+                // 对数据进行编号，以便于在显示报警框及回拉时进行数据定位
+                var view1Ordered = bundle.View1Data != null
+                    ? bundle.View1Data.ToDisplayXRayMatLineData(NextLineNumber)
+                    : null;
+                var view2Ordered = bundle.View2Data != null
+                    ? bundle.View2Data.ToDisplayXRayMatLineData(NextLineNumber)
+                    : null;
+                var displayData =
+                    new DisplayScanlineDataBundle(view1Ordered, view2Ordered);
+
+                // 数据编号递增
+                NextLineNumber++;
+
+                _imageEnhanceQueue.Enqueue(displayData);
+
+                // 将显示数据加入显示缓存，同时输出显示
+                //foreach (DisplayScanlineDataBundle dsd in lines)
+                //{
+                //    _scanlinesPool.AppendNewScanLine(dsd);
+                //    DataReady(dsd);
+                //}
+            }
+        }
+
+        /// <summary>
+        /// 数据采集服务的数据采集事件：得到实时采集的图像数据
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="scanlineData"></param>
+        private void ServicePartOnScanlineCaptured(object sender, RawScanlineDataBundle scanlineData)
+        {
+            if (!_isEmgcSwitchOn)
+            {
+                // 急停开关断开，不处理此期间的数据
+                return;
+            }
+
+            if (IsXRayRisingNow)
+            {
+                // 跳过上升沿的数据,对处于上升沿的数据不做任何处理
+                return;
+            }
+
+            // 对于射线打开期间，尝试自动更新满度，
+            if (_testDataProvider == null && IsXRayOn && (_interruptAndMatchService == null || (_interruptAndMatchService != null && !_interruptAndMatchService.InInterruptMode)))
+            {
+                //这里对电机状态加以限制，即在电机前进或倒退时，并且是在显示图像流程中，才更新
+                if (Direction != ConveyorDirection.Stop && IsShowNewImageEnabled)
+                {
+                    if (_interruptAndMatchService == null || !_interruptAndMatchService.InInterruptMode)
+                    {
+                        ScanlineDataBundle air;
+                        if (AutoCalibration.TryCalibrateAir(scanlineData, out air))
+                        {
+                            Preprocess.ResetAir(air);
+                        }
+                    }                    
+                }
+            }
+            else if (_testDataProvider==null)
+            {
+                // 对于射线关闭期间，尝试自动更细本底
+                ScanlineDataBundle ground;
+                if (AutoCalibration.TryCalibrateGround(scanlineData, out ground))
+                {
+                    //if (ground.View1LineData != null)
+                    //{
+                    //    Tracer.TraceInfo("View1 Ground value has been calibrated automatically");
+                    //}
+
+                    //if (ground.View2LineData != null)
+                    //{
+                    //    Tracer.TraceInfo("View2 Ground value has been calibrated automatically");
+                    //}
+
+                    Preprocess.ResetGround(ground);
+                }
+            }
+
+            // 射线打开，并且设置为显示新图像，则将数据填充到待处理队列中
+            if (IsXRayOn && Direction != ConveyorDirection.Stop)
+            {
+                if (IsShowNewImageEnabled)
+                {
+                    if (_interruptAndMatchService != null)
+                    {
+                        RawScanlineDataBundle singleBundle;
+                        List<RawScanlineDataBundle> multipleBundles;
+
+                        _interruptAndMatchService.Match(scanlineData, out singleBundle, out multipleBundles);
+
+                        BagSeparateService.Service.SetInterruptMode(_interruptAndMatchService.InInterruptMode);
+                        if (singleBundle != null)
+                        {
+                            DualViewMatch(singleBundle);
+                        }
+                        else if (multipleBundles != null && multipleBundles.Any())
+                        {
+                            foreach (var bundle in multipleBundles)
+                            {
+                                DualViewMatch(bundle);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        DualViewMatch(scanlineData);
+                    }
+                }
+            }
+            if (_testDataProvider!=null)
+            {
+                _waitingProcessQueue.Enqueue(scanlineData);
+            }
+        }
+
+        private void DualViewMatch(RawScanlineDataBundle scanlineData)
+        {
+            if (IsDualView && _dualViewMatchingService != null)
+            {
+                // 对于双视角，先进行配准, 只将配准后的数据加入处理队列
+                var matchedLine = _dualViewMatchingService.Match(scanlineData, Direction);
+                if (matchedLine != null)
+                {
+                    _waitingProcessQueue.Enqueue(matchedLine);
+                }
+            }
+            else
+            {
+                // 对于单视角，直接显示
+                _waitingProcessQueue.Enqueue(scanlineData);
+            }
+        }
+
+        /// <summary>
+        /// 是否显示新图像数据：true则实时显示新采集的图像数据，false 则不再显示
+        /// </summary>
+        private bool IsShowNewImageEnabled { get; set; }
+
+        /// <summary>
+        /// 输送机已经停止，不再显示新图像
+        /// </summary>
+        public void OnConveyorStopped()
+        {
+            IsShowNewImageEnabled = false;
+
+            //todo：电机停止不应该清空缓存数据
+            //if (IsDualView && _dualViewMatchingService != null)
+            //{
+            //    // 输送机停止后，将双视角配准服务重置为初始状态
+            //    _dualViewMatchingService.ResetToUnmatched();
+            //}
+        }
+
+        /// <summary>
+        /// 输送机转动，可能是向左或向右
+        /// </summary>
+        public void OnConveyorStarted(bool moveRight)
+        {
+            if (!IsShowNewImageEnabled)
+            {
+                ConveyorDirection realDirection = moveRight
+                    ? (_reverseMotorDirection ? ConveyorDirection.MoveBackward : ConveyorDirection.MoveForward)
+                    : (_reverseMotorDirection ? ConveyorDirection.MoveForward : ConveyorDirection.MoveBackward);
+
+                bool beforeMotorActionInterruptMode = false;
+
+                if (_interruptAndMatchService != null)
+                {
+                    beforeMotorActionInterruptMode = _interruptAndMatchService.InInterruptMode;
+                    _interruptAndMatchService.OnUserControlMotor(realDirection);
+                }
+
+                //只记录非停止状态下的方向
+                if (realDirection != ConveyorDirection.Stop)
+                {
+                    if (!InInterruptMode && _lastNotStpMoveDirection != Direction)
+                    {
+                        //if(beforeMotorActionInterruptMode)
+                        //{
+                        //    SaveObjectAndFireEvent();
+                        //}
+                        if(_separater != null)
+                            _separater.ClearLinesCache();
+                        if(Preprocess != null)
+                            Preprocess.ClearLinesCache();
+                        if(_airLineChecking != null)
+                            _airLineChecking.ClearCacheLines();
+                    }
+
+                    _lastNotStpMoveDirection = realDirection;
+                }
+
+                // 输送机刚转动，清除双视角配准缓存，重新开始配准
+                if (IsDualView && _dualViewMatchingService != null)
+                {
+                    if (_interruptAndMatchService == null || !_interruptAndMatchService.InInterruptMode || _interruptAndMatchService.LastMoveDirection != realDirection)
+                    {
+                        Tracer.TraceInfo("Dual view match caches will clear!");
+                        // 输送机停止后，将双视角配准服务重置为初始状态
+                        _dualViewMatchingService.ResetToUnmatched();
+                    }
+                    //Tracer.TraceInfo("Interrupt Mode: InterruptMode do not clear dual view match caches!");
+                }
+
+                IsShowNewImageEnabled = true;
+            }
+
+            if (_testDataProvider != null)
+            {
+                _testDataProvider.MotoStart();
+            }
+        }
+
+        /// <summary>
+        /// 回拉至最新一屏幕的数据
+        /// </summary>
+        public List<DisplayScanlineDataBundle> PullToLastScreen()
+        {
+            var result = _scanlinesPool.NavigateToLastScreen().ToList();
+
+            // 回拉至最后一屏数据后，从内存中释放不在显示范围内的图像
+            _scanlinesPool.ReleaseInvisibleImages();
+
+            return result;
+        }
+
+        /// <summary>
+        /// 更新当前显示的数据范围
+        /// </summary>
+        /// <param name="minNum"></param>
+        /// <param name="maxNum"></param>
+        public void UpdateShowingRange(int minNum, int maxNum)
+        {
+            _scanlinesPool.ResetShowingRange(minNum, maxNum);
+            _scanlinesPool.ReleaseInvisibleImages();
+        }
+
+        public IEnumerable<DisplayScanlineDataBundle> PullBack()
+        {
+            return _scanlinesPool.NavigateBack();
+        }
+
+        public IEnumerable<DisplayScanlineDataBundle> PullForward()
+        {
+            return _scanlinesPool.NavigateFront();
+        }
+
+        /// <summary>
+        /// 获取所有当前正在显示中的图像
+        /// </summary>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public IEnumerable<ImageRecord> GetShowingImages()
+        {
+            return _scanlinesPool.GetShowingImages();
+        }
+
+        /// <summary>
+        /// 处理一次Tip图像注入事件，将新注入的Tip图像缓存，并与新图像一起存储至磁盘
+        /// </summary>
+        /// <param name="tipImage">被注入的Tip图像</param>
+        /// <param name="globalRegion">Tip图像注入的全局位置信息</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void SaveCurrentTipImage(XRayScanlinesImage tipImage, MarkerRegion globalRegion)
+        {
+            _scanlinesPool.SaveCurrentTipImage(tipImage, globalRegion);
+        }
+
+        /// <summary>
+        /// 当用户错过或识别出tip，将当前注入的tip区域设置为可见
+        /// </summary>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void ShowCurrentTipMarker()
+        {
+            _scanlinesPool.SetCurrentTipImageVisible();
+        }
+
+
+        public void OnContrabandDetected(MarkerRegion region, DetectViewIndex viewIndex)
+        {
+            _scanlinesPool.OnContrabandDetected(region, viewIndex);
+        }
+
+        private List<ClassifiedLineDataBundle> GetWhiteDisplayBundles(int linesCount, int view1ChannelsCount, int view2ChannelsCount)
+        {
+            List<ClassifiedLineDataBundle> bundles = new List<ClassifiedLineDataBundle>();
+            ushort[] view1Data = new ushort[view1ChannelsCount];
+
+            for (int i = 0; i < view1ChannelsCount; i++)
+            {
+                view1Data[i] = 65535;
+            }
+            ClassifiedLineData classifiedView1LineData = new ClassifiedLineData(DetectViewIndex.View1, view1Data, view1Data, view1Data, view1Data, view1Data, true);
+
+            ClassifiedLineData classifiedView2LineData = null;
+            if (view2ChannelsCount > 0)
+            {
+                var view2Data = new ushort[view2ChannelsCount];
+                for (int i = 0; i < view2ChannelsCount; i++)
+                {
+                    view2Data[i] = 65535;
+                }
+                classifiedView2LineData = new ClassifiedLineData(DetectViewIndex.View2, view2Data, view2Data, view2Data, view2Data, view2Data, true);
+            }
+
+            for (int i = 0; i < linesCount; i++)
+            {
+                bundles.Add(new ClassifiedLineDataBundle(classifiedView1LineData, classifiedView2LineData));
+            }
+            return bundles;
+        }
+
+        #region 模拟数据
+
+        private Random _grayDataRandom = new Random();
+
+        /// <summary>
+        /// 填充模拟数据图像
+        /// </summary>
+        /// <param name="args"></param>
+        private void GetSimulatedData(GetImageLinesEventArgs args)
+        {
+            var image1 = args.Image1Updater;
+            var image2 = args.Image2Updater;
+
+            if (IsShowNewImageEnabled)
+            {
+                // 内部默认的探测通道数为800
+                var pixelsCount = 800;
+
+                // 要填充的组合数据，其具体格式为：1个灰度值后，紧跟一个颜色值，并依此循环排列
+
+                var rows = 4;
+                var composedData = new ushort[rows * (pixelsCount << 1)];
+
+                // 随机生成灰度值和颜色值
+                var gray = _grayDataRandom.Next(10000, 45000);
+                var colorIndex = _grayDataRandom.Next(0, 31);
+
+                // 将灰度值和颜色值，按指定的排列方式，分别填充到组合数据中
+                for (var i = 0; i < composedData.Length; i += 2)
+                {
+                    composedData[i] = (ushort)gray;
+                    composedData[i + 1] = (ushort)colorIndex;
+                }
+
+                // 将组合数据，填充到图像缓存中
+                image1.AppendImageRows(composedData, rows);
+
+                if (image2 != null)
+                {
+                    image2.AppendImageRows(composedData, rows);
+                }
+            }
+        }
+
+
+        private void OnSimuMotorStateChanged(object sender, TestDataProvider.SimuMotorState e)
+        {
+            Direction = e == TestDataProvider.SimuMotorState.Moveforward
+                ? ConveyorDirection.MoveForward
+                : ConveyorDirection.Stop;
+        }
+
+        private void OnSimuXrayStateChanged(object sender, TestDataProvider.SimuXRayState e)
+        {
+            if (e == TestDataProvider.SimuXRayState.On)
+            {
+                LastXRayOnTime = DateTime.Now;
+                IsXRayOn = true;
+                AutoCalibration.OnXRayStateChanged(true);
+            }
+            else if (e == TestDataProvider.SimuXRayState.Off)
+            {
+                IsXRayOn = false;
+                AutoCalibration.OnXRayStateChanged(false);
+            }
+        }
+
+        #endregion 模拟数据
+
+    }
+}

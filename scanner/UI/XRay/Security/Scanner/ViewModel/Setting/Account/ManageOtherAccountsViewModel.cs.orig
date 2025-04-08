@@ -1,0 +1,285 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
+using System.Data.Entity;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
+using MahApps.Metro.Behaviours;
+using UI.Common.Tracers;
+using UI.XRay.Business.DataAccess;
+using UI.XRay.Business.DataAccess.Db;
+using UI.XRay.Business.Entities;
+using UI.XRay.Flows.Controllers;
+using UI.XRay.Flows.Services.Db;
+using UI.XRay.Gui.Framework;
+using UI.XRay.Business.Entities;
+
+namespace UI.XRay.Security.Scanner.ViewModel.Setting.Account
+{
+    public class ManageOtherAccountsViewModel : PageViewModelBase
+    {
+        #region commands and event commands
+        public RelayCommand SaveCommand { get; set; }
+
+        public RelayCommand CancelCommand { get; set; }
+
+        public RelayCommand AddNewAccountCommand { get; set; }
+
+        public RelayCommand DeleteAccountCommand { get; set; }
+
+        public RelayCommand ResetCurrentAccountPasswordCommand { get; set; }
+
+        public RelayCommand CellEditEndingEventCommand { get; set; }
+
+        #endregion
+
+        #region  properties
+
+        private bool _hasChanges;
+
+        /// <summary>
+        /// 当前是否添加、删除或修改了用户
+        /// </summary>
+        public bool HasChanges
+        {
+            get { return _hasChanges; }
+            set { _hasChanges = value; RaisePropertyChanged(); }
+        }
+
+        private ObservableCollection<Business.Entities.Account> _manageableAccounts;
+
+        public ObservableCollection<Business.Entities.Account> ManageableAccounts
+        {
+            get { return _manageableAccounts; }
+            set
+            {
+                _manageableAccounts = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// 即将被删除的账户。即存储用户在界面中点击删除后，记录被删除的用户
+        /// </summary>
+        private List<Business.Entities.Account> AccountsTobeRemoved { get; set; }
+
+        /// <summary>
+        /// 重置时使用的默认密码
+        /// </summary>
+        public string DefaultPassword { get; set; }
+
+        /// <summary>
+        /// 数据库中存在的所有账号信息
+        /// </summary>
+        private List<Business.Entities.Account> _allAccountsInDb;
+
+        private Business.Entities.Account _currentAccount;
+
+        public Business.Entities.Account CurrentAccount
+        {
+            get { return _currentAccount; }
+            set { _currentAccount = value;RaisePropertyChanged(); }
+        }
+
+        #endregion properties
+
+        private AccountDbSet _manager;
+
+        public ManageOtherAccountsViewModel()
+        {
+            SaveCommand = new RelayCommand(SaveCommandExecute);
+            CancelCommand = new RelayCommand(CancelCommandExecute);
+            AddNewAccountCommand = new RelayCommand(AddNewAccountCommandExecute);
+            DeleteAccountCommand = new RelayCommand(DeleteAccountCommandExecute);
+            ResetCurrentAccountPasswordCommand = new RelayCommand(ResetCurrentAccountPasswordCommandExecute);
+            CellEditEndingEventCommand = new RelayCommand(CellEditEndingEventCommandExecute);
+
+            _manager = new AccountDbSet();
+
+            //AvailableAccountTypes = AccountTypeEnumString.GetAdminOperatorPairs();
+
+            ReLoad();
+
+            DefaultPassword = Business.Entities.Account.DefaultPassword;
+        }
+
+        /// <summary>
+        /// 放弃所有修改，重新加载所有账户信息
+        /// </summary>
+        private void ReLoad()
+        {
+            _manager = new AccountDbSet();
+
+            // 角色低于当前登陆角色的用户
+            List<Business.Entities.Account> lessRoleAccounts = null;
+
+            try
+            {
+                _allAccountsInDb = _manager.SelectAll();
+
+                if (LoginAccountManager.CurrentAccount != null)
+                {
+                    if (LoginAccountManager.CurrentAccount.Role == AccountRole.System)
+                    {
+                        
+                    }
+                }
+
+                lessRoleAccounts = 
+                    LoginAccountManager.CurrentAccount != null
+                    ? _manager.SelectAccountsWithRoleLessThan(LoginAccountManager.CurrentAccount.Role)
+                    : _allAccountsInDb;
+            }
+            catch (Exception exception)
+            {
+                Tracer.TraceException(exception);
+            }
+
+            ManageableAccounts = new ObservableCollection<Business.Entities.Account>(lessRoleAccounts);
+            AccountsTobeRemoved = new List<Business.Entities.Account>(3);
+
+            HasChanges = false;
+        }
+
+        private void ResetCurrentAccountPasswordCommandExecute()
+        {
+            CurrentAccount.Password = Business.Entities.Account.DefaultPassword;
+            CurrentAccount.DisplayPassword = CurrentAccount.Password;
+        }
+
+        /// <summary>
+        /// 事件命令：当用户编辑完某个单元格，并且结束编辑后触发
+        /// </summary>
+        private void CellEditEndingEventCommandExecute()
+        {
+            // 一旦结束了对某个单元的编辑，即认定为发生了变更，使能部分操作
+            HasChanges = true;
+        }
+
+        private void CancelCommandExecute()
+        {
+            ReLoad();
+        }
+
+        /// <summary>
+        /// 保存所有变更
+        /// </summary>
+        private void SaveCommandExecute()
+        {
+            try
+            {
+                _manager.AddOrUpdate(ManageableAccounts);
+                _manager.RemoveRange(AccountsTobeRemoved);
+            }
+            catch (Exception exception)
+            {
+                Tracer.TraceException(exception);
+                throw;
+            }
+            finally
+            {
+                // 用户点击保存后，重新加载数据库中的最新用户
+                ReLoad();
+            }
+        }
+
+        private bool _isAddingAccount = false;
+
+        /// <summary>
+        /// 添加一个新用户
+        /// </summary>
+        private void AddNewAccountCommandExecute()
+        {
+            if (_isAddingAccount)
+            {
+                return;
+            }
+
+            _isAddingAccount = true;
+
+            var msg = new ShowAddAccountWindowAction("SettingWindow", account1 =>
+            {
+                if (account1 != null)
+                {
+                    // 如果当前正在编辑的用户列表或者数据库中已经存在与此要添加的新账户的账户名一致的账户，则不允许添加
+                    if (ManageableAccounts.FirstOrDefault(account => string.Equals(account.AccountId, account1.AccountId, StringComparison.OrdinalIgnoreCase)) != null
+                        || _manager.Find(account1.AccountId) != null)
+                    {
+                        Messenger.Default.Send(new ShowDialogMessageAction("SettingWindow", TranslationService.FindTranslation("Error"),
+                            TranslationService.FindTranslation("The account id already exists!"), MetroDialogButtons.Ok, result => { }));
+                    }
+                    else
+                    {
+                        ManageableAccounts.Add(account1);
+
+                        // 如果刚刚添加的新账户，也存在于删除列表中，则将其从删除列表中移除（场景：先添加一个X，删除，然后再次添加X）
+                        AccountsTobeRemoved.RemoveAll(account => account.AccountId == account1.AccountId);
+
+                        HasChanges = true;
+                    }
+                }
+
+                _isAddingAccount = false;
+            });
+
+            Messenger.Default.Send(msg);
+        }
+
+        /// <summary>
+        /// 删除选中账户的命令执行
+        /// </summary>
+        private void DeleteAccountCommandExecute()
+        {
+            if (CurrentAccount != null)
+            {
+                // 将要被删除的用户记录下来，然后从显示列表中移除
+                // 如果是删除了本次刚刚新添加但尚未保存的账户，则不会标记为删除
+                if (_allAccountsInDb.Exists(account => account.AccountId == CurrentAccount.AccountId))
+                {
+                    AccountsTobeRemoved.Add(CurrentAccount);
+                }
+
+                ManageableAccounts.Remove(CurrentAccount);
+                HasChanges = true;
+            }
+        }
+
+        public override void OnKeyDown(KeyEventArgs args)
+        {
+            // 注意：在使用快捷键完成操作时，需要先通知视图中的datagrid提交更改，否则正在通过键盘导航更改的项会自动被撤销
+            //switch (args.Key)
+            //{
+            //    case Key.D1:
+            //        Messenger.Default.Send(new CommitChangesMessage(), "AccountEdit");
+            //        AddNewAccountCommandExecute();
+            //        args.Handled = true;
+            //        break;
+
+            //    case Key.D2:
+            //        if (HasChanges)
+            //        {
+            //            Messenger.Default.Send(new CommitChangesMessage(), "AccountEdit");
+            //            SaveCommandExecute();
+            //            args.Handled = true;
+            //        }
+            //        break;
+
+            //    case Key.D3:
+            //        if (HasChanges)
+            //        {
+            //            Messenger.Default.Send(new CommitChangesMessage(), "AccountEdit");
+            //            CancelCommandExecute();
+            //            args.Handled = true;
+            //        }
+            //        break;
+            //}
+        }
+    }
+}

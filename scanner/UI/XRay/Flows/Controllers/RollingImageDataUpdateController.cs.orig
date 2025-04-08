@@ -1,0 +1,1686 @@
+﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Printing;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Media;
+using UI.Common.Tracers;
+using UI.XRay.Business.DataAccess.Config;
+using UI.XRay.Business.Entities;
+using UI.XRay.Common.Utilities;
+using UI.XRay.Flows.Services;
+using UI.XRay.ImagePlant.Gpu;
+using UI.XRay.RenderEngine;
+using UI.XRay.Business.Algo;
+using UI.XRay.Flows.Services.DataProcess;
+
+namespace UI.XRay.Flows.Controllers
+{
+    /// <summary>
+    /// 卷轴图像数据控制器
+    /// </summary>
+    public class RollingImageDataUpdateController
+    {
+        /// <summary>
+        /// 事件：发现违禁品。
+        /// </summary>
+        public event Action<KeyValuePair<DetectViewIndex, MarkerRegion>> ContrabandDetected;
+
+        /// <summary>
+        /// 滚动图像处理控制
+        /// </summary>
+        private IRollingImageProcessController ImageProcessController { get; set; }
+
+        /// <summary>
+        /// 默认的图像显示速率：每16.6ms刷新一次图像时，将会更新的图像的列数
+        /// </summary>
+        private int _imageDefaultMovingSpeed = 3;
+
+        /// <summary>
+        /// 当前图像刷新的速率，即每次刷新多少列数据，与刷新率、采样率有关
+        /// </summary>
+        private int ImageMovingSpeed { get; set; }
+
+        /// <summary>
+        /// 输送带速度
+        /// </summary>
+        private float _conveyorSpeed = 0.2f;
+
+        /// <summary>
+        /// X射线到出口门帘的距离,延迟显示图像
+        /// </summary>
+        private float _distanceDelayShowImage = 0f;
+
+        /// <summary>
+        /// 延迟出图情况下，线数据延迟显示时间
+        /// </summary>
+        public float CacheDelayTime
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// 延迟出图需要缓冲的数据线数
+        /// </summary>
+        public int CacheDalayLineNumber
+        {
+            get;
+            set;
+        }
+
+        public bool RightToLeft
+        {
+            get { return ImageProcessController.RightToLeft; }
+            set { ImageProcessController.RightToLeft = value; }
+        }
+        
+
+        /// <summary>
+        /// true表示当前处于向后移动图像的模式，即回拉图像，需要从图像头部更新数据
+        /// false表示当前处于向前移动图像的模式，将会把数据填充图像尾部
+        /// </summary>
+        private bool ReverseAppending { get; set; }
+
+        /// <summary>
+        /// 配置文件中记录的视角1的探测通道数
+        /// </summary>
+        private int View1ChannelsCount { get; set; }
+
+        /// <summary>
+        /// 配置文件中记录的视角2的探测通道数
+        /// </summary>
+        private int View2ChannelsCount { get; set; }
+
+        /// <summary>
+        /// 当前绘制的扫描线的最小编号
+        /// </summary>
+        public int MinLineNumber { get; private set; }
+
+        /// <summary>
+        /// 当前绘制的扫描线的最大编号
+        /// </summary>
+        public int MaxLineNumber { get; private set; }
+
+        /// <summary>
+        /// 单个图像可显示的最多的图像线数
+        /// </summary>
+        private int MaxLinesCount { get; set; }
+
+        /// <summary>
+        /// 当前正在显示的图像列的实际数量
+        /// </summary>
+        public int ShowingLinesCount { get; private set; }
+
+        /// <summary>
+        /// 当前是否有扫描线在显示。初始化为false，当填充显示时变为true；当清空图像后，变为false
+        /// </summary>
+        public bool HasLine
+        {
+            get { return ShowingLinesCount > 0; }
+        }
+
+        /// <summary>
+        /// 待显示的视角1的图像数据
+        /// </summary>
+        private readonly ConcurrentQueue<DisplayScanlineData> _view1ImageCache =
+            new ConcurrentQueue<DisplayScanlineData>();
+
+        /// <summary>
+        /// 待显示的视角2的图像数据
+        /// </summary>
+        private readonly ConcurrentQueue<DisplayScanlineData> _view2ImageCache =
+            new ConcurrentQueue<DisplayScanlineData>();
+        /// <summary>
+        /// 已整理完毕的待加入控件的视角1图像数据，由_view1ImageCache生成
+        /// </summary>
+        private readonly ConcurrentQueue<DataReadyToFill> _view1DataReadyCache =
+            new ConcurrentQueue<DataReadyToFill>();
+        /// <summary>
+        /// 已整理完毕的待加入控件的视角1图像数据，由_view2ImageCache生成
+        /// </summary>
+        private readonly ConcurrentQueue<DataReadyToFill> _view2DataReadyCache =
+            new ConcurrentQueue<DataReadyToFill>();
+        /// <summary>
+        /// 视角1数据自动探测的结果
+        /// </summary>
+        private List<MarkerRegion> _view1IntellisenseResults = new List<MarkerRegion>(10);
+
+        /// <summary>
+        /// 视角2数据自动探测的结果
+        /// </summary>
+        private List<MarkerRegion> _view2IntellisenseResults = new List<MarkerRegion>(10);
+
+        /// <summary>
+        /// 子图像1显示的视角编号
+        /// </summary>
+        private DetectViewIndex Image1ViewIndex;
+
+        /// <summary>
+        /// 子图像2显示的视角编号
+        /// </summary>
+        private DetectViewIndex Image2ViewIndex;
+
+        private int _imagesCount = 1;
+
+        /// <summary>
+        /// 视角1的智能识别
+        /// </summary>
+        private IntelliSenseService _view1IntelliSense;
+
+        /// <summary>
+        /// 视角2的智能识别
+        /// </summary>
+        private IntelliSenseService _view2IntelliSense;
+
+        /// <summary>
+        /// 毒品爆炸物区域边框颜色
+        /// </summary>
+        private System.Drawing.Color _deiBorderColor;
+
+        private System.Drawing.Color _eiBorderColor;
+        
+        /// <summary>
+        /// 高密度区域边框颜色
+        /// </summary>
+        private System.Drawing.Color _hdiBorderColor;
+
+        /// <summary>
+        /// Tip边框颜色
+        /// </summary>
+        private System.Drawing.Color _tipBorderColor = System.Drawing.Color.Blue;
+
+        /// <summary>
+        /// 线积分时间，单位为毫米
+        /// </summary>
+        private double LineIntegrationTime { get; set; }
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
+        /// <summary>
+        /// 是否显示智能识别的标记框
+        /// </summary>
+        public bool ShowIntelliSenseMarkers { get; set; }
+        /// <summary>
+        /// 数据整理定时处理
+        /// </summary>
+        private System.Threading.Thread _assembleDataThread;
+        /// <summary>
+        /// 已缓存但尚未显示完毕的线数
+        /// </summary>
+        public int UnshownLinesCount
+        {
+            get
+            {
+                lock (this)
+                {
+                    return _view1ImageCache.Count;
+                }
+            }
+        }
+
+        private ShapeCorrectionService _shapeCorrection = new ShapeCorrectionService();
+
+        #region 智能判图 参数
+        private System.Drawing.Color _autoDetectionGunBorderColor;
+        private System.Drawing.Color _autoDetectionKnifeBorderColor;
+
+
+        #endregion
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public RollingImageDataUpdateController(IRollingImageProcessController imageProcessController)
+        {
+            try
+            {
+                ShowIntelliSenseMarkers = true;
+                ImageProcessController = imageProcessController;
+                MaxLinesCount = imageProcessController.Image1.MaxLinesCount;
+
+                ScannerConfig.ConfigChanged += ScannerConfig_ConfigChanged;
+
+                // 这里的点数，必须与图像中的点数一致，否则可能会在填充显存时导致内存越位
+
+                int count;
+                count = ConfigHelper.GetView1ImageHeight();
+                View1ChannelsCount = count;
+
+                count = ConfigHelper.GetView2ImageHeight();
+
+                View2ChannelsCount = count;
+
+                ResetDefaultMovingSpeed();
+
+                _shapeCorrection.View1ImageHeight = View1ChannelsCount;
+                _shapeCorrection.View2ImageHeight = View2ChannelsCount;
+            }
+            catch (Exception exception)
+            {
+                Tracer.TraceException(exception);
+            }
+
+            if (!ScannerConfig.Read(ConfigPath.ImagesImage1ShowingDetView, out Image1ViewIndex))
+            {
+                Image1ViewIndex = DetectViewIndex.View1;
+            }
+
+            if (!ScannerConfig.Read(ConfigPath.ImagesCount, out _imagesCount))
+            {
+                _imagesCount = 1;
+            }
+
+            if (_imagesCount > 1)
+            {
+                if (!ScannerConfig.Read(ConfigPath.ImagesImage2ShowingDetView, out Image2ViewIndex))
+                {
+                    Image2ViewIndex = DetectViewIndex.View1;
+                }
+            }
+
+            if (!ScannerConfig.Read(ConfigPath.MachineConveyorSpeed, out _conveyorSpeed))
+            {
+                _conveyorSpeed = 0.2f;
+            }
+
+            if (!ScannerConfig.Read(ConfigPath.MachineDistanceDelayShowImage, out _distanceDelayShowImage))
+            {
+                _distanceDelayShowImage = 0f;
+            }
+            if (_distanceDelayShowImage < 0) _distanceDelayShowImage = 0f;
+
+            CacheDelayTime = _distanceDelayShowImage / _conveyorSpeed;
+            CacheDalayLineNumber=(int)(1000.0 / LineIntegrationTime * CacheDelayTime);
+            
+            InitIntelliSenseModule();
+
+            ShowingLinesCount = 0;
+        }
+
+        /// <summary>
+        /// 配置项变化事件响应函数，主要用于探测区域边框颜色的改变
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        void ScannerConfig_ConfigChanged(object sender, EventArgs e)
+        {
+            LoadMarkerRegionBorderColorSetting();
+        }
+
+        private void LoadMarkerRegionBorderColorSetting()
+        {
+            try
+            {
+                MarkerRegionBorderColor colorIndex;
+                if (!ScannerConfig.Read(ConfigPath.IntellisenseDeiBorderColor, out colorIndex))
+                {
+                    colorIndex = MarkerRegionBorderColor.DarkGreen;
+                }
+                var color = MarkerRegionBorderColorMapper.Mapper(colorIndex);
+
+                _deiBorderColor = color ?? System.Drawing.Color.DarkGreen;
+
+                if (!ScannerConfig.Read(ConfigPath.IntellisenseHdiBorderColor, out colorIndex))
+                {
+                    colorIndex = MarkerRegionBorderColor.Red;
+                }
+                color = MarkerRegionBorderColorMapper.Mapper(colorIndex);
+                _hdiBorderColor = color ?? System.Drawing.Color.Red;
+
+                if (!ScannerConfig.Read(ConfigPath.IntellisenseEiBorderColor, out colorIndex))
+                {
+                    colorIndex = MarkerRegionBorderColor.Aqua;
+                }
+                color = MarkerRegionBorderColorMapper.Mapper(colorIndex);
+                _eiBorderColor = color ?? System.Drawing.Color.Aqua;
+
+
+
+                //智能判图 参数
+                if (!ScannerConfig.Read(ConfigPath.AutoDetectionGunBorderColor, out colorIndex))
+                {
+                    colorIndex = MarkerRegionBorderColor.Brown;
+                }
+                color = MarkerRegionBorderColorMapper.Mapper(colorIndex);
+                _autoDetectionGunBorderColor = color ?? System.Drawing.Color.Brown;
+
+                if (!ScannerConfig.Read(ConfigPath.AutoDetectionKnifeBorderColor, out colorIndex))
+                {
+                    colorIndex = MarkerRegionBorderColor.DarkOriange;
+                }
+                color = MarkerRegionBorderColorMapper.Mapper(colorIndex);
+                _autoDetectionKnifeBorderColor = color ?? System.Drawing.Color.DarkOrange;
+
+            }
+            catch (Exception exception)
+            {
+                Tracer.TraceException(exception, "Exception occured when load markerRegion border color setting!");
+                _deiBorderColor = System.Drawing.Color.DarkGreen;
+                _eiBorderColor = System.Drawing.Color.Red;
+                _hdiBorderColor = System.Drawing.Color.Aqua;
+
+            }
+        }
+
+        private void InitIntelliSenseModule()
+        {
+            //加载探测区域颜色
+            LoadMarkerRegionBorderColorSetting();
+
+            _view1IntelliSense = new IntelliSenseService();
+            _view1IntelliSense.RegionDetected += View1IntelliSenseOnRegionDetected;
+
+            int viewsCount = 1;
+            if (!ScannerConfig.Read(ConfigPath.MachineViewsCount, out viewsCount))
+            {
+                viewsCount = 1;
+            }
+
+            if (viewsCount > 1)
+            {
+                _view2IntelliSense = new IntelliSenseService();
+                _view2IntelliSense.RegionDetected += View2IntelliSenseOnRegionDetected;
+            }
+        }
+
+        /// <summary>
+        /// 视角2智能探测结果回传
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="markerRegion"></param>
+        private void View2IntelliSenseOnRegionDetected(object sender, MarkerRegion markerRegion)
+        {
+            AddRegionMark(markerRegion, DetectViewIndex.View2);
+
+            if (ContrabandDetected != null)
+            {
+                ContrabandDetected(new KeyValuePair<DetectViewIndex, MarkerRegion>(DetectViewIndex.View2, markerRegion));
+            }
+
+            ImageProcessAlgoRecommendService.Service().ProcessIntelligenceEvent(new XRayViewCadRegion(markerRegion,DetectViewIndex.View2));
+        }
+
+        /// <summary>
+        /// 视角1智能探测结果回传
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="markerRegion"></param>
+        private void View1IntelliSenseOnRegionDetected(object sender, MarkerRegion markerRegion)
+        {
+            AddRegionMark(markerRegion, DetectViewIndex.View1);
+
+            if (ContrabandDetected != null)
+            {
+                ContrabandDetected(new KeyValuePair<DetectViewIndex, MarkerRegion>(DetectViewIndex.View1, markerRegion));
+            }
+
+            ImageProcessAlgoRecommendService.Service().ProcessIntelligenceEvent(new XRayViewCadRegion(markerRegion, DetectViewIndex.View1));
+        }
+        bool _isRun;
+        public void Initialize()
+        {
+            ImageProcessController.GetImageLines += ControllerOnGetImageLines;
+            _isRun = true;
+            if (_assembleDataThread == null)
+            {
+                _assembleDataThread = new Thread(ScanlineDataHandleProcess)
+                   {
+                       IsBackground = true
+                   };
+                _assembleDataThread.Start();
+            }
+        }
+
+        public void Cleanup()
+        {
+            ImageProcessController.GetImageLines -= ControllerOnGetImageLines;
+            _isRun = false;
+            if (_assembleDataThread != null)
+            {
+                _assembleDataThread.Abort();
+                _assembleDataThread = null;
+            }
+        }
+
+        /// <summary>
+        /// gpu图像刷新线程，在此填充图像数据
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        private void ControllerOnGetImageLines(object sender, GetImageLinesEventArgs args)
+        {
+            if (Monitor.TryEnter(this))
+            {
+                try
+                {
+                    //GetScanlinesAndDrawMarkers(args);//原版
+                    GetDataAndDrawMarkers(args);//20200528 测试新版，将整理数据的部分拆分出新的线程，期望能够加速
+                }
+                finally
+                {
+                    Monitor.Exit(this);
+                }
+            }
+        }
+        
+        /// <summary>
+        /// 重新设置默认的图像移动速度
+        /// </summary>
+        private void ResetDefaultMovingSpeed()
+        {
+            // 根据采样周期、刷新率计算默认显示速度。
+            // 如采样周期为3ms时，1000/3=333.3;及一秒钟产生的扫描线数；333.3 / 刷新率（每秒钟刷新次数，如60）= 5.6线/次
+            // 取整后为5线/次，这就是显示速率。
+
+            float ms;
+            if (!ScannerConfig.Read(ConfigPath.CaptureSysLineIntegrationTime, out ms))
+            {
+                ms = 4;
+            }
+
+            if (ms <= 0)
+            {
+                ms = 4;
+            }
+
+            LineIntegrationTime = ms;
+            double screenRefreshRate = DeviceCaps.RefreshRate;
+
+            _imageDefaultMovingSpeed = (int)Math.Floor((1000.0 / LineIntegrationTime) / screenRefreshRate);
+            ImageMovingSpeed = _imageDefaultMovingSpeed;
+        }
+
+        /// <summary>
+        /// 根据当前缓存的数据量大小，动态更新显示速率
+        /// </summary>
+        private void ChangeMovingSpeed()
+        {
+            // 根据当前缓存中的数据量，确定显示速率
+            var newSpeed = ImageMovingSpeed;
+
+            if (_view1ImageCache.Count >= (520 + CacheDalayLineNumber))
+            {
+                newSpeed = _imageDefaultMovingSpeed + 12;
+            }
+            else if (_view1ImageCache.Count >= (440 + CacheDalayLineNumber))
+            {
+                newSpeed = _imageDefaultMovingSpeed + 8;
+            }
+            else if (_view1ImageCache.Count >= (360 + CacheDalayLineNumber))
+            {
+                newSpeed = _imageDefaultMovingSpeed + 4;
+            }
+            else if (_view1ImageCache.Count >= (260 + CacheDalayLineNumber))
+            {
+                newSpeed = _imageDefaultMovingSpeed + 2;
+            }
+            else if (_view1ImageCache.Count >= (180 + CacheDalayLineNumber))
+            {
+                newSpeed = _imageDefaultMovingSpeed + 1;
+            }
+            //else if (_view1ImageCache.Count <= (10 + CacheDalayLineNumber))
+            //{
+            //    newSpeed = Math.Max(_imageDefaultMovingSpeed - 1, 1);;
+            //}
+
+            ImageMovingSpeed = 4;
+        }
+
+        /// <summary>
+        /// 是否有仍未显示完毕的数据
+        /// </summary>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public bool HasUnshownLines()
+        {
+            return !(_view1ImageCache.IsEmpty) || !(_view2ImageCache.IsEmpty);
+        }
+
+        /// <summary>
+        /// 舍弃所有尚未被刷新显示的数据
+        /// </summary>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void DropUnshownLines()
+        {
+            DisplayScanlineData line;
+
+            if (_view1ImageCache != null)
+            {
+                while (_view1ImageCache.TryDequeue(out line))
+                {
+                }
+            }
+
+            if (_view2ImageCache != null)
+            {
+                while (_view2ImageCache.TryDequeue(out line))
+                {
+                }
+            }
+        }
+
+        /// <summary>
+        /// 清除所有的标记框
+        /// </summary>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void ClearMarkerBoxes()
+        {
+            if (_view1IntellisenseResults != null)
+            {
+                _view1IntellisenseResults.Clear();
+            }
+
+            if (_view2IntellisenseResults != null)
+            {
+                _view2IntellisenseResults.Clear();
+            }
+        }
+
+        /// <summary>
+        /// 反向填充显示图像列
+        /// </summary>
+        /// <param name="lines"></param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void ReverseAppendLines(IEnumerable<DisplayScanlineDataBundle> lines)
+        {
+            ReverseAppending = true;
+
+            foreach (var bundle in lines)
+            {
+                AppendSingleLine(bundle);
+            }
+        }
+
+        /// <summary>
+        /// 回放历史图像时，使用回放数据清空一屏数据
+        /// </summary>
+        /// <param name="lines"></param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void ClearAndReverseAppend(List<DisplayScanlineDataBundle> lines)
+        {
+            ClearScreen(lines, true);
+
+            if (lines != null)
+            {
+                foreach (var line in lines)
+                {
+                    if (line.View1Data != null)
+                    {
+                        _view1IntelliSense.Detect(line.View1Data);
+                    }
+
+                    if (line.View2Data != null && _view2IntelliSense != null)
+                    {
+                        _view2IntelliSense.Detect(line.View2Data);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 显示最新的一屏图像数据
+        /// </summary>
+        /// <param name="lines"></param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void ClearAndAppend(List<DisplayScanlineDataBundle> lines)
+        {
+            ClearScreen(lines, false);
+
+            if (lines != null)
+            {
+                foreach (var line in lines)
+                {
+                    if (line.View1Data != null)
+                    {
+                        _view1IntelliSense.Detect(line.View1Data);
+                    }
+
+                    if (line.View2Data != null && _view2IntelliSense != null)
+                    {
+                        _view2IntelliSense.Detect(line.View2Data);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 清空当前屏幕，同时清空标记框
+        /// </summary>
+        /// <param name="lines"></param>
+        /// <param name="reverse">true表示反向显示，用于图像回放；false表示正向显示，用于显示最新的图像数据 </param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        private void ClearScreen(List<DisplayScanlineDataBundle> lines, bool reverse = false)
+        {
+            // 必须先舍弃尚未显示的数据
+            DropUnshownLines();
+
+            // 先清空所有报警框
+            ClearMarkerBoxes();
+
+            ReverseAppending = reverse;
+            ShowingLinesCount = 0;
+            MinLineNumber = 0;
+            MaxLineNumber = 0;
+
+            ushort[] image1Data = null;
+            ushort[] image2Data = null;
+            ushort[] image1EnhancedData = null;
+            ushort[] image2EnhancedData = null;
+            int linesCount = 0;
+
+            if (lines != null && lines.Count > 0)
+            {
+                linesCount = lines.Count;
+
+                var view1Lines = new List<DisplayScanlineData>(linesCount);
+                var view2Lines = new List<DisplayScanlineData>(linesCount);
+
+                view1Lines.AddRange(lines.Select(line => line.View1Data));
+
+                if (lines[0].View2Data != null)
+                {
+                    view2Lines.AddRange(lines.Select(line => line.View2Data));
+                }
+
+                ushort[] view1Data = null;
+                ushort[] view2Data = null;
+                view1Data = PrepareOverriddingImageData(view1Lines, DetectViewIndex.View1);
+                if (view2Lines.Count > 0)
+                {
+                    view2Data = PrepareOverriddingImageData(view2Lines, DetectViewIndex.View2);
+                }
+
+                ushort[] view1EnhancedData = null;
+                ushort[] view2EnhancedData = null;
+                view1EnhancedData = PrepareOverriddingImageEnhancedData(view1Lines, DetectViewIndex.View1);
+                if (view2Lines.Count > 0)
+                {
+                    view2EnhancedData = PrepareOverriddingImageEnhancedData(view2Lines, DetectViewIndex.View2);
+                }
+
+                image1Data = Image1ViewIndex == DetectViewIndex.View1 ? view1Data : view2Data;
+                image2Data = Image2ViewIndex == DetectViewIndex.View1 ? view1Data : view2Data;
+
+                image1EnhancedData = Image1ViewIndex == DetectViewIndex.View1 ? view1EnhancedData : view2EnhancedData;
+                image2EnhancedData = Image2ViewIndex == DetectViewIndex.View1 ? view1EnhancedData : view2EnhancedData;
+
+                // 以下为新增加的代码，标记当前显示的图像的数据的有效范围
+                if (reverse)
+                {
+                    MaxLineNumber = lines.First().LineNumber;
+                    MinLineNumber = lines.Last().LineNumber;
+                }
+                else
+                {
+                    MaxLineNumber = lines.Last().LineNumber;
+                    MinLineNumber = lines.First().LineNumber;
+                }
+            }
+            else
+            {
+                // 清空图像，但是不填充，需更新当前的线编号管理
+                ShowingLinesCount = 0;
+                MinLineNumber = 0;
+                MaxLineNumber = -1;
+            }
+            ImageProcessController.ClearBuffer();
+            if (image1EnhancedData == null)
+            {
+                var image1Enhanced = image1Data != null ? (ushort[])image1Data.Clone() : null;
+                var image2Enhanced = image2Data != null ? (ushort[])image2Data.Clone() : null;
+                ImageProcessController.ClearImages(image1Enhanced, image2Enhanced, image1Data, image2Data, linesCount);
+            }
+            else
+            {
+                ImageProcessController.ClearImages(image1EnhancedData, image2EnhancedData, image1Data, image2Data, linesCount);
+            }            
+        }
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void AppendLines(IEnumerable<DisplayScanlineDataBundle> lines)
+        {
+            ReverseAppending = false;
+            foreach (var bundle in lines)
+            {
+                AppendSingleLine(bundle);
+            }
+        }
+
+        /// <summary>
+        /// 绘制CadRegions
+        /// </summary>
+        private void RenderCadRegions(GetImageLinesEventArgs args)
+        {
+            //if (ShowIntelliSenseMarkers)
+            {
+                DrawCadRegions(_view1IntellisenseResults, DetectViewIndex.View1, args);
+                DrawCadRegions(_view2IntellisenseResults, DetectViewIndex.View2, args);
+            }
+        }
+
+        /// <summary>
+        /// 绘制指定视角数据的报警框
+        /// </summary>
+        /// <param name="cadRegions">报警框集合</param>
+        /// <param name="markerOfView">报警框所属探测数据的视角，为视角1或视角2</param>
+        private void DrawCadRegions(List<MarkerRegion> cadRegions, DetectViewIndex markerOfView, GetImageLinesEventArgs args)
+        {
+            if (cadRegions != null && args != null)
+            {
+                // 如果图像1显示的是此视角的图像，则在图像1中画报警框
+                var image1 = args.Image1Updater;
+                var image2 = args.Image2Updater;
+
+                if (image1 != null && Image1ViewIndex == markerOfView)
+                {
+                    DrawMarkersOnImage(cadRegions, image1);
+                }
+
+                if (image2 != null && markerOfView == Image2ViewIndex)
+                {
+                    DrawMarkersOnImage(cadRegions, image2);
+                }
+            }
+        }
+
+        private void DrawMarkersOnImage(List<MarkerRegion> cadRegions, IRollingImageUpdater image)
+        {
+            int biggerLineNum = 0;
+            int smallerLineNum = 0;
+            foreach (var region in cadRegions)
+            {
+                biggerLineNum = Math.Max(region.FromLine, region.ToLine);
+                smallerLineNum = Math.Min(region.FromLine, region.ToLine);
+
+                //对于宽度或者高度<5的探测区域不进行显示
+                if (region.Width >= 5 && region.Height >= 5 && (MaxLineNumber >= biggerLineNum && MinLineNumber <= smallerLineNum))
+                {
+                    // 对线编号进行偏移，从而计算出报警框在当前屏幕中的位置
+                    var fromLine = MaxLineNumber - region.FromLine;
+                    var toLine = MaxLineNumber - region.ToLine;
+
+                    var markerBox = new MarkerBox()
+                    {
+                        FromScanline = fromLine,
+                        ToScanline = toLine,
+                        ChannelStart = region.FromChannel,
+                        ChannelEnd = region.ToChannel
+                    };
+
+                    var color = System.Drawing.Color.DeepPink;
+
+                    switch (region.RegionType)
+                    {
+                        case MarkerRegionType.Drug:
+                            color = _deiBorderColor;
+                            break;
+                        case MarkerRegionType.Explosives:
+                            color = _eiBorderColor;
+                            break;
+                        case MarkerRegionType.UnPenetratable:
+                            color = _hdiBorderColor;
+                            break;
+                        case MarkerRegionType.Gun:
+                            color = _autoDetectionGunBorderColor;
+                            break;
+                        case MarkerRegionType.Knife:
+                            color = _autoDetectionKnifeBorderColor;
+                            break;
+                        case MarkerRegionType.Tip:
+                            color = _tipBorderColor;
+                            break;
+                    }
+
+                    if (region.RegionType != MarkerRegionType.Tip)
+                    {
+                        if (ShowIntelliSenseMarkers)
+                        {
+                            DrawMarkerBoxOnImage(markerBox, color, image);
+                        }
+                    }
+                    else
+                    {
+                        // 对于Tip标记区域，总是显示
+                        DrawMarkerBoxOnImage(markerBox, color, image);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 在指定图像中，以指定颜色绘制指定的标记框
+        /// </summary>
+        /// <param name="box"></param>
+        /// <param name="color"></param>
+        /// <param name="image"></param>
+        private void DrawMarkerBoxOnImage(MarkerBox box, System.Drawing.Color color, IRollingImageUpdater image)
+        {
+            box.BorderColor = color;
+            image.DrawMarkerBoxes(new[]
+            {
+                box
+            });          
+        }
+
+        /// <summary>
+        /// 添加新探测的CadRegion
+        /// </summary>
+        /// <param name="region">新探测的报警区域</param>
+        /// <param name="viewIndex">报警区域所属的探测视角</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void AddRegionMark(MarkerRegion region, DetectViewIndex viewIndex)
+        {
+            if (region == null)
+            {
+                return;
+            }
+
+            if (viewIndex == DetectViewIndex.View1)
+            {
+                MergeCadRegion(region, _view1IntellisenseResults);
+            }
+            else if (viewIndex == DetectViewIndex.View2)
+            {
+                MergeCadRegion(region, _view2IntellisenseResults);
+            }
+        }
+
+        /// <summary>
+        /// 将新探测到的CadRegion与原有的探测区域进行合并。因包裹形状不规则或者左右拉动图像时会产生有重叠区域的CadRegion，需要将其合并
+        /// </summary>
+        /// <param name="newRegion">新探测的报警区域</param>
+        /// <param name="cadRegionsList">某视角未显示的探测区域</param>
+        private void MergeCadRegion(MarkerRegion newRegion, List<MarkerRegion> cadRegionsList)
+        {
+            //是否被合并的标志位，如果未被合并则直接添加到链表中
+            bool beMerged = false;
+
+            //遍历链表中存在的区域
+            foreach (MarkerRegion cadRegion in cadRegionsList)
+            {
+                //合并必须类型相同
+                if (cadRegion.RegionType == newRegion.RegionType)
+                {
+                    //判断两区域是否有交集,调用Rectangle.Intersect(Rectangle, Rectangle)函数，返回两区域相交的部分，如果没有相交则返回空
+                    Rectangle rectangle = Rectangle.Intersect(cadRegion.Rect, newRegion.Rect);
+
+                    //如果交集为非空
+                    if (!rectangle.IsEmpty)
+                    {
+                        //判断交集区域大小
+                        int intersectSize = rectangle.Height * rectangle.Width;
+                        //如果相交区域大小大于某一个区域面积的50%，则将新区域合并到已有区域中
+                        if (intersectSize >= newRegion.RegionAreaSize >> 1 || intersectSize >= cadRegion.RegionAreaSize >> 1)
+                        {
+                            //将新探测区域合并到已有探测区域中
+                            cadRegion.InflateWith(newRegion);
+                            beMerged = true;
+                        }
+                    }
+                }
+            }
+            //如果newRegion与已有探测区域均没有交集或者交集部分较小,则直接将新区域添加到链表中
+            if (!beMerged)
+            {
+                cadRegionsList.Add(newRegion);
+            }
+        }
+
+        /// <summary>
+        /// 释放不在当前显示范围内的标记框
+        /// </summary>
+        private void ReleaseUnvisibleMarkers()
+        {
+            // 当一个标记框的范围超过当前显示数据编号范围2560个单位时，即释放标记框
+            var margin = 2560;
+            if (_view1IntellisenseResults != null)
+            {
+                _view1IntellisenseResults.RemoveAll(
+                    t => (t.FromLine < MinLineNumber - margin && t.ToLine < MinLineNumber - margin) ||
+                         (t.FromLine > MaxLineNumber + margin && t.ToLine > MaxLineNumber + margin));
+            }
+
+            // 清除视角2中不再有效区域内的标记框
+            if (_view2IntellisenseResults != null)
+            {
+                _view2IntellisenseResults.RemoveAll(
+                    t => (t.FromLine < MinLineNumber - margin && t.ToLine < MinLineNumber - margin) ||
+                         (t.FromLine > MaxLineNumber + margin && t.ToLine > MaxLineNumber + margin));
+            }
+        }
+
+        /// <summary>
+        /// 正向填充显示图像列
+        /// </summary>
+        /// <param name="bundle"></param>
+        private void AppendSingleLine(DisplayScanlineDataBundle bundle)
+        {
+            if (bundle.View1Data != null)
+            {
+                _view1ImageCache.Enqueue(bundle.View1Data);
+                _view1IntelliSense.Detect(bundle.View1Data);
+            }
+
+            if (bundle.View2Data != null)
+            {
+                _view2ImageCache.Enqueue(bundle.View2Data);
+                if (_view2IntelliSense != null)
+                {
+                    _view2IntelliSense.Detect(bundle.View2Data);
+                }
+            }
+        }
+
+        protected void GetScanlinesAndDrawMarkers(GetImageLinesEventArgs args)
+        {
+            try
+            {
+                // 根据当前剩余缓存图像量，更新显示速率等状态
+                ChangeMovingSpeed();
+                // 将未显示的图像数据填充至显存
+                if (_view1ImageCache != null && _view1ImageCache.Count > 0)
+                {
+                    // 填充视角1的图像：显示至图像1或图像2中
+                    FillXRayViewImageCacheDataToImage(args, _view1ImageCache, DetectViewIndex.View1);
+                }
+
+                if (_view2ImageCache != null && _view2ImageCache.Count > 0)
+                {
+                    // 填充视角2的图像：显示至图像1或图像2
+                    FillXRayViewImageCacheDataToImage(args, _view2ImageCache, DetectViewIndex.View2);
+                }
+
+                var image1 = args.Image1Updater;
+                var image2 = args.Image2Updater;
+
+                // 在图像数据更新完毕后，结束更新
+                if (image1 != null)
+                {
+                    image1.EndAppending();
+                }
+
+                if (image2 != null)
+                {
+                    image2.EndAppending();
+                }
+
+                RenderCadRegions(args);
+            }
+            catch (Exception exception)
+            {
+                Tracer.TraceException(exception, "Unexpected exception in ScanLinesRenderEngine.ImageControlOnRenderStarted");
+            }
+        }
+
+        private bool view1first = false;
+        private bool view2first = false;
+        private List<DisplayScanlineData> view1cache = new List<DisplayScanlineData>();
+        private List<DisplayScanlineData> view2cache = new List<DisplayScanlineData>();
+        
+        /// <summary>
+        /// 将一个视角的图像数据填充到GL图像中
+        /// </summary>
+        /// <param name="imageCache">待填充图像数据缓存</param>
+        /// <param name="viewIndex">表示产生imageCache数据的视角编号</param>
+        private void FillXRayViewImageCacheDataToImage(GetImageLinesEventArgs args,
+            ConcurrentQueue<DisplayScanlineData> imageCache, DetectViewIndex viewIndex)
+        {
+            DisplayScanlineData firstScanlineDate = null;
+            imageCache.TryPeek(out firstScanlineDate);
+
+            if (firstScanlineDate == null) return;  //前面判断了序列不为空，应该不会执行这步
+            
+            if (firstScanlineDate.CreatedTime == null)
+            {
+                //如果不是延迟出图，就设置为默认出图速度
+                //ImageMovingSpeed = _imageDefaultMovingSpeed;
+            }
+            else
+            {
+                //延迟时间不够就返回，否则就继续执行
+                if (DateTime.Now.AddSeconds(-CacheDelayTime) < firstScanlineDate.CreatedTime)
+                {
+                    return;
+                }
+            }
+
+            var scanLines = new List<DisplayScanlineData>();
+            //var scanLinesoutput = new List<DisplayScanlineData>();
+            // 一次性取出本次需要填充的所有数据
+
+            // 本次更新时，最后一列被更新的数据
+            DisplayScanlineData lastLine = null;
+            DisplayScanlineData line = null;
+            int i = 0;
+            while (i < ImageMovingSpeed && imageCache.TryDequeue(out line))
+            {
+                lastLine = line;
+                scanLines.Add(line);
+                i++;
+            }
+
+            FillScanLinesToImage(args.Image1Updater, args.Image2Updater, scanLines, viewIndex);
+        }
+
+
+        /// <summary>
+        /// 将一个视角的图像数据填充到GL图像中
+        /// </summary>
+        /// <param name="scanLines">待填充图像数据缓存</param>
+        /// <param name="viewIndex">表示产生scanLines数据的视角编号</param>
+        private void FillScanLinesToImage(IRollingImageUpdater image1, IRollingImageUpdater image2,
+            List<DisplayScanlineData> scanLines, DetectViewIndex viewIndex)
+        {
+            // 将实际的数据长度调整为配置的数据长度
+            var lenAdjustedScanLines = AdjustScanLinesDataLen(scanLines, viewIndex);
+
+            var scanlineData = lenAdjustedScanLines.Select(ComposeXDataAndColorIndex).ToList();
+            var scanlineDataEnhanced = lenAdjustedScanLines.Select(ComposeXDataEnhancedAndColorIndex).ToList();
+
+            var enhancedLength = scanlineDataEnhanced[0] != null ? scanlineDataEnhanced[0].Length : 0;
+
+            // 将所有线数据，统一拷贝至缓冲区data2Fill中
+            if (scanlineData.Count > 0)
+            {
+                var data2Fill = new ushort[scanlineData.Count * scanlineData[0].Length];
+                ushort[] data2FillEnhanced =null ;
+                if (enhancedLength > 0)
+                {
+                    data2FillEnhanced = new ushort[scanlineDataEnhanced.Count * enhancedLength];
+                }
+                
+                if (ReverseAppending)
+                {
+                    // 对于反向填充，最后一线被填充数据的编号最小
+                    for (int j = 0; j < scanlineData.Count; j++)
+                    {
+                        scanlineData[j].CopyTo(data2Fill, j * scanlineData[0].Length);
+                        if (data2FillEnhanced != null)
+                            scanlineDataEnhanced[j].CopyTo(data2FillEnhanced, j * enhancedLength);
+                    }
+
+                    if (image1 != null && Image1ViewIndex == viewIndex)
+                    {
+                        if (data2FillEnhanced == null)
+                        {
+                            image1.ReverseAppendImageRows((ushort[])data2Fill.Clone(), scanlineData.Count);
+                        }
+                        else
+                        {
+                            image1.ReverseAppendImageRows(data2FillEnhanced, scanlineDataEnhanced.Count);
+                        }                        
+                        image1.ReverseAppendOriginImageRows(data2Fill, scanlineData.Count);
+                    }
+                    if (image2 != null && Image2ViewIndex == viewIndex)
+                    {
+                        if (data2FillEnhanced == null)
+                        {
+                            image2.ReverseAppendImageRows((ushort[])data2Fill.Clone(), scanlineData.Count);
+                        }
+                        else
+                        {
+                            image2.ReverseAppendImageRows(data2FillEnhanced, scanlineDataEnhanced.Count);
+                        } 
+                        image2.ReverseAppendOriginImageRows(data2Fill, scanlineData.Count);
+                    }
+
+                    if(viewIndex == DetectViewIndex.View1)
+                    {
+                        ShowingLinesCount += scanLines.Count;
+                        ShowingLinesCount = Math.Min(ShowingLinesCount, MaxLinesCount);
+                    }
+
+                    // 对于反向填充，最后一线数据的编号最小
+                    MinLineNumber = scanLines[scanLines.Count - 1].LineNumber;
+                    MaxLineNumber = MinLineNumber + ShowingLinesCount - 1;
+                }
+                else
+                {
+                    // 对于正向填充：最后一线被填充的数据的编号最大，但是输入的数据是从小到大排序
+                    for (int j = 0; j < scanlineData.Count; j++)
+                    {
+                        scanlineData[scanlineData.Count - 1 - j].CopyTo(data2Fill, j * scanlineData[0].Length);
+                        if (data2FillEnhanced != null)
+                            scanlineDataEnhanced[scanlineDataEnhanced.Count - 1 - j].CopyTo(data2FillEnhanced, j * enhancedLength);                       
+                    }
+
+                    if (image1 != null && Image1ViewIndex == viewIndex)
+                    {
+                        if (data2FillEnhanced == null)
+                        {
+                            image1.AppendImageRows((ushort[])data2Fill.Clone(), scanlineData.Count);
+                        }
+                        else
+                        {
+                            image1.AppendImageRows(data2FillEnhanced, scanlineDataEnhanced.Count);
+                        } 
+                        image1.AppendOriginImageRows(data2Fill, scanlineData.Count);
+                        
+                    }
+                    if (image2 != null && Image2ViewIndex == viewIndex)
+                    {
+                        if (data2FillEnhanced == null)
+                        {
+                            image2.AppendImageRows((ushort[])data2Fill.Clone(), scanlineData.Count);
+                        }
+                        else
+                        {
+                            image2.AppendImageRows(data2FillEnhanced, scanlineDataEnhanced.Count);
+                           
+                        }
+                        image2.AppendOriginImageRows(data2Fill, scanlineData.Count);
+                    }
+
+                    if (viewIndex == DetectViewIndex.View1)
+                    {
+                        ShowingLinesCount += scanLines.Count;
+                        ShowingLinesCount = Math.Min(ShowingLinesCount, MaxLinesCount);
+                    }
+                    // 对于正向填充，最后一线数据的编号最大
+                    MaxLineNumber = scanLines[scanLines.Count - 1].LineNumber;
+                    MinLineNumber = MaxLineNumber - ShowingLinesCount + 1;
+                }
+
+                ReleaseUnvisibleMarkers();
+            }
+        }
+
+        /// <summary>
+        /// 准备用于更新图像的数据，并更新编号等信息
+        /// </summary>
+        /// <param name="scanLines">要填充的图像数据</param>
+        /// <param name="viewIndex">表示scanLines中的数据采集自哪一个探测视角</param>
+        private ushort[] PrepareOverriddingImageData(List<DisplayScanlineData> scanLines, DetectViewIndex viewIndex)
+        {
+            // 将实际的数据长度调整为配置的数据长度
+            var lenAdjustedScanLines = AdjustScanLinesDataLen(scanLines, viewIndex);
+
+            var scanlineData = lenAdjustedScanLines.Select(ComposeXDataAndColorIndex).ToList();
+
+            // 将所有线数据，统一拷贝至缓冲区data2Fill中
+            if (scanlineData.Count > 0)
+            {               
+                var data2Fill = new ushort[scanlineData.Count * scanlineData[0].Length];
+
+                if (ReverseAppending)
+                {
+                    // 对于反向填充，最后一线被填充数据的编号最小
+                    for (int j = 0; j < scanlineData.Count; j++)
+                    {
+                        scanlineData[j].CopyTo(data2Fill, j * scanlineData[0].Length);
+                    }
+
+                    // 对于反向填充，最后一线数据的编号最小
+                    ShowingLinesCount += scanLines.Count;
+                    ShowingLinesCount = Math.Min(ShowingLinesCount, MaxLinesCount);
+
+                    // 对于反向填充，最后一线数据的编号最小
+                    MinLineNumber = scanLines[scanLines.Count - 1].LineNumber;
+                    MaxLineNumber = MinLineNumber + ShowingLinesCount - 1;
+                }
+                else
+                {
+                    // 对于正向填充：最后一线被填充的数据的编号最大，但是输入的数据是从小到大排序
+                    for (int j = 0; j < scanlineData.Count; j++)
+                    {
+                        scanlineData[scanlineData.Count - 1 - j].CopyTo(data2Fill, j * scanlineData[0].Length);
+                    }
+
+                    // 对于正向填充，最后一线数据的编号最大
+                    ShowingLinesCount += scanLines.Count;
+                    ShowingLinesCount = Math.Min(ShowingLinesCount, MaxLinesCount);
+
+                    // 对于正向填充，最后一线数据的编号最大
+                    MaxLineNumber = scanLines[scanLines.Count - 1].LineNumber;
+                    MinLineNumber = MaxLineNumber - ShowingLinesCount + 1;
+                }
+
+                return data2Fill;
+            }
+
+            return null;
+        }
+
+        private ushort[] PrepareOverriddingImageEnhancedData(List<DisplayScanlineData> scanLines, DetectViewIndex viewIndex)
+        {
+            if (scanLines.Count > 0 && scanLines[0].XRayDataEnhanced == null)
+            {
+                return null;
+            }
+            // 将实际的数据长度调整为配置的数据长度
+            var lenAdjustedScanLines = AdjustScanLinesDataLen(scanLines, viewIndex);
+
+            var scanlineData = lenAdjustedScanLines.Select(ComposeXDataEnhancedAndColorIndex).ToList();
+
+            // 将所有线数据，统一拷贝至缓冲区data2Fill中
+            if (scanlineData.Count > 0)
+            {
+                var data2Fill = new ushort[scanlineData.Count * scanlineData[0].Length];
+
+                if (ReverseAppending)
+                {
+                    // 对于反向填充，最后一线被填充数据的编号最小
+                    for (int j = 0; j < scanlineData.Count; j++)
+                    {
+                        scanlineData[j].CopyTo(data2Fill, j * scanlineData[0].Length);
+                    }
+
+                    // 对于反向填充，最后一线数据的编号最小
+                    ShowingLinesCount += scanLines.Count;
+                    ShowingLinesCount = Math.Min(ShowingLinesCount, MaxLinesCount);
+
+                    // 对于反向填充，最后一线数据的编号最小
+                    MinLineNumber = scanLines[scanLines.Count - 1].LineNumber;
+                    MaxLineNumber = MinLineNumber + ShowingLinesCount - 1;
+                }
+                else
+                {
+                    // 对于正向填充：最后一线被填充的数据的编号最大，但是输入的数据是从小到大排序
+                    for (int j = 0; j < scanlineData.Count; j++)
+                    {
+                        scanlineData[scanlineData.Count - 1 - j].CopyTo(data2Fill, j * scanlineData[0].Length);
+                    }
+
+                    // 对于正向填充，最后一线数据的编号最大
+                    ShowingLinesCount += scanLines.Count;
+                    ShowingLinesCount = Math.Min(ShowingLinesCount, MaxLinesCount);
+
+                    // 对于正向填充，最后一线数据的编号最大
+                    MaxLineNumber = scanLines[scanLines.Count - 1].LineNumber;
+                    MinLineNumber = MaxLineNumber - ShowingLinesCount + 1;
+                }
+
+                return data2Fill;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// 调整数据的长度，将实际的数据长度调整为配置的数据长度，实际数据较长，则截取前部，实际数据较短，则实际数据居中，上下补空白
+        /// </summary>
+        /// <param name="scanLines">实际的图像数据线集</param>
+        /// <param name="viewIndex">图像的视角编号</param>
+        /// <returns>长度调整为配置长度的图像数据线集</returns>
+        private IEnumerable<DisplayScanlineData> AdjustScanLinesDataLen(IEnumerable<DisplayScanlineData> scanLines, DetectViewIndex viewIndex)
+        {
+            int channelsCount = View1ChannelsCount;
+            if (viewIndex == DetectViewIndex.View2)
+            {
+                channelsCount = View2ChannelsCount;
+            }
+            // 数据长度调整后的数据
+            var lenAdjustedScanLines = new List<DisplayScanlineData>();
+            // todo 这里存在一个问题：如果每一线都进行数据长度判断，则效率太低（猜测）；如果只判断一次，
+            // 那么存在在一次显示中包含两种长度的数据，此时显示会有问题，尤其是在图像回放第一屏，暂时没有崩溃
+            // 目前使用每一线都进行判断的策略
+            foreach (var line in scanLines)
+            {
+                if (line.XRayData.Length > channelsCount)
+                {
+                    // 实际数据通道数大于配置（即要显示）的通道数，则取实际数据的前部
+                    var colorIndex = new ushort[channelsCount];
+                    var XRayData = new ushort[channelsCount];
+                    var XRayDataEnhanced = new ushort[channelsCount];
+                    //var matLineData = new ClassifiedLineData(line.ViewIndex, channelsCount) { IsAir = line.IsAir };
+                    // 截取拷贝实际的图像线数据，包括高低能融合数据和颜色
+                    Array.Copy(line.XRayData, 0, XRayData, 0, channelsCount);
+                    if (line.XRayDataEnhanced!=null)
+                    {
+                        Array.Copy(line.XRayDataEnhanced, 0, XRayDataEnhanced, 0, channelsCount);
+                    }
+                    
+                    Array.Copy(line.ColorIndex, 0, colorIndex, 0, channelsCount);
+                    lenAdjustedScanLines.Add(new DisplayScanlineData(line.ViewIndex,XRayData,XRayDataEnhanced,line.Material, colorIndex, line.LineNumber,line.IsAir));
+                }
+                else if (line.XRayData.Length < channelsCount)
+                {
+                    // 实际数据通道数小于配置（即要显示）的通道数，则实际数据居中，上下补空白
+                    var colorIndex = new ushort[channelsCount];
+                    var XRayData = new ushort[channelsCount];
+                    var XRayDataEnhanced = new ushort[channelsCount];
+                    //var matLineData = new ClassifiedLineData(line.ViewIndex, channelsCount) { IsAir = line.IsAir };
+                    int marginChannelsCount = ((channelsCount - line.XRayData.Length) >> 1);
+                    // 填充上下（无数据的）置白点
+                    for (int i = 0; i < marginChannelsCount; i++)
+                    {
+                        XRayData[i] = 65530;
+                        XRayData[channelsCount - 1 - i] = 65530;
+                        if (line.XRayDataEnhanced!=null)
+                        {
+                            XRayDataEnhanced[i] = 65530;
+                            XRayDataEnhanced[channelsCount - 1 - i] = 65530;
+                        }
+                        colorIndex[i] = 0;
+                        colorIndex[channelsCount - 1 - i] = 0;
+                    }
+                    // 拷贝实际的线数据，包括高低能融合数据和颜色
+                    Array.Copy(line.XRayData, 0, XRayData, marginChannelsCount, line.XRayData.Length);
+                    if (line.XRayDataEnhanced!=null)
+                    {
+                        Array.Copy(line.XRayDataEnhanced, 0, XRayDataEnhanced, marginChannelsCount, line.XRayDataEnhanced.Length);
+                    }
+                    Array.Copy(line.ColorIndex, 0, colorIndex, marginChannelsCount, line.XRayData.Length);
+                    lenAdjustedScanLines.Add(new DisplayScanlineData(line.ViewIndex, XRayData, XRayDataEnhanced, line.Material, colorIndex, line.LineNumber, line.IsAir));
+                }
+                else
+                {
+                    // 实际数据通道数等于配置（即要显示）的通道数，不做处理，直接显示
+                    // todo 这里没有重新创建线数据，可能会有一定的影响
+                    lenAdjustedScanLines.Add(line);
+                }
+            }
+            return lenAdjustedScanLines;
+        }
+
+        /// <summary>
+        /// 将探测数据与其颜色索引进行组合：转为int型数组，排列方式为：一个点探测数据后紧跟其物质分类对应的颜色索引
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        private ushort[] ComposeXDataAndColorIndex(DisplayScanlineData data)
+        {
+            var composed = new ushort[data.XRayData.Length << 1];
+            for (int i = 0; i < composed.Length; i += 2)
+            {
+                composed[i] = data.XRayData[i >> 1];
+                composed[i + 1] = data.ColorIndex[i >> 1];
+            }
+
+            return composed;
+        }
+        private ushort[] ComposeXDataEnhancedAndColorIndex(DisplayScanlineData data)
+        {
+            if (data.XRayDataEnhanced == null)
+            {
+                return null;
+            }
+            var composed = new ushort[data.XRayDataEnhanced.Length << 1];
+            for (int i = 0; i < composed.Length; i += 2)
+            {
+                composed[i] = data.XRayDataEnhanced[i >> 1];
+                composed[i + 1] = data.ColorIndex[i >> 1];
+            }
+
+            return composed;
+        }
+
+        /*****************20200529 修改，试图解决卡顿问题*********************/
+
+        /// <summary>
+        /// 对线数据进行加入控件钱的整理，整理为融合值 - 材料值间隔数组的形式
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="Args"></param>
+        private void ScanlineDataHandleProcess()
+        {
+<<<<<<< Updated upstream
+            while (_isRun)
+            {
+                if (_view1ImageCache != null && _view1ImageCache.Count > 0)
+                {
+                    //整理视角1数据
+                    ScanlineDataHandle(_view1ImageCache, DetectViewIndex.View1);
+                }
+                if (_view2ImageCache != null && _view2ImageCache.Count > 0)
+                {
+                    //整理视角2数据
+                    ScanlineDataHandle(_view2ImageCache, DetectViewIndex.View2);
+                }
+                Thread.Sleep(1);
+            }            
+=======
+            if (_view1ImageCache != null && _view1ImageCache.Count > 0)
+            {
+                //整理视角1数据
+                ScanlineDataHandle(_view1ImageCache, DetectViewIndex.View1);
+            }
+
+            if (_view2ImageCache != null && _view2ImageCache.Count > 0)
+            {
+                ScanlineDataHandle(_view2ImageCache, DetectViewIndex.View2);
+                //整理视角2数据
+            }
+>>>>>>> Stashed changes
+        }
+
+        /// <summary>
+        /// 整理数据
+        /// 20200528 lijiayi
+        /// </summary>
+        /// <param name="imageCache"></param>
+        /// <param name="viewIndex"></param>
+        private void ScanlineDataHandle(ConcurrentQueue<DisplayScanlineData> imageCache, DetectViewIndex viewIndex)
+        {
+            DisplayScanlineData firstScanlineDate = null;
+            imageCache.TryPeek(out firstScanlineDate);
+
+            if (firstScanlineDate == null) return;  //前面判断了序列不为空，应该不会执行这步
+
+            if (firstScanlineDate.CreatedTime != null)
+            {
+                //延迟时间不够就返回，否则就继续执行
+                if (DateTime.Now.AddSeconds(-CacheDelayTime) < firstScanlineDate.CreatedTime)
+                    return;
+            }
+
+            var scanLines = new List<DisplayScanlineData>();
+
+            DisplayScanlineData line = null;
+            int i = 0;
+            while (i < ImageMovingSpeed && imageCache.TryDequeue(out line))
+            {
+                var shape = _shapeCorrection.DisplayScanlineCorrection(line);
+                scanLines.Add(shape);
+                i++;
+            }
+            if (scanLines.Count ==0)
+            {
+                return;
+            }
+            var lenAdjustedScanLines = AdjustScanLinesDataLen(scanLines, viewIndex);
+            var scanlineData = lenAdjustedScanLines.Select(ComposeXDataAndColorIndex).ToList();
+            var scanlineDataEnhanced = lenAdjustedScanLines.Select(ComposeXDataEnhancedAndColorIndex).ToList();
+
+            //如果增强后数据为空，那么复制源数据
+            //if (scanlineDataEnhanced == null || scanlineDataEnhanced.Contains(null))
+            //{
+            //    Console.WriteLine("scanlineDataEnhanced Contains Null Item");
+            //    scanlineDataEnhanced = new List<ushort[]>(scanlineData);
+            //}
+                
+
+            var enhancedLength = scanlineDataEnhanced[0] != null ? scanlineDataEnhanced[0].Length : 0;
+            var data2Fill = new ushort[scanlineData.Count * scanlineData[0].Length];
+            var data2FillEnhanced = new ushort[scanlineDataEnhanced.Count * enhancedLength];
+            if (enhancedLength == 0)
+            {
+                
+            }
+            if (ReverseAppending)
+            {
+                //反向填充
+                //对于反向填充，最后一线被填充数据的编号最小
+                for (int j = 0; j < scanlineData.Count; j++)
+                {
+                    scanlineData[j].CopyTo(data2Fill, j * scanlineData[0].Length);
+                    if (enhancedLength == 0)
+                    {
+                        data2FillEnhanced = (ushort[])data2Fill.Clone();
+                    }
+                    else
+                    {
+                        scanlineDataEnhanced[j].CopyTo(data2FillEnhanced, j * enhancedLength);
+                    }
+
+                }
+            }
+            else
+            {
+                //正常填充
+                //对于反向填充，最后一线被填充数据的编号最大
+                for (int j = 0; j < scanlineData.Count; j++)
+                {
+                    scanlineData[scanlineData.Count - 1 - j].CopyTo(data2Fill, j * scanlineData[0].Length);
+                    if (enhancedLength == 0)
+                    {
+                        scanlineDataEnhanced[j].CopyTo(data2FillEnhanced, j * enhancedLength);
+                    }
+                    else
+                    {
+                        scanlineDataEnhanced[scanlineDataEnhanced.Count - 1 - j].CopyTo(data2FillEnhanced, j * enhancedLength);
+                    }
+                }
+            }
+            var Number = scanLines[scanLines.Count - 1].LineNumber;
+            var count = scanLines.Count;
+
+            DataReadyToFill data = new DataReadyToFill(data2Fill, data2FillEnhanced, count, Number);
+            if (Image1ViewIndex == viewIndex)
+                _view1DataReadyCache.Enqueue(data);
+            if (Image2ViewIndex == viewIndex)
+                _view2DataReadyCache.Enqueue(data);
+        }
+
+        /// <summary>
+        /// 处理整理数据的响应函数
+        /// </summary>
+        /// <param name="args"></param>
+        protected void GetDataAndDrawMarkers(GetImageLinesEventArgs args)
+        {
+            try
+            {
+                DataReadyToFill data;
+                var image1 = args.Image1Updater;
+                var image2 = args.Image2Updater;
+                //if (!Flag)
+                //    return;
+                if (_view1DataReadyCache.Count > 0)
+                {
+                    _view1DataReadyCache.TryDequeue(out data);//此处取缓存是否不应每次取一个，会造成数据堆积？ 20200529 lijiayi
+                    FillScanLinesToImage(image1, image2, data.dataFill, data.dataFillEnhanced, data.Count, data.LineNumber, DetectViewIndex.View1);
+                }
+                //else
+                //{
+                //    Console.WriteLine("View1 Cache Count < 1");
+                //}
+                if (_view2DataReadyCache.Count > 0)
+                {
+                    _view2DataReadyCache.TryDequeue(out data);
+                    FillScanLinesToImage(image1, image2, data.dataFill, data.dataFillEnhanced, data.Count, data.LineNumber, DetectViewIndex.View2);
+                }
+                //else
+                //{
+                //    Console.WriteLine("View2 Cache Count < 1");
+                //}
+
+                // 在图像数据更新完毕后，结束更新
+                if (image1 != null)
+                    image1.EndAppending();
+                if (image2 != null)
+                    image2.EndAppending();
+
+                // 根据当前剩余缓存图像量，更新显示速率等状态
+                ChangeMovingSpeed();
+
+                RenderCadRegions(args);
+            }
+            catch (Exception ex)
+            {
+                Tracer.TraceException(ex, "Unexpected exception in GetDataAndDrawMarkers Function");
+            }
+        }
+
+        /// <summary>
+        /// 将一个视角的数据填充到GL图像中，数据为经过数据整理后的数据
+        /// </summary>
+        /// <param name="image1"></param>
+        /// <param name="image2"></param>
+        /// <param name="dataFill"></param>
+        /// <param name="dataFillEnhanced"></param>
+        /// <param name="scanlinesCount"></param>
+        /// <param name="LineNumber"></param>
+        /// <param name="viewIndex"></param>
+        private void FillScanLinesToImage(IRollingImageUpdater image1, IRollingImageUpdater image2,
+            ushort[] dataFill, ushort[] dataFillEnhanced, int scanlinesCount, int LineNumber, DetectViewIndex viewIndex)
+        {
+            //填充数据
+
+            //PS：好像没有必要区分image1和image2，后续再看 20200528
+
+            if (scanlinesCount > 0)
+            {
+                if (ReverseAppending)//反向填充
+                {
+                    if (image1 != null && Image1ViewIndex == viewIndex)
+                    {
+                        image1.ReverseAppendImageRows(dataFillEnhanced, scanlinesCount);
+                        image1.ReverseAppendOriginImageRows(dataFill, scanlinesCount);
+                    }
+                    if (image2 != null && Image2ViewIndex == viewIndex)
+                    {
+                        image2.ReverseAppendImageRows(dataFillEnhanced, scanlinesCount);
+                        image2.ReverseAppendOriginImageRows(dataFill, scanlinesCount);
+                    }
+                }else
+                {
+                    if (image1 != null && Image1ViewIndex == viewIndex)
+                    {
+                        image1.AppendImageRows(dataFillEnhanced, scanlinesCount);
+                        image1.AppendOriginImageRows(dataFill, scanlinesCount);
+                    }
+                    if (image2 != null && Image2ViewIndex == viewIndex)
+                    {
+                        image2.AppendImageRows(dataFillEnhanced, scanlinesCount);
+                        image2.AppendOriginImageRows(dataFill, scanlinesCount);
+                    }
+                }
+                if (ReverseAppending)//反向填充
+                {
+                    MinLineNumber = LineNumber;
+                    MaxLineNumber = MinLineNumber + ShowingLinesCount - 1;
+                }
+                else //正向填充
+                {
+                    MaxLineNumber = LineNumber;
+                    MinLineNumber = MaxLineNumber - ShowingLinesCount + 1;
+                }
+                if (viewIndex == DetectViewIndex.View1)
+                {
+                    ShowingLinesCount += scanlinesCount;
+                    ShowingLinesCount = Math.Min(ShowingLinesCount, MaxLinesCount);
+                }
+                ReleaseUnvisibleMarkers();
+            }
+        }
+    }
+
+
+    /****************************************************/
+    class DataReadyToFill
+    {
+        public ushort[] dataFill { private set; get; }
+        public ushort[] dataFillEnhanced { private set; get; }
+        public int Count { private set; get; }
+        public int LineNumber { private set; get; }
+        public DataReadyToFill(ushort[] dataFill, ushort[] dataFillEnhanced, int Count, int LineNumber)
+        {
+            this.dataFill = dataFill;
+            this.dataFillEnhanced = dataFillEnhanced;
+            this.Count = Count;
+            this.LineNumber = LineNumber;
+        }
+        public DataReadyToFill()
+        {
+
+        }
+    }
+}

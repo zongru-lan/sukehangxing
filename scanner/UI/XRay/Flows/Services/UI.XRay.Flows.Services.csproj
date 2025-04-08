@@ -1,0 +1,267 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{EAB046CC-8FDD-4735-A403-946154EFB6E8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>UI.XRay.Flows.Services</RootNamespace>
+    <AssemblyName>UI.XRay.Flows.Services</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\..\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\..\bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Emgu.CV.UI, Version=4.1.1.3497, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Lib\EmguLib\Emgu.CV.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Emgu.CV.World, Version=4.1.1.3497, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Lib\EmguLib\Emgu.CV.World.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\bin\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight, Version=5.2.0.37222, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\MvvmLightLibs.5.2.0.0\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Extras, Version=5.2.0.37222, Culture=neutral, PublicKeyToken=669f0b5e8f868abf, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\MvvmLightLibs.5.2.0.0\lib\net45\GalaSoft.MvvmLight.Extras.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Platform, Version=5.2.0.37226, Culture=neutral, PublicKeyToken=5f873c45e98af8a1, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\MvvmLightLibs.5.2.0.0\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="ImageProcessor, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\bin\ImageProcessor.dll</HintPath>
+    </Reference>
+    <Reference Include="JugdeHttp">
+      <HintPath>..\..\..\..\Lib\NetWork\JugdeHttp.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PBControlClr">
+      <HintPath>..\..\..\..\Lib\PBCapture_x86\PBControlClr.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\MvvmLightLibs.5.2.0.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UI.AI.Detect.HttpService, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Lib\NetWork\UI.AI.Detect.HttpService.dll</HintPath>
+    </Reference>
+    <Reference Include="UI.Common.Tracers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=78c54539843930a5, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Lib\Trace\UI.Common.Tracers.dll</HintPath>
+    </Reference>
+    <Reference Include="UI.XRay.ControlWorkflows, Version=1.0.0.0, Culture=neutral, PublicKeyToken=a0f341f57fd962c6, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Lib\UIControl_x86\UI.XRay.ControlWorkflows.dll</HintPath>
+    </Reference>
+    <Reference Include="UI.XRay.DtControlClr">
+      <HintPath>..\..\..\..\Lib\DTCapture_x86\UI.XRay.DtControlClr.dll</HintPath>
+    </Reference>
+    <Reference Include="UI.XRay.Gui.Framework, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\bin\UI.XRay.Gui.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="UI.XRay.ImagePlant, Version=4.0.0.0, Culture=neutral, PublicKeyToken=a0f341f57fd962c6, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Lib\RenderEngine\UI.XRay.ImagePlant.dll</HintPath>
+    </Reference>
+    <Reference Include="UI.XRay.RenderEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=a0f341f57fd962c6, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Lib\RenderEngine\UI.XRay.RenderEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UI.XRay.ScannerControlClr, Version=1.0.5741.21091, Culture=neutral, PublicKeyToken=a0f341f57fd962c6, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Lib\UIControl_x86\UI.XRay.ScannerControlClr.dll</HintPath>
+    </Reference>
+    <Reference Include="UI.XRay.XRayGenControl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=a0f341f57fd962c6, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Lib\UIControl_x86\UI.XRay.XRayGenControl.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="XRayAcquisitionSys, Version=1.0.1.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Lib\XRayAcquisitionSys\XRayAcquisitionSys.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AIJudgeImageService.cs" />
+    <Compile Include="AirLineCheckingService.cs" />
+    <Compile Include="AirLineDetectService.cs" />
+    <Compile Include="BagCounterService.cs" />
+    <Compile Include="ClearLogsService.cs" />
+    <Compile Include="HttpAiJudgeService.cs" />
+    <Compile Include="ContrabandAlarmService.cs" />
+    <Compile Include="DataProcess\AutoCalibrationServiceBase.cs" />
+    <Compile Include="DataProcess\DislocationCorrector.cs" />
+    <Compile Include="DataProcess\DynamicAutoCalibrationService.cs" />
+    <Compile Include="DataProcess\RemoveBadChannelsOperator.cs" />
+    <Compile Include="DataProcess\RemoveInstableChannelsOperator.cs" />
+    <Compile Include="DataProcess\ShapeCorrectionService.cs" />
+    <Compile Include="Db\AccountDbSet.cs" />
+    <Compile Include="CaptureService.cs" />
+    <Compile Include="ConfigHelper.cs" />
+    <Compile Include="DataProcess\CalibrationValidationService.cs" />
+    <Compile Include="Db\AccountGroupDbSet.cs" />
+    <Compile Include="Db\BootLogDbSet.cs" />
+    <Compile Include="Db\ConveyorWorkLogDbSet.cs" />
+    <Compile Include="Db\ImageRecordDbSet.cs" />
+    <Compile Include="Db\OperationRecordDbSet.cs" />
+    <Compile Include="Db\TipEventRecordDbSet.cs" />
+    <Compile Include="Db\TipPlanandImageDbSet.cs" />
+    <Compile Include="Db\TipPlanDbSet.cs" />
+    <Compile Include="Db\WorkSessionDbSet.cs" />
+    <Compile Include="Db\XRayGenUsageRecordDbSet.cs" />
+    <Compile Include="Db\XRayGenWorkLogDbSet.cs" />
+    <Compile Include="DetectConstantLine.cs" />
+    <Compile Include="DevicePartsWorkTimingService.cs" />
+    <Compile Include="DtCaptureServicePart.cs" />
+    <Compile Include="DtGCUSTDCaptureServicePart.cs" />
+    <Compile Include="DualViewMatchingService.cs" />
+    <Compile Include="FileReadWriteHelper.cs" />
+    <Compile Include="FunctionKeyService.cs" />
+    <Compile Include="ImageProcessAlgoRecommendService.cs" />
+    <Compile Include="ImageProcessRecommendAlgo.cs" />
+    <Compile Include="ImageStoreDiskHelper.cs" />
+    <Compile Include="DisplayXRayMatLineDataConverter.cs" />
+    <Compile Include="DataProcess\BeltEdgeEliminationService.cs" />
+    <Compile Include="DataProcess\ManualCalibrationService.cs" />
+    <Compile Include="IControlServicePart.cs" />
+    <Compile Include="ICaptureServicePart.cs" />
+    <Compile Include="IntelliSenseService.cs" />
+    <Compile Include="InterruptAndMatchService.cs" />
+    <Compile Include="KeyboardLedControlService.cs" />
+    <Compile Include="LockInputService.cs" />
+    <Compile Include="MatColorMappingService.cs" />
+    <Compile Include="OperationRecordService.cs" />
+    <Compile Include="PermissionService.cs" />
+    <Compile Include="PrintInfomationOnImage.cs" />
+    <Compile Include="ReadConfigService.cs" />
+    <Compile Include="RecordCalibrateAirService.cs" />
+    <Compile Include="SoftLockerService.cs" />
+    <Compile Include="SystemStartShutdownService.cs" />
+    <Compile Include="SystemStateService.cs" />
+    <Compile Include="TouchKeyboardService.cs" />
+    <Compile Include="Transmission.cs" />
+    <Compile Include="TYMCaptureServicePart.cs" />
+    <Compile Include="VersionHelper.cs" />
+    <Compile Include="XRayGenControlServices.cs" />
+    <Compile Include="XRayLampControlService.cs" />
+    <Compile Include="ChannelBadFlagsFileWatchingService.cs" />
+    <Compile Include="ChannelBadFlagsManageService.cs" />
+    <Compile Include="NetControlServicePart.cs" />
+    <Compile Include="DataProcess\PreprocessService.cs" />
+    <Compile Include="OldImagesCleanupService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ControlService.cs" />
+    <Compile Include="DataProcess\AutoCalibrationService.cs" />
+    <Compile Include="DataProcess\DataNormalizationService.cs" />
+    <Compile Include="YellowLampControlService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Business\Algo\UI.XRay.Business.Algo.csproj">
+      <Project>{e472f03c-8190-464a-b8bd-6d4b61cfcf92}</Project>
+      <Name>UI.XRay.Business.Algo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Business\DataAccess\UI.XRay.Business.DataAccess.csproj">
+      <Project>{7042e2b9-a05e-4a94-9d67-3e27693fb770}</Project>
+      <Name>UI.XRay.Business.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Business\Entities\UI.XRay.Business.Entities.csproj">
+      <Project>{f86ffdd2-6658-466c-b9c8-b8c45f8ec48c}</Project>
+      <Name>UI.XRay.Business.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\Utilities\UI.XRay.Common.Utilities.csproj">
+      <Project>{018f1171-500a-436e-affe-2c27fc7d0373}</Project>
+      <Name>UI.XRay.Common.Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Parts\Keyboard\UI.XRay.Parts.Keyboard.csproj">
+      <Project>{4caec812-cd4b-48c2-b42a-ddbc0deb90cd}</Project>
+      <Name>UI.XRay.Parts.Keyboard</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TRSNetwork\UI.XRay.Flows.TRSNetwork.csproj">
+      <Project>{b0d9defc-ee80-4d0b-afe1-a159c1303f8c}</Project>
+      <Name>UI.XRay.Flows.TRSNetwork</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

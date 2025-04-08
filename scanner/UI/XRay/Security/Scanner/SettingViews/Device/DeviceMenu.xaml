@@ -1,0 +1,48 @@
+﻿<Page x:Class="UI.XRay.Security.Scanner.SettingViews.Device.DeviceMenu"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:framework="clr-namespace:UI.XRay.Gui.Framework;assembly=UI.XRay.Gui.Framework"
+      mc:Ignorable="d" 
+      d:DesignHeight="400" d:DesignWidth="300"
+      DataContext="{Binding Source={StaticResource Locator}, Path=DeviceMenu}"
+	  Title="{framework:LanguageResource Source=Device}">
+
+    <Page.Resources>
+        <Style TargetType="RadioButton" BasedOn="{StaticResource RadioMenuButtonStyle}"></Style>
+    </Page.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel HorizontalAlignment="Left" Orientation="Vertical" Width="{StaticResource SettingPageLeftPanelWidth}">
+            <RadioButton IsChecked="True" Name="DetectorsButton" Command="{Binding ShowDetectorsPageCommand}">
+                <TextBlock TextWrapping="Wrap" Text="{framework:LanguageResource Detectors}"/>
+            </RadioButton>
+
+            <RadioButton Command="{Binding ShowXRayGenPageCommand}">
+                <TextBlock TextWrapping="Wrap" Text="{framework:LanguageResource X-Ray Generators}"/>
+            </RadioButton>
+
+            <RadioButton Command="{Binding ShowConveyorPageCommand}">
+                <TextBlock TextWrapping="Wrap" Text="{framework:LanguageResource Conveyor and PESensor}"/>
+            </RadioButton>
+
+            <RadioButton Command="{Binding ShowKeyboardPageCommand}" Visibility="{Binding KeyboardVisibility}">
+                <TextBlock TextWrapping="Wrap" Text="{framework:LanguageResource Keyboard}"/>
+            </RadioButton>
+
+            <!--<RadioButton Command="{Binding ShowControlSystemPageCommand}">
+                <TextBlock TextWrapping="Wrap" Text="{framework:LanguageResource ViewSection=Configer, Source=Control System}"/>
+            </RadioButton>-->
+
+            <RadioButton Command="{Binding ShowSelfDiagnosisPageCommand}">
+                <TextBlock TextWrapping="Wrap" Text="{framework:LanguageResource Diagnosis}"/>
+            </RadioButton>
+
+            <!--设备维护页面-->
+            <RadioButton Command="{Binding ShowDeviceMaintenancePageCommand}">
+        <TextBlock TextWrapping="Wrap" Text="{framework:LanguageResource Device Maintenance, ViewSection=Device Maintenance}"/>
+            </RadioButton>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

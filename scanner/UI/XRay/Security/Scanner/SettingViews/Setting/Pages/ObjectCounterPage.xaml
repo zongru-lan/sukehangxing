@@ -1,0 +1,89 @@
+﻿<Page x:Class="UI.XRay.Security.Scanner.SettingViews.Setting.Pages.ObjectCounterPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:setting="clr-namespace:UI.XRay.Security.Scanner.ViewModel.Setting.Setting"
+      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+      xmlns:framework="clr-namespace:UI.XRay.Gui.Framework;assembly=UI.XRay.Gui.Framework"
+      mc:Ignorable="d" 
+      d:DesignHeight="500" d:DesignWidth="700" Background="GhostWhite"
+      DataContext="{Binding Source={StaticResource Locator}, Path=ObjectCounterPage}"
+      d:DataContext="{d:DesignInstance Type=setting:ObjectCounterPageViewModel, IsDesignTimeCreatable=True}"
+      FontSize="{StaticResource PageFontSize}"
+	  Title="ObjectCounterPage">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" IsTabStop="False">
+        <Grid Margin="{StaticResource PageContentMargin}" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Name="TotalCounterGrid">
+                <TextBlock Style="{StaticResource PageSectionHeaderTextBlockStyle}"
+                        Text="{framework:LanguageResource Total Counter}"></TextBlock>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Left"
+                        Text="{framework:LanguageResource Count of images since installed}"></TextBlock>
+                    <Label Content="{Binding TotalCount}" HorizontalAlignment="Left" VerticalAlignment="Center"></Label>
+                </StackPanel>
+            </StackPanel>
+            
+            <Grid Grid.Row="1" Name="SessionCounterGrid">
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition ></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition ></ColumnDefinition>
+                    <ColumnDefinition ></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource PageSectionHeaderTextBlockStyle}"
+                           Text="{framework:LanguageResource Session Counter}"></TextBlock>
+                <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"  TextWrapping="Wrap"
+                   Text="{framework:LanguageResource Scanned object count of current session}"></TextBlock>
+                <Label Grid.Row="1" Grid.Column="1" Name="SessionCountLabel" VerticalAlignment="Center" HorizontalAlignment="Left"
+                   Content="{Binding CurrentCount}"></Label>
+                <Button Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0"
+                    Content="{framework:LanguageResource Reset}" Command="{Binding ClearSessionCounterCommand}">
+                    <Button.Style>
+                        <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=SessionCountLabel, Path=Content}" Value="0">
+                                    <Setter Property="IsEnabled" Value="False"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,20,0,5"
+                           Text="{framework:LanguageResource Reset session counter when user login}">
+                </TextBlock>
+                <controls:ToggleSwitch Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Center" HorizontalAlignment="Left"
+                              ContentDirection="RightToLeft" Margin="-5,0,0,0" CheckChangedCommand="{Binding IsAutoResetToggleSwitchCheckedChangedEventCommand}"
+                                       OnLabel="{framework:LanguageResource Yes}" OffLabel="{framework:LanguageResource No}"
+                                       IsChecked="{Binding IsAutoResetChecked}"
+                              FontSize="{Binding Path=FontSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Page}}">
+                </controls:ToggleSwitch>
+            </Grid>
+            
+            <Grid Grid.Row="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition ></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+            </Grid>
+        </Grid>
+        
+    </ScrollViewer>
+</Page>

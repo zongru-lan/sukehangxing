@@ -1,0 +1,85 @@
+﻿<UserControl x:Class="UI.XRay.Security.Configer.UserControl.ImagesSettingsUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:framework="clr-namespace:UI.XRay.Gui.Framework;assembly=UI.XRay.Gui.Framework"
+             mc:Ignorable="d" HorizontalAlignment="Left" VerticalAlignment="Top"
+             DataContext="{Binding Source={StaticResource Locator}, Path=ImagesSettings}"
+             d:DesignHeight="800" d:DesignWidth="600">
+    <StackPanel Margin="20">
+        <!--<Label Margin="0,15,0,0" Content="Remove Blank Space Between Bags"/>
+        <controls:ToggleSwitch OnLabel="Yes" OffLabel="No" HorizontalAlignment="Left" ContentDirection="RightToLeft" IsChecked="{Binding RemoveBlankSpaceBetBags}"/>
+        
+        <Label Margin="0,15,0,0" Content="Show Unpenetratable in Red"/>
+        <controls:ToggleSwitch HorizontalAlignment="Left" ContentDirection="RightToLeft" OnLabel="Yes" OffLabel="No" IsChecked="{Binding ShowUnpenetratableRed}"/>-->
+
+        <!--<StackPanel Margin="0,15,0,0" Orientation="Horizontal">
+            <Label Content="Default Absorb Index"/>
+            <Label Content="{Binding DefaultAbsorbIndex}" Margin="10,0,0,0"/>
+        </StackPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <Slider Minimum="-25" Maximum="25" Value="{Binding DefaultAbsorbIndex}" AutoToolTipPlacement="BottomRight" />
+        </Grid>-->
+
+        <!--<Label Margin="0,15,0,0" Content="Max Zoomin Times" VerticalAlignment="Bottom"/>
+        <ComboBox IsEditable="False" ItemsSource="{Binding MaxZoominTimesSource}" SelectedItem="{Binding MaxZoominTimes}"/>-->
+
+        <Label Margin="0,15,0,0" Content="{framework:LanguageResource ViewSection=Configer, Source=Images Count}" VerticalAlignment="Bottom"/>
+        <ComboBox ItemsSource="{Binding ImagesCountSource}" SelectedItem="{Binding ImagesCount}" IsEditable="False"/>
+
+        <Border BorderThickness="1" Margin="0,15,0,0" BorderBrush="{StaticResource AccentColorBrush}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="1" Grid.Column="0" Margin="5" Content="{framework:LanguageResource ViewSection=Configer, Source=Showing Detect View}"/>
+                <Label Grid.Row="2" Grid.Column="0" Margin="5" Content="{framework:LanguageResource ViewSection=Configer, Source=Color Mode}"/>
+                <Label Grid.Row="3" Grid.Column="0" Margin="5" Content="{framework:LanguageResource ViewSection=Configer, Source=Penetration}"/>
+                <Label Grid.Row="4" Grid.Column="0" Margin="5" Content="{framework:LanguageResource ViewSection=Configer, Source=Vertical Flip}"/>
+                <Label Grid.Row="5" Grid.Column="0" Margin="5" Content="{framework:LanguageResource ViewSection=Configer, Source=Edge Enhance}"/>
+                <!--<Label Grid.Row="6" Grid.Column="0" Margin="5" Content="{framework:LanguageResource ViewSection=Configer, Source=Super Enhance}" Visibility="Collapsed"/>-->
+                <Label Grid.Row="6" Grid.Column="0" Margin="5" Content="{framework:LanguageResource ViewSection=Configer, Source=Inversed}"/>
+                <Label Grid.Row="7" Grid.Column="0" Margin="5" Content="{framework:LanguageResource ViewSection=Configer, Source=Move From Right to Left}"/>
+                <Label Grid.Row="0" Grid.Column="1" Margin="5" Content="{framework:LanguageResource ViewSection=Common, Source=Image1}"/>
+                <ComboBox Grid.Row="1" Grid.Column="1" Margin="5" ItemsSource="{Binding ImageShowingDetViews}" SelectedItem="{Binding Image1ShowingDetView}"/>
+                <ComboBox Grid.Row="2" Grid.Column="1" Margin="5" ItemsSource="{Binding ImageColorModes}" SelectedItem="{Binding Image1ColorMode}"/>
+                <ComboBox Grid.Row="3" Grid.Column="1" Margin="5" ItemsSource="{Binding ImagePenetrationModes}" SelectedItem="{Binding Image1Penetration}"/>
+                <controls:ToggleSwitch  Grid.Row="4" Grid.Column="1" OnLabel="Yes" OffLabel="No" ContentDirection="RightToLeft" HorizontalAlignment="Left"  Margin="5" VerticalAlignment="Center" IsChecked="{Binding Image1VerticalFlip}"/>
+                <controls:ToggleSwitch Grid.Row="5" Grid.Column="1" Margin="5" OnLabel="On" OffLabel="Off" ContentDirection="RightToLeft" HorizontalAlignment="Left" VerticalAlignment="Center" IsChecked="{Binding Image1EnableEdgeEnhance}"/>
+                <!--<controls:ToggleSwitch Visibility="Collapsed" Grid.Row="6" Grid.Column="1" Margin="5" OnLabel="On" OffLabel="Off" ContentDirection="RightToLeft" HorizontalAlignment="Left"   VerticalAlignment="Center" IsChecked="{Binding Image1EnableSuperEnhance}"/>-->
+                <controls:ToggleSwitch Grid.Row="6" Grid.Column="1" Margin="5" OnLabel="Yes" OffLabel="No" ContentDirection="RightToLeft" HorizontalAlignment="Left"  VerticalAlignment="Center" IsChecked="{Binding Image1Inversed}"/>
+                <controls:ToggleSwitch Grid.Row="7" Grid.Column="1" OnLabel="Yes" OffLabel="No" ContentDirection="RightToLeft" HorizontalAlignment="Left" Margin="5" IsChecked="{Binding Image1RightToLeft}"/>
+
+                <Label Grid.Row="0" Grid.Column="2" Margin="5" Content="{framework:LanguageResource ViewSection=Common, Source=Image2}" Visibility="{Binding ShowImage2Settings}"/>
+                <ComboBox Grid.Row="1" Grid.Column="2"   Margin="5" Visibility="{Binding ShowImage2Settings}" ItemsSource="{Binding ImageShowingDetViews}" SelectedItem="{Binding Image2ShowingDetView}"/>
+                <ComboBox Grid.Row="2" Grid.Column="2"  Margin="5" Visibility="{Binding ShowImage2Settings}" ItemsSource="{Binding ImageColorModes}" SelectedItem="{Binding Image2ColorMode}"/>
+                <ComboBox Grid.Row="3" Grid.Column="2"  Margin="5" Visibility="{Binding ShowImage2Settings}" ItemsSource="{Binding ImagePenetrationModes}" SelectedItem="{Binding Image2Penetration}"/>
+                <controls:ToggleSwitch Grid.Column="2"  Grid.Row="4" Visibility="{Binding ShowImage2Settings}" Margin="5" OnLabel="Yes" OffLabel="No" ContentDirection="RightToLeft" HorizontalAlignment="Left"  VerticalAlignment="Center" IsChecked="{Binding Image2VerticalFlip}"/>
+                <controls:ToggleSwitch Grid.Column="2"  Grid.Row="5" Visibility="{Binding ShowImage2Settings}" Margin="5" OnLabel="On" OffLabel="Off" ContentDirection="RightToLeft" HorizontalAlignment="Left"   VerticalAlignment="Center" IsChecked="{Binding Image2EnableEdgeEnhance}"/>
+                <!--<controls:ToggleSwitch Grid.Column="2"   Visibility="Collapsed" Grid.Row="6" Margin="5" OnLabel="On" OffLabel="Off" ContentDirection="RightToLeft" HorizontalAlignment="Left"   VerticalAlignment="Center" IsChecked="{Binding Image2EnableSuperEnhance}"/>-->
+                <controls:ToggleSwitch Grid.Row="6" Grid.Column="2" Visibility="{Binding ShowImage2Settings}"  Margin="5" OnLabel="Yes" OffLabel="No" ContentDirection="RightToLeft" HorizontalAlignment="Left"   VerticalAlignment="Center" IsChecked="{Binding Image2Inversed}"/>
+                <controls:ToggleSwitch  Grid.Row="7" Grid.Column="2" Visibility="{Binding ShowImage2Settings}" Margin="5" OnLabel="Yes" OffLabel="No" ContentDirection="RightToLeft" HorizontalAlignment="Left"  IsChecked="{Binding Image2RightToLeft}"/>
+            </Grid>
+        </Border>
+    </StackPanel>
+</UserControl>

@@ -1,0 +1,64 @@
+﻿<dialogs:BaseMetroDialog x:Class="UI.XRay.Security.Scanner.MetroDialogs.MessageMetroDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:framework="clr-namespace:UI.XRay.Gui.Framework;assembly=UI.XRay.Gui.Framework"
+             mc:Ignorable="d" FontSize="{StaticResource PageFontSize}" 
+             d:DesignHeight="300" d:DesignWidth="700">
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Text="Title" Name="TitleLabel" Margin="0,10" FontSize="{StaticResource DialogTitleFontSize}"></TextBlock>
+        <TextBlock Grid.Row="1" Text="Show Message Here" Name="MessageBlock" Margin="0,10" TextWrapping="Wrap" FontSize="21"></TextBlock>
+        <StackPanel Grid.Row="2" HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,20,0,20">
+            <Button Margin="0,0,5,0" MinWidth="100" Name="OkButton" Click="OkButton_OnClick" 
+                    controls:ButtonHelper.PreserveTextCase="True" HorizontalContentAlignment="Stretch"
+                    Style="{StaticResource AccentedSquareButtonStyle}">
+                <Button.Content>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock TextWrapping="Wrap" Text="{framework:LanguageResource Ok}" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                        <TextBlock Grid.Column="1" Margin="15,0,0,0" Text="[F1]" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                    </Grid>
+                </Button.Content>
+            </Button>
+            <Button Margin="0,0,5,0" MinWidth="100" Name="NoButton" Click="NoButton_OnClick" 
+                    controls:ButtonHelper.PreserveTextCase="True"
+                    HorizontalContentAlignment="Stretch">
+                <Button.Content>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock TextWrapping="Wrap" Text="{framework:LanguageResource No}" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                        <TextBlock Grid.Column="1" Margin="15,0,0,0" Text="[F2]" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                    </Grid>
+                </Button.Content>
+            </Button>
+            <Button Margin="0,0,5,0" MinWidth="100" Name="CancelButton" Click="CancelButton_OnClick" 
+                    controls:ButtonHelper.PreserveTextCase="True"
+                    HorizontalContentAlignment="Stretch">
+                <Button.Content>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock TextWrapping="Wrap" Text="{framework:LanguageResource Cancel}" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                        <TextBlock Grid.Column="1" Margin="15,0,0,0" Text="[F3]" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                    </Grid>
+                </Button.Content>
+            </Button>
+        </StackPanel>
+    </Grid>
+</dialogs:BaseMetroDialog>

@@ -1,0 +1,2865 @@
+﻿<?xml version="1.0"?>
+<ArrayOfTranslationSection xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <TranslationSection SectionName="Common" Description="This section contains common translation strings for the app.">
+	  <TranslationElements Source="Channal Id:">
+		  <Translation>Channal Id:</Translation>
+	  </TranslationElements>
+	<TranslationElements Source="Remote Diagnosing">
+      <Translation>Remote Diagnosing</Translation>
+    </TranslationElements>
+	  <TranslationElements Source="WorkTiming">
+		  <Translation>Work Timing</Translation>
+	  </TranslationElements>
+    <TranslationElements Source="Ok">
+      <Translation>Ok</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Cancel">
+      <Translation>Cancel</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ExportToNet">
+      <Translation>ExportToNet</Translation>
+    </TranslationElements>
+	  <TranslationElements Source="Group">
+		  <Translation>Group</Translation>
+	  </TranslationElements>
+	  <TranslationElements Source="Save Group">
+		  <Translation>Save Group</Translation>
+	  </TranslationElements>
+    <TranslationElements Source="On" Comment="On state of toggle switch">
+      <Translation>On</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Off" Comment="Off state of toggle switch">
+      <Translation>Off</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Yes">
+      <Translation>Yes</Translation>
+    </TranslationElements>
+    <TranslationElements Source="No">
+      <Translation>No</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Rotate">
+      <Translation>Rotate</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Confirm">
+      <Translation>Confirm</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Close">
+      <Translation>Close</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Delete">
+      <Translation>Delete</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Select">
+      <Translation>Select</Translation>
+    </TranslationElements>
+    <TranslationElements Source="SelectTipLib">
+      <Translation>Select Tip Lib</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Add">
+      <Translation>Add</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Save">
+      <Translation>Save</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Open">
+      <Translation>Open</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Change">
+      <Translation>Change</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Reset">
+      <Translation>Reset</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Continue">
+      <Translation>Continue</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Default">
+      <Translation>Default</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Error">
+      <Translation>Error</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Exception">
+      <Translation>Exception</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Warning">
+      <Translation>Warning</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Cancelled">
+      <Translation>Cancelled</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Waiting">
+      <Translation>Waiting</Translation>
+    </TranslationElements>
+    <!--Main Menu Page-->
+    <TranslationElements Source="System Date And Time Setting">
+      <Translation>System Date And Time Setting</Translation>
+    </TranslationElements>
+    <TranslationElements Source="System">
+      <Translation>System</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image">
+      <Translation>Image</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Accounts">
+      <Translation>Accounts</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Device">
+      <Translation>Device</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Logs">
+      <Translation>Logs</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Setting">
+      <Translation>Setting</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Training">
+      <Translation>Training</Translation>
+    </TranslationElements>
+    <TranslationElements Source="TIP" Comment="Threatening Image Projection">
+      <Translation>TIP</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Calibrate" Comment="Calibrate imaging system">
+      <Translation>Calibrate</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Logout" Comment="Logout user account">
+      <Translation>Logout</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Login" Comment="Login user account">
+      <Translation>Login</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Shutdown" Comment="Shutdown scanner and computer">
+      <Translation>Shutdown</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Exit" Comment="Exit to windows desktop">
+      <Translation>Exit</Translation>
+    </TranslationElements>
+    <TranslationElements Source="About" Comment="About of the system">
+      <Translation>About</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Do you want to shutdown scanner now?">
+      <Translation>Do you want to shutdown scanner now?</Translation>
+    </TranslationElements>
+	<TranslationElements Source="You been working for">
+		<Translation>You've been working for </Translation>
+	</TranslationElements>
+	<TranslationElements Source="minutes!">
+		<Translation> minutes!</Translation>
+	</TranslationElements>
+	  <TranslationElements Source="Turn on shift change alerts">
+		  <Translation>Turn on shift change alerts</Translation>
+	  </TranslationElements>
+	  <TranslationElements Source="Change Shifts Message interval (H)">
+		  <Translation>Change Shifts Message interval (H)</Translation>
+	  </TranslationElements>
+	  <TranslationElements Source="Change Shifts Remind">
+		  <Translation>Change Shifts Remind</Translation>
+	  </TranslationElements>
+	  <TranslationElements Source="It's time for you to change shifts">
+		  <Translation>It's time for you to change shifts</Translation>
+	  </TranslationElements>
+	  
+    <!--Login Window-->
+    <TranslationElements Source="Failed to login because of exception.">
+      <Translation>Failed to login because of exception</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Login Failed">
+      <Translation>Login Failed</Translation>
+    </TranslationElements>
+    <TranslationElements Source="The account has been disabled. Please ask Administrator to activate it.">
+      <Translation>The account has been disabled. Please ask Administrator to activate it.</Translation>
+    </TranslationElements>
+    <TranslationElements Source="The password you typed is incorrect.">
+      <Translation>The password you typed is incorrect.</Translation>
+    </TranslationElements>
+    <TranslationElements Source="The account you typed does not exist.">
+      <Translation>The account you typed does not exist.</Translation>
+    </TranslationElements>
+    <TranslationElements Source="The account does not have permission to login to this position.">
+      <Translation>The account does not have permission to login to this position.</Translation>
+    </TranslationElements>
+
+    <!--About Page-->
+    <TranslationElements Source="Machine Information">
+      <Translation>Machine Information</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Machine Number:">
+      <Translation>Machine Number:</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Production Date:">
+      <Translation>Production Date:</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Machine Type:">
+      <Translation>Machine Type:</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Software Version:">
+      <Translation>Software Version:</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Algorithm Version:">
+      <Translation>Algorithm Version</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Control Version:">
+      <Translation>Control System Version</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Disk Space" Comment="hard disk space">
+      <Translation>Disk Space</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image Storage Disk:">
+      <Translation>Image Storage Disk:</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Already Used" Comment="disk space already used">
+      <Translation>Already Used</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Total">
+      <Translation>Total</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Images Count">
+      <Translation>Images Count</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Capture Board Count">
+      <Translation>Capture Board Count</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Count of images in storage" Comment="Count of images stored in disk now">
+      <Translation>Count of images in storage</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Count of images since installed">
+      <Translation>Count of images since installed</Translation>
+    </TranslationElements>
+    
+    <!--Work hours in About page-->
+    <TranslationElements Source="Device Work Hours">
+      <Translation>Device Work Hours</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Calculating">
+      <Translation>Calculating</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Total Work Hours of Machine">
+      <Translation>Total Work Hours of Machine</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Work Hours of Machine Since Boot">
+      <Translation>Work Hours of Machine Since Boot</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XRay Generator1 Total Work Hours">
+      <Translation>XRay Generator #1 Total Work Hours</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XRay Generator2 Total Work Hours">
+      <Translation>XRay Generator #2 Total Work Hours</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XRay Generator1 Work Hours Since Boot">
+      <Translation>XRay Generator #1 Work Hours Since Boot</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XRay Generator2 Work Hours Since Boot">
+      <Translation>XRay Generator #2 Work Hours Since Boot</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XRay Generator1 Usage Count Since Boot">
+      <Translation>XRay Generator #1 Usage Count Since Boot</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XRay Generator2 Usage Count Since Boot">
+      <Translation>XRay Generator #2 Usage Count Since Boot</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XRay Generator1 Total Usage Count">
+      <Translation>XRay Generator #1 Total Usage Count</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XRay Generator2 Total Usage Count">
+      <Translation>XRay Generator #2 Total Usage Count</Translation>
+    </TranslationElements>
+    <!--Account Management menu-->
+
+    <TranslationElements Source="Account Information" Comment="Menu item for browsing account information">
+      <Translation>Account Information</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Manage Other Accounts" Comment="Menu item for managing other accounts">
+      <Translation>Manage Other Accounts</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Auto Login Setting" Comment="Menu item for auto-login setting">
+      <Translation>Auto Login Setting</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Auto Login" Comment="automatically login default account when software starts">
+      <Translation>Auto Login</Translation>
+    </TranslationElements>
+	  <TranslationElements Source="Operator can export the image" Comment="Whether the Operator can export the image">
+		  <Translation>Operator can export the image</Translation>
+	  </TranslationElements>
+
+
+    <!--Account Information-->
+    <TranslationElements Source="Role" Comment="account role, including admin, system and operator">
+      <Translation>Role</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Login Time" Comment="time when user login">
+      <Translation>Login Time</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Logout Time" Comment="time when user logout">
+      <Translation>Logout Time</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Boot Time" Comment="time when machine boot">
+      <Translation>Boot Time</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Shutdown Time" Comment="time when machine shut down">
+      <Translation>Shutdown Time</Translation>
+    </TranslationElements>
+    
+    <TranslationElements Source="Change your password" Comment="Change password of current account">
+      <Translation>Change your password</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Login with account when system starts" Comment="When system starts, use specified account to login automatically">
+      <Translation>Login with account when system starts</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Account Role" Comment="Role of the account">
+      <Translation>Account Role</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Name">
+      <Translation>Name</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Enter New Account Information">
+      <Translation>Enter New Account Information</Translation>
+    </TranslationElements>
+    <TranslationElements Source="The entered account id already exists!">
+      <Translation>The entered account id already exists!</Translation>
+    </TranslationElements>
+
+    <!--Select TipLib Window-->
+    <TranslationElements Source="Tip Lib Setting">
+      <Translation>Tip Lib Setting</Translation>
+    </TranslationElements>
+
+    <!--Manage Other account page-->
+    <TranslationElements Source="Accounts List">
+      <Translation>Accounts List</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Account Id" Comment="Id of the account">
+      <Translation>Account Id</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Password">
+      <Translation>Password</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Network">
+      <Translation>Network</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Local">
+      <Translation>Local</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Login Mode">
+      <Translation>Login Mode</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Is Active" Comment="Is the account enabled">
+      <Translation>Is Active</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Deletion" Comment="operation to delete account">
+      <Translation>Deletion</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Add New Account">
+      <Translation>Add New Account</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Commit Changes" Comment="save all changes made">
+      <Translation>Commit Changes</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Discard Changes" Comment="discard all changed made">
+      <Translation>Discard Changes</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Click grid cell to edit.">
+      <Translation>Click grid cell to edit.</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Permission Management">
+      <Translation>Permission Management</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Can Training">
+      <Translation>Can Training</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Can Change Image Settings">
+      <Translation>Can Change Image Settings</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Can Manage Disk">
+      <Translation>Can Manage Disk</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Can Manage Log">
+      <Translation>Can Manage Log</Translation>
+    </TranslationElements>
+    <TranslationElements Source="The account id already exists!">
+      <Translation>The account id already exists!</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Account id can not be empty!">
+      <Translation>Account id can not be empty!</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Account id and password can only contain numbers and letters!">
+      <Translation>Account id and password can only contain numbers and letters!</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Account id and password must contain less than 16 characters!">
+      <Translation>Account id and password must contain less than 16 characters!</Translation>
+    </TranslationElements>
+
+    <!--Change password-->
+    <TranslationElements Source="New Password" Comment="new password of the account">
+      <Translation>New Password</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Confirm Password" Comment="Confirm the new password">
+      <Translation>Confirm Password</Translation>
+    </TranslationElements>
+    <TranslationElements Source="The password you entered is incorrect!">
+      <Translation>The password you entered is incorrect!</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Password can not be empty!">
+      <Translation>Password can not be empty!</Translation>
+    </TranslationElements>
+    <TranslationElements Source="The passwords you entered do not match!" Comment="When changing password, the typed New Password and Confirm Password do not match">
+      <Translation>The passwords you entered do not match!</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Change Password">
+      <Translation>Change Password</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Please input your new password and confirm">
+      <Translation>Please input your new password and confirm</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Password can only contain numbers and letters!">
+      <Translation>Password can only contain numbers and letters!</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Password must contain less than 16 characters!">
+      <Translation>Password must contain less than 16 characters!</Translation>
+    </TranslationElements>
+
+    <!--Device setting-->
+    <TranslationElements Source="Detectors" Comment="X-Ray detectors">
+      <Translation>Detectors</Translation>
+    </TranslationElements>
+    <TranslationElements Source="X-Ray Generators">
+      <Translation>X-Ray Generators</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Conveyor and PESensor" Comment="Conveyor and PhotoElectric Sensor">
+      <Translation>Conveyor and PESensor</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Keyboard">
+      <Translation>Keyboard</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Diagnosis">
+      <Translation>Diagnosis</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Diagnose">
+      <Translation>Diagnose</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Diagnosing">
+      <Translation>Diagnosing</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Function Key Definition" Comment="Define functions for function keys, including F1, F2, and F3">
+      <Translation>Function Key Definition</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Is Conveyor Direction Key Reversed" Comment="By default, pressing Conveyor-Right key will make conveyor moving forward. If conveyor direction key is reversed, pressing Conveyor-Right key will make conveyor moving backward.">
+      <Translation>Is Conveyor Direction Key Reversed</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Is Keyboard Direction Reversed">
+      <Translation>Is Keyboard Direction Reversed</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Enable Bidirection Scan">
+      <Translation>Enable Bidirection Scan</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Enable Continuous Scan">
+      <Translation>Enable Continuous Scan</Translation>
+    </TranslationElements>
+    
+
+    <!--Detectors Page-->
+    <TranslationElements Source="Curves Pattern" Comment="showing dynamic data curve or static data curve">
+      <Translation>Curves Pattern</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Exchange Views Order" Comment="In dual-view machine, exchange the views logic order(data order) to confirm with physical order (refer to conveyor direction).">
+      <Translation>Exchange Views Order</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Channel" Comment="detector channel. one channel corresponds to one pixel on image.">
+      <Translation>Channel</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Is Bad" Comment="is the detect channel bad">
+      <Translation>Is Bad</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Color Mode" Comment="Display color mode of image, such as grey or colorized">
+      <Translation>Color Mode</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Penetration" Comment="Penetration mode of image, such as high penetration">
+      <Translation>Penetration</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Inversed" Comment="is grey of image is inversed">
+      <Translation>Inversed</Translation>
+    </TranslationElements>
+    <TranslationElements Source="SuperEnhance" Comment="An image enhancement method, to get a best contrast">
+      <Translation>SuperEnhance</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Absorbtivity" Comment="An image enhancement method, to enhance interested grey levels">
+      <Translation>Absorbtivity</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Dynamic GST" Comment="Dynamic Grayscale Transformation, an image enhancement method, dynamically change grayscales of image">
+      <Translation>Dynamic GST</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="Image Process Recommend">
+      <Translation>Image Process Recommend</Translation>
+    </TranslationElements>
+
+
+    <TranslationElements Source="Raw Image">
+      <Translation>Raw Image</Translation>
+    </TranslationElements>
+    <TranslationElements Source="TurnOn Image Correction">
+      <Translation>TurnOn Image Correction</Translation>
+    </TranslationElements>
+    <TranslationElements Source="TurnOff Image Correction">
+      <Translation>TurnOff Image Correction</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image Brighter">
+      <Translation>Image Brighter</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image Darker">
+      <Translation>Image Darker</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Action">
+      <Translation>Action</Translation>
+    </TranslationElements>
+
+
+
+    <!--X-Ray Generator Page-->
+    <TranslationElements Source="X-Ray Operation" Comment="To open or close x-ray">
+      <Translation>X-Ray Operation</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XrayGen Statement">
+      <Translation>XrayGen Statement</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Static">
+      <Translation>Static</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Dynamic">
+      <Translation>Dynamic</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Detection View" Comment="view1, view2">
+      <Translation>Detection View</Translation>
+    </TranslationElements>
+    <TranslationElements Source="X-Ray Generator Information">
+      <Translation>X-Ray Generator Information</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image1 Serial Port">
+      <Translation>Image1 Serial Port</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image2 Serial Port">
+      <Translation>Image2 Serial Port</Translation>
+    </TranslationElements>
+    <TranslationElements Source="X-Ray Generator Type">
+      <Translation>X-Ray Generator Type</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Temperature">
+      <Translation>Temperature</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Working Value" Comment="current working values">
+      <Translation>Working Value</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Current Setting" Comment="present settings">
+      <Translation>Current Setting</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Change Setting">
+      <Translation>Change Setting</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XrayGenerator Infomation">
+      <Translation>Xray Generator Infomation</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Xray Error Info">
+      <Translation>Error Message</Translation>
+    </TranslationElements>
+    <TranslationElements Source="New Setting">
+      <Translation>New Setting</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Set">
+      <Translation>Set</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Emit X-Ray">
+      <Translation>Emit X-Ray</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Close X-Ray">
+      <Translation>Close X-Ray</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Could not change X-Ray generator settings, please check the Control System connection state!">
+      <Translation>Could not change X-Ray generator settings, please check the Control System connection state!</Translation>
+    </TranslationElements>
+
+    <!--Conveyor and PESensor Test Page-->
+    <TranslationElements Source="Conveyor Test">
+      <Translation>Conveyor Test</Translation>
+    </TranslationElements>
+    <TranslationElements Source="PhotoElectric Sensors Test">
+      <Translation>PhotoElectric Sensors Test</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Power On">
+      <Translation>Power On</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Power Off">
+      <Translation>Power Off</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Move Left" Comment="move towards left">
+      <Translation>Move Left</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Move Right" Comment="move towards right">
+      <Translation>Move Right</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Stop">
+      <Translation>Stop</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Emergency window">
+      <Translation>Emergency stop button pressed</Translation>
+    </TranslationElements>
+
+
+    <!--Keyboard Page-->
+    <TranslationElements Source="To Test conveyor keys and F3, press down Auto key first.">
+      <Translation>To Test conveyor keys and F3, press down Auto key first.</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Conveyor Keys" Comment="Keys on keyboard to control conveyor">
+      <Translation>Conveyor Keys</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Beeper Test">
+      <Translation>Beeper Test</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Beep" Comment="Make beeper in keyboard beeps">
+      <Translation>Beep</Translation>
+    </TranslationElements>
+
+    <!--Object Counter setting Page-->
+
+    <TranslationElements Source="Total Counter" Comment="counter to count all images">
+      <Translation>Total Counter</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Session Counter" Comment="counter to count images scanned during current login">
+      <Translation>Session Counter</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Scanned object count of current session">
+      <Translation>Scanned object count of current session</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Reset session counter when user login">
+      <Translation>Reset session counter when user login</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Disk Space Management">
+      <Translation>Disk Space Management</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Old images auto cleanup service">
+      <Translation>Old images auto cleanup service</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Save Image Disk Space Information">
+      <Translation>Save Image Disk Space Information</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Old images auto cleanup service settings">
+      <Translation>Old images auto cleanup service settings</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Start Cleaning Disk">
+      <Translation>Start Cleaning Disk</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Stop Cleaning Disk">
+      <Translation>Stop Cleaning Disk</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Start cleanup service time daily">
+      <Translation>Start cleanup service time daily</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Stop cleanup service time daily">
+      <Translation>Stop cleanup service time daily</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Emergency free disk space ratio to start cleanup service (10%~90%)">
+      <Translation>Emergency free disk space ratio to start cleanup service (10%~90%)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Value of free disk space ratio to stop cleanup service (10%~90%)">
+      <Translation>Value of free disk space ratio to stop cleanup service (10%~90%)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Minimum value of free disk space ratio to start cleanup service (10%~90%)">
+      <Translation>Minimum value of free disk space ratio to start cleanup service (10%~90%)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Count of old images to delete (10~1000)">
+      <Translation>Count of old images to delete (10~1000)</Translation>
+    </TranslationElements>
+
+    <!--Intellisense setting Page-->
+
+    <TranslationElements Source="High Density Object IntelliSense" Comment="Automatically detect High Density objects">
+      <Translation>High Density Object IntelliSense</Translation>
+    </TranslationElements>
+    <TranslationElements Source="IntelliSense Sensitivity">
+      <Translation>IntelliSense Sensitivity</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Mark Region Border Color" Comment="Mark Region Border Color">
+      <Translation>Mark Region Border Color</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Drugs IntelliSense">
+      <Translation>Drugs IntelliSense</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Explosives IntelliSense">
+      <Translation>Explosives IntelliSense</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Extenal Device IntelliSense">
+      <Translation>Use Extenal Device IntelliSense</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Automatically Stops The Conveyor" Comment="Automatically Stops The Conveyor when IntelliSense detects contrabands">
+      <Translation>Automatically Stops The Conveyor</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Enable Audible Alarm Feature" Comment="If enabled, when contraband detected, the beeper in keyboard will beep">
+      <Translation>Enable Audible Alarm Feature</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Enable Light Alarm Feature" Comment="If enabled, when contraband detected, x-ray lamp will flicker">
+      <Translation>Enable Light Alarm Feature</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Mark Region Border Color" Comment="Mark Region Border Color">
+      <Translation>Mark Region Border Color</Translation>
+    </TranslationElements>
+
+    <!--ImsPage-->
+    <TranslationElements Source="Image Management">
+      <Translation>Image Management</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Change conditions and retrieve more images">
+      <Translation>Change conditions and retrieve more images</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Retrieve more images">
+      <Translation>Retrieve more images</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Processing...">
+      <Translation>Processing...</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Thumbnail View">
+      <Translation>Thumbnail View</Translation>
+    </TranslationElements>
+    <TranslationElements Source="List View">
+      <Translation>List View</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Loading...">
+      <Translation>Loading...</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image retrieval results,">
+      <Translation>Image retrieval results,</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Select All">
+      <Translation>Select All</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Anti-Select">
+      <Translation>Anti-Select</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Playback" Comment="replay selected images">
+      <Translation>Playback</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Dump" Comment="export images or logs to other disk">
+      <Translation>Dump</Translation>
+    </TranslationElements>
+     <TranslationElements Source="DumpToNet" Comment="export images or logs to other disk">
+      <Translation>Dump To Net</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Print">
+      <Translation>Print</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Lock" Comment="Image Lock operation: locked images will not be deteted automatically">
+      <Translation>Lock</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Unlock" Comment="unlock an image">
+      <Translation>Unlock</Translation>
+    </TranslationElements>
+    <TranslationElements Source="RemoveBadChannel" Comment="Remove bad channels manually">
+      <Translation>Remove Instable Channel</Translation>
+    </TranslationElements>
+	  <TranslationElements Source="Print" Comment="Remove bad channels manually">
+		  <Translation>Print</Translation>
+	  </TranslationElements>
+    <TranslationElements Source="Open the first selected image">
+      <Translation>Open the first selected image</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Delete all selected images">
+      <Translation>Delete all selected images</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Selected images">
+      <Translation>Selected images</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Playback all selected images">
+      <Translation>Playback all selected images</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Select all images in the list">
+      <Translation>Select all images in the list</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Anti-Select images">
+      <Translation>Anti-Select images</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Delete the selected images permanently?">
+      <Translation>Delete the selected images permanently?</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Locked image can't be deleted">
+      <Translation>Locked image can't be deleted</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Images dump completed" Comment="Images exportation is completed">
+      <Translation>Images dump completed</Translation>
+    </TranslationElements>
+	  <TranslationElements Source="Saved, no need to repeat" Comment="Images exportation is completed">
+		  <Translation>Saved, no need to repeat</Translation>
+	  </TranslationElements>
+    <TranslationElements Source="Dump completely">
+      <Translation>Dump completely</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Dump to network completely">
+      <Translation>Dump to network completely</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Images have saved to">
+      <Translation>Images have saved to</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Sending">
+      <Translation>Sending</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Send Failed">
+      <Translation>Send Failed</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Import completely">
+      <Translation>Import completely</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Images upload to network completed" Comment="Images upload to network completed">
+      <Translation>Images upload to network completed</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Screen Images Manipulation">
+      <Translation>Screen Images Manipulation</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Screen Images Manipulation" Comment="manipulation of visible images on screen">
+      <Translation>Screen Images Manipulation</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Screen Images List" Comment="list of visible images on screen">
+      <Translation>Screen Images List</Translation>
+    </TranslationElements>
+    <TranslationElements Source="accounts updated">
+      <Translation>Update Accounts Completed</Translation>
+    </TranslationElements>
+    <TranslationElements Source="tipimages updated">
+      <Translation>Update TIP Images Completed</Translation>
+    </TranslationElements>
+    <TranslationElements Source="tipplans updated">
+      <Translation>Update TIP Plans Completed</Translation>
+    </TranslationElements>
+    <TranslationElements Source="In the process of diagnosis, the ray will turn on and the conveyor will move back, please ensure the safety of personnel and luggage.">
+      <Translation>In the process of diagnosis, the ray will turn on and the conveyor will move back, please ensure the safety of personnel and luggage</Translation>
+    </TranslationElements>
+    <!--Image Setting Page-->
+    <TranslationElements Source="Image Setting">
+      <Translation>Image Setting</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Remove Blank Space Between Bags" Comment="do not show blank space between bag images, so more bag images can be visiable on the same time">
+      <Translation>Remove Blank Space Between Bags</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Show Unpenetratable in Red" Comment="show unpenetratable materials in red">
+      <Translation>Show Unpenetratable in Red</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Default Absorbtivity">
+      <Translation>Default Absorbtivity</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Belt Margin Pixels Setting" Comment="belt margin pixels count setting: ">
+      <Translation>Belt Margin Pixels Setting</Translation>
+    </TranslationElements>
+    <TranslationElements Source="View1" Comment="The first detection view">
+      <Translation>View1</Translation>
+    </TranslationElements>
+    <TranslationElements Source="View2" Comment="The second detection view">
+      <Translation>View2</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Margin Pixels At Begin" Comment="Belt margin pixels at beginning">
+      <Translation>Margin Pixels At Begin</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Margin Pixels At End" Comment="Belt margin pixels at end">
+      <Translation>Margin Pixels At End</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image1">
+      <Translation>Image1</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image2">
+      <Translation>Image2</Translation>
+    </TranslationElements>
+    <TranslationElements Source="EdgeEnhance">
+      <Translation>EdgeEnhance</Translation>
+    </TranslationElements>
+    <TranslationElements Source="PenetrationEnhance">
+      <Translation>Penetration Enhance</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="Image Default Effects" Comment="Default enhancement effects of image">
+      <Translation>Image Default Effects</Translation>
+    </TranslationElements>
+
+    <!--System setting menu-->
+    <TranslationElements Source="Object Counter" Comment="scanning objects counter">
+      <Translation>Object Counter</Translation>
+    </TranslationElements>
+    <TranslationElements Source="IntelliSense" Comment="Function to auto-recognize High density object, drugs and explosives.">
+      <Translation>IntelliSense</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Function Keys" Comment="F1, F2, and F3">
+      <Translation>Function Keys</Translation>
+    </TranslationElements>
+
+    <!--Training setting menu-->
+    <TranslationElements Source="Training is Ongoing Now">
+      <Translation>Training is Ongoing Now</Translation>
+    </TranslationElements>
+    <TranslationElements Source="End Training" Comment="End the training process">
+      <Translation>End Training</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Start Training">
+      <Translation>Start Training</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Simulating Image Loop Mode" Comment="Training images generating mode">
+      <Translation>Simulating Image Loop Mode</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Simulating Image Interval (S)" Comment="timespan in seconds between two training images">
+      <Translation>Simulating Image Interval (S)</Translation>
+    </TranslationElements>
+
+    <!--System Bar-->
+    <TranslationElements Source="Emergency switch is off">
+      <Translation>Emergency switch is off(0x1001)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Interlock switch is off">
+      <Translation>Interlock switch is off(0x1002)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="X-Ray Gen 1 is dead" Comment="Could not detect x-ray generator 1">
+      <Translation>X-Ray Gen 1 is dead(0x1003)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="X-Ray Gen 2 is dead">
+      <Translation>X-Ray Gen 2 is dead(0x1004)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Unable to access Control Board" Comment="Could not communicate with control board">
+      <Translation>Unable to access Control Board(0x1005)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Unable to access Image Acquisition Board" Comment="Could not receive image data from Image Acquisition Board">
+      <Translation>Unable to access Image Acquisition Board(0x1006)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="The system works properly">
+      <Translation>The system works properly</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Regular Mode">
+      <Translation>Regular Mode</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Maintenance Mode">
+      <Translation>Maintenance Mode</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Continuous Mode">
+      <Translation>Continuous Mode</Translation>
+    </TranslationElements>
+    <TranslationElements Source="AutoReturn Mode">
+      <Translation>AutoReturn Mode</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Remainder Time">
+      <Translation>Remainder Time</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Hours">
+      <Translation>hours</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Network State">
+      <Translation>Network State</Translation>
+    </TranslationElements>
+
+    <!--Image Viewer-->
+    <TranslationElements Source="Scan Time">
+      <Translation>Scan Time</Translation>
+    </TranslationElements>
+    <TranslationElements Source="OriginalImage">
+      <Translation>Original Image</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ImageWithLines">
+      <Translation>Image With Lines</Translation>
+    </TranslationElements>
+    <TranslationElements Source="InterpolationImage">
+      <Translation>Interpolation Image</Translation>
+    </TranslationElements>
+    <TranslationElements Source="CurrentPoint">
+      <Translation>Current Point</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ImageShowMode">
+      <Translation>Image Show Mode</Translation>
+    </TranslationElements>
+
+    <!--Password Dialog-->
+    <TranslationElements Source="Please input password and continue">
+      <Translation>Please input password and continue</Translation>
+    </TranslationElements>
+
+
+    <TranslationElements Source="Starting Conveyor to Clean Passage">
+      <Translation>Starting Conveyor to Clean Passage</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Clean Passage">
+      <Translation>Clean Passage</Translation>
+    </TranslationElements>
+    
+    <!--X-Ray generator warmup window-->
+    <TranslationElements Source="Warming up X-Ray Generator">
+      <Translation>Warming up X-Ray Generator</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Remaining Time">
+      <Translation>Remaining Time</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Seconds" Comment="Time in seconds">
+      <Translation>Seconds</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Set Image Retrieval Conditions">
+      <Translation>Set Image Retrieval Conditions</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Specify Account Id">
+      <Translation>Specify Account Id</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Time Range">
+      <Translation>Time Range</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Retrieve Save Assumes Images">
+      <Translation>Retrieve Save Assumes Images</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Retrieve Marked Images">
+      <Translation>Retrieve Marked Images</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Start Time">
+      <Translation>Start Time</Translation>
+    </TranslationElements>
+    <TranslationElements Source="End Time">
+      <Translation>End Time</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Hour">
+      <Translation>Hour</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Minute">
+      <Translation>Minute</Translation>
+    </TranslationElements>
+
+    <!--Tip Plans Page-->
+    <TranslationElements Source="Tip Plans">
+      <Translation>Tip Plans</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Tip Images Library">
+      <Translation>Tip Images Library</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Tip Examination Records">
+      <Translation>Tip Examination Records</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Id">
+      <Translation>Id</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Alias">
+      <Translation>Alias</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Probability">
+      <Translation>Probability</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Is Enabled">
+      <Translation>Is Enabled</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Online Recognization Max Seconds" Comment="When TIP injected, the operator must act within the given time">
+      <Translation>Online Recognization Max Seconds</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Offline Recognization Max Seconds" Comment="When operator find TIP and stop the conveyor, the operator must press Mark key within the given time">
+      <Translation>Offline Recognization Max Seconds</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Knives Weight" Comment="Knives TIP objects injection weight">
+      <Translation>Knives Weight</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Guns Weight">
+      <Translation>Guns Weight</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Explosives Weight">
+      <Translation>Explosives Weight</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Others Weight" Comment="Other TIP objects injection weight">
+      <Translation>Others Weight</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Didn't select images but weight doesn't equals 0, this may reduce injection rate!">
+      <Translation>Didn't select images but weight doesn't equals 0, this may reduce injection rate!</Translation>
+    </TranslationElements>
+
+    <!--Tip Images Page-->
+    <TranslationElements Source="Import">
+      <Translation>Import</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Select Tip Images Library">
+      <Translation>Select Tip Images Library</Translation>
+    </TranslationElements>
+    <TranslationElements Source="UnSelect Tip Images">
+      <Translation>UnSelect Tip Images</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Select Tip Images">
+      <Translation>Select Tip Images</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Guns">
+      <Translation>Guns</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Knives">
+      <Translation>Knives</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Explosives">
+      <Translation>Explosives</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Others">
+      <Translation>Others</Translation>
+    </TranslationElements>
+    <!--<TranslationElements Source="Congratulations, you have recognized simulated dangerous goods.">
+      <Translation>Congratulations, you have recognized simulated dangerous goods</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Please note that there is an unrecognized simulated dangerous goods image, Pressing the stop button will clear it.">
+      <Translation>Please note that there is an unrecognized simulated dangerous goods image, Pressing the stop button will clear it</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Please press the stop button first to clear the unrecognized simulated dangerous goods image, then continue.">
+      <Translation>Please press the stop button first to clear the unrecognized simulated dangerous goods image, then continue</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Sorry, you missed simulated dangerous goods!">
+      <Translation>Sorry, you missed simulated dangerous goods!</Translation>
+    </TranslationElements>-->
+	  
+	  <TranslationElements Source="Dangerous goods!Press Shutdown to clear before continuing.">
+		  <Translation>Dangerous goods!Press Shutdown to clear before continuing.</Translation>
+	  </TranslationElements>
+	  <TranslationElements Source="Unidentified dangerous goods!Press Shutdown to clear.">
+		  <Translation>Unidentified dangerous goods!Press Shutdown to clear.</Translation>
+	  </TranslationElements>
+	  <TranslationElements Source="Press Shutdown to clear dangerous goods, then continue.">
+		  <Translation>Press Shutdown to clear dangerous goods, then continue.</Translation>
+	  </TranslationElements>
+	  <TranslationElements Source="Missed dangerous goods!">
+		  <Translation>Missed dangerous goods!</Translation>
+	  </TranslationElements>
+
+	  <TranslationElements Source="Statistical Period">
+      <Translation>Statistical Period</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Find">
+      <Translation>Find</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Export">
+      <Translation>Export</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Upload">
+      <Translation>Upload</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Download">
+      <Translation>Download</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Working Hours">
+      <Translation>Working Hours</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Date">
+      <Translation>Date</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Time">
+      <Translation>Time</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Boot Logs">
+      <Translation>Boot Logs</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Login Logs">
+      <Translation>Login Logs</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Operation Logs">
+      <Translation>Operation Logs</Translation>
+    </TranslationElements>
+    <TranslationElements Source="TIP Examination Logs">
+      <Translation>TIP Examination Logs</Translation>
+    </TranslationElements>
+    <TranslationElements Source="X-Ray Generator Work Logs">
+      <Translation>X-Ray Generator Work Logs</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Conveyor Work Logs">
+      <Translation>Conveyor Work Logs</Translation>
+    </TranslationElements>
+    <TranslationElements Source="TIP Injection Count">
+      <Translation>TIP Injection Count</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Mark Operation Count">
+      <Translation>Mark Operation Count</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Missed TIP Count">
+      <Translation>Missed TIP Count</Translation>
+    </TranslationElements>
+    <TranslationElements Source="TIP Miss Rate">
+      <Translation>TIP Miss Rate</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Login Times">
+      <Translation>Login Times</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Bags Count">
+      <Translation>Bags Count</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="Operation Time">
+      <Translation>Time</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Operation Type">
+      <Translation>Type</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Operation Object">
+      <Translation>Object</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Operation Command">
+      <Translation>Command</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Operation Content">
+      <Translation>Content</Translation>
+    </TranslationElements>
+
+	  <TranslationElements Source="InputLock">
+		  <Translation>Cannot Input</Translation>
+	  </TranslationElements>
+	  <TranslationElements Source="InputUnlock">
+		  <Translation></Translation>
+	  </TranslationElements>
+	  
+  </TranslationSection>
+  <TranslationSection SectionName="TouchUI" Description="translation for touch interface">
+    <TranslationElements Source="Regular Mode">
+      <Translation>Regular</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Maintenance Mode">
+      <Translation>Maintenance</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Continuous Mode">
+      <Translation>Continuous</Translation>
+    </TranslationElements>
+    <TranslationElements Source="AutoReturn Mode">
+      <Translation>AutoReturn</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Emergency switch is off">
+      <Translation>(0x1001)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Interlock switch is off">
+      <Translation>(0x1002)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="X-Ray Gen 1 is dead" Comment="Could not detect x-ray generator 1">
+      <Translation>(0x1003)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="X-Ray Gen 2 is dead">
+      <Translation>(0x1004)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Unable to access Control Board" Comment="Could not communicate with control board">
+      <Translation>(0x1005)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Unable to access Image Acquisition Board" Comment="Could not receive image data from Image Acquisition Board">
+      <Translation>(0x1006)</Translation>
+    </TranslationElements>
+  </TranslationSection>
+  <TranslationSection SectionName="StatisticalPeriod" Description="Enums all Statistical Period">
+    <TranslationElements Source="Hourly" Comment="BY Hour">
+      <Translation>Hourly</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Dayly" Comment="By day statistics">
+      <Translation>Dayly</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Weekly" Comment="By week statistics">
+      <Translation>Weekly</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Monthly" Comment="By month statistics">
+      <Translation>Monthly</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Quarterly" Comment="By quarter statistics">
+      <Translation>Quarterly</Translation>
+    </TranslationElements>
+    <TranslationElements Source="UserDefined" Comment="By user-defined time statistics">
+      <Translation>UserDefined</Translation>
+    </TranslationElements>
+  </TranslationSection>
+  <TranslationSection SectionName="Month">
+    <TranslationElements Source="January">
+      <Translation>January</Translation>
+    </TranslationElements>
+    <TranslationElements Source="February">
+      <Translation>February</Translation>
+    </TranslationElements>
+    <TranslationElements Source="March">
+      <Translation>March</Translation>
+    </TranslationElements>
+    <TranslationElements Source="April">
+      <Translation>April</Translation>
+    </TranslationElements>
+    <TranslationElements Source="May">
+      <Translation>May</Translation>
+    </TranslationElements>
+    <TranslationElements Source="June">
+      <Translation>June</Translation>
+    </TranslationElements>
+    <TranslationElements Source="July">
+      <Translation>July</Translation>
+    </TranslationElements>
+    <TranslationElements Source="August">
+      <Translation>August</Translation>
+    </TranslationElements>
+    <TranslationElements Source="September">
+      <Translation>September</Translation>
+    </TranslationElements>
+    <TranslationElements Source="October">
+      <Translation>October</Translation>
+    </TranslationElements>
+    <TranslationElements Source="November">
+      <Translation>November</Translation>
+    </TranslationElements>
+    <TranslationElements Source="December">
+      <Translation>December</Translation>
+    </TranslationElements>
+  </TranslationSection>
+  <TranslationSection SectionName="Season">
+    <TranslationElements Source="Q1">
+      <Translation>Q1</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Q2">
+      <Translation>Q2</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Q3">
+      <Translation>Q3</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Q4">
+      <Translation>Q4</Translation>
+    </TranslationElements>
+  </TranslationSection>
+  <TranslationSection SectionName="TrainingImageLoopMode" Description="Enums all TrainingImageLoopMode">
+    <TranslationElements Source="NoLoop" Comment="Do not loop">
+      <Translation>NoLoop</Translation>
+    </TranslationElements>
+    <TranslationElements Source="SequentialLoop" Comment="generate training images in Sequentially Loop">
+      <Translation>SequentialLoop</Translation>
+    </TranslationElements>
+    <TranslationElements Source="RandomLoop" Comment="generate training images in randomly loop">
+      <Translation>RandomLoop</Translation>
+    </TranslationElements>
+  </TranslationSection>
+  <TranslationSection SectionName="AccountRole" Description="Enums all roles of accounts">
+    <TranslationElements Source="System" Comment="System User">
+      <Translation>System</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Admin">
+      <Translation>Admin</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Maintainer">
+      <Translation>Maintainer</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Operator">
+      <Translation>Operator</Translation>
+    </TranslationElements>
+  </TranslationSection>
+  <TranslationSection SectionName="DisplayColorMode" Description="Enums all display Color Mode">
+    <TranslationElements Source="Grey">
+      <Translation>Grey</Translation>
+    </TranslationElements>
+    <TranslationElements Source="MaterialColor" Comment="Color image: orange for organic, green for mixed, blue for inorganic">
+      <Translation>MaterialColor</Translation>
+    </TranslationElements>
+    <TranslationElements Source="SixColors">
+      <Translation>SixColors</Translation>
+    </TranslationElements>
+    <TranslationElements Source="OS">
+      <Translation>OS</Translation>
+    </TranslationElements>
+    <TranslationElements Source="MS">
+      <Translation>MS</Translation>
+    </TranslationElements>
+    <TranslationElements Source="OSPlus">
+      <Translation>OSPlus</Translation>
+    </TranslationElements>
+    <TranslationElements Source="MSPlus">
+      <Translation>MSPlus</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Zeff7">
+      <Translation>Zeff7</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Zeff8">
+      <Translation>Zeff8</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Zeff9">
+      <Translation>Zeff9</Translation>
+    </TranslationElements>
+    <TranslationElements Source="PseudoColor1">
+      <Translation>PseudoColor1</Translation>
+    </TranslationElements>
+    <TranslationElements Source="PseudoColor2">
+      <Translation>PseudoColor2</Translation>
+    </TranslationElements>
+    <TranslationElements Source="PseudoColor3">
+      <Translation>PseudoColor3</Translation>
+    </TranslationElements>
+    <TranslationElements Source="PseudoColor4">
+      <Translation>PseudoColor4</Translation>
+    </TranslationElements>
+    <TranslationElements Source="PseudoColor5">
+      <Translation>PseudoColor5</Translation>
+    </TranslationElements>
+    <TranslationElements Source="PseudoColor6">
+      <Translation>PseudoColor6</Translation>
+    </TranslationElements>
+  </TranslationSection>
+  <TranslationSection SectionName="PenetrationMode" Description="Enums all Penetration mode">
+    <TranslationElements Source="Standard">
+      <Translation>Standard</Translation>
+    </TranslationElements>
+    <TranslationElements Source="HighPenetrate">
+      <Translation>HighPenetrate</Translation>
+    </TranslationElements>
+    <TranslationElements Source="LowPenetrate">
+      <Translation>LowPenetrate</Translation>
+    </TranslationElements>
+    <TranslationElements Source="SlicePenetrate">
+      <Translation>SlicePenetrate</Translation>
+    </TranslationElements>
+    <TranslationElements Source="SuperPenetrate">
+      <Translation>SuperPenetrate</Translation>
+    </TranslationElements>
+  </TranslationSection>
+  <TranslationSection SectionName="TimeRange" Description="Enums all time range">
+    <TranslationElements Source="LastHour">
+      <Translation>LastHour</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Today">
+      <Translation>Today</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Yestoday">
+      <Translation>Yestoday</Translation>
+    </TranslationElements>
+    <TranslationElements Source="RecentWeek">
+      <Translation>RecentWeek</Translation>
+    </TranslationElements>
+    <TranslationElements Source="RecentMonth">
+      <Translation>RecentMonth</Translation>
+    </TranslationElements>
+    <TranslationElements Source="SpecifiedTimeRange">
+      <Translation>SpecifiedTimeRange</Translation>
+    </TranslationElements>
+  </TranslationSection>
+
+	<TranslationSection SectionName="Interval" Description="Enums all time range">
+		<TranslationElements Source="HalfAMinute">
+			<Translation>half a minute</Translation>
+		</TranslationElements>
+		<TranslationElements Source="OneMinute">
+			<Translation>one minute</Translation>
+		</TranslationElements>
+		<TranslationElements Source="TenMinute">
+			<Translation>ten minutes</Translation>
+		</TranslationElements>
+		<TranslationElements Source="TwentyMinute">
+			<Translation>twenty minutes</Translation>
+		</TranslationElements>
+		<TranslationElements Source="HalfHour">
+			<Translation>half hour</Translation>
+		</TranslationElements>
+		<TranslationElements Source="FortyMinute">
+			<Translation>forty minutes</Translation>
+		</TranslationElements>
+		<TranslationElements Source="FiftyMinute">
+			<Translation>fifty minutes</Translation>
+		</TranslationElements>
+		<TranslationElements Source="OneHour">
+			<Translation>one hour</Translation>
+		</TranslationElements>
+		<TranslationElements Source="SesquiHour">
+			<Translation>an hour and a half</Translation>
+		</TranslationElements>
+		<TranslationElements Source="TwoHours">
+			<Translation>two hours</Translation>
+		</TranslationElements>
+		<TranslationElements Source="TwoAndAHalfHours">
+			<Translation>two hours and a half</Translation>
+		</TranslationElements>
+		<TranslationElements Source="ThreeHours">
+			<Translation>Three hours</Translation>
+		</TranslationElements>
+		<TranslationElements Source="ThreeAndHalfHours">
+			<Translation>Three and half hours</Translation>
+		</TranslationElements>
+		<TranslationElements Source="FourHours">
+			<Translation>four hours</Translation>
+		</TranslationElements>
+	</TranslationSection>
+
+  <TranslationSection SectionName="CalibrationWindow" Description="">
+    <TranslationElements Source="Imaging System Calibration">
+      <Translation>Imaging System Calibration</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Checking Imaging System">
+      <Translation>Checking Imaging System</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Imaging System is normal!">
+      <Translation>Imageing System is normal!</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Turnning off X-Ray ...">
+      <Translation>Turnning off X-Ray ...</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Calibrating ground value ...">
+      <Translation>Calibrating ground value ...</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Ground value has been calibrated.">
+      <Translation>Ground value has been calibrated.</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Error: Failed to calibrate ground value!">
+      <Translation>Error: Failed to calibrate ground value!(0x2001)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Turnning on X-Ray ...">
+      <Translation>Turnning on X-Ray ...</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Calibrating air value ...">
+      <Translation>Calibrating air value ...</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Air value has been calibrated.">
+      <Translation>Air value has been calibrated.</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Error: Failed to calibrate air value!">
+      <Translation>Error: Failed to calibrate air value!(0x2002)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Calibration window is closing now ...">
+      <Translation>Calibration ...</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Ground value has been calibrated">
+      <Translation>Ground value has been calibrated</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Air value has been calibrated">
+      <Translation>Air value has been calibrated</Translation>
+    </TranslationElements>
+  </TranslationSection>
+  <TranslationSection SectionName="Configer" Description="Translation for App Configer.exe">
+	  <TranslationElements Source="Import configurations from xml file">
+		  <Translation>Import configurations from xml file.</Translation>
+	  </TranslationElements>
+	  <TranslationElements Source="Export current configurations into a xml file">
+		  <Translation>Export current configurations into a xml file.</Translation>
+	  </TranslationElements>
+	  <TranslationElements Source="Change into another model">
+		  <Translation>Change into another model.</Translation>
+	  </TranslationElements>
+    <TranslationElements Source="Import Setting">
+      <Translation>Import Setting</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Export Setting">
+      <Translation>Export Setting</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Change Model">
+      <Translation>Change Model</Translation>
+    </TranslationElements>
+    <TranslationElements Source="System Setting">
+      <Translation>System Setting</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Device Specification">
+      <Translation>Device Specification</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image Capture System">
+      <Translation>Image Capture System</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Control System">
+      <Translation>Control System</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Firmware Version">
+      <Translation>Firmware Version</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Communication Protocol">
+      <Translation>Communication Protocol</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Connect Successful">
+      <Translation>Connect Successful</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Connect Failed">
+      <Translation>Connect Failed</Translation>
+    </TranslationElements>
+    <TranslationElements Source="X-Ray Generators">
+      <Translation>X-Ray Generators</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Keyboard">
+      <Translation>Keyboard</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Images">
+      <Translation>Images</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Algorithm Parameters">
+      <Translation>Algorithm Parameters</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Network Control">
+      <Translation>Network Control</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Run Scanner software when Windows starts">
+      <Translation>Run Scanner software when Windows starts</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Is conveyor normal">
+      <Translation>Is Conveyor Normal</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Conveyor StartTime">
+      <Translation>Conveyor Start Time</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Conveyor StopTime">
+      <Translation>Conveyor Stop Time</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Equipment Frequency">
+      <Translation>Equipment Frequency</Translation>
+    </TranslationElements>
+    <TranslationElements Source="SanitizeConveyor StartTime">
+      <Translation>SanitizeConveyor StartTime</Translation>
+    </TranslationElements>
+    <TranslationElements Source="SanitizeConveyor StopTime">
+      <Translation>SanitizeConveyor StopTime</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Automatic rewind">
+      <Translation>Automatic Rewind</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Bidirectional Scan">
+      <Translation>Bidirectional Scan</Translation>
+    </TranslationElements>
+    <TranslationElements Source="MultiFfrequency Converters">
+      <Translation>MultiFfrequency Converters</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Conveyor Speed (m/s)">
+      <Translation>Conveyor Speed (m/s)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Sanitize Conveyor Speed (m/s)">
+      <Translation>Sanitize Conveyor Speed (m/s) </Translation>
+    </TranslationElements>
+    <TranslationElements Source="Using Variable Speed Equipment">
+      <Translation>Using Variable Speed Equipment</Translation>
+    </TranslationElements>
+    
+    <TranslationElements Source="Exchange PESensor">
+      <Translation>Exchange Entry PESensor</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Exchange XrayGen">
+      <Translation>Exchange XrayGenerators</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Exchange Detector">
+      <Translation>Exchange Detectors</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Exchange Conveyor">
+      <Translation>Change Conveyor Default Direction</Translation>
+    </TranslationElements>
+    
+    <TranslationElements Source="The Distance Between Two Views (m)">
+      <Translation>The Distance Between Two Views (m)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Conveyor Length (m)">
+      <Translation>Conveyor Length (m)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Entry PESensor To X-Ray Gen Distance (m)">
+      <Translation>Entry PESensor To X-Ray Gen Distance (m)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Exit PESensor To X-Ray Gen Distance (m)">
+      <Translation>Exit PESensor To X-Ray Gen Distance (m)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Object Location to Emit X-Ray in Front of X-Ray Generator (m)">
+      <Translation>Object Location to Emit X-Ray in Front of X-Ray Generator (m)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Object Location to Close X-Ray Behind X-Ray Generator (m)">
+      <Translation>Object Location to Close X-Ray Behind X-Ray Generator (m)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Distance of Delay Show Image (m)">
+      <Translation>Distance of Delay Show Image (m)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Control Board IP Address">
+      <Translation>Control Board IP Address</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Port" Comment="Udp Port">
+      <Translation>Port</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Version">
+      <Translation>Version</Translation>
+    </TranslationElements>
+    <TranslationElements Source="TimeInterval">
+      <Translation>Control Board Inquiry Xray Command Interval</Translation>
+    </TranslationElements>
+    <TranslationElements Source="QueryBagCount" Comment="check with counter">
+      <Translation>Query From Control Board</Translation>
+    </TranslationElements>
+    <TranslationElements Source="CheckBagCount" Comment="check with counter">
+      <Translation>Check With Bag Counter</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ReloadBagCount" Comment="check with counter">
+      <Translation>Reload To Control Board</Translation>
+    </TranslationElements>
+    <TranslationElements Source="BagCount">
+      <Translation>Bag Count</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="Hardware Timer">
+      <Translation>Hardware Timer</Translation>
+    </TranslationElements>
+    <TranslationElements Source="StartTiming">
+      <Translation>Start Timing</Translation>
+    </TranslationElements>
+    <TranslationElements Source="StopTiming">
+      <Translation>Stop Timing</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Start Hardware Timer Successfully!">
+      <Translation>Start Hardware Timer Successfully!</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Start Hardware Timer Failed!">
+      <Translation>Start Hardware Timer Failed!</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Stop Hardware Timer Successfully!">
+      <Translation>Stop Hardware Timer Successfully!</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Stop Hardware Timer Failed!">
+      <Translation>Stop Hardware Timer Failed!</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="Computer IP Address">
+      <Translation>Computer IP Address</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Test Connection">
+      <Translation>Test Connection</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Images Count">
+      <Translation>Images Count</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Capture Board Count">
+      <Translation>Capture Board Count</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Height">
+      <Translation>Height</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Showing Detect View">
+      <Translation>Showing Detect View</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Color Mode">
+      <Translation>Color Mode</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Penetration">
+      <Translation>Penetration</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Vertical Flip">
+      <Translation>Vertical Flip</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Edge Enhance">
+      <Translation>Edge Enhance</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Super Enhance">
+      <Translation>Super Enhance</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Inversed">
+      <Translation>Inversed</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Move From Right to Left">
+      <Translation>Move From Right to Left</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Anchor">
+      <Translation>Anchor</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image Margin">
+      <Translation>Image Margin</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Anchor New Image When End">
+      <Translation>Focus On New Image When Scanning Start</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Send Line Data">
+      <Translation>Send Line Data</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Keyboard COM Name">
+      <Translation>Keyboard COM Name</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Lower Thresholds of Air Value">
+      <Translation>Lower Thresholds of Air Value</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Average of HE Line">
+      <Translation>Average of HE Line</Translation>
+    </TranslationElements>
+    <TranslationElements Source="HE Point">
+      <Translation>HE Point</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Average of LE Line">
+      <Translation>Average of LE Line</Translation>
+    </TranslationElements>
+    <TranslationElements Source="LE Point">
+      <Translation>LE Point</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Upper Thresholds of Ground Value">
+      <Translation>Upper Thresholds of Ground Value</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Unpenetratable Threshold (Suggestion: 0 - 5000)">
+      <Translation>Unpenetratable Threshold (Suggestion: 0 - 5000)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Background Threshold (Suggestion: 63000 - 65535)">
+      <Translation>Background Threshold (Suggestion: 63000 - 65535)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Bagboundary Threshold (Suggestion: 51000 - 58000)">
+      <Translation>Bagboundary Threshold (Suggestion: 51000 - 58000)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Auto Detect Bad Channels">
+      <Translation>Auto Detect Bad Channels</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Open New Penetration Algorithm">
+      <Translation>Open New Penetration Algorithm</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Intellisense Thresholds">
+      <Translation>Intellisense Thresholds</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Drug Lower Zeff">
+      <Translation>Drug Lower Zeff</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Drug Higher Zeff">
+      <Translation>Drug Higher Zeff</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Explosives Lower Zeff">
+      <Translation>Explosives Lower Zeff</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Explosives Higher Zeff">
+      <Translation>Explosives Higher Zeff</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Automatically Save Image In Common Image Format">
+      <Translation>Automatically Save Image In Common Image Format</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Common Format Image Store Setting">
+      <Translation>Common Format Image Store Setting</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="Image effects for export">
+      <Translation>Image effects for export</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image1">
+      <Translation>Image1</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image2">
+      <Translation>Image2</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image3">
+      <Translation>Image3</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image4">
+      <Translation>Image4</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image5">
+      <Translation>Image5</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="None">
+      <Translation>None</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Regular">
+      <Translation>Default</Translation>
+    </TranslationElements>
+    <TranslationElements Source="SuperEnhance">
+      <Translation>SuperEnhance</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Absorptivity">
+      <Translation>Lighten</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Grey">
+      <Translation>Grey</Translation>
+    </TranslationElements>
+    <TranslationElements Source="OS">
+      <Translation>OS</Translation>
+    </TranslationElements>
+    <TranslationElements Source="MS">
+      <Translation>MS</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Inverse">
+      <Translation>Inverse</Translation>
+    </TranslationElements>
+    <TranslationElements Source="SlicePenetrate">
+      <Translation>SlicePenetrate</Translation>
+    </TranslationElements>
+    <TranslationElements Source="HighPenetrate">
+      <Translation>HighPenetrate</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Standard">
+      <Translation>Standard</Translation>
+    </TranslationElements>
+    <TranslationElements Source="LowPenetrate">
+      <Translation>LowPenetrate</Translation>
+    </TranslationElements>
+    <TranslationElements Source="SuperPenetrate">
+      <Translation>SuperPenetrate</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Zeff7">
+      <Translation>Zeff7</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Zeff8">
+      <Translation>Zeff8</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Zeff9">
+      <Translation>Zeff9</Translation>
+    </TranslationElements>
+    <TranslationElements Source="MaterialColor">
+      <Translation>Color</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="Top">
+      <Translation>Top</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Center">
+      <Translation>Center</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Bottom">
+      <Translation>Bottom</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="View1">
+      <Translation>View1</Translation>
+    </TranslationElements>
+    <TranslationElements Source="View2">
+      <Translation>View2</Translation>
+    </TranslationElements>
+    
+    
+    <TranslationElements Source="Image Store Strategy">
+      <Translation>Image Store Strategy</Translation>
+    </TranslationElements>
+    <TranslationElements Source="All">
+      <Translation>All</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Suspicious">
+      <Translation>Suspicious</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image Store Format">
+      <Translation>Image Store Format</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Merge Two View Image">
+      <Translation>Merge Two View Image</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Auto Store Xray Image To Same Path">
+      <Translation>Auto Store Xray Image To Same Path</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Limit Auto Store Common Format Image Count">
+      <Translation>Limit Auto Store Common Format Image Count</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Upper Limit">
+      <Translation>Upper Limit</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="Image Store Path">
+      <Translation>Image Store Path</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Using Touch Interface">
+      <Translation>Using Touch Interface</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Language">
+      <Translation>Language</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Company Name">
+      <Translation>Company Name</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Machine Number">
+      <Translation>Machine Number</Translation>
+    </TranslationElements>
+	<TranslationElements Source="Channel ID">
+		<Translation>Channel ID</Translation>
+	</TranslationElements>	  
+    <TranslationElements Source="Production Date">
+      <Translation>Production Date</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Model">
+      <Translation>Model</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Description">
+      <Translation>Description</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XrayGen1">
+      <Translation>XRayGen #1</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XrayGen2">
+      <Translation>XRayGen #2</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image1 Serial Port">
+      <Translation>Image1 Serial Port</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image2 Serial Port">
+      <Translation>Image2 Serial Port</Translation>
+    </TranslationElements>
+    <TranslationElements Source="X-Ray Generator Type">
+      <Translation>X-Ray Generator Type</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Wait for timeout(ms)">
+      <Translation>Time Waiting for Control Board reply(ms)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Rising Timespan (S)">
+      <Translation>Rising Timespan (S)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="X-Ray Generators Count">
+      <Translation>X-Ray Generators Count</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Always warmup when starts">
+      <Translation>Always warmup when starts</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Views Count">
+      <Translation>Views Count</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Is Dual Energy">
+      <Translation>Is Dual Energy</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Line Integration Time (ms)">
+      <Translation>Line Integration Time (ms)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Capture System Host IP">
+      <Translation>Capture System IP</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Board 1 IP">
+      <Translation>Board 1 IP</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Board 1 Command Port">
+      <Translation>Board 1 Command Port</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Board 1 Image Port">
+      <Translation>Board 1 Image Port</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Board 2 IP">
+      <Translation>Board 2 IP</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Board 2 Command Port">
+      <Translation>Board 2 Command Port</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Board 2 Image Port">
+      <Translation>Board 2 Image Port</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Board Ping Enable">
+      <Translation>Enable Ping</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Board Ping Value">
+      <Translation>Ping</Translation>
+    </TranslationElements>
+    <TranslationElements Source="View1 Cards Distribution">
+      <Translation>View1 Cards Distribution</Translation>
+    </TranslationElements>
+    <TranslationElements Source="View2 Cards Distribution">
+      <Translation>View2 Cards Distribution</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Automatically restart keyboard if disconnected">
+      <Translation>Automatically restart keyboard if disconnected</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Save Changes">
+      <Translation>Save Changes</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Discard Changes">
+      <Translation>Discard Changes</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Capture System Type">
+      <Translation>Capture System Type</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Select model">
+      <Translation>Select Machine Model</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Select Device Interface">
+      <Translation>Select Device Interface</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Capture System Type">
+      <Translation>Capture System Type</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Change Machine Model">
+      <Translation>Change Machine Model</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="Network Control">
+      <Translation>Network Control</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Local IP">
+      <Translation>Local IP</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Server IP">
+      <Translation>Server IP</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="Centralized Management Through Network">
+      <Translation>Centralized Management Through Network</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Centralized Management Configure">
+      <Translation>Centralized Management Configure</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Server IP Address">
+      <Translation>Server IP Address</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Server User Name">
+      <Translation>Server User Name</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Server User Password">
+      <Translation>Server User Password</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Enable Remote Network Control">
+      <Translation>Enable Remote Network Control</Translation>
+    </TranslationElements>
+    
+
+    <TranslationElements Source="Success to set xray command interval.">
+      <Translation>Success to set command interval of Xray Generators</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Failed to set xray command interval.">
+      <Translation>Failed to set command interval of Xray Generators</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Failed to open control board.">
+      <Translation>Failed to open control board</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Exception">
+      <Translation>Exception</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Failed to save settings to Capture Card.">
+      <Translation>Failed to save settings to Capture Card</Translation>
+    </TranslationElements>
+    <TranslationElements Source="New settings have been saved into Capture System.">
+      <Translation>New settings have been saved into Capture System</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Failed to save settings.">
+      <Translation>Failed to save settings</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Connection with Control Board System is OK!">
+      <Translation>Connection with Control Board System is OK</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Could not connect to Control Board System!">
+      <Translation>Connection with Control Board System is OK</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Connection Test">
+      <Translation>Connection Test</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Query Bag Count from Control Board Successfully!">
+      <Translation>Query Bag Count from Control Board Successfully!</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Set Bag Count to Control Board Successfully!">
+      <Translation>Set Bag Count to Control Board Successfully!</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Reload Bag Count to Control Board Successfully!">
+      <Translation>Reload Bag Count to Control Board Successfully!</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Query Bag Count from Control Board Failed!">
+      <Translation>Query Bag Count from Control Board Failed!</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Set Bag Count to Control Board Failed!">
+      <Translation>Set Bag Count to Control Board Failed</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Reload Bag Count to Control Board Failed!">
+      <Translation>Reload Bag Count to Control Board Failed!</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Bag Count">
+      <Translation>Bag Count</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Model has been changed successfully.">
+      <Translation>Model has been changed successfully</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Failed to change model.">
+      <Translation>Failed to change model</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Failed to save settings into Control Board System.">
+      <Translation>Failed to save settings into Control Board System.</Translation>
+    </TranslationElements>
+    <TranslationElements Source="New settings have been saved into Control Board System successfully.">
+      <Translation>New settings have been saved into Control Board System successfully</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Configurations has been imported successfully.">
+      <Translation>Configurations has been imported successfully</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Failed to import configurations.">
+      <Translation>Failed to import configurations</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Import Configuration">
+      <Translation>Import Configuration</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Export">
+      <Translation>Export</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Export Completed.">
+      <Translation>Export Completed</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Export Failed.">
+      <Translation>Export Failed</Translation>
+    </TranslationElements>
+  </TranslationSection>
+
+  <TranslationSection SectionName="RegularRemind" Description="">
+    <TranslationElements Source="Reminder Messages">
+      <Translation>Reminder Messages</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Please Check">
+      <Translation>Please check whether the following items are working properly:</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XRay">
+      <Translation>X-ray emitter</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Indicator Light">
+      <Translation>Indicator light</Translation>
+    </TranslationElements>
+    <TranslationElements Source="All Keys">
+      <Translation>All key functions on the keyboard</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Switch Lock">
+      <Translation>Switch lock</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Conveyor Belt">
+      <Translation>Whether the conveyor belt is damaged</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Conveyor Belt Motor">
+      <Translation>Whether the conveyor belt motor is oily</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Conveyor Belt Deviation">
+      <Translation>Whether the conveyor belt deviation</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Lead Curtain">
+      <Translation>Whether lead curtain is in good Condition</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Fan Filter">
+      <Translation>The fan filter is clean</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Fan Work">
+      <Translation>Whether the fan is working properly</Translation>
+    </TranslationElements>
+  </TranslationSection>
+
+  <TranslationSection SectionName="Diagnosis Translation" Description="">
+    <TranslationElements Source="Control System Status">
+      <Translation>Control System Status</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Valtage">
+      <Translation>Valtage</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Current">
+      <Translation>Current</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Sparking">
+      <Translation>Sparking</Translation>
+    </TranslationElements>
+    <TranslationElements Source="OverTemperature">
+      <Translation>Over temperature</Translation>
+    </TranslationElements>
+    <TranslationElements Source="OverVoltage">
+      <Translation>Over voltage</Translation>
+    </TranslationElements>
+    <TranslationElements Source="OverCurrent">
+      <Translation>Over current</Translation>
+    </TranslationElements>
+    <TranslationElements Source="OverloadPower">
+      <Translation>Overload power</Translation>
+    </TranslationElements>
+    <TranslationElements Source="VAOutofControl">
+      <Translation>Voltage/Current out of control</Translation>
+    </TranslationElements>
+    <TranslationElements Source="InterlockSwitchNotClosed">
+      <Translation>Interlock switch not closed</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Capture System Connect Status">
+      <Translation>Capture System Connected</Translation>
+    </TranslationElements>
+    <TranslationElements Source="PESensor Status">
+      <Translation>PESensor Status</Translation>
+    </TranslationElements>
+    <TranslationElements Source="InterLock Triggerrd">
+      <Translation>InterLock Triggerred</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Temperature">
+      <Translation>Temperature</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Control Board Ip">
+      <Translation>Control Board Ip</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Control Board Port">
+      <Translation>Control Board Port</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="Command Port">
+      <Translation>Command Port</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Image Port">
+      <Translation>Image Port</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Cards Distribution">
+      <Translation>Cards Distribution</Translation>
+    </TranslationElements>
+    <TranslationElements Source="View1 Bad Points of Auto Detection">
+      <Translation>View1 Bad Points of Auto Detection</Translation>
+    </TranslationElements>
+    <TranslationElements Source="View2 Bad Points of Auto Detection">
+      <Translation>View2 Bad Points of Auto Detection</Translation>
+    </TranslationElements>
+    <TranslationElements Source="View1 Bad Points of Manual Setting">
+      <Translation>View1 Bad Points of Manual Setting</Translation>
+    </TranslationElements>
+    <TranslationElements Source="View2 Bad Points of Manual Setting">
+      <Translation>View2 Bad Points of Manual Setting</Translation>
+    </TranslationElements>
+  <TranslationElements Source="Network Port">
+      <Translation>Network Port</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Power Status">
+      <Translation>Power Status</Translation>
+    </TranslationElements>
+  </TranslationSection>
+
+  <TranslationSection SectionName="OperationRecord" Description="">
+    <!--UI-->
+    <TranslationElements Source="MainUI">
+      <Translation>Main Page</Translation>
+    </TranslationElements>
+    <TranslationElements Source="SystemMenu">
+      <Translation>System Menu</Translation>
+    </TranslationElements>
+    <TranslationElements Source="About">
+      <Translation>About</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ChangePassword">
+      <Translation>Change Password</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ManageOtherAccounts">
+      <Translation>Manage Other Accounts</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Detectors">
+      <Translation>Detectors</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XRayGen">
+      <Translation>XRay Generator</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ConveyorPESensor">
+      <Translation>Conveyor PE Sensor</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Keyboard">
+      <Translation>Keyboard</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ControlSystem">
+      <Translation>Control System</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Diagnosis">
+      <Translation>Diagnosis</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="ImageSetting">
+      <Translation>Image Setting</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ImsPage">
+      <Translation>Image Management</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ImsListPage">
+      <Translation>Image Management(List)</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ImageRetrieval">
+      <Translation>Image Retrieval</Translation>
+    </TranslationElements>
+    <TranslationElements Source="BootLog">
+      <Translation>Boot Log</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ConveyorWorkLog">
+      <Translation>Conveyor Work Log</Translation>
+    </TranslationElements>
+    <TranslationElements Source="LoginLog">
+      <Translation>Login Log</Translation>
+    </TranslationElements>
+    <TranslationElements Source="OperationLog">
+      <Translation>Operation Log</Translation>
+    </TranslationElements>
+    <TranslationElements Source="TipExamLog">
+      <Translation>Tip Operation Log</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XRayGenWorkLog">
+      <Translation>XRay Generator Work Log</Translation>
+    </TranslationElements>
+	  <TranslationElements Source="Snapshot">
+		  <Translation>Snapshot</Translation>
+	  </TranslationElements>
+	  <TranslationElements Source="RightCtrl">
+		  <Translation>RightCtrl</Translation>
+	  </TranslationElements>
+	  <TranslationElements Source="Image Brighter">
+		  <Translation>Image Brighter</Translation>
+	  </TranslationElements>
+	  <TranslationElements Source="Image Darker">
+		  <Translation>Image Darker</Translation>
+	  </TranslationElements>
+
+    <TranslationElements Source="DiskSpaceManage">
+      <Translation>DiskSpace Manage</Translation>
+    </TranslationElements>
+    <TranslationElements Source="FunctionKeys">
+      <Translation>Function Keys</Translation>
+    </TranslationElements>
+    <TranslationElements Source="IntelliSense">
+      <Translation>IntelliSense</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ObjectCounter">
+      <Translation>Object Counter</Translation>
+    </TranslationElements>
+    <TranslationElements Source="TipImages">
+      <Translation>Tip Images Management</Translation>
+    </TranslationElements>
+    <TranslationElements Source="TipPlans">
+      <Translation>Tip Plans Management</Translation>
+    </TranslationElements>
+    <TranslationElements Source="TrainingSetting">
+      <Translation>Training Setting</Translation>
+    </TranslationElements>
+    <TranslationElements Source="TrainingImagesManagement">
+      <Translation>Training Images Management</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="Calibrate">
+      <Translation>Calibrate</Translation>
+    </TranslationElements>
+    <TranslationElements Source="CalibrateGround">
+      <Translation>Calibrate Ground</Translation>
+    </TranslationElements>
+    <TranslationElements Source="CalibrateAir">
+      <Translation>Calibrate Air</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XRayGenWarmup">
+      <Translation>XRayGenerator Warmup</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ChangeSysDateTime">
+      <Translation>Change SysDate Time</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Login">
+      <Translation>Login</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ScreenImagesOperation">
+      <Translation>Screen Images Operation</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ImageBadChannel">
+      <Translation>Remove Instable Channel</Translation>
+    </TranslationElements>
+    
+    <!--command-->
+    <TranslationElements Source="Saveto">
+      <Translation>Save to</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Delete">
+      <Translation>Delete</Translation>
+    </TranslationElements>    
+    <TranslationElements Source="Create">
+      <Translation>Create</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Setting">
+      <Translation>Setting</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Open">
+      <Translation>Open</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Close">
+      <Translation>Close</Translation>
+    </TranslationElements>
+    <TranslationElements Source="KeyPress">
+      <Translation>KeyPress</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Import">
+      <Translation>Import</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Export">
+      <Translation>Export</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Relay">
+      <Translation>Relay</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Lock">
+      <Translation>Lock</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Unlock">
+      <Translation>Unlock</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Print">
+      <Translation>Print</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Find">
+      <Translation>Find</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Login">
+      <Translation>Login</Translation>
+    </TranslationElements>
+
+    <!--object-->
+    <TranslationElements Source="XrayGen1">
+      <Translation>XrayGen #1</Translation>
+    </TranslationElements>
+    <TranslationElements Source="XrayGen2">
+      <Translation>XrayGen #2</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Xray">
+      <Translation>XrayGen</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Conveyor">
+      <Translation>Conveyor</Translation>
+    </TranslationElements>
+    <TranslationElements Source="PESensors">
+      <Translation>PE Sensors</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ImagesDefaultAbsorb">
+      <Translation>Images Default Absorb</Translation>
+    </TranslationElements>
+    <TranslationElements Source="MarginSetting">
+      <Translation>Margin Setting</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ImageBlankSpace">
+      <Translation>Image Blank Space</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ShowUnpenetrateRed">
+      <Translation>Show Unpenetration Region Red</Translation>
+    </TranslationElements>
+    <TranslationElements Source="AutoResetWhenLogin">
+      <Translation>Auto Reset When Login</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ResetSessionCount">
+      <Translation>Reset Session Count</Translation>
+    </TranslationElements>
+    <TranslationElements Source="CheckCaptureSys">
+      <Translation>Check Capture System</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ChangeSysDateTime">
+      <Translation>Change System DateTime</Translation>
+    </TranslationElements>
+    <TranslationElements Source="DiskCleanService">
+      <Translation>Disk Clean Service</Translation>
+    </TranslationElements>
+	<TranslationElements Source="Escape">
+	  <Translation>Escape</Translation>
+	</TranslationElements>
+	  
+    <TranslationElements Source="HighDensity">
+      <Translation>HighDensity</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Drugs">
+      <Translation>Drugs</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Explosives">
+      <Translation>Explosives</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Sensitivity">
+      <Translation>Sensitivity</Translation>
+    </TranslationElements>
+    <TranslationElements Source="BorderColor">
+      <Translation>Border Color</Translation>
+    </TranslationElements>
+    <TranslationElements Source="AudibleAlarm">
+      <Translation>Audible Alarm</Translation>
+    </TranslationElements>
+    <TranslationElements Source="LightAlarm">
+      <Translation>Light Alarm</Translation>
+    </TranslationElements>
+    <TranslationElements Source="StopConveyor">
+      <Translation>Stop Conveyor</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Black">
+      <Translation>Black</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Blue">
+      <Translation>Blue</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Brown">
+      <Translation>Brown</Translation>
+    </TranslationElements>
+    <TranslationElements Source="DarkGreen">
+      <Translation>DarkGreen</Translation>
+    </TranslationElements>
+    <TranslationElements Source="DarkOrange">
+      <Translation>DarkOrange</Translation>
+    </TranslationElements>
+    <TranslationElements Source="DeepPink">
+      <Translation>DeepPink</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Purple">
+      <Translation>Purple</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Red">
+      <Translation>Red</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Aqua">
+      <Translation>Aqua</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="AccountId">
+      <Translation>Account Id</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Name">
+      <Translation>Name</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Password">
+      <Translation>Password</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Role">
+      <Translation>Role</Translation>
+    </TranslationElements>
+    <TranslationElements Source="IsActive">
+      <Translation>Is Active</Translation>
+    </TranslationElements>
+    <TranslationElements Source="PermissionValue">
+      <Translation>Permission Value</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Description">
+      <Translation>Description</Translation>
+    </TranslationElements>
+    <TranslationElements Source="CanTraining">
+      <Translation>Can Training</Translation>
+    </TranslationElements>
+    <TranslationElements Source="CanChangeImageSettings">
+      <Translation>Can Change Image Settings</Translation>
+    </TranslationElements>
+    <TranslationElements Source="CanManageDisk">
+      <Translation>Can Manage Disk</Translation>
+    </TranslationElements>
+    <TranslationElements Source="CanManageLog">
+      <Translation>Can Manage Log</Translation>
+    </TranslationElements>
+
+
+    <TranslationElements Source="Id">
+      <Translation>Id</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Priority">
+      <Translation>Priority</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Probability">
+      <Translation>Probability</Translation>
+    </TranslationElements>
+    <TranslationElements Source="CreationTime">
+      <Translation>Creation Time</Translation>
+    </TranslationElements>
+    <TranslationElements Source="IsEnabled">
+      <Translation>Is Enabled</Translation>
+    </TranslationElements>
+    <TranslationElements Source="StartTime">
+      <Translation>Start Time</Translation>
+    </TranslationElements>
+    <TranslationElements Source="EndTime">
+      <Translation>End Time</Translation>
+    </TranslationElements>
+    <TranslationElements Source="OnlineRecMaxSeconds" Comment="When TIP injected, the operator must act within the given time">
+      <Translation>Online Recognization Max Seconds</Translation>
+    </TranslationElements>
+    <TranslationElements Source="OfflineRecMaxSeconds" Comment="When operator find TIP and stop the conveyor, the operator must press Mark key within the given time">
+      <Translation>Offline Recognization Max Seconds</Translation>
+    </TranslationElements>
+    <TranslationElements Source="KnivesWeight" Comment="Knives TIP objects injection weight">
+      <Translation>Knives Weight</Translation>
+    </TranslationElements>
+    <TranslationElements Source="GunsWeight">
+      <Translation>Guns Weight</Translation>
+    </TranslationElements>
+    <TranslationElements Source="ExplosivesWeight">
+      <Translation>Explosives Weight</Translation>
+    </TranslationElements>
+    <TranslationElements Source="OtherObjectsWeight" Comment="Other TIP objects injection weight">
+      <Translation>Other Objects Weight</Translation>
+    </TranslationElements>
+    
+    <!--content-->
+    <TranslationElements Source="Backward">
+      <Translation>Backward</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Forward">
+      <Translation>Forward</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Stop">
+      <Translation>Stop</Translation>
+    </TranslationElements>
+    <TranslationElements Source="True">
+      <Translation>True</Translation>
+    </TranslationElements>
+    <TranslationElements Source="False">
+      <Translation>False</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Success">
+      <Translation>Success</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Fail">
+      <Translation>Fail</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="Account">
+      <Translation>Account</Translation>
+    </TranslationElements>
+    <TranslationElements Source="System">
+      <Translation>System Admin</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Admin">
+      <Translation>Admin</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Maintainer">
+      <Translation>Maintainer</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Operator">
+      <Translation>Operator</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="Hourly" Comment="BY Hour">
+      <Translation>Hourly</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Dayly" Comment="By day statistics">
+      <Translation>Dayly</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Weekly" Comment="By week statistics">
+      <Translation>Weekly</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Monthly" Comment="By month statistics">
+      <Translation>Monthly</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Quarterly" Comment="By quarter statistics">
+      <Translation>Quarterly</Translation>
+    </TranslationElements>
+    <TranslationElements Source="UserDefined" Comment="By user-defined time statistics">
+      <Translation>User Defined</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="LastHour">
+      <Translation>Last Hour</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Today">
+      <Translation>Today</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Yestoday">
+      <Translation>Yestoday</Translation>
+    </TranslationElements>
+    <TranslationElements Source="RecentWeek">
+      <Translation>Recent Week</Translation>
+    </TranslationElements>
+    <TranslationElements Source="RecentMonth">
+      <Translation>Recent Month</Translation>
+    </TranslationElements>
+    <TranslationElements Source="SpecifiedTimeRange">
+      <Translation>Specified TimeRange</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="LeftShift">
+      <Translation>Transformation</Translation>
+    </TranslationElements>
+    <TranslationElements Source="LeftCtrl">
+      <Translation>Intellisense</Translation>
+    </TranslationElements>
+    <TranslationElements Source="D1">
+      <Translation>Mark</Translation>
+    </TranslationElements>
+    <TranslationElements Source="D2">
+      <Translation>Save</Translation>
+    </TranslationElements>
+    <TranslationElements Source="D4">
+      <Translation>Image Management</Translation>
+    </TranslationElements>
+    <TranslationElements Source="D5">
+      <Translation>Menu</Translation>
+    </TranslationElements>
+    <TranslationElements Source="D6">
+      <Translation>Reduction</Translation>
+    </TranslationElements>
+    <TranslationElements Source="D7">
+      <Translation>Explosive Identification</Translation>
+    </TranslationElements>
+    <TranslationElements Source="D8">
+      <Translation>Vertical Flip</Translation>
+    </TranslationElements>
+    <TranslationElements Source="D9">
+      <Translation>Dynamic GST</Translation>
+    </TranslationElements>
+    <TranslationElements Source="D0">
+      <Translation>Zoom Reduction</Translation>
+    </TranslationElements>
+    <TranslationElements Source="OemMinus">
+      <Translation>Magnify</Translation>
+    </TranslationElements>
+    <TranslationElements Source="OemPlus">
+      <Translation>Shrink</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="Left">
+      <Translation>Left</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Right">
+      <Translation>Right</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Up">
+      <Translation>Up</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Down">
+      <Translation>Down</Translation>
+    </TranslationElements>
+    <TranslationElements Source="F1">
+      <Translation>F1 Key</Translation>
+    </TranslationElements>
+    <TranslationElements Source="F2">
+      <Translation>F2 Key</Translation>
+    </TranslationElements>
+    <TranslationElements Source="F3">
+      <Translation>F3 Key</Translation>
+    </TranslationElements>
+    <TranslationElements Source="F4">
+      <Translation>Move Backward</Translation>
+    </TranslationElements>
+    <TranslationElements Source="F5">
+      <Translation>Stop</Translation>
+    </TranslationElements>
+    <TranslationElements Source="F6">
+      <Translation>Move Foreward</Translation>
+    </TranslationElements>
+    <TranslationElements Source="F7">
+      <Translation>Import</Translation>
+    </TranslationElements>
+
+    <TranslationElements Source="A">
+      <Translation>Inverse</Translation>
+    </TranslationElements>
+    <TranslationElements Source="B">
+      <Translation>Image Absorb Increase</Translation>
+    </TranslationElements>
+    <TranslationElements Source="C">
+      <Translation>Image Absorb Decrease</Translation>
+    </TranslationElements>
+    <TranslationElements Source="D">
+      <Translation>Image Penetration</Translation>
+    </TranslationElements>
+    <TranslationElements Source="E">
+      <Translation>Grey Image</Translation>
+    </TranslationElements>
+    <TranslationElements Source="F">
+      <Translation>OS</Translation>
+    </TranslationElements>
+    <TranslationElements Source="G">
+      <Translation>MS</Translation>
+    </TranslationElements>
+    <TranslationElements Source="H">
+      <Translation>Image Enhance</Translation>
+    </TranslationElements>
+    <TranslationElements Source=",">
+      <Translation>,</Translation>
+    </TranslationElements>
+    <TranslationElements Source=":">
+      <Translation>:</Translation>
+    </TranslationElements>
+  </TranslationSection>
+
+  <TranslationSection SectionName="HardwareStation">
+    <TranslationElements Source="True">
+      <Translation>True</Translation>
+    </TranslationElements>
+    <TranslationElements Source="False">
+      <Translation>False</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Normal">
+      <Translation>Normal</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Abnormal">
+      <Translation>Abnormal</Translation>
+    </TranslationElements>
+    <TranslationElements Source="PowerOff">
+      <Translation>PowerOff</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Ready">
+      <Translation>Ready</Translation>
+    </TranslationElements>
+    <TranslationElements Source="DetectObject">
+      <Translation>Detect Object</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Broken">
+      <Translation>Broken</Translation>
+    </TranslationElements>
+  </TranslationSection>
+
+  <!--#region-->
+  <TranslationSection SectionName="GroupInfo">
+    <TranslationElements Source="Is Net Account">
+      <Translation>Is Net Account</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Group ID">
+      <Translation>Group ID</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Group Name">
+      <Translation>Group Name</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Description">
+      <Translation>Description</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Add New Group">
+      <Translation>Add New Group</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Group List">
+      <Translation>Group List</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Enter New Group Information">
+      <Translation>Enter New Group Information</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Group ID cannot be empty">
+      <Translation>Group ID cannot be empty</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Group ID already exists">
+      <Translation>Group ID already exists</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Group ID can only contain 1-6 numbers">
+      <Translation>Group ID can only contain 1-6 numbers</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Group Name cannot be empty">
+      <Translation>Group Name cannot be empty</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Group Name already exists">
+      <Translation>Group Name already exists</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Group Name can only contain 1-20 characters">
+      <Translation>Group Name can only contain 1-20 characters</Translation>
+    </TranslationElements>
+    <TranslationElements Source="Manage Groups">
+      <Translation>Manage Groups</Translation>
+    </TranslationElements>
+  </TranslationSection>
+  <!--#endregion-->
+</ArrayOfTranslationSection>

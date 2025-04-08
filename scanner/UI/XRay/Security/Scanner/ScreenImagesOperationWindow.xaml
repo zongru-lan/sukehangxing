@@ -1,0 +1,188 @@
+﻿<controls:MetroWindow x:Class="UI.XRay.Security.Scanner.ScreenImagesOperationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:command="http://www.galasoft.ch/mvvmlight"
+        Title="ScreenImagesOperationWindow" 
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        mc:Ignorable="d" 
+        xmlns:viewModel="clr-namespace:UI.XRay.Security.Scanner.ViewModel"
+        xmlns:framework="clr-namespace:UI.XRay.Gui.Framework;assembly=UI.XRay.Gui.Framework"
+        xmlns:converters="clr-namespace:UI.XRay.Security.Scanner.Converters"
+        FontSize="18" 
+        DataContext="{Binding ScreenImagesOperation, Source={StaticResource Locator}}"
+        d:DataContext="{d:DesignInstance Type=viewModel:ScreenImagesOperationWindowViewModel, IsDesignTimeCreatable=True}"
+        
+        BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="1" Background="{StaticResource WindowBackgroundBrush}"
+        ShowMaxRestoreButton="False" ShowSystemMenuOnRightClick="False" 
+        ShowMinButton="False" IsWindowDraggable="False"  ShowCloseButton="True" WindowStyle="None" ResizeMode="NoResize"
+        WindowTransitionsEnabled="False"  ShowInTaskbar="False"
+        InputMethod.IsInputMethodEnabled="False" PreviewKeyDown="ScreenImagesOperationWindow_OnPreviewKeyDown"
+        Height="500" Width="1280" ShowTitleBar="False" WindowStartupLocation="Manual">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="PreviewKeyDown">
+            <command:EventToCommand Command="{Binding PreviewKeyDownCommand}" PassEventArgsToCommand="True"></command:EventToCommand>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Window.Resources>
+        <converters:BoolVisibilityConvertor x:Key="ImagesCountBtnVisibilityConvertor"/>
+        <converters:PositiveIntBoolConverter x:Key="SelectedImagesCountBoolConverter"/>
+        <converters:DateTime2StringConverter x:Key="DateTime2StringConverter"/>
+        <Style BasedOn="{StaticResource MetroFlatButton}" TargetType="Button">
+            <Setter Property="FontSize" Value="{StaticResource PageFontSize}"></Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" HorizontalAlignment="Stretch" Height="60" Margin="30,0,0,0">
+            <Label Content="{framework:LanguageResource Screen Images Manipulation}" VerticalAlignment="Center" FontSize="22"></Label>
+        </Grid>
+        <Border Grid.Row="1" Background="GhostWhite">
+            <Grid Margin="30,20,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="{framework:LanguageResource Screen Images List}" VerticalAlignment="Center" FontSize="16"></TextBlock>
+                <ListBox Grid.Row="1" Name="ImageListBox" SelectionMode="Multiple" 
+                                 ItemsSource="{Binding CurrentImages}" 
+                                 InputMethod.IsInputMethodEnabled="False" Margin="0,0,0,0" 
+                                 ScrollViewer.HorizontalScrollBarVisibility= "Disabled" 
+                                 ScrollViewer.VerticalScrollBarVisibility="Auto" MaxHeight="508" 
+                                 Padding="8"  Background="Gray" HorizontalAlignment="Left" VerticalAlignment="Top">
+                    <i:Interaction.Triggers>
+                        <!--<i:EventTrigger EventName="SelectionChanged">
+                            <command:EventToCommand Command="{Binding SelectionChangedEventCommand}" PassEventArgsToCommand="True"></command:EventToCommand>
+                        </i:EventTrigger>-->
+                    </i:Interaction.Triggers>
+                    <ListBox.Resources>
+                        <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                            <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                        </Style>
+                    </ListBox.Resources>
+                    <ListBox.Style>
+                        <Style BasedOn="{StaticResource {x:Type ListBox}}" TargetType="{x:Type ListBox}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=ImageListBox, Path=HasItems}" Value="False">
+                                    <Setter Property="Visibility" Value="Collapsed"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListBox.Style>
+                    <ItemsControl.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                            <Setter Property="Control.Margin" Value="8"/>
+                            <Setter Property="Control.Background" Value="White"></Setter>
+                            <Setter Property="Control.Padding" Value="3"></Setter>
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
+
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Source="{Binding Path=Thumbnail}" Width="192" Height="192"></Image>
+                                <TextBlock Grid.Row="1" Grid.Column="0" InputMethod.IsInputMethodEnabled="False">
+                                    <TextBlock.Text>
+                                        <Binding Path="ScanTime" Converter="{StaticResource DateTime2StringConverter}"></Binding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                                <Image Grid.Row="1" Grid.Column="1" Source="SettingViews/Image/../../Icons/Save.png" Width="16" 
+                                               Visibility="{Binding Path=IsLocked, Converter={StaticResource ImagesCountBtnVisibilityConvertor}}">
+                                </Image>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                </ListBox>
+                <TextBlock Grid.Row="2" Visibility="{Binding SaveSuccessVisibility}"  Text="{framework:LanguageResource Save Images Successfully}" VerticalAlignment="Center" FontSize="16"></TextBlock>
+                <UniformGrid Grid.Row="3" Columns="6" Margin="0,10,0,30" HorizontalAlignment="Left">
+                    <Button Name="SelectAllButton" Margin="0,0,20,0" HorizontalContentAlignment="Stretch" MinHeight="40"
+                                Command="{Binding SelectAllCommand}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" Text="{framework:LanguageResource Source=Select All}"></TextBlock>
+                            <TextBlock Grid.Column="1" Margin="15,0,0,0" Text="[1]"  ></TextBlock>
+                        </Grid>
+                    </Button>
+                    <Button Margin="0,0,20,0" HorizontalContentAlignment="Stretch"
+                                Command="{Binding AntiSelectAllCommand}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" Text="{framework:LanguageResource Source=Anti-Select}"></TextBlock>
+                            <TextBlock Grid.Column="1" Margin="15,0,0,0" Text="[2]"  ></TextBlock>
+                        </Grid>
+                    </Button>
+                    <Button Margin="0,0,20,0" HorizontalContentAlignment="Stretch"
+                                Command="{Binding LockCommand}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" Text="{framework:LanguageResource Source=Save}"></TextBlock>
+                            <TextBlock Grid.Column="1" Margin="15,0,0,0" Text="[3]"  ></TextBlock>
+                        </Grid>
+                    </Button>
+                    <Button Margin="0,0,20,0" HorizontalContentAlignment="Stretch" Command="{Binding PrintCommand}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" Text="{framework:LanguageResource Source=Print}"></TextBlock>
+                            <TextBlock Grid.Column="1" Margin="15,0,0,0" Text="[4]"  ></TextBlock>
+                        </Grid>
+                    </Button>
+                    <!--<Button Margin="0,0,20,0" HorizontalContentAlignment="Stretch" Name="SaveButton" Command="{Binding SaveSelectedCommand}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" Text="{framework:LanguageResource Source=Save}"></TextBlock>
+                            <TextBlock Grid.Column="1" Margin="15,0,0,0" Text="[5]"  ></TextBlock>
+                        </Grid>
+                    </Button>-->
+                    <Button Margin="0,0,20,0" HorizontalContentAlignment="Stretch" Name="CloseButton" Click="CloseButton_OnClick">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" Text="{framework:LanguageResource Source=Close}"></TextBlock>
+                            <TextBlock Grid.Column="1" Margin="15,0,0,0" Text="[F3]"  ></TextBlock>
+                        </Grid>
+                    </Button>
+                </UniformGrid>
+                
+            </Grid>
+        
+        </Border>
+    </Grid>
+</controls:MetroWindow>

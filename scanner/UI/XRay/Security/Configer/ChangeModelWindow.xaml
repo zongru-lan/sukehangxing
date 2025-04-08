@@ -1,0 +1,22 @@
+﻿<controls:MetroWindow x:Class="UI.XRay.Security.Configer.ChangeModelWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:framework="clr-namespace:UI.XRay.Gui.Framework;assembly=UI.XRay.Gui.Framework"
+        BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="1"
+        FontSize="{StaticResource PageFontSize}" 
+        ShowMaxRestoreButton="True" ShowSystemMenuOnRightClick="True"  
+        ShowMinButton="True" IsWindowDraggable="True"  ShowCloseButton="True" 
+        WindowTransitionsEnabled="True"  ShowInTaskbar="True" 
+        ShowTitleBar="True" WindowStartupLocation="CenterOwner"
+        Title="{framework:LanguageResource ViewSection=Configer, Source=Change Machine Model}" Height="300" Width="500"
+        DataContext="{Binding Source={StaticResource Locator}, Path=ChangeModel}">
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Label Content="{framework:LanguageResource ViewSection=Configer, Source=Select model}"></Label>
+        <ComboBox Width="180" ItemsSource="{Binding ModelList}" HorizontalAlignment="Left" SelectedItem="{Binding SelectedModelName}" FontSize="{StaticResource PageFontSize}"></ComboBox>
+        <!--<Label Margin="0,20,0,0" Content="{Binding DTDetModeStr}"></Label>-->
+        <!--<ComboBox Width="180" ItemsSource="{Binding DtDetSysTypes}" HorizontalAlignment="Left" SelectedItem="{Binding DtDetSysType}" FontSize="{StaticResource PageFontSize}"></ComboBox>-->
+        <Button Content="{framework:LanguageResource Change}" HorizontalAlignment="Right" Margin="0,20,0,0" Width="100" Command="{Binding ChangeCommand}"
+                FontSize="{StaticResource PageFontSize}"></Button>
+    </StackPanel>
+</controls:MetroWindow>

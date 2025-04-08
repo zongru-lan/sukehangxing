@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<layerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="36cb2bc4-5496-4b17-ba38-7f808fdb41b3" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/LayerDesigner">
+  <layers>
+    <layer Id="1602deca-cf51-489d-85e7-43d558bd057a" name="实体、算法&#xD;&#xA;&#xD;&#xA;Business.Algo&#xD;&#xA;Business.Entities" />
+    <layer Id="86877ef9-39bf-4081-be84-b7a65476e885" name="业务逻辑层&#xD;&#xA;&#xD;&#xA;Flows.Services&#xD;&#xA;Flows.Controllers" />
+    <layer Id="bd26573d-e751-417f-8103-8549d5ee78bd" name="组件&#xD;&#xA;&#xD;&#xA;Parts.Keyboard&#xD;&#xA;控制库(外部依赖)&#xD;&#xA;Dt采集库(外部依赖)" />
+    <layer Id="91df4076-4ec8-434a-b41f-5d6e9c0f2d2e" name="表示层&#xD;&#xA;&#xD;&#xA;Gui.Framework&#xD;&#xA;Gui.Widgets&#xD;&#xA;Security.Scanner&#xD;&#xA;Security.Configer" />
+    <layer Id="d953d348-253f-467b-91cf-5848d3feffdc" name="数据访问层&#xD;&#xA;&#xD;&#xA;Business.DataAccess" />
+  </layers>
+</layerModel>

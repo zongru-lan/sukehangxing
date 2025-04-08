@@ -1,0 +1,31 @@
+﻿<Page x:Class="UI.XRay.Security.Scanner.SettingViews.Device.Pages.ControlSystemPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:framework="clr-namespace:UI.XRay.Gui.Framework;assembly=UI.XRay.Gui.Framework"
+      xmlns:device="clr-namespace:UI.XRay.Security.Scanner.ViewModel.Setting.Device"
+      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+      mc:Ignorable="d" FontSize="{StaticResource PageFontSize}"
+      DataContext="{Binding Source={StaticResource Locator}, Path=ControlSystemPage}"
+      d:DataContext="{d:DesignInstance d:Type=device:ControlSystemPageViewModel, IsDesignTimeCreatable=True}"
+      d:DesignHeight="900" d:DesignWidth="300"
+	Title="ControlSystemPage">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" IsTabStop="False">
+        <StackPanel Margin="{StaticResource PageContentMargin}" HorizontalAlignment="Left">
+            <Button Margin="0,15,0,0" Content="{framework:LanguageResource ViewSection=Configer, Source=Test Connection}" HorizontalAlignment="Stretch"
+                    Command="{Binding TestConnectionCommand}"
+                        Style="{StaticResource AccentedSquareButtonStyle}" FontSize="18"></Button>
+            <StackPanel Orientation="Vertical" Margin="20" Visibility="{Binding SuccessfulVisibility}">
+                <Label Margin="0,15,0,0" Content="{framework:LanguageResource ViewSection=Configer, Source=Firmware Version}" VerticalAlignment="Bottom"/>
+                <TextBox Text="{Binding Firmware}" IsReadOnly="True" TextWrapping="Wrap"/>
+                <Label Margin="0,15,0,0" Content="{framework:LanguageResource ViewSection=Configer, Source=Communication Protocol}" VerticalAlignment="Bottom"/>
+                <TextBox Text="{Binding Protocol}" IsReadOnly="True" TextWrapping="Wrap"/>
+                <TextBlock Margin="0,15,0,0" Text="{framework:LanguageResource ViewSection=Configer, Source=Connect Successful}"></TextBlock>
+            </StackPanel>
+
+            <TextBlock Margin="0,15,0,0" Text="{framework:LanguageResource ViewSection=Configer, Source=Connect Failed}" Visibility="{Binding FailedVisibility}"></TextBlock>
+        </StackPanel>
+    </ScrollViewer>    
+</Page>

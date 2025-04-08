@@ -1,0 +1,43 @@
+﻿<Page x:Class="UI.XRay.Security.Scanner.SettingViews.Records.RecordsMenu"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:framework="clr-namespace:UI.XRay.Gui.Framework;assembly=UI.XRay.Gui.Framework"
+      mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator}, Path=RecordsMenu}"
+      d:DesignHeight="600" d:DesignWidth="300"
+	  Title="{framework:LanguageResource Source=Logs}">
+
+    <Page.Resources>
+        <Style TargetType="RadioButton" BasedOn="{StaticResource RadioMenuButtonStyle}"></Style>
+    </Page.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel HorizontalAlignment="Left" Orientation="Vertical" Width="{StaticResource SettingPageLeftPanelWidth}">
+            <RadioButton Command="{Binding NaviToBootLogPageCommand}" IsChecked="True">
+                <TextBlock TextWrapping="Wrap" Text="{framework:LanguageResource Boot Logs}"></TextBlock>
+            </RadioButton>
+
+            <RadioButton Command="{Binding NaviToLoginLogPageCommand}">
+                <TextBlock TextWrapping="Wrap" Text="{framework:LanguageResource Login Logs}"></TextBlock>
+            </RadioButton>
+
+            <RadioButton  Command="{Binding NaviToOperationPageCommand}">
+                <TextBlock TextWrapping="Wrap" Text="{framework:LanguageResource Operation Logs}"></TextBlock>
+            </RadioButton>
+
+            <RadioButton  Command="{Binding NaviToTipExamLogPageCommand}">
+                <TextBlock TextWrapping="Wrap" Text="{framework:LanguageResource TIP Examination Logs}"></TextBlock>
+            </RadioButton>
+
+            <RadioButton  Command="{Binding NaviToXRayGenWorkLogPageCommand}">
+                <TextBlock TextWrapping="Wrap" Text="{framework:LanguageResource X-Ray Generator Work Logs}"></TextBlock>
+            </RadioButton>
+
+            <RadioButton  Command="{Binding NaviToConveyorWorkLogPageCommand}">
+                <TextBlock TextWrapping="Wrap" Text="{framework:LanguageResource Conveyor Work Logs}"></TextBlock>
+            </RadioButton>
+        </StackPanel>
+    </ScrollViewer>
+</Page>
+

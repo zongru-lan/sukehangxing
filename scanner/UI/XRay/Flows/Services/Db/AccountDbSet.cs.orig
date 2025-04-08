@@ -1,0 +1,218 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Data.Entity.Migrations;
+using System.Linq;
+using System.Threading.Tasks;
+using UI.XRay.Business.DataAccess.Db;
+using UI.XRay.Business.Entities;
+
+namespace UI.XRay.Flows.Services.Db
+{
+    /// <summary>
+    /// 用户账户的数据库管理：每创建一个实例，将会建立一次新的数据库连接
+    /// 单个实例不是线程安全的
+    /// </summary>
+    public class AccountDbSet
+    {
+        private DbSet<Account> AccountSet
+        {
+            get { return ContextProvider.AccountSet; }
+        }
+
+        public IScannerDbContextProvider ContextProvider { get; private set; }
+
+        protected DbContext Context
+        {
+            get { return ContextProvider.Context; }
+        }
+
+        /// <summary>
+        /// 构造一个实例，同时将会创建一个新的数据库连接。
+        /// </summary>
+        public AccountDbSet(IScannerDbContextProvider provider)
+        {
+            if (provider == null)
+            {
+                throw new ArgumentNullException("provider");
+            }
+
+            ContextProvider = provider;
+        }
+
+        public AccountDbSet()
+        {
+            ContextProvider = DbContextFactory.GetContextProvider();
+        }
+
+        public void Add(Account account, bool commitImmediately = true)
+        {
+            AccountSet.Add(account);
+            if (commitImmediately)
+            {
+                SaveChanges();
+            }
+        }
+
+        /// <summary>
+        /// 异步获取用户记录总数
+        /// </summary>
+        /// <returns></returns>
+        public Task<int> CountAsync()
+        {
+            return AccountSet.CountAsync();
+        }
+
+        /// <summary>
+        /// 获取所有账户信息
+        /// </summary>
+        /// <returns></returns>
+        public List<Account> SelectAll()
+        {
+            return AccountSet.Select(account => account).ToList();
+        }
+
+        /// <summary>
+        /// 选取所有的操作员
+        /// </summary>
+        /// <returns></returns>
+        public List<Account> SelectOperators()
+        {
+            return AccountSet.Where(account => account.Role == AccountRole.Operator).ToList();
+        }
+
+        /// <summary>
+        /// 选取所有的管理员账户
+        /// </summary>
+        /// <returns></returns>
+        public List<Account> SelectAdmins()
+        {
+            return AccountSet.Where(account => account.Role == AccountRole.Admin).ToList();
+        }
+
+        /// <summary>
+        /// 选取所有的维护账户
+        /// </summary>
+        /// <returns></returns>
+        public List<Account> SelectMaintains()
+        {
+            return AccountSet.Where(account => account.Role == AccountRole.Maintainer).ToList();
+        }
+
+        /// <summary>
+        /// 选取所有的系统账户
+        /// </summary>
+        /// <returns></returns>
+        public List<Account> SelectSystems()
+        {
+            return AccountSet.Where(account => account.Role == AccountRole.System).ToList();
+        }
+
+        /// <summary>
+        /// 获取所有用户级别低于输入的级别的账户信息
+        /// </summary>
+        /// <param name="role">判定级别，最终返回的账户的级别低于此级别</param>
+        /// <returns></returns>
+        public List<Account> SelectAccountsWithRoleLessThan(AccountRole role)
+        {
+            if (role == AccountRole.Admin)
+            {
+                return AccountSet.Where(account => account.Role == AccountRole.Operator).ToList();
+            }
+            
+            if (role == AccountRole.System)
+            {
+                return
+                    AccountSet.Where(
+                        account => account.Role == AccountRole.Operator || account.Role == AccountRole.Admin).ToList();
+            }
+
+            return new List<Account>();
+        }
+
+        public void AddOrUpdate(Account account, bool commitImmediately = true)
+        {
+            AccountSet.AddOrUpdate(account);
+
+            if (commitImmediately)
+            {
+                SaveChanges();
+            }
+        }
+
+
+        public void AddOrUpdate(IEnumerable<Account> accounts, bool commitImmediately = true)
+        {
+            foreach (var account in accounts)
+            {
+                AccountSet.AddOrUpdate(account);
+            }
+            if (commitImmediately)
+            {
+                SaveChanges();
+            }
+        }
+
+        /// <summary>
+        /// 移除一个用户
+        /// </summary>
+        /// <param name="account"></param>
+        public void Remove(Account account, bool commitImmediately = true)
+        {
+            AccountSet.Remove(account);
+
+            if (commitImmediately)
+            {
+                SaveChanges();
+            }
+        }
+
+        public void RemoveRange(IEnumerable<Account> accounts, bool commitImmediately = true)
+        {
+            // 从数据中移除：如果要移除的账户不存在于数据集中，则会抛出未找到的异常
+            AccountSet.RemoveRange(accounts);
+
+            if (commitImmediately)
+            {
+                SaveChanges();
+            }
+        }
+
+        /// <summary>
+        /// 保存此前所有修改
+        /// </summary>
+        public void SaveChanges()
+        {
+            Context.SaveChanges();
+        }
+
+        /// <summary>
+        /// 异步保存此前所有修改
+        /// </summary>
+        /// <returns></returns>
+        public Task<int> SaveChangesAsync()
+        {
+            return Context.SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// 根据主键账户Id查询某一账户是否已经存在
+        /// </summary>
+        /// <param name="accountId"></param>
+        /// <returns></returns>
+        public Account Find(string accountId)
+        {
+            return AccountSet.Find(accountId);
+        }
+
+        /// <summary>
+        /// 判断数据库中是否存在某账户
+        /// </summary>
+        /// <param name="accountId">要检索的账户Id</param>
+        /// <returns></returns>
+        public bool Has(string accountId)
+        {
+            return Find(accountId) != null;
+        }
+    }
+}

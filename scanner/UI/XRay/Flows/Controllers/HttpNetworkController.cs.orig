@@ -1,0 +1,783 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Xml.Serialization;
+using UI.AI.Detect.HttpService;
+using UI.Common.Tracers;
+using UI.XRay.Business.DataAccess.Config;
+using UI.XRay.Business.Entities;
+using UI.XRay.Business.Entities.Enums;
+using UI.XRay.Control;
+using UI.XRay.Flows.Controllers.SummaryEntity;
+using UI.XRay.Flows.Services;
+using UI.XRay.Flows.Services.Db;
+
+namespace UI.XRay.Flows.Controllers
+{
+    public class HttpNetworkController
+    {
+        public static HttpNetworkController Controller { get; private set; }
+
+        static HttpNetworkController()
+        {
+            Controller = new HttpNetworkController();
+        }
+
+        /// <summary>
+        /// Http通讯操作对象 
+        /// 电机启停
+        /// 接收网络控制指令
+        /// </summary>
+        public HttpController httpController { private set; get; }
+
+        /// <summary>
+        /// 电机启停指令
+        /// </summary>
+        public event Action<ConveyorDirection> ConveyorDirectionAction;
+        /// <summary>
+        /// 刷新tip注入
+        /// </summary>
+        public event Action TipInjectUpdateAction;
+
+        public event Action<RespMsg> SendingMsgAction;
+        public event Action<RespMsg> SendCompleteAction;
+        public event Action<string> ReceiveAction;
+
+        private string _localIp = "http://127.0.0.1:9090/form/";
+        private string _serveIp = "";
+
+        private bool _enable = false;
+
+        private System.Threading.Timer _timer;
+        private System.Threading.Timer _hbtimer;
+        public bool IsConnected { get; set; }
+        private int DisconnectCount = 6;
+
+        public HttpNetworkController()
+        {
+            try
+            {
+                if (ScannerConfig.Read(ConfigPath.SystemHttpServiceIp, out _serveIp))
+                {
+                }
+                if (!ScannerConfig.Read(ConfigPath.SystemHttpLocalIp, out _localIp))
+                {
+                    _localIp = "http://127.0.0.1:9090/form/";
+                }
+                if (!ScannerConfig.Read(ConfigPath.SystemHttpEnable, out _enable))
+                {
+                    _enable = false;
+                }
+                if (!_enable) return;
+                try
+                {
+                    httpController = HttpController.GetInstance();
+                    httpController.StartListen(_localIp);
+                    httpController.PostformRecv += httpController_PostformRecv;
+                    httpController.GetCmd += httpController_GetCmd;
+                    httpController.SendingMsgAction += httpController_SendingMsgAction;
+                    httpController.SendCompletedAction += httpController_SendCompletedAction;
+
+                    _timer = new Timer(new TimerCallback(NetWorkCommandReady),null,1000,Timeout.Infinite);
+                    _hbtimer = new Timer(new TimerCallback(SendHeartbeatReady), null,1000, Timeout.Infinite);
+                }
+                catch (Exception e)
+                {
+                    Tracer.TraceException(e);
+                }                
+
+                
+            }
+            catch (Exception e)
+            {
+                Tracer.TraceError(e.ToString());
+            }            
+        }
+
+        private void NetWorkCommandReady(object sender)
+        {
+            DisconnectCount++;
+
+            if (DisconnectCount > 3)
+            {
+                IsConnected = false;
+            }
+            else
+            {
+                IsConnected = true;
+            }
+            //try
+            //{
+            //    httpController.SendHttpGetRequest( _serveIp + "?command=heartbeat",_serveIp);
+            //}
+            //catch (Exception ex)
+            //{
+
+            //}
+            _timer.Change(1000, Timeout.Infinite);
+        }
+
+        private void SendHeartbeatReady(object sender)
+        {
+            try
+            {
+                httpController.SendHttpGetRequest(_serveIp + "?command=heartbeat", _serveIp);
+            }
+            catch (Exception ex)
+            {
+
+            }
+            _hbtimer.Change(1000, Timeout.Infinite);
+        }
+
+        void httpController_SendCompletedAction(RespMsg msg)
+        {
+            //if (SendCompleteAction != null)
+            //{
+            //    if (msg.Method == "Post")
+            //    {
+            //        SendCompleteAction(msg);
+            //    }
+            //}
+        }
+
+        void httpController_SendingMsgAction(RespMsg msg)
+        {
+            //if (SendingMsgAction != null)
+            //{
+            //    if (msg.Method=="Post")
+            //    {
+            //        SendingMsgAction(msg);
+            //    }                
+            //}
+        }
+
+        public string GetServerIP()
+        {
+            return _serveIp;
+        }
+
+        public void Close()
+        {
+            if (httpController != null)
+            {
+                httpController.PostformRecv -= httpController_PostformRecv;
+                httpController.GetCmd -= httpController_GetCmd;
+                httpController.SendingMsgAction -= httpController_SendingMsgAction;
+                httpController.SendCompletedAction -= httpController_SendCompletedAction;
+            }
+            if (_timer != null)
+            {
+                _timer.Dispose();
+                _timer = null;
+            }
+            if (_hbtimer !=null)
+            {
+                _hbtimer.Dispose();
+                _hbtimer = null;
+            }
+        }
+
+        /// <summary>
+        /// 通过HttpGet请求接受指令
+        /// </summary>
+        /// <param name="obj"></param>
+        void httpController_GetCmd(string obj)
+        {
+            DisconnectCount = 0;
+
+            var msg = obj.ToLower();
+            switch (msg)
+            {
+                case "startconvlefn":
+                    if (ConveyorDirectionAction != null)
+                    {
+                        ConveyorDirectionAction(ConveyorDirection.MoveBackward);
+                    }
+                    break;
+                case "startconvright":
+                    if (ConveyorDirectionAction != null)
+                    {
+                        ConveyorDirectionAction(ConveyorDirection.MoveForward);
+                    }
+                    break;
+                case "stopconv":
+                    if (ConveyorDirectionAction != null)
+                    {
+                        ConveyorDirectionAction(ConveyorDirection.Stop);
+                    }
+                    break;
+                case "cleartipimagedir":
+                    ClearTipImageDir();
+                    break;
+                case "diagnosis":
+                     GetDiagnosis();
+                    break;
+                case "getaccounts":
+                    GetAccounts();
+                    break;
+                case "gettipplans":
+                    GetTipPlans();
+                    break;
+                case "gettiplibs":
+                    GetTipLibs();
+                    break;
+                case "gettipimages":
+                    GetTipImages();
+                    break;
+                case "heartbeat":
+                    break;
+                default:
+                    var chars = msg.Split('_');
+                    if (chars.Count() < 1) return;
+                    if (chars[0].Equals("tiplog", StringComparison.CurrentCultureIgnoreCase) && chars.Count() >= 5)
+                    {
+                        GetTipRecord(chars);
+                        break;
+                    }
+                    else if (chars[0].Equals("login", StringComparison.CurrentCultureIgnoreCase) && chars.Count() > 3)
+                    {
+                        LoginInNetwork(chars[1], (AccountRole)Enum.Parse(typeof(AccountRole), chars[2], true), int.Parse(chars[3]));
+                    }                    
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// 网络登录
+        /// </summary>
+        /// <param name="str"></param>
+        public void LoginInNetwork(string id,AccountRole role,int permission)
+        {
+            Account account = new Account(id,"", "", role, permission);
+            LoginAccountManager.Service.Login(account);
+                if (ReceiveAction != null)
+                {
+                    ReceiveAction("autologin");
+                }
+        }
+        /// <summary>
+        /// 清空Tip图像目录
+        /// </summary>
+        private void ClearTipImageDir()
+        {
+            var tipPlanManager = new TipPlanDbSet();
+            var plans = tipPlanManager.SelectAll();
+            var planIsEnabled = plans.Where(p => p.IsEnabled == true).ToList();
+            TipImagesManagementController control = new TipImagesManagementController(TipLibrary.Guns);
+            if (planIsEnabled.Count > 0)
+            {
+                if (planIsEnabled[0].GunsWeight == 0)
+                    control.DeleteAllImages();
+                if (planIsEnabled[0].ExplosivesWeight == 0)
+                {
+                    control = new TipImagesManagementController(TipLibrary.Explosives);
+                    control.DeleteAllImages();
+                }
+                if (planIsEnabled[0].KnivesWeight == 0)
+                {
+                    control = new TipImagesManagementController(TipLibrary.Knives);
+                    control.DeleteAllImages();
+                }
+                if (planIsEnabled[0].OtherObjectsWeight == 0)
+                {
+                    control = new TipImagesManagementController(TipLibrary.Others);
+                    control.DeleteAllImages();
+                }
+            }
+            else
+            {
+                control.DeleteAllImages();
+                control = new TipImagesManagementController(TipLibrary.Explosives);
+                control.DeleteAllImages();
+                control = new TipImagesManagementController(TipLibrary.Knives);
+                control.DeleteAllImages();
+                control = new TipImagesManagementController(TipLibrary.Others);
+                control.DeleteAllImages();
+            }
+            TipPlanandImageController tipcontrol = new TipPlanandImageController();
+            List<TipPlanandImage> _originlist = tipcontrol.GetAllPlans().ToList();
+            tipcontrol.RemoveRange(_originlist);
+            _originlist = new List<TipPlanandImage>();
+
+        }
+
+        /// <summary>
+        /// 将接收到的POST请求数据转存为文件
+        /// </summary>
+        /// <param name="obj"></param>
+        void httpController_PostformRecv(List<HttpListenerPostValue> obj)
+        {
+            Thread th1 = new Thread(() =>
+            {
+                List<string> recvfilelist = new List<string>();
+                List<string> recvplanlist = new List<string>();
+                List<string> recvAccountList = new List<string>();
+                List<string> recvimagelist = new List<string>();
+                List<string> recvplanandimagelist = new List<string>();
+                foreach (HttpListenerPostValue data in obj)
+                {
+                    try
+                    {
+                        if (File.Exists(data.name))
+                            File.Delete(data.name);
+                        string fullpathname = System.Environment.CurrentDirectory + "\\Recv\\" + data.name;
+                        if (File.Exists(fullpathname)) File.Delete(fullpathname);
+                        FileStream fs = new FileStream(fullpathname, FileMode.OpenOrCreate, FileAccess.Write);
+                        fs.Write(data.datas, 0, data.datas.Length);
+                        fs.Close();
+                        recvfilelist.Add(fullpathname);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.ToString());
+                    }
+                }
+                foreach (string file in recvfilelist)
+                {
+                    var ext = Path.GetExtension(file);
+                    var filename = Path.GetFileNameWithoutExtension(file);
+                    switch (ext)
+                    {
+                        case ".xml":
+                            if (filename.ToLower().Contains( "accounts"))
+                                recvAccountList.Add(file);
+                            else if (filename.ToLower().Contains("tipplans"))
+                                recvplanlist.Add(file);
+                            else if (filename.ToLower().Contains("tipimages"))
+                                recvplanandimagelist.Add(file);
+                            break;
+                        case ".xray":
+                            recvimagelist.Add(file);
+                            break;
+                    }
+                }
+                ManageAccount(recvAccountList);
+                ManageTipImages(recvimagelist);
+                ManageTipPlan(recvplanlist);
+                ManageTipandImage(recvplanandimagelist);
+                if (recvAccountList.Count > 0)
+                {
+                    if (ReceiveAction != null)
+                    {
+                        ReceiveAction("accounts updated");
+                    }                    
+                }
+                if (recvimagelist.Count > 0)
+                {
+                    if (ReceiveAction != null)
+                    {
+                        ReceiveAction("tipimages updated");
+                    }                    
+                }
+                if (recvplanlist.Count > 0)
+                {
+                    if (ReceiveAction != null)
+                    {
+                        ReceiveAction("tipplans updated");
+                    }                    
+                }
+            });
+            th1.Start();
+        }
+        private void ManageTipImages(List<string> ImageList)
+        {
+            List<string> _gunslist = new List<string>();
+            List<string> _kniveslist = new List<string>();
+            List<string> _explosiveslist = new List<string>();
+            List<string> _otherslist = new List<string>();
+
+            foreach (string file in ImageList)
+            {
+                var fileNameWithoutExt = Path.GetFileNameWithoutExtension(file);
+                var fileNameWithExt = Path.GetFileName(file);
+                string type = fileNameWithoutExt.Split('_')[0].ToLower();
+                string fullpathname = System.Environment.CurrentDirectory + "\\Recv\\" + fileNameWithExt;
+                switch (type)
+                {
+                    case "gun":
+                        _gunslist.Add(fullpathname);
+                        break;
+                    case "knife":
+                        _kniveslist.Add(fullpathname);
+                        break;
+                    case "explosive":
+                        _explosiveslist.Add(fullpathname);
+                        break;
+                    default:
+                        _otherslist.Add(fullpathname);
+                        break;
+                }
+            }
+
+            TipImagesManagementController control = new TipImagesManagementController(TipLibrary.Guns);
+            control.ImportImagesToLib(_gunslist);
+            control = new TipImagesManagementController(TipLibrary.Explosives);
+            control.ImportImagesToLib(_explosiveslist);
+            control = new TipImagesManagementController(TipLibrary.Knives);
+            control.ImportImagesToLib(_kniveslist);
+            control = new TipImagesManagementController(TipLibrary.Others);
+            control.ImportImagesToLib(_otherslist);
+        }
+
+        /// <summary>
+        /// 更新收到的Tip计划并重置TipFlow
+        /// </summary>
+        /// <param name="PlanList"></param>
+        private void ManageTipPlan(List<string> PlanList)
+        {
+            if (PlanList.Count < 1) return;
+            List<TipPlan> _list = new List<TipPlan>();
+            TipPlansController control = new TipPlansController();
+            List<TipPlan> _originlist = control.GetAllPlans().ToList();
+
+            foreach (string file in PlanList)
+            {
+                _list = ReadWriteXml.ReadXmlFromFile<List<TipPlan>>(file);
+                if (_list == null) continue;
+                if (_list.Count < 1)
+<<<<<<< HEAD
+                {
+                    foreach (TipPlan plan in _originlist)
+                    {
+
+                        control.Remove(plan);
+                        control.SaveChanges();
+                    }
+                }
+                else
+                {
+=======
+                {
+                    foreach (TipPlan plan in _originlist)
+                    {
+
+                        control.Remove(plan);
+                        control.SaveChanges();
+                    }
+                }
+                else
+                {                                             
+>>>>>>> a57bb6ee02bdb6d31c1bb1805c5836cf4302e03a
+                    if (_originlist.Count <= _list.Count)
+                    {
+                        foreach (var tip in _list)
+                        {
+                            control.AddOrUpdate(tip);
+                            control.SaveChanges();
+<<<<<<< HEAD
+                        }
+=======
+                        }                       
+>>>>>>> a57bb6ee02bdb6d31c1bb1805c5836cf4302e03a
+                    }
+                    else
+                    {
+                        foreach (var tip in _originlist)
+                        {
+                            if (!_list.Any(p => p.TipPlanId == tip.TipPlanId))
+                            {
+                                control.Remove(tip);
+                                control.SaveChanges();
+<<<<<<< HEAD
+                            }
+=======
+                            }                           
+>>>>>>> a57bb6ee02bdb6d31c1bb1805c5836cf4302e03a
+                        }
+                        foreach (var tip in _list)
+                        {
+                            control.AddOrUpdate(tip);
+                            control.SaveChanges();
+<<<<<<< HEAD
+                        }
+                    }
+                }
+=======
+                        }      
+                    }
+                }                                   
+>>>>>>> a57bb6ee02bdb6d31c1bb1805c5836cf4302e03a
+            }
+            if (TipInjectUpdateAction != null)
+            {
+                Thread.Sleep(500);
+                TipInjectUpdateAction();
+            }
+        }
+<<<<<<< HEAD
+
+        private void ManageTipandImage(List<string> PlanandImageList)
+        {
+            if (PlanandImageList.Count < 1) return;
+            List<TipPlanandImage> _list = new List<TipPlanandImage>();
+            TipPlanandImageController control = new TipPlanandImageController();
+            List<TipPlanandImage> _originlist = control.GetAllPlans().ToList();
+
+=======
+
+        private void ManageTipandImage(List<string> PlanandImageList)
+        {
+            if (PlanandImageList.Count < 1) return;
+            List<TipPlanandImage> _list = new List<TipPlanandImage>();
+            TipPlanandImageController control = new TipPlanandImageController();
+            List<TipPlanandImage> _originlist = control.GetAllPlans().ToList();
+
+>>>>>>> a57bb6ee02bdb6d31c1bb1805c5836cf4302e03a
+            foreach (string file in PlanandImageList)
+            {
+                _list = ReadWriteXml.ReadXmlFromFile<List<TipPlanandImage>>(file);
+                if (_list == null || _list.Count < 1) continue;
+                control.RemoveRange(_originlist);
+                foreach (var tip in _list)
+                {
+                    control.AddOrUpdate(tip);
+                    control.SaveChanges();
+                }
+            }
+        }
+
+        private void ManageAccount(List<string> accountList)
+        {
+            //if (LoginAccountManager.Service.CurrentAccount == null) return;
+            if (accountList.Count < 1)
+                return;
+
+            AccountDbSet _manager = new AccountDbSet();
+            List<Business.Entities.Account> _allAccountsInDb;
+
+            try
+            {
+                _allAccountsInDb = _manager.SelectAll();
+
+                var manageableAccounts = new ObservableCollection<Business.Entities.Account>(_allAccountsInDb);
+                var deletedAccounts = new List<Account>();
+                foreach (var item in manageableAccounts)
+                {
+                    if (item.Role != AccountRole.System)
+                    {
+                        deletedAccounts.Add(item);
+                    }
+                }
+                for (int i = 0; i < deletedAccounts.Count ; i++)
+                {
+                    _manager.Remove(deletedAccounts[i]);
+                    _manager.SaveChanges();
+                    manageableAccounts.Remove(deletedAccounts[i]);
+                }
+
+                foreach (var file in accountList)
+                {
+                    PermissionService.Service.ImportAccountList(manageableAccounts, file);
+                }
+                _manager.AddOrUpdate(manageableAccounts);
+                _manager.SaveChanges();
+            }
+            catch (Exception e)
+            {
+               
+            }
+        }
+
+        private void GetAccounts()
+        {
+            var _fileName = "Accounts.xml";
+            string _xmlFile = System.Environment.CurrentDirectory + "\\Recv\\" + _fileName;
+            if (File.Exists(_xmlFile)) File.Delete(_xmlFile);
+
+            var _manager = new AccountDbSet();
+            var accountlist = _manager.SelectAll();
+            var ob = new ObservableCollection<Account>(accountlist);
+            PermissionService.Service.ExportAccountList(ob, _xmlFile);
+
+            PostData pd = new PostData()
+            {
+                Name = _fileName,
+                Path = _xmlFile,
+                ContentType = "text/plain",
+                Data = PostData.ReadDataFromFile(_xmlFile)
+            };
+            httpController.HttpPostMsg(_serveIp, new List<PostData>() { pd });
+        }
+        private void GetTipPlans()
+        {
+            var _fileName = "TipPlans.xml";
+            string _xmlFile = System.Environment.CurrentDirectory + "\\Recv\\" + _fileName;
+            if (File.Exists(_xmlFile)) File.Delete(_xmlFile);
+
+            ObservableCollection<TipPlan> Plans;
+            TipPlansController _controller = new TipPlansController();
+            Plans = _controller.GetAllPlans();
+
+            using (StringWriter sw = new StringWriter())
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(List<TipPlan>));
+                serializer.Serialize(sw, Plans.ToList());
+
+                using (FileStream fsWrite = new FileStream(_xmlFile, FileMode.OpenOrCreate, FileAccess.Write))
+                {
+                    byte[] buffer = Encoding.Default.GetBytes(sw.ToString());
+                    fsWrite.Write(buffer, 0, buffer.Length);
+                }
+            }
+
+            PostData pd = new PostData()
+            {
+                Name = _fileName,
+                Path = _xmlFile,
+                ContentType = "text/plain",
+                Data = PostData.ReadDataFromFile(_xmlFile)
+            };
+            httpController.HttpPostMsg(_serveIp, new List<PostData>() { pd });
+
+        }
+        public RespMsg SendFileTo(string filename,string xmlPath,string type)
+        {
+            if (!_enable) return new RespMsg(false,"Post",_serveIp,"");
+            PostData pd = new PostData()
+            {
+                Name = filename,
+                Path = xmlPath,
+                ContentType = type,
+                Data = PostData.ReadDataFromFile(xmlPath)
+            };
+            return httpController.HttpPostMsg(_serveIp, new List<PostData>() { pd });
+        }
+
+        private void GetTipRecord(string[] info)
+        {
+            var id = info[1];
+            var period = info[2];
+            var year = int.Parse(info[3]);
+            var month = int.Parse(info[4]);
+            var _controller = new OperationLogsRetrievalController();
+            _controller.SelectedAccountId = id;
+            _controller.SelectedMonth = month;
+            _controller.SelectedYear = year;
+            _controller.SelectedPeriod = (Business.Entities.Enums.StatisticalPeriod)Enum.Parse(typeof(Business.Entities.Enums.StatisticalPeriod), period, true);
+
+            var _statisticResults = _controller.GetStatisticalResults();
+            var _fileName = "TipLog_" + id + "_"  + period+ "_" + year + "_" + month + ".xml";
+
+            string _xmlFile = System.Environment.CurrentDirectory + "\\Recv\\" + _fileName;
+            if (File.Exists(_xmlFile)) File.Delete(_xmlFile);
+            ReadWriteXml.WriteXmlToFile<List<OperationStatisticResult>>(_statisticResults, _xmlFile);            
+
+            PostData pd = new PostData()
+            {
+                Name=_fileName,
+                Path=_xmlFile,
+                ContentType="text/plain",
+                Data=PostData.ReadDataFromFile(_xmlFile)
+            };
+            httpController.HttpPostMsg(_serveIp, new List<PostData>() { pd });
+        }
+
+        private async void GetDiagnosis()
+        {
+            var txt = "";
+            var task = SystemStateService.Service.GetDiagnosisReport();
+            if (task != null)
+            {
+                txt = await task;
+            }
+
+            var _fileName = "Diagnosis_" + DateTime.Now.ToString("yyyyMMdd") + ".txt";
+            string _xmlFile = System.Environment.CurrentDirectory + "\\Recv\\" + _fileName;
+            if (File.Exists(_xmlFile)) File.Delete(_xmlFile);
+            using (FileStream fs = new FileStream(_xmlFile,FileMode.Create))
+            {
+                byte[] data = System.Text.Encoding.Default.GetBytes(txt);
+                fs.Write(data, 0, data.Length);
+                fs.Flush();
+            }
+
+            PostData pd = new PostData()
+            {
+                Name = _fileName,
+                Path = _xmlFile,
+                ContentType = "text/plain",
+                Data = PostData.ReadDataFromFile(_xmlFile)
+            };
+            httpController.HttpPostMsg(_serveIp, new List<PostData>() { pd });
+        }
+
+        private void GetTipLibs()
+        {
+            List<int> tipLibs = new List<int>();
+            TipImagesManagementController _managementController = new TipImagesManagementController(TipLibrary.Knives);
+            int TotalImagesCountKnives = _managementController.ImagesCount;
+            tipLibs.Add(TotalImagesCountKnives);
+            _managementController = new TipImagesManagementController(TipLibrary.Guns);
+            int TotalImagesCountGuns = _managementController.ImagesCount;
+            tipLibs.Add(TotalImagesCountGuns);
+            _managementController = new TipImagesManagementController(TipLibrary.Explosives);
+            int TotalImagesCountExplosives = _managementController.ImagesCount;
+            tipLibs.Add(TotalImagesCountExplosives);
+            _managementController = new TipImagesManagementController(TipLibrary.Others);
+            int TotalImagesCountOthers = _managementController.ImagesCount;
+            tipLibs.Add(TotalImagesCountOthers);
+
+            var _fileName = "TipLibs.xml";
+            string _xmlFile = System.Environment.CurrentDirectory + "\\Recv\\" + _fileName;
+            if (File.Exists(_xmlFile)) File.Delete(_xmlFile);
+
+            using (StringWriter sw = new StringWriter())
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(List<int>));
+                serializer.Serialize(sw, tipLibs);
+                using (FileStream fsWrite = new FileStream(_xmlFile, FileMode.OpenOrCreate, FileAccess.Write))
+                {
+                    byte[] buffer = Encoding.Default.GetBytes(sw.ToString());
+                    fsWrite.Write(buffer, 0, buffer.Length);
+                }
+            }
+
+            PostData pd = new PostData()
+            {
+                Name = _fileName,
+                Path = _xmlFile,
+                ContentType = "text/plain",
+                Data = PostData.ReadDataFromFile(_xmlFile)
+            };
+            httpController.HttpPostMsg(_serveIp, new List<PostData>() { pd });
+        }
+
+        private void GetTipImages()
+        {
+            var _fileName = "TipImages.xml";
+            string _xmlFile = System.Environment.CurrentDirectory + "\\Recv\\" + _fileName;
+            if (File.Exists(_xmlFile)) File.Delete(_xmlFile);
+
+            ObservableCollection<TipPlanandImage> PlanandImages;
+            TipPlanandImageController _controller = new TipPlanandImageController();
+            PlanandImages = _controller.GetAllPlans();
+
+            using (StringWriter sw = new StringWriter())
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(List<TipPlanandImage>));
+                serializer.Serialize(sw, PlanandImages.ToList());
+
+                using (FileStream fsWrite = new FileStream(_xmlFile, FileMode.OpenOrCreate, FileAccess.Write))
+                {
+                    byte[] buffer = Encoding.Default.GetBytes(sw.ToString());
+                    fsWrite.Write(buffer, 0, buffer.Length);
+                }
+            }
+
+            PostData pd = new PostData()
+            {
+                Name = _fileName,
+                Path = _xmlFile,
+                ContentType = "text/plain",
+                Data = PostData.ReadDataFromFile(_xmlFile)
+            };
+            httpController.HttpPostMsg(_serveIp, new List<PostData>() { pd });
+        }
+    }
+}

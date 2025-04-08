@@ -1,0 +1,55 @@
+﻿<controls:MetroWindow x:Class="UI.XRay.Security.Scanner.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:command="http://www.galasoft.ch/mvvmlight"
+        xmlns:scanner="clr-namespace:UI.XRay.Security.Scanner"
+        xmlns:renderEngine="clr-namespace:UI.XRay.RenderEngine;assembly=UI.XRay.RenderEngine"
+        xmlns:framework="clr-namespace:UI.XRay.Gui.Framework;assembly=UI.XRay.Gui.Framework"
+        Title="MainWindow" Height="350" Width="600" WindowStartupLocation="CenterScreen"
+        WindowStyle="None" ResizeMode="NoResize"
+        ShowTitleBar="False" ShowIconOnTitleBar="False" ShowCloseButton="False" ShowSystemMenuOnRightClick="True"
+        IsWindowDraggable="False"
+        InputMethod.IsInputMethodEnabled="False" >
+    <controls:MetroWindow.Flyouts>
+        <controls:FlyoutsControl HorizontalAlignment="Left">
+            <controls:Flyout Name="BottomFlyout" Margin="357,5.5,520,5.5" Position="Bottom"  HorizontalAlignment="Left" Height="85"  ExternalCloseButton="Left" AnimateOpacity="True"
+                             IsOpenChanged="BottomFlyout_OnIsOpenChanged" Background="Red">
+                <TextBlock Name="FlyoutTextBlock" VerticalAlignment="Center" FontSize="25" TextWrapping="Wrap" Foreground="White"></TextBlock>
+            </controls:Flyout>
+        </controls:FlyoutsControl>
+    </controls:MetroWindow.Flyouts>
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="PreviewKeyDown">
+            <command:EventToCommand Command="{Binding PreviewKeyDownCommand}" PassEventArgsToCommand="True"></command:EventToCommand>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="PreviewKeyUp">
+            <command:EventToCommand Command="{Binding PreviewKeyUpCommand}" PassEventArgsToCommand="True"></command:EventToCommand>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Loaded">
+            <command:EventToCommand Command="{Binding LoadedEventCommand}" PassEventArgsToCommand="False"></command:EventToCommand>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="MouseRightButtonDown">
+            <command:EventToCommand Command="{Binding MouseRightButtonDownEventCommand}" PassEventArgsToCommand="True"></command:EventToCommand>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="MouseDown">
+            <command:EventToCommand Command="{Binding OnMouseDownEventCommand}" PassEventArgsToCommand="True"></command:EventToCommand>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Closing">
+            <command:EventToCommand Command="{Binding ClosingEventCommand}" PassEventArgsToCommand="False"></command:EventToCommand>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        
+        <renderEngine:ImageControlWpf Name="ImagingControl" Grid.Row="0" Grid.Column="0"></renderEngine:ImageControlWpf>
+        <scanner:SystemBarControl x:Name="SystemBar" Grid.Row="1" Grid.Column="0" Height="96">
+        </scanner:SystemBarControl>
+        <scanner:SystemBarControlTouch x:Name="SystemBarTouch" Grid.Row="1" Grid.Column="0" Height="96" ></scanner:SystemBarControlTouch>
+    </Grid>
+</controls:MetroWindow>

@@ -1,0 +1,164 @@
+﻿<controls:MetroWindow x:Class="UI.XRay.Security.Scanner.ImageRetrievalWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:framework="clr-namespace:UI.XRay.Gui.Framework;assembly=UI.XRay.Gui.Framework"
+        xmlns:viewModel="clr-namespace:UI.XRay.Security.Scanner.ViewModel"
+        xmlns:command="http://www.galasoft.ch/mvvmlight"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        mc:Ignorable="d" 
+        BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="1" 
+        FontSize="{StaticResource PageFontSize}"
+        DataContext="{Binding Source={StaticResource Locator}, Path=ImageRetrieval}"
+        d:DataContext="{d:DesignInstance Type=viewModel:ImageRetrievalViewModel, IsDesignTimeCreatable=True}"
+        ShowMaxRestoreButton="False" ShowSystemMenuOnRightClick="False" 
+        ShowMinButton="False"  ShowCloseButton="True" ResizeMode="NoResize" SizeToContent="WidthAndHeight"
+        WindowTransitionsEnabled="False"  ShowInTaskbar="False" IsWindowDraggable="True"
+        ShowTitleBar="True" WindowStartupLocation="CenterOwner"
+        Title="{framework:LanguageResource Source=Set Image Retrieval Conditions}" >
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="PreviewKeyDown">
+            <command:EventToCommand Command="{Binding PreviewKeyDownEventCommand}" PassEventArgsToCommand="True"></command:EventToCommand>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="PreviewKeyUp">
+            <command:EventToCommand Command="{Binding PreviewKeyUpEventCommand}" PassEventArgsToCommand="True"></command:EventToCommand>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical" Margin="50,20,50,20">
+            <Grid Name="AccountGrid" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,20">
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="160"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0"  Margin="0,10,10,0" TextWrapping="WrapWithOverflow" VerticalAlignment="Center"
+                       Text="{framework:LanguageResource Source=Specify Account Id}"></TextBlock>
+                <controls:ToggleSwitch Grid.Row="0" Grid.Column="1" Name="IdSwitch" VerticalAlignment="Center" HorizontalAlignment="Left" 
+                                    ContentDirection="RightToLeft" Margin="-5,10,0,0" IsChecked="{Binding IsAccountsSwitchEnabled}"
+                                       OnLabel="{framework:LanguageResource On}" OffLabel="{framework:LanguageResource Off}"></controls:ToggleSwitch>
+                <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Accounts}" VerticalAlignment="Center" Margin="0,8,0,0"
+                          DisplayMemberPath="AccountId" SelectedValuePath="AccountId" HorizontalAlignment="Left" MinWidth="120"
+                          SelectedValue="{Binding SelectedAccountId}"
+                          Width="{Binding ElementName=TimeRangeComboBox, Path=ActualWidth}"
+                          IsEnabled="{Binding ElementName=IdSwitch, Path=IsChecked}">
+
+                </ComboBox>
+
+                <TextBlock Grid.Row="2" Grid.Column="0" Margin="0,30,10,0" VerticalAlignment="Center" TextWrapping="Wrap"
+                       Text="{framework:LanguageResource Source=Time Range}"></TextBlock>
+
+                <ComboBox Grid.Row="2" Grid.Column="1" Name="TimeRangeComboBox" Margin="0,30,0,0"
+                          VerticalAlignment="Center" HorizontalAlignment="Left" MinWidth="185"
+                          ItemsSource="{Binding TimeRangeEnums}" SelectedValue="{Binding SelectedTimeRange}"
+                          FontSize="{StaticResource PageFontSize}" 
+                          DisplayMemberPath="Translation" SelectedValuePath="TimeRange">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <command:EventToCommand Command="{Binding SelectionChangedEventCommand}" PassEventArgsToCommand="True"></command:EventToCommand>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ComboBox>
+                <Grid Name="TimeRangePanel" Grid.Row="3" Grid.Column="1" Margin="0,15,0,0" IsEnabled="{Binding IsTimeRangeEditGridEnabled}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="145"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="53"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="53"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Row="0" Content="{framework:LanguageResource Start Time}" Margin="0,0,20,0"></Label>
+                    <DatePicker Grid.Row="0" Grid.Column="1" SelectedDate="{Binding StartDate}" Name="StartTimePicker"
+                                    IsTodayHighlighted="True" VerticalContentAlignment="Center"
+                                    DisplayDateStart="2015/10/1" DisplayDateEnd="2100/12/31" SelectedDateFormat="Short"
+                                    FontSize="{StaticResource PageFontSize}" SelectedDateChanged="StartTimePicker_SelectedDateChanged"></DatePicker>
+                    <Label Grid.Row="0" Grid.Column="2" Margin="10,0,0,0"
+                           Content="{framework:LanguageResource Source=Hour}"></Label>
+                    <ComboBox Grid.Row="0" Grid.Column="3" ItemsSource="{Binding Source={StaticResource HoursProvider}}"
+                              FontSize="{StaticResource PageFontSize}"
+                              SelectedIndex="{Binding StartHour}" Name="StartHour" SelectionChanged="StartHour_SelectionChanged"/>
+                    <Label Grid.Row="0" Grid.Column="4" Margin="10,0,0,0"
+                           Content="{framework:LanguageResource Source=Minute}"></Label>
+                    <ComboBox Grid.Row="0" Grid.Column="5" ItemsSource="{Binding Source={StaticResource MinutesProvider}}"
+                              FontSize="{StaticResource PageFontSize}"
+                              SelectedIndex="{Binding StartMinute}" Name="StartMinute" SelectionChanged="StartMinute_SelectionChanged"/>
+                    <Label Grid.Row="1" Grid.Column="0" Content="{framework:LanguageResource End Time}" Margin="0,10,20,0"></Label>
+                    <DatePicker Grid.Row="1" Grid.Column="1" SelectedDate="{Binding EndDate}" IsTodayHighlighted="True" 
+                                VerticalContentAlignment="Center" Margin="0,10,0,0"
+                                    DisplayDateStart="{Binding ElementName=StartTimePicker, Path=SelectedDate}" DisplayDateEnd="2100/12/31" SelectedDateFormat="Short"
+                                    FontSize="{StaticResource PageFontSize}" Name="EndTimePicker"></DatePicker>
+                    <Label Grid.Row="1" Grid.Column="2" Margin="10,10,0,0"
+                           Content="{framework:LanguageResource Source=Hour}"></Label>
+                    <ComboBox Grid.Row="1" Grid.Column="3" ItemsSource="{Binding Source={StaticResource HoursProvider}}"
+                              FontSize="{StaticResource PageFontSize}" Margin="0,10,0,0"
+                              SelectedIndex="{Binding EndHour}" SelectionChanged="ComboBox_SelectionChanged" Name="EndHour"/>
+                    <Label Grid.Row="1" Grid.Column="4" Margin="10,10,0,0"
+                           Content="{framework:LanguageResource Source=Minute}"></Label>
+                    <ComboBox Grid.Row="1" Grid.Column="5" ItemsSource="{Binding Source={StaticResource MinutesProvider}}"
+                              FontSize="{StaticResource PageFontSize}" Margin="0,10,0,0"
+                              SelectedIndex="{Binding EndMinute}" Name="EndMinute" SelectionChanged="ComboBox_SelectionChanged2"/>
+                </Grid>
+
+                <TextBlock Grid.Row="4" Grid.Column="0" Margin="0,30,10,0" TextWrapping="Wrap" HorizontalAlignment="Left"
+                           Text="{framework:LanguageResource Source=Retrieve Save Assumes Images}"></TextBlock>
+                <controls:ToggleSwitch Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                                       IsChecked="{Binding IsOnlyLockedImage}"
+                                       OnLabel="{framework:LanguageResource On}" OffLabel="{framework:LanguageResource Off}"
+                                       Margin="-5,30,0,0" ContentDirection="RightToLeft">
+
+                </controls:ToggleSwitch>
+
+                <TextBlock Grid.Row="5" Grid.Column="0" Margin="0,30,10,0" TextWrapping="Wrap" HorizontalAlignment="Left"
+                           Text="{framework:LanguageResource Source=Retrieve Marked Images}"></TextBlock>
+                <controls:ToggleSwitch Grid.Row="5" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                                       IsChecked="{Binding IsOnlyMarkedImage}"
+                                       OnLabel="{framework:LanguageResource On}" OffLabel="{framework:LanguageResource Off}"
+                                       Margin="-5,30,0,0" ContentDirection="RightToLeft"></controls:ToggleSwitch>
+
+                <UniformGrid Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Columns="2" Margin="0,40,0,0" HorizontalAlignment="Center">
+                    <Button Margin="30,0" MinWidth="120" MaxWidth="200" Command="{Binding OkCommand}" HorizontalContentAlignment="Stretch"
+                            FontSize="{StaticResource PageFontSize}">
+                        <Button.Content>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock TextWrapping="Wrap" Text="{framework:LanguageResource Source=Ok}" HorizontalAlignment="Center"></TextBlock>
+                                <TextBlock Grid.Column="1" Margin="15,0,0,0" Text="[F1]" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                            </Grid>
+                        </Button.Content>
+                    </Button>
+                    <Button Margin="30,0" Command="{Binding CancelCommand}" HorizontalContentAlignment="Stretch" FontSize="{StaticResource PageFontSize}">
+                        <Button.Content>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock TextWrapping="Wrap" Text="{framework:LanguageResource Cancel}" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                                <TextBlock Grid.Column="1" Margin="15,0,0,0" Text="[F3]" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                            </Grid>
+                        </Button.Content>
+                    </Button>
+                </UniformGrid>
+            </Grid>
+        </StackPanel>
+
+    </ScrollViewer>
+</controls:MetroWindow>

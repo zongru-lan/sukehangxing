@@ -1,0 +1,85 @@
+﻿<Page x:Class="UI.XRay.Security.Scanner.SettingViews.Setting.Pages.DiskSpaceManagePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:framework="clr-namespace:UI.XRay.Gui.Framework;assembly=UI.XRay.Gui.Framework"
+      xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+      mc:Ignorable="d" 
+      d:DesignHeight="800" d:DesignWidth="900" Background="GhostWhite"
+      DataContext="{Binding Source={StaticResource Locator}, Path=DiskspaceManagePage}"
+      FontSize="{StaticResource PageFontSize}"
+	  Title="ObjectCounterPage">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" IsTabStop="False">
+            <StackPanel Name="CleanupServiceSettingPanel" Margin="{StaticResource PageContentMargin}">
+                <TextBlock Style="{StaticResource PageSectionHeaderTextBlockStyle}" 
+                        Text="{framework:LanguageResource Old images auto cleanup service}"></TextBlock>
+                <Border BorderThickness="1" BorderBrush="{StaticResource AccentColorBrush}" HorizontalAlignment="Left" Padding="10">
+                    <StackPanel Orientation="Vertical">
+                        <GroupBox Header="{framework:LanguageResource Save Image Disk Space Information}">
+                            <StackPanel Orientation="Vertical">
+                            <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,5,0,0"
+                                        Text="{framework:LanguageResource Image Storage Disk:}"></TextBlock>
+                            <TextBox Text="{Binding SaveImageDisk}" HorizontalAlignment="Left" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" VerticalAlignment="Center" MinWidth="50" Margin="0,5,0,0" IsEnabled="False"></TextBox>
+                            <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,5,0,0"
+                                        Text="{framework:LanguageResource Disk Space}"></TextBlock>
+                            <StackPanel Orientation="Horizontal" Margin="0,5,0,0" >
+                                <TextBox Text="{Binding SaveImageDiskSpaceSize}" HorizontalAlignment="Left" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" VerticalAlignment="Center" MinWidth="50" IsEnabled="False"></TextBox>
+                                <Label Content="G" VerticalAlignment="Center"></Label>
+                            </StackPanel>
+                            <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,5,0,0"
+                                        Text="{framework:LanguageResource Already Used}"></TextBlock>
+                            <StackPanel Orientation="Horizontal" Margin="0,5,0,10" >
+                                <TextBox Text="{Binding SaveImageDiskSpaceAlreadyUsedSize}" HorizontalAlignment="Left" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" VerticalAlignment="Center" MinWidth="50" IsEnabled="False"></TextBox>
+                                <Label Content="G" VerticalAlignment="Center"></Label>
+                            </StackPanel>
+                            <DockPanel Dock="Right">
+                                <Button DockPanel.Dock="Right" Visibility="{Binding ShowStartCleanDiskButton}" HorizontalAlignment="Right" Content="{framework:LanguageResource Start Cleaning Disk}" Command="{Binding StartCleanCommand}"></Button>
+                                <Button DockPanel.Dock="Right" Visibility="{Binding ShowStopCleanDiskButton}" HorizontalAlignment="Right" Content="{framework:LanguageResource Stop Cleaning Disk}" Command="{Binding StopCleanCommand}" ></Button>
+                            </DockPanel>
+                        </StackPanel>
+                        </GroupBox>
+
+                    <GroupBox Header="{framework:LanguageResource Old images auto cleanup service settings}">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,5,0,0"
+                                        Text="{framework:LanguageResource Emergency free disk space ratio to start cleanup service (10%~90%)}"></TextBlock>
+                            <StackPanel Orientation="Horizontal" Margin="0,5,0,0" >
+                                <TextBox Text="{Binding EmergencyDiskSpaceRatio}" HorizontalAlignment="Left" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" VerticalAlignment="Center" Width="50"></TextBox>
+                                <Label Content="%" VerticalAlignment="Center"></Label>
+                            </StackPanel>
+                            
+                            <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,10,0,0"
+                                        Text="{framework:LanguageResource Start cleanup service time daily}"></TextBlock>
+                            <xctk:TimePicker VerticalAlignment="Center" HorizontalAlignment="Left"  MinWidth="100" Value="{Binding StartDiskSpaceCleanupTime}" Margin="0,5,0,0"/>
+                            <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,5,0,0"
+                                        Text="{framework:LanguageResource Stop cleanup service time daily}"></TextBlock>
+                            <xctk:TimePicker VerticalAlignment="Center" HorizontalAlignment="Left"  MinWidth="100" Value="{Binding StopDiskSpaceCleanupTime}" Margin="0,5,0,0"/>
+
+                            <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,5,0,0"
+                                        Text="{framework:LanguageResource Minimum value of free disk space ratio to start cleanup service (10%~90%)}"></TextBlock>
+                            <StackPanel Orientation="Horizontal" Margin="0,5,0,0" >
+                                <TextBox Text="{Binding FreeDiskSpaceRatioThreshold}" HorizontalAlignment="Left" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" VerticalAlignment="Center" Width="50"></TextBox>
+                                <Label Content="%" VerticalAlignment="Center"></Label>
+                            </StackPanel>
+                            <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Left"
+                                        Text="{framework:LanguageResource Value of free disk space ratio to stop cleanup service (10%~90%)}"></TextBlock>
+                            <StackPanel Orientation="Horizontal" Margin="0,5,0,0" >
+                                <TextBox Text="{Binding StopDiskSpaceCleanupRatio}" HorizontalAlignment="Left" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" VerticalAlignment="Center" Width="50"></TextBox>
+                                <Label Content="%" VerticalAlignment="Center"></Label>
+                            </StackPanel>
+                            <TextBlock Text="{framework:LanguageResource Count of old images to delete (10~1000)}" Margin="0,15,0,0"></TextBlock>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBox Text="{Binding CountOfImagesToDelete}" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="50" Margin="0,5,0,0"></TextBox>
+                            </StackPanel>
+                            <Button HorizontalAlignment="Right" Content="{framework:LanguageResource Save}" Command="{Binding SaveCommand}"></Button>
+                        </StackPanel>
+                    </GroupBox>
+                   
+                   </StackPanel>
+               </Border>
+            </StackPanel>
+    </ScrollViewer>
+</Page>
+

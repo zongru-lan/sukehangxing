@@ -1,0 +1,1223 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading.Tasks;
+using GalaSoft.MvvmLight.Messaging;
+using UI.Common.Tracers;
+using UI.XRay.Business.Algo;
+using UI.XRay.Business.DataAccess.Config;
+using UI.XRay.Business.Entities;
+using UI.XRay.Common.Utilities;
+using UI.XRay.Control;
+using UI.XRay.Flows.Services;
+using UI.XRay.RenderEngine;
+using UI.XRay.NetWork.Controller;
+using System.Collections.Concurrent;
+using System.Threading;
+using UI.XRay.Flows.Services.DataProcess;
+
+namespace UI.XRay.Flows.Controllers
+{
+    /// <summary>
+    /// 当前显示的图像数据的控制器：分三种应用场景，分别是扫描图像数据、培训图像数据、回放图像数据
+    /// </summary>
+    public class DisplayImageDataController
+    {
+        /// <summary>
+        /// 卷轴图像数据更新控制器，通过此接口更新数据图像
+        /// </summary>
+        public RollingImageDataUpdateController ImageDataUpdateController { get; private set; }
+
+        /// <summary>
+        /// 网络传输控制器 lijiayi
+        /// </summary>
+        public DataAsyncCommController CommController { private set; get; }
+        /// <summary>
+        /// 识别框队列 lijiayi
+        /// </summary>
+        public ConcurrentQueue<MarkBox> MarkBoxQueue { set; get; }
+        private List<MarkBox> MarkBoxList;
+        public event Action<List<MarkBox>> MarkComingAction;
+
+        /// <summary>
+        /// 流式图像的数据控制器：管理对图像的数据填充
+        /// </summary>
+        internal ScanningImageDataProvider ScanningDataProvider { get; private set; }
+
+        /// <summary>
+        /// 培训图像数据控制器
+        /// </summary>
+        internal TrainingImageDataProvider TrainingDataProvider { get; private set; }
+
+        /// <summary>
+        /// 回放图像数据控制器
+        /// </summary>
+        internal PlaybackImageDataProvider PlaybackDataProvider { get; private set; }
+
+        /// <summary>
+        /// Tip注入流程
+        /// </summary>
+        internal TipInjectionFlow _TipInjectionFlow;
+
+        /// <summary>
+        /// 事件：Tip图像注入完毕
+        /// </summary>
+        public event Action<TipInjection> TipImageInjected;
+
+        /// <summary>
+        /// 事件：Tip漏判（Tip插入完成后，用户未在规定时间内发现）
+        /// </summary>
+        public event Action TipMissed;
+
+        /// <summary>
+        /// 事件：Tip识别成功
+        /// </summary>
+        public event Action TipIdentified;
+
+        public event EventHandler<int> SessionBagCountChangedWeakEvent
+        {
+            add { _sessionBagCountChangedWeakEvent.Add(value); }
+            remove { _sessionBagCountChangedWeakEvent.Remove(value); }
+        }
+
+        private SmartWeakEvent<EventHandler<int>> _sessionBagCountChangedWeakEvent = new SmartWeakEvent<EventHandler<int>>();
+
+        /// <summary>
+        /// 当前是否为培训模式：非培训模式与培训模式下，都支持切换到回放模式
+        /// </summary>
+        public bool IsTrainingMode { get; private set; }
+
+        private bool _showImageBasedOnMotorDirection = false;
+
+        /// <summary>
+        /// 显示图像的方向基于电机的方向
+        /// </summary>
+        public bool ShowImageBasedOnMotorDirection
+        {
+            get { return _showImageBasedOnMotorDirection; }
+            private set { _showImageBasedOnMotorDirection = value; }
+        }
+
+        /// <summary>
+        /// 是否是双向扫描
+        /// </summary>
+        private bool _bidirectionalScan = false;
+
+        /// <summary>
+        /// 当前是否为图像回放模式
+        /// </summary>
+        public bool IsPlayingback { get; private set; }
+
+        /// <summary>
+        /// 高密度报警时，是否停止输送机
+        /// </summary>
+        private bool _hdiStopConveyor;
+
+        /// <summary>
+        /// 毒品报警时，是否停止输送机
+        /// </summary>
+        private bool _deiStopConveyor;
+
+        /// <summary>
+        /// 爆炸物报警时，是否停止输送机
+        /// </summary>
+        private bool _eiStopConveyor;
+
+
+        private bool _autoDetectionEnable;
+
+        private bool _autoDetectionGunStopConveyor;
+        private bool _autoDetectionKnifeStopConveyor;
+
+        private string _autoDetectionEIItemsList;
+        private string _autoDetectionGunItemsList;
+        private string _autoDetectionKnifeItemsList;
+
+        private int[] _autoEIItemsArray;
+        private int[] _autoGunItemsArray;
+        private int[] _autoKnifeItemsArray;
+
+
+        /// <summary>
+        /// 是否启用自动报警功能
+        /// </summary>
+        public bool IsIntelliSenseEnabled
+        {
+            get { return ImageDataUpdateController.ShowIntelliSenseMarkers; }
+            set
+            {
+                ImageDataUpdateController.ShowIntelliSenseMarkers = value;
+                ContrabandAlarmService.Service.IsAlarmEnabled = value;
+            }
+        }
+
+        /// <summary>
+        /// 当前是否正在拉动查看图像
+        /// </summary>
+        public bool IsPulling
+        {
+            get { return PullingMode != ImagePullingMode.None; }
+        }
+
+        protected ImagePullingMode PullingMode { get; private set; }
+
+        private bool _image1MoveRightToLeft;
+
+        /// <summary>
+        /// 当前是否正在扫描成像。当电机转动时，为true，不可以回拉
+        /// </summary>
+        protected bool IsScanning { get; set; }
+
+        public int ScreenMaxLinesCount { get; private set; }
+
+        private System.Timers.Timer timer;
+
+        /// <summary>
+        /// 视角个数
+        /// </summary>
+        private int _viewsCount;
+
+        //记录上次电机的运动方向。电机方向变化后改变图像显示的方向
+        private MotorDirection _curMotorDirection = MotorDirection.Stop;
+        private MotorDirection _lastMotorDirection = MotorDirection.Stop;
+
+
+        public DisplayImageDataController(IRollingImageProcessController processController)
+        {
+            try
+            {
+                ScannerConfig.ConfigChanged += ScannerConfigOnConfigChanged;
+                LoadSettings();
+
+                InitTrainingMode();
+
+                IsPlayingback = false;
+                PullingMode = ImagePullingMode.None;
+                ScreenMaxLinesCount = processController.Image1.MaxLinesCount;
+
+                ImageDataUpdateController = new RollingImageDataUpdateController(processController);
+                ImageDataUpdateController.ContrabandDetected += ImageDataUpdateControllerOnContrabandDetected;
+                ScanningDataProvider = new ScanningImageDataProvider(ScreenMaxLinesCount);
+
+                _TipInjectionFlow = new TipInjectionFlow();
+                _TipInjectionFlow.TipImageInjected += TipInjectionFlowOnTipImageInjected;
+                _TipInjectionFlow.TipMissed += TipInjectionFlowOnTipMissed;
+                _TipInjectionFlow.TipIdentified += TipInjectionFlowOnTipIdentified;
+            }
+            catch (Exception exception)
+            {
+                Tracer.TraceException(exception, "Unhandled exception in DisplayImageDataController constructor.");
+            }
+        }
+
+        /// <summary>
+        /// 获取当前正在显示的图像
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<ImageRecord> GetShowingImages()
+        {
+            if (IsPlayingback)
+            {
+                // 图像回放，暂时不支持获取当前显示的图像
+                return null;
+            }
+
+            if (IsTrainingMode)
+            {
+                // 培训模式，暂时不支持获取当前显示的图像
+                return null;
+            }
+
+            if (ScanningDataProvider != null)
+            {
+                return ScanningDataProvider.GetShowingImages();
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Tip事件：用户成功标记出一个Tip图像
+        /// </summary>
+        /// <param name="args">此次Tip注入事件的具体信息</param>
+        private void TipInjectionFlowOnTipIdentified(TipInjectionEventArgs args)
+        {
+            // 成功标记出Tip，弹出提示框，但是不停止电机
+            ShowTipMarker(args);
+
+            if (TipIdentified != null)
+            {
+                TipIdentified();
+            }
+        }
+
+        /// <summary>
+        /// Tip事件：用户错过了Tip图像。（在规定时间内未标记出来）
+        /// </summary>
+        /// <param name="args">此次Tip注入事件的具体信息</param>
+        private void TipInjectionFlowOnTipMissed(TipInjectionEventArgs args)
+        {
+            LoginAccountManager.AddMissTipCount();
+
+            //先停止输送机，然后弹出提示
+            //OnConveyorStopRequest();
+
+            // 显示Tip
+            ShowTipMarker(args);
+
+            if (TipMissed != null)
+            {
+                TipMissed();
+            }
+        }
+
+        /// <summary>
+        /// Tip事件：Tip图像注入完毕
+        /// </summary>
+        /// <param name="tipInsertion">刚刚完成的Tip注入信息</param>
+        private void TipInjectionFlowOnTipImageInjected(TipInjectionEventArgs tipInsertion)
+        {
+            LoginAccountManager.AddTipInjectionCount();
+
+            // 如果是培训模式，则不处理；
+            // 如果是正常检查模式，则将Tip图像加入到与注入起始位置相关联的图像数据中，随图像保存到磁盘 
+
+            if (!IsTrainingMode)
+            {
+                ScanningDataProvider.SaveCurrentTipImage(tipInsertion.TipImage, tipInsertion.InjectRegion);
+            }
+        }
+
+        /// <summary>
+        /// 当用户识别或漏判，显示Tip标记
+        /// </summary>
+        /// <param name="args"></param>
+        private void ShowTipMarker(TipInjectionEventArgs args)
+        {
+            if (!IsTrainingMode)
+            {
+                ScanningDataProvider.ShowCurrentTipMarker();
+            }
+
+            ImageDataUpdateController.AddRegionMark(args.InjectRegion, DetectViewIndex.View1);
+        }
+
+        /// <summary>
+        /// 初始化培训模式设置
+        /// </summary>
+        private void InitTrainingMode()
+        {
+            bool isTraining = false;
+            ScannerConfig.Read(ConfigPath.TrainingIsEnabled, out isTraining);
+            IsTrainingMode = isTraining;
+
+            if (IsTrainingMode)
+            {
+                TrainingDataProvider = new TrainingImageDataProvider();
+                TrainingDataProvider.DataReady += TrainingDataProviderOnDataReady;
+                TrainingDataProvider.NewImageIsReady += TrainingDataProviderOnNewImageIsReady;
+            }
+        }
+
+        /// <summary>
+        /// 一个培训图像已经准备完毕：尝试加载Tip图像
+        /// </summary>
+        private void TrainingDataProviderOnNewImageIsReady()
+        {
+            ImageProcessAlgoRecommendService.Service().HandleObjectSeperated();
+
+            if (_TipInjectionFlow != null)
+            {
+                _TipInjectionFlow.TryLoadNextTipImageAsync();
+            }
+        }
+
+        /// <summary>
+        /// 发现违禁品：报警
+        /// </summary>
+        /// <param name="markerRegion"></param>
+        private void ImageDataUpdateControllerOnContrabandDetected(KeyValuePair<DetectViewIndex, MarkerRegion> markerRegion)
+        {
+            if (markerRegion.Value.RegionType == MarkerRegionType.UnPenetratable)
+            {
+                ContrabandAlarmService.Service.HdiAlert();
+
+                if (_hdiStopConveyor && IsScanning && !IsTrainingMode)
+                {
+                    OnConveyorStopRequest();
+                }
+            }
+            else if (markerRegion.Value.RegionType == MarkerRegionType.Drug)
+            {
+                ContrabandAlarmService.Service.DeiAlert();
+
+                if (_deiStopConveyor && IsScanning && !IsTrainingMode)
+                {
+                    OnConveyorStopRequest();
+                }
+            }
+            else if(markerRegion.Value.RegionType == MarkerRegionType.Explosives)
+            {
+                ContrabandAlarmService.Service.EiAlert();
+
+                if (_eiStopConveyor && IsScanning && !IsTrainingMode)
+                {
+                    OnConveyorStopRequest();
+                }
+            }
+            else if(markerRegion.Value.RegionType==MarkerRegionType.Gun)
+            {
+                ContrabandAlarmService.Service.GunAlert();
+
+                if (_autoDetectionGunStopConveyor && IsScanning && !IsTrainingMode)
+                {
+                    OnConveyorStopRequest();
+                }
+            }
+            else if (markerRegion.Value.RegionType == MarkerRegionType.Knife)
+            {
+                ContrabandAlarmService.Service.KnifeAlert();
+
+                if (_autoDetectionKnifeStopConveyor && IsScanning && !IsTrainingMode)
+                {
+                    OnConveyorStopRequest();
+                }
+            }
+
+            //将探测区域信息传输到图像保存中去，方便图像保存完转成jpg等格式图像时可以获得探测区域信息
+            ScanningDataProvider.OnContrabandDetected(markerRegion.Value, markerRegion.Key);
+        }
+
+        /// <summary>
+        /// 配置项发生变化
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="eventArgs"></param>
+        private void ScannerConfigOnConfigChanged(object sender, EventArgs eventArgs)
+        {
+            LoadSettings();
+            UpdateTrainingMode();
+        }
+
+        /// <summary>
+        /// 读取图像默认的设置
+        /// </summary>
+        private void LoadSettings()
+        {
+            try
+            {
+                if (!ScannerConfig.Read(ConfigPath.MachineViewsCount, out _viewsCount))
+                {
+                    _viewsCount = 1;
+                }
+
+                if (!ScannerConfig.Read(ConfigPath.Image1MoveRightToLeft, out _image1MoveRightToLeft))
+                {
+                    _image1MoveRightToLeft = false;
+                }
+
+                if (!ScannerConfig.Read(ConfigPath.ShowImageBasedOnMotorDirection, out _showImageBasedOnMotorDirection))
+                {
+                    _showImageBasedOnMotorDirection = false;
+                }
+
+                if (!ScannerConfig.Read(ConfigPath.MachineBiDirectionScan,out _bidirectionalScan))
+                {
+                    _bidirectionalScan = false;//默认单向扫描
+                }
+
+                if(!ScannerConfig.Read(ConfigPath.IntellisenseHdiStopConveyor, out _hdiStopConveyor))
+                {
+                    _hdiStopConveyor = false;
+                }
+
+                if (!ScannerConfig.Read(ConfigPath.IntellisenseDeiStopConveyor, out _deiStopConveyor))
+                {
+                    _deiStopConveyor = false;
+                }
+
+                if (!ScannerConfig.Read(ConfigPath.IntellisenseEiStopConveyor, out _eiStopConveyor))
+                {
+                    _eiStopConveyor = false;
+                }
+
+                if (!ScannerConfig.Read(ConfigPath.AutoDetectionEnable, out _autoDetectionEnable))
+                {
+                    _autoDetectionEnable = false;
+                }
+                               
+                //智能判图检测到危险品是否停电机
+
+
+                if (!ScannerConfig.Read(ConfigPath.AutoDetectionGunStopConveyor, out _autoDetectionGunStopConveyor))
+                {
+                    _autoDetectionGunStopConveyor = false;
+                }
+                if (!ScannerConfig.Read(ConfigPath.AutoDetectionKnifeStopConveyor, out _autoDetectionKnifeStopConveyor))
+                {
+                    _autoDetectionKnifeStopConveyor = false;
+                }
+
+                //读取智能判图危险品大项中的小项列表
+                if (!ScannerConfig.Read(ConfigPath.AutoDetectionEIItemsList, out _autoDetectionEIItemsList))
+                {
+                    _autoDetectionEIItemsList = "";
+                }
+                _autoEIItemsArray = Array.ConvertAll<string, int>(_autoDetectionEIItemsList.Split(','), int.Parse);
+
+                if (!ScannerConfig.Read(ConfigPath.AutoDetectionGunItemsList, out _autoDetectionGunItemsList))
+                {
+                    _autoDetectionGunItemsList = "";
+                }
+                _autoGunItemsArray = Array.ConvertAll<string, int>(_autoDetectionGunItemsList.Split(','), int.Parse);
+
+                if (!ScannerConfig.Read(ConfigPath.AutoDetectionKnifeItemsList, out _autoDetectionKnifeItemsList))
+                {
+                    _autoDetectionKnifeItemsList = "";
+                }
+                _autoKnifeItemsArray = Array.ConvertAll<string, int>(_autoDetectionKnifeItemsList.Split(','), int.Parse);
+
+            }
+            catch (Exception exception)
+            {
+                Tracer.TraceException(exception);
+            }
+        }
+
+        /// <summary>
+        /// 初始化图像数据控制器
+        /// </summary>
+        public void Initialize()
+        {
+            ImageDataUpdateController.Initialize();
+            ScanningDataProvider.DataReady += ScanningDataProviderOnDataReady;
+            ScanningDataProvider.BagImageSaved += ScanningDataProviderOnBagImageSaved;
+            ScanningDataProvider.StartService();
+
+            //加入网络操作对象 lijiayi
+            MarkBoxQueue = new ConcurrentQueue<MarkBox>();
+            MarkBoxList = new List<MarkBox>();
+
+            CommController = new DataAsyncCommController();
+            CommController.DataLength = 1180;
+            CommController.Speed = 20;
+            CommController.Listen();
+
+            timer = new System.Timers.Timer();
+            timer.Enabled = true;
+            timer.Interval = 200;
+            timer.Elapsed += new System.Timers.ElapsedEventHandler(NetWorkCommandReady);
+            timer.Start();
+        }
+
+        /// <summary>
+        /// 事件响应：一个物体的扫描图像存储完毕
+        /// </summary>
+        private void ScanningDataProviderOnBagImageSaved()
+        {
+            if (_TipInjectionFlow != null)
+            {
+                // 图像存储完毕后，尝试加载下一个tip图像
+                _TipInjectionFlow.TryLoadNextTipImageAsync();
+            }
+
+            ImageProcessAlgoRecommendService.Service().HandleObjectSeperated();
+        }
+
+        /// <summary>
+        /// 当配置发生变化时，启动或关闭培训模式
+        /// </summary>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        private void UpdateTrainingMode()
+        {
+            bool isTraining = false;
+            if (ScannerConfig.Read(ConfigPath.TrainingIsEnabled, out isTraining) && isTraining != IsTrainingMode)
+            {
+                // 培训开关已经发生变化：打开或关闭,先清空屏幕
+                ImageDataUpdateController.ClearAndAppend(null);
+
+                IsTrainingMode = isTraining;
+
+                if (IsTrainingMode)
+                {
+                    TrainingDataProvider = new TrainingImageDataProvider();
+                    TrainingDataProvider.DataReady += TrainingDataProviderOnDataReady;
+                    TrainingDataProvider.NewImageIsReady += TrainingDataProviderOnNewImageIsReady;
+                }
+                else
+                {
+                    if (TrainingDataProvider != null)
+                    {
+                        TrainingDataProvider.DataReady -= TrainingDataProviderOnDataReady;
+                        TrainingDataProvider.NewImageIsReady -= TrainingDataProviderOnNewImageIsReady;
+                        TrainingDataProvider = null;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 回放指定的图像，并进入回放模式
+        /// </summary>
+        /// <param name="records"></param>
+        public void BeginPlayback(IEnumerable<ImageRecord> records)
+        {
+            if (records != null)
+            {
+                PlaybackDataProvider = new PlaybackImageDataProvider(ScreenMaxLinesCount, records);
+
+                var firstScreen = PlaybackDataProvider.GetFirstScreen().ToList();
+                if (firstScreen.Any())
+                {
+                    ImageDataUpdateController.ClearAndReverseAppend(firstScreen);
+
+                    IsPlayingback = true;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 回放指定的图像，并进入回放模式
+        /// </summary>
+        /// <param name="records"></param>
+        public void BeginPlayback(IEnumerable<string> records)
+        {
+            if (records != null)
+            {
+                PlaybackDataProvider = new PlaybackImageDataProvider(ScreenMaxLinesCount, records);
+
+                var firstScreen = PlaybackDataProvider.GetFirstScreen().ToList();
+                if (firstScreen.Any())
+                {
+                    ImageDataUpdateController.ClearAndReverseAppend(firstScreen);
+                    IsPlayingback = true;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 结束图像回放模式
+        /// </summary>
+        private void EndPlayback()
+        {
+            IsPlayingback = false;
+
+            if (IsTrainingMode)
+            {
+                // 培训模式下，结束回放时，清空屏幕
+                ImageDataUpdateController.ClearAndAppend(null);
+            }
+            else
+            {
+                // 培训模式下，结束回放时，清空屏幕
+                if (ShowImageBasedOnMotorDirection)
+                {
+                    ImageDataUpdateController.ClearAndAppend(null);
+                }
+                else
+                {
+                    // 使用最新扫描的数据清屏。如果没有进行过扫描，则清空为白色
+                    var lastImage = ScanningDataProvider.PullToLastScreen();
+                    ImageDataUpdateController.ClearAndAppend(lastImage);
+                }
+            }
+            PlaybackDataProvider = null;
+        }
+
+        /// <summary>
+        /// 扫描数据准备完毕，填充显示
+        /// </summary>
+        /// <param name="bundle"></param>
+        private void ScanningDataProviderOnDataReady(DisplayScanlineDataBundle bundle)
+        {
+            if (IsPlayingback)
+            {
+                EndPlayback();
+            }
+
+            // 在培训模式下，不显示实时采集的图像数据
+            if (!IsTrainingMode)
+            {
+                if (IsPulling)
+                {
+                    // 如果当前正在回拉，则立即结束回拉
+                    if (ShowImageBasedOnMotorDirection)
+                    {
+                        ImageDataUpdateController.ClearAndAppend(null);
+                    }
+                    else
+                    {
+                        // 使用最新扫描的数据清屏。如果没有进行过扫描，则清空为白色
+                        var lastImage = ScanningDataProvider.PullToLastScreen();
+                        ImageDataUpdateController.ClearAndAppend(lastImage);
+                    }
+                    PullingMode = ImagePullingMode.None;
+                }
+
+                if (_TipInjectionFlow != null)
+                {
+                    _TipInjectionFlow.TryInsertToScanLine(bundle, ImageDataUpdateController.MinLineNumber, ImageDataUpdateController.MaxLineNumber);
+                }
+
+                //为ViewData添加时间戳
+                if (bundle.View1Data != null) bundle.View1Data.CreatedTime = DateTime.Now;
+
+                if (bundle.View2Data != null) bundle.View2Data.CreatedTime = DateTime.Now;
+                
+                ImageDataUpdateController.AppendLines(new List<DisplayScanlineDataBundle>(1) { bundle });
+                //如果智能判图设置为可用，就发送数据
+                if (_autoDetectionEnable)
+                {
+                    if (CommController.NetStatus)
+                        CommController.AddScanlinesData(new List<DisplayScanlineDataBundle>(1) { bundle });//2017.11.10 添加智能识图代码 lijiayi
+                }
+
+                //智能图像推荐算法缓存数据
+                ImageProcessAlgoRecommendService.Service().CacheData(bundle);
+            }
+        }
+
+        /// <summary>
+        /// 培训数据准备完毕，填充显示
+        /// </summary>
+        /// <param name="bundle"></param>
+        private void TrainingDataProviderOnDataReady(DisplayScanlineDataBundle bundle)
+        {
+            if (IsTrainingMode && !IsPlayingback)
+            {
+                if (_TipInjectionFlow != null)
+                {
+                    _TipInjectionFlow.TryInsertToScanLine(bundle, ImageDataUpdateController.MinLineNumber, ImageDataUpdateController.MaxLineNumber);
+                }
+                ImageDataUpdateController.AppendLines(new List<DisplayScanlineDataBundle>(1) { bundle });               
+                
+                //智能图像推荐算法缓存数据
+                ImageProcessAlgoRecommendService.Service().CacheData(bundle);
+            }
+            //如果智能判图设置为可用，就发送数据
+            if (_autoDetectionEnable)
+            {
+                if (CommController.NetStatus)
+                    CommController.AddScanlinesData(new List<DisplayScanlineDataBundle>(1) { bundle });//2017.11.10 添加智能识图代码 lijiayi
+            }
+        }
+
+        /// <summary>
+        /// 处理电机停止键
+        /// </summary>
+        public void OnConveyorStopRequest()
+        {
+            if (IsPlayingback)
+            {
+                EndPlayback();
+            }
+
+            if (_TipInjectionFlow != null)
+            {
+                _TipInjectionFlow.OnConveyorStopped();
+            }
+
+            if (IsTrainingMode)
+            {
+                TrainingDataProvider.OnConveyorStop();
+            }
+            else
+            {
+                if (IsPulling)
+                {
+                    // 回拉至最后一屏数据
+                    //var lines = ScanningDataProvider.PullToLastScreen();
+                    //ImageDataUpdateController.ClearAndAppend(lines);
+                    ImageDataUpdateController.ClearAndAppend(null);
+
+                    PullingMode = ImagePullingMode.None;
+                }
+
+                IsScanning = false;
+                ControlService.ServicePart.DriveConveyor(ConveyorDirection.Stop);
+                ScanningDataProvider.OnConveyorStopped();
+            }
+        }
+
+        /// <summary>
+        /// 处理电机前进键消息
+        /// </summary>
+        public void OnConveyorRightKeyDown()
+        {
+            if (IsPlayingback)
+            {
+                EndPlayback();
+            }
+
+            if (IsTrainingMode)
+            {
+                if (_curMotorDirection != MotorDirection.MoveRight && ShowImageBasedOnMotorDirection && _bidirectionalScan)
+                {
+                    TrainingDataProvider.ClearCachedlines();
+                }
+                _curMotorDirection = MotorDirection.MoveRight;
+                TrainingDataProvider.OnConveyorStart();
+            }
+            else
+            {
+                // 如果正在回拉图像，则先回拉至最后一屏数据，结束回拉，然后再启动电机，继续扫描
+                if (IsPulling)
+                {
+                    var lines = ScanningDataProvider.PullToLastScreen();
+                    ImageDataUpdateController.ClearAndAppend(lines);
+
+                    PullingMode = ImagePullingMode.None;
+                }
+
+                if (ScanningDataProvider.InTestDataMode || ConveyorController.Controller.MoveRight())
+                {
+                    IsScanning = true;
+                    _curMotorDirection = MotorDirection.MoveRight;
+                    ScanningDataProvider.OnConveyorStarted(true);
+                }
+            }
+
+            if(_lastMotorDirection == MotorDirection.Stop)
+            {
+                _lastMotorDirection = _curMotorDirection;
+            }
+
+            ImageMoveDirectionChangedBasedOnMotorDirection();
+
+            _lastMotorDirection = _curMotorDirection;
+        }
+
+
+        /// <summary>
+        /// 响应用户按下标记键
+        /// </summary>
+        /// <returns>如果当前处于tip注入流程，则认定标记成功，返回true；如果当前没有tip注入，则认定标定失败，返回false</returns>
+        public bool OnMarkKeyDown()
+        {
+            if (_TipInjectionFlow != null)
+            {
+                LoginAccountManager.AddMarkCount();
+
+                return _TipInjectionFlow.IdentifyTip();
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// 处理电机后退键消息
+        /// </summary>
+        public void OnConveyorLeftKeyDown()
+        {
+            if (IsPlayingback)
+            {
+                EndPlayback();
+            }
+
+            if (IsTrainingMode)
+            {
+                if (_curMotorDirection != MotorDirection.MoveRight && ShowImageBasedOnMotorDirection && _bidirectionalScan)
+                {
+                    TrainingDataProvider.ClearCachedlines();
+                }
+                _curMotorDirection = MotorDirection.MoveLeft;
+                TrainingDataProvider.OnConveyorStart();
+            }
+            else
+            {
+                // 如果正在回拉图像，则先回拉至最后一屏数据，然后再启动电机，继续扫描
+                if (IsPulling)
+                {
+                    var lines = ScanningDataProvider.PullToLastScreen();
+                    ImageDataUpdateController.ClearAndAppend(lines);
+
+                    PullingMode = ImagePullingMode.None;
+                }
+
+                if (ConveyorController.Controller.MoveLeft())
+                {
+                    IsScanning = true;
+                    _curMotorDirection = MotorDirection.MoveLeft;
+                    ScanningDataProvider.OnConveyorStarted(false);
+                }
+            }
+            if (_lastMotorDirection == MotorDirection.Stop)
+            {
+                _lastMotorDirection = _curMotorDirection;
+            }
+            ImageMoveDirectionChangedBasedOnMotorDirection();
+
+            _lastMotorDirection = _curMotorDirection;
+        }
+
+
+        private void ImageMoveDirectionChangedBasedOnMotorDirection()
+        {
+            if (ShowImageBasedOnMotorDirection && _bidirectionalScan)
+            {
+                //方向变化后图像的显示方向也要发生变化，但是首先要刷新屏幕成白色,更改图像显示方向
+                if (_curMotorDirection != _lastMotorDirection)
+                {
+                    ImageDataUpdateController.ClearAndAppend(null);
+                    ImageDataUpdateController.RightToLeft = !ImageDataUpdateController.RightToLeft;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 后拉图像
+        /// </summary>
+        private void PullBackwardImage()
+        {
+
+            // 在扫描期间，不允许拉动图像
+            //if (IsScanning)
+            //{
+            //    return;
+            //}
+
+            IEnumerable<DisplayScanlineDataBundle> linesUpdate = null;
+
+            if (IsPlayingback)
+            {
+                // 如果当前正处于前拉中，并且有尚未显示完毕的前拉数据，则返回
+                if (PullingMode == ImagePullingMode.PullingForward && ImageDataUpdateController.HasUnshownLines())
+                {
+                    return;
+                }
+
+                PullingMode = ImagePullingMode.PullingBack;
+                linesUpdate = PlaybackDataProvider.PullBack();
+            }
+            else
+            {
+                if (IsTrainingMode)
+                {
+
+                }
+                else
+                {
+                    // 如果当前不是回拉模式，则放弃尚未显示完毕的显示缓存，并同步更新数据缓存
+                    if (PullingMode != ImagePullingMode.PullingBack)
+                    {
+                        ImageDataUpdateController.DropUnshownLines();
+                        if (ImageDataUpdateController.HasLine)
+                        {
+                            ScanningDataProvider.UpdateShowingRange(ImageDataUpdateController.MinLineNumber, ImageDataUpdateController.MaxLineNumber);
+                        }
+
+                        PullingMode = ImagePullingMode.PullingBack;
+                    }
+
+                    linesUpdate = ScanningDataProvider.PullBack();
+                }
+            }
+
+            if (linesUpdate != null)
+            {
+                ImageDataUpdateController.ReverseAppendLines(linesUpdate);
+            }
+        }
+
+        /// <summary>
+        /// 前拉图像
+        /// </summary>
+        private void PullForwardImage()
+        {
+            // 在扫描期间，不允许拉动图像
+            //if (IsScanning)
+            //{
+            //    return;
+            //}
+
+            IEnumerable<DisplayScanlineDataBundle> linesUpdate = null;
+
+            if (IsPlayingback)
+            {
+                // 如果当前正在回拉，且有尚未显示完毕的回拉数据，则不允许前拉，否则会导致数据显示错乱
+                if (PullingMode == ImagePullingMode.PullingBack && ImageDataUpdateController.HasUnshownLines())
+                {
+                    return;
+                }
+
+                PullingMode = ImagePullingMode.PullingForward;
+                linesUpdate = PlaybackDataProvider.PullForward();
+            }
+            else
+            {
+                if (IsTrainingMode)
+                {
+
+                }
+                else
+                {
+                    if (PullingMode != ImagePullingMode.PullingForward)
+                    {
+                        ImageDataUpdateController.DropUnshownLines();
+
+                        if (ImageDataUpdateController.HasLine)
+                        {
+                            ScanningDataProvider.UpdateShowingRange(ImageDataUpdateController.MinLineNumber, ImageDataUpdateController.MaxLineNumber);
+                        }
+
+                        PullingMode = ImagePullingMode.PullingForward;
+                    }
+
+                    linesUpdate = ScanningDataProvider.PullForward();
+                }
+            }
+
+            if (linesUpdate != null && linesUpdate.Any())
+            {
+                ImageDataUpdateController.AppendLines(linesUpdate);
+            }
+        }
+
+        /// <summary>
+        /// 向左拉动图像：根据图像移动方向，决定前拉或后来
+        /// </summary>
+        public void PullLeftImage()
+        {
+            if (ImageDataUpdateController.RightToLeft)
+            {
+                PullBackwardImage();
+            }
+            else
+            {
+                PullForwardImage();
+            }
+        }
+
+        /// <summary>
+        /// 向左拉动图像结束：用户弹起左拉按键
+        /// </summary>
+        public void PullLeftImageEnd()
+        {
+            OnPullingImageEnd();
+        }
+
+        /// <summary>
+        /// 处理图像回拉请求
+        /// </summary>
+        public void PullRightImage()
+        {
+            if (ImageDataUpdateController.RightToLeft)
+            {
+                PullForwardImage();
+            }
+            else
+            {
+                PullBackwardImage();
+            }
+        }
+
+        /// <summary>
+        /// 向右拉动图像结束，用户弹起右拉按键
+        /// </summary>
+        public void PullRightImageEnd()
+        {
+            OnPullingImageEnd();
+        }
+
+        /// <summary>
+        /// 图像拉动结束：用户弹起图像拉动按键
+        /// </summary>
+        private void OnPullingImageEnd()
+        {
+            if (IsPlayingback)
+            {
+                // 图像回放的实现机制中，不支持立即停止回拉
+            }
+            else
+            {
+                if (!IsTrainingMode)
+                {
+                    ImageDataUpdateController.DropUnshownLines();
+
+                    if (ImageDataUpdateController.HasLine)
+                    {
+                        ScanningDataProvider.UpdateShowingRange(ImageDataUpdateController.MinLineNumber, ImageDataUpdateController.MaxLineNumber);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 程序结束时，清理资源退出
+        /// </summary>
+        public void Cleanup()
+        {
+            if (_TipInjectionFlow != null)
+            {
+                _TipInjectionFlow.Cleanup();
+                _TipInjectionFlow.TipImageInjected -= TipInjectionFlowOnTipImageInjected;
+                _TipInjectionFlow.TipMissed -= TipInjectionFlowOnTipMissed;
+                _TipInjectionFlow.TipIdentified -= TipInjectionFlowOnTipIdentified;
+            }
+
+            if (ScanningDataProvider != null)
+            {
+                ScanningDataProvider.StopService();
+                ScanningDataProvider.DataReady -= ScanningDataProviderOnDataReady;
+            }
+
+            if (TrainingDataProvider != null)
+            {
+                TrainingDataProvider.DataReady -= TrainingDataProviderOnDataReady;
+                TrainingDataProvider.NewImageIsReady -= TrainingDataProviderOnNewImageIsReady;
+            }
+
+            timer.Close();
+            timer = null;
+            CommController.Stop();
+            CommController = null;
+        }
+
+        /// <summary>
+        /// 图像拉动模式
+        /// </summary>
+        public enum ImagePullingMode
+        {
+            /// <summary>
+            /// 当前未进行图像拉动
+            /// </summary>
+            None,
+
+            /// <summary>
+            /// 正在回拉图像
+            /// </summary>
+            PullingBack,
+
+            /// <summary>
+            /// 正在前拉图像
+            /// </summary>
+            PullingForward
+        }
+
+        /// <summary>
+        /// 通过网络指令控制电机 lijiayi 20171229
+        /// </summary>
+        private void NetWorkCommandReady(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            if (!_autoDetectionEnable)
+            {
+                return;
+            }
+            while (CommController.HasCommand() == true)
+            {
+                CommandPack cp = CommController.GetCommand();
+                switch (cp.ID)
+                {
+                    case 1://控制电机
+                        MachineControl(cp.Value[0]);
+                        break;
+                    case 2://接收标记框                        
+                        var listvar = cp.Value.ToList();
+                        bool result = MarkBoxControl(cp.Value.ToList());
+                        break;
+
+                }
+
+            }
+        }
+
+        /// <summary>
+        /// 标记框控制
+        /// </summary>
+        /// <param name="Value"></param>
+        private bool MarkBoxControl(List<int> Value)
+        {
+            if (Value.Count % 6 != 0)
+                return false;
+            MarkBoxList.Clear();
+            while (Value.Count > 0)
+            {
+                MarkBox box = new MarkBox();
+                box.View = Value[0];
+                box.Type = Value[1];
+                box.X = Value[2];
+                box.Y = Value[3];
+                box.Width = Value[4];
+                box.Height = Value[5];
+                //MarkBoxQueue.Enqueue(box);
+                MarkBoxList.Add(box);
+                for (int i = 0; i < 6; i++)
+                    Value.Remove(Value.First());
+            }
+            //MarkComingAction(MarkBoxList);
+            for (int i = 0; i < MarkBoxList.Count ; i++)
+            {
+                MarkBox tempMB=MarkBoxList[i];
+                MarkerRegionType mrt = MarkerRegionType.Explosives;
+
+                if (_autoEIItemsArray.Contains(tempMB.Type))
+                {
+                    mrt = MarkerRegionType.Explosives;
+                }
+                else if (_autoGunItemsArray.Contains(tempMB.Type))
+                {
+                    mrt = MarkerRegionType.Gun;
+                }
+                else if (_autoKnifeItemsArray.Contains(tempMB.Type))
+                {
+                    mrt = MarkerRegionType.Knife;
+                }
+
+                MarkerRegion mr = new MarkerRegion(mrt,tempMB.X,tempMB.X+tempMB.Width,tempMB.Y,tempMB.Y+tempMB.Height);
+                DetectViewIndex dvi = tempMB.View == 1 ? DetectViewIndex.View2 : DetectViewIndex.View1;
+                ImageDataUpdateController.AddRegionMark(mr, dvi);
+
+                ImageDataUpdateControllerOnContrabandDetected(new KeyValuePair<DetectViewIndex, MarkerRegion>(dvi, mr));
+
+                Tracer.TraceInfo("identify a dengerous goods, the type is: " + tempMB.Type.ToString());
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// 电机控制
+        /// </summary>
+        /// <param name="Value"></param>
+        private void MachineControl(int Value)
+        {
+            switch (Value)
+            {
+                case 0:
+                    //ControlService.ServicePart.DriveConveyor(ConveyorDirection.Stop);
+                    OnConveyorStopRequest();
+                    break;
+                case 1:
+                    OnConveyorLeftKeyDown();
+                    break;
+                case 2:
+                    OnConveyorRightKeyDown();
+                    break;
+            }
+        }
+        private void StartRecv()
+        {
+            while (true)
+            {
+                if (CommController.NetStatus)
+                {
+                    CommController.StartRevService();
+                    return;
+                }
+                else
+                    Thread.Sleep(100);
+            }
+        }
+    }
+    public class MarkBox
+    {
+        public int View { get; set; }
+        public int Type { set; get; }
+        public int Height { set; get; }
+
+        public int Width { set; get; }
+        public int X { set; get; }
+        public int Y { set; get; }
+    }
+}

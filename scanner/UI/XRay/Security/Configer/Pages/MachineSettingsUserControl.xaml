@@ -1,0 +1,159 @@
+﻿<UserControl x:Class="UI.XRay.Security.Configer.UserControl.MachineSettingsUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:framework="clr-namespace:UI.XRay.Gui.Framework;assembly=UI.XRay.Gui.Framework"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             mc:Ignorable="d" HorizontalAlignment="Left" VerticalAlignment="Top"
+             DataContext="{Binding Source={StaticResource Locator}, Path=MachineSettings}"
+             d:DesignHeight="1600" d:DesignWidth="500">
+    <StackPanel Margin="20">
+        <Label Content="{framework:LanguageResource ViewSection=Configer, Source=Automatic rewind}"></Label>
+        <controls:ToggleSwitch ContentDirection="RightToLeft" HorizontalAlignment="Left" IsChecked="{Binding AutoRewind}"
+                               OnLabel="{framework:LanguageResource Yes}" OffLabel="{framework:LanguageResource No}"></controls:ToggleSwitch>
+        <Label Content="{framework:LanguageResource ViewSection=Configer, Source=Bidirectional Scan}"></Label>
+        <controls:ToggleSwitch ContentDirection="RightToLeft" HorizontalAlignment="Left" IsChecked="{Binding BidirectionalScan}"
+                               OnLabel="{framework:LanguageResource Yes}" OffLabel="{framework:LanguageResource No}"></controls:ToggleSwitch>
+        <Label Content="{framework:LanguageResource ViewSection=Configer, Source=MultiFfrequency Converters}"></Label>
+        <controls:ToggleSwitch ContentDirection="RightToLeft" HorizontalAlignment="Left" IsChecked="{Binding MultiFfrequency}"
+                               OnLabel="{framework:LanguageResource Yes}" OffLabel="{framework:LanguageResource No}"></controls:ToggleSwitch>
+        <!--<Label Margin="0,15,0,0" Content="{framework:LanguageResource ViewSection=Configer, Source=Conveyor Speed (m/s)}" VerticalAlignment="Bottom"/>
+        <TextBox Text="{Binding ConveySpeed}"/>-->
+        <Label Margin="0,10,0,0" Grid.Row="0" Content="{framework:LanguageResource ViewSection=Configer, Source=Conveyor Speed (m/s)}" VerticalAlignment="Bottom"/>
+        <Grid Margin="0,0,0,0" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="0" Text="{Binding ConveySpeed}"/>
+            <!--<Button Grid.Column="1" Content="{framework:LanguageResource Source=Save}" Command="{Binding SaveConveyorSpeed}" Margin="5,0,0,0" Visibility="{Binding SetConveyorSpeedVisibility}"></Button>-->
+        </Grid>
+        <StackPanel Visibility="{Binding SetSanitizeConveyorSpeedVisibility}">
+            <Label Margin="0,0,0,0" Content="{framework:LanguageResource ViewSection=Configer, Source=Sanitize Conveyor Speed (m/s)}" VerticalAlignment="Bottom"/>
+            <Grid Margin="0,0,0,0" Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0" Text="{Binding SanitizeConveySpeed}"/>
+                <!--<Button Grid.Column="1" Content="{framework:LanguageResource Source=Save}" Command="{Binding SaveConveyorSpeed}" Margin="5,0,0,0" Visibility="{Binding SetConveyorSpeedVisibility}"></Button>-->
+            </Grid>
+        </StackPanel>
+        <StackPanel Visibility="{Binding ControlIntervalVisibility}">
+            <Label Margin="0,0,0,0" Content="{framework:LanguageResource ViewSection=Configer, Source=Using Variable Speed Equipment}" VerticalAlignment="Bottom"/>
+            <controls:ToggleSwitch Grid.Row="9" OnLabel="{framework:LanguageResource Yes}" OffLabel="{framework:LanguageResource No}" IsChecked="{Binding CanChangeConveyorSpeed}"
+                               ContentDirection="RightToLeft" HorizontalAlignment="Left" CheckChangedCommand="{Binding UseSpeedFrequencyCmd}"></controls:ToggleSwitch>
+        </StackPanel>
+        <GroupBox  Visibility="{Binding SetConveyorSpeedVisibility}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Label Margin="10,0,10,0" Grid.Row="0"  Content="{framework:LanguageResource ViewSection=Configer, Source=Conveyor StartTime}" VerticalAlignment="Bottom"/>
+                <Grid Margin="10,0,10,0" Grid.Row="1" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition ></ColumnDefinition>
+                        <ColumnDefinition Width="auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBox Text="{Binding ConveyorStartTime}"/>
+                    <!--<Button Grid.Column="1" Content="{framework:LanguageResource Source=Save}" Command="{Binding SaveConveyorStartTime}" Margin="5,0,0,0"></Button>-->
+                </Grid>
+
+                <Label Margin="10,0,10,0" Grid.Row="2" Visibility="{Binding SetConveyorSpeedVisibility}" Content="{framework:LanguageResource ViewSection=Configer, Source=Conveyor StopTime}" VerticalAlignment="Bottom"/>
+                <Grid Margin="10,0,10,0" Grid.Row="3" Visibility="{Binding SetConveyorSpeedVisibility}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBox Text="{Binding ConveyorStopTime}"/>
+                    <!--<Button Grid.Column="1" Content="{framework:LanguageResource Source=Save}" Command="{Binding SaveConveyorStopTime}" Margin="5,0,0,0"></Button>-->
+                </Grid>
+
+                <Label Margin="10,0,10,0" Grid.Row="4" Visibility="{Binding SetConveyorSpeedVisibility}" Content="{framework:LanguageResource ViewSection=Configer, Source=Equipment Frequency}" VerticalAlignment="Bottom"/>
+                <Grid Margin="10,0,10,0" Grid.Row="5" Visibility="{Binding SetConveyorSpeedVisibility}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBox Text="{Binding EquipmentFrequency}"/>
+                    <!--<Button Grid.Column="1" Content="{framework:LanguageResource Source=Save}" Command="{Binding SaveConveyorStopTime}" Margin="5,0,0,0"></Button>-->
+                </Grid>
+                <StackPanel Grid.Row="6" Visibility="{Binding SetSanitizeConveyorSpeedVisibility}">
+                    <Label Margin="10,0,10,0" Content="{framework:LanguageResource ViewSection=Configer, Source=SanitizeConveyor StartTime}" VerticalAlignment="Bottom"/>
+                    <Grid Margin="10,0,10,0" Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.Column="0" Text="{Binding SanitizeConveyStartTime}"/>
+                        <!--<Button Grid.Column="1" Content="{framework:LanguageResource Source=Save}" Command="{Binding SaveConveyorSpeed}" Margin="5,0,0,0" Visibility="{Binding SetConveyorSpeedVisibility}"></Button>-->
+                    </Grid>
+                    <Label Margin="10,0,10,0" Content="{framework:LanguageResource ViewSection=Configer, Source=SanitizeConveyor StopTime}" VerticalAlignment="Bottom"/>
+                    <Grid Margin="10,0,10,0" Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.Column="0" Text="{Binding SanitizeConveyStopTime}"/>
+                        <!--<Button Grid.Column="1" Content="{framework:LanguageResource Source=Save}" Command="{Binding SaveConveyorSpeed}" Margin="5,0,0,0" Visibility="{Binding SetConveyorSpeedVisibility}"></Button>-->
+                    </Grid>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Visibility="{Binding ShowView2Settings}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label Margin="0,0,0,0" Grid.Row="0" Grid.Column="0" Content="{framework:LanguageResource ViewSection=Configer, Source=Exchange PESensor}" VerticalAlignment="Center" />
+                <Label Margin="0,0,0,0" Grid.Row="1" Grid.Column="0" Content="{framework:LanguageResource ViewSection=Configer, Source=Exchange XrayGen}" VerticalAlignment="Center"/>
+                <Label Margin="0,0,0,0" Grid.Row="2" Grid.Column="0" Content="{framework:LanguageResource ViewSection=Configer, Source=Exchange Detector}" VerticalAlignment="Center"/>
+                <Label Margin="0,0,0,0" Grid.Row="3" Grid.Column="0" Content="{framework:LanguageResource ViewSection=Configer, Source=Exchange Conveyor}" VerticalAlignment="Center"/>
+                <controls:ToggleSwitch  Grid.Row="0" Grid.Column="1" ContentDirection="RightToLeft" HorizontalAlignment="Left" IsChecked="{Binding ExchangePESensor}"
+                               OnLabel="{framework:LanguageResource Yes}" OffLabel="{framework:LanguageResource No}"></controls:ToggleSwitch>
+                <controls:ToggleSwitch  Grid.Row="1" Grid.Column="1" ContentDirection="RightToLeft" HorizontalAlignment="Left" IsChecked="{Binding ExchangeXrayGen}"
+                               OnLabel="{framework:LanguageResource Yes}" OffLabel="{framework:LanguageResource No}"></controls:ToggleSwitch>
+                <controls:ToggleSwitch  Grid.Row="2" Grid.Column="1" ContentDirection="RightToLeft" HorizontalAlignment="Left" IsChecked="{Binding ExchangeDetector}"
+                               OnLabel="{framework:LanguageResource Yes}" OffLabel="{framework:LanguageResource No}"></controls:ToggleSwitch>
+                <controls:ToggleSwitch  Grid.Row="3" Grid.Column="1" ContentDirection="RightToLeft" HorizontalAlignment="Left" IsChecked="{Binding ExchangeConveyor}"
+                               OnLabel="{framework:LanguageResource Yes}" OffLabel="{framework:LanguageResource No}"></controls:ToggleSwitch>
+            </Grid>
+        </GroupBox>
+        
+        <Label Margin="0,15,0,0" Content="{framework:LanguageResource ViewSection=Configer, Source=Conveyor Length (m)}" VerticalAlignment="Bottom"/>
+        <TextBox Text="{Binding ConveyLength}"/>
+        <Label Margin="0,15,0,0" Content="{framework:LanguageResource ViewSection=Configer, Source=Views Count}" VerticalAlignment="Bottom"/>
+        <ComboBox ItemsSource="{Binding ViewsCountSource}" SelectedItem="{Binding ViewsCount}"/>
+        
+        <StackPanel Margin="0,15,0,0" Visibility="{Binding ShowView2Settings}">
+            <Label Content="{framework:LanguageResource ViewSection=Configer, Source=The Distance Between Two Views (m)}" VerticalAlignment="Bottom"/>
+            <TextBox Text="{Binding ViewsDistance}"/>
+        </StackPanel>
+
+        <Label Margin="0,15,0,0" Content="{framework:LanguageResource ViewSection=Configer, Source=Entry PESensor To X-Ray Gen Distance (m)}" VerticalAlignment="Bottom"/>
+        <TextBox Text="{Binding EntryPESensorToXRayGenDistance}"/>
+        <Label Margin="0,15,0,0" Content="{framework:LanguageResource ViewSection=Configer, Source=Exit PESensor To X-Ray Gen Distance (m)}" VerticalAlignment="Bottom"/>
+        <TextBox Text="{Binding ExitPESensorToXRayGenDistance}"/>
+
+        <Label Margin="0,15,0,0" Content="{framework:LanguageResource ViewSection=Configer, Source=Object Location to Emit X-Ray in Front of X-Ray Generator (m)}" VerticalAlignment="Bottom"/>
+        <TextBox Text="{Binding XrayOnPosBeforeXRayGen}"/>
+        <Label Margin="0,15,0,0" Content="{framework:LanguageResource ViewSection=Configer, Source=Object Location to Close X-Ray Behind X-Ray Generator (m)}" VerticalAlignment="Bottom"/>
+        <TextBox Text="{Binding XrayOffPosAfterXRayGen}"/>
+    </StackPanel>
+</UserControl>

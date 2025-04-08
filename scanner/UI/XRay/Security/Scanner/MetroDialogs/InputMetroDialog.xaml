@@ -1,0 +1,27 @@
+﻿<dialogs:BaseMetroDialog x:Class="UI.XRay.Security.Scanner.MetroDialogs.InputMetroDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             mc:Ignorable="d" FontSize="{StaticResource PageFontSize}"
+             d:DesignHeight="300" d:DesignWidth="500">
+<Grid HorizontalAlignment="Stretch" VerticalAlignment="Center">
+    <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+    </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Text="Show Message Here" Name="MessageBlock" Margin="0,5"></TextBlock>
+        <TextBox Grid.Row="1" Margin="0, 5" HorizontalAlignment="Stretch" Name="InputTextBox"
+                 controls:ControlsHelper.FocusBorderBrush="{DynamicResource AccentColorBrush}" 
+                 controls:TextBoxHelper.SelectAllOnFocus="True" TextBox.TextWrapping="Wrap" ></TextBox>
+    <UniformGrid Grid.Row="2" Margin="0,20" Columns="2" HorizontalAlignment="Right">
+            <Button Content="Ok [F1]" Margin="0,5,5,5" MinWidth="100" Name="OkButton" Click="OkButton_OnClick" 
+                    controls:ButtonHelper.PreserveTextCase="True"
+                    Style="{StaticResource AccentedSquareButtonStyle}"></Button>
+            <Button Content="Cancel [F2]" Margin="5,5,0,5" Name="CancelButton" Click="CancelButton_OnClick"></Button>
+    </UniformGrid>
+</Grid>
+</dialogs:BaseMetroDialog>

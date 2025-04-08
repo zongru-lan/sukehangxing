@@ -1,0 +1,238 @@
+﻿<Page x:Class="UI.XRay.Security.Scanner.SettingViews.Device.Pages.XRayGenPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:framework="clr-namespace:UI.XRay.Gui.Framework;assembly=UI.XRay.Gui.Framework"
+      xmlns:device="clr-namespace:UI.XRay.Security.Scanner.ViewModel.Setting.Device"
+      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+      xmlns:converters="clr-namespace:UI.XRay.Security.Scanner.Converters"
+      mc:Ignorable="d" FontSize="{StaticResource PageFontSize}"
+      DataContext="{Binding Source={StaticResource Locator}, Path=XRayGenPage}"
+      d:DesignHeight="1000" d:DesignWidth="900"
+	Title="XRayGenPage">
+    <Page.Resources>
+        <converters:Hours2StringConverter x:Key="Hours2StringConverter"/>
+        <converters:BoolTranslationConvertor x:Key="BoolTranslationConverter"/>
+    </Page.Resources>
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" IsTabStop="False">
+        <StackPanel Margin="{StaticResource PageContentMargin}">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="{framework:LanguageResource X-Ray Generator Information}"
+                           Style="{StaticResource PageSectionHeaderTextBlockStyle}"></TextBlock>
+                <TextBlock Text="{framework:LanguageResource X-Ray Generator Type}" HorizontalAlignment="Left"></TextBlock>
+                <TextBlock Text="{Binding Type, Mode=OneWay}" Foreground="{StaticResource AccentColorBrush}" HorizontalAlignment="Left" Margin="0,5,0,0"></TextBlock>
+
+                <TextBlock Text="{framework:LanguageResource Temperature}" Margin="0,15,0,0" Visibility="{Binding OilTempuratureVisibility}"></TextBlock>
+                <StackPanel Orientation="Horizontal" Margin="0,5,0,0" Visibility="{Binding OilTempuratureVisibility}">
+
+                    <TextBlock Text="#1: "></TextBlock>
+                    <TextBlock Text="{Binding Gen1OilTemp}"></TextBlock>
+                    <TextBlock Text=" ℃"></TextBlock>
+
+                    <StackPanel Orientation="Horizontal" Margin="30,0,0,0" Visibility="{Binding Gen2Visibility}">
+                        <TextBlock Text="#2: "></TextBlock>
+                        <TextBlock Text="{Binding Gen2OilTemp}"></TextBlock>
+                        <TextBlock Text=" ℃"></TextBlock>
+                    </StackPanel>
+
+                </StackPanel>
+            </StackPanel>
+            <TextBlock Text="{framework:LanguageResource X-Ray Operation}" Style="{StaticResource PageSectionHeaderTextBlockStyle}"></TextBlock>
+            <UniformGrid Columns="2" HorizontalAlignment="Left">
+                <Button Content="{framework:LanguageResource Emit X-Ray}" FontSize="{StaticResource PageFontSize}" Margin="0,0,20,0" Command="{Binding EmitXRayCommand}"></Button>
+                <Button Content="{framework:LanguageResource Close X-Ray}" FontSize="{StaticResource PageFontSize}" Margin="0,0,20,0" Command="{Binding CloseXRayCommand}"></Button>
+            </UniformGrid>
+            <TextBlock Text="{framework:LanguageResource Change Setting}" Style="{StaticResource PageSectionHeaderTextBlockStyle}"></TextBlock>
+            <Grid HorizontalAlignment="Left" Margin="0,0,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition MinWidth="100"></ColumnDefinition>
+                    <ColumnDefinition MinWidth="100"></ColumnDefinition>
+                    <ColumnDefinition MinWidth="120"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Content="{framework:LanguageResource ViewSection=Configer,Source=XrayGen1}"
+                       HorizontalAlignment="Center"></Label>
+                <Label Grid.Row="1" Grid.Column="1" Content="kV" HorizontalAlignment="Right"></Label>
+                <Label Grid.Row="1" Grid.Column="2" Content="mA" HorizontalAlignment="Right"></Label>
+                <Label Grid.Row="2" Grid.Column="0" Content="{framework:LanguageResource Working Value}"></Label>
+                <Label Grid.Row="3" Grid.Column="0" Content="{framework:LanguageResource Current Setting}"></Label>
+                <Label Grid.Row="4" Grid.Column="0" Content="{framework:LanguageResource New Setting}"></Label>
+                <TextBox Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Margin="10,0,0,0" IsReadOnly="True" HorizontalContentAlignment="Right"
+                       Text="{Binding KvSetting, TargetNullValue=?, Mode=OneWay, StringFormat='F'}"></TextBox>
+                <TextBox Grid.Row="3" Grid.Column="2" VerticalAlignment="Center" Margin="10,0,0,0" IsReadOnly="True" HorizontalContentAlignment="Right"
+                       Text="{Binding MaSetting, TargetNullValue=?, Mode=OneWay, StringFormat='F'}"></TextBox>
+                <TextBox Grid.Row="4" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10,0,0,0" HorizontalContentAlignment="Right"
+                         Text="{Binding KvNew, StringFormat='F'}"></TextBox>
+                <TextBox Grid.Row="4" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10,1,0,0" HorizontalContentAlignment="Right"
+                         Text="{Binding MaNew, StringFormat='F'}"></TextBox>
+                <TextBox Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin="10,0,0,0" IsReadOnly="True" HorizontalContentAlignment="Right"
+                       Text="{Binding KvWorking, TargetNullValue=?, Mode=OneWay, StringFormat='F'}"></TextBox>
+                <TextBox Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" Margin="10,0,0,0" IsReadOnly="True" HorizontalContentAlignment="Right"
+                       Text="{Binding MaWorking, TargetNullValue=?, Mode=OneWay, StringFormat='F'}"></TextBox>
+                <Button Grid.Row="4" Grid.Column="3" MinWidth="80" Content="{framework:LanguageResource Set}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Command="{Binding SetNewSettingCommand}" IsEnabled="{Binding IsSettingEnable}"></Button>
+            </Grid>
+            <Grid HorizontalAlignment="Left" Margin="0,20,0,0" Visibility="{Binding Gen2Visibility}">
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition MinWidth="100"></ColumnDefinition>
+                    <ColumnDefinition MinWidth="100"></ColumnDefinition>
+                    <ColumnDefinition MinWidth="120"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Content="{framework:LanguageResource ViewSection=Configer,Source=XrayGen2}"
+                        HorizontalAlignment="Center"></Label>
+                <Label Grid.Row="1" Grid.Column="1" Content="kV" HorizontalAlignment="Right"></Label>
+                <Label Grid.Row="1" Grid.Column="2" Content="mA" HorizontalAlignment="Right"></Label>
+                <Label Grid.Row="2" Grid.Column="0" Content="{framework:LanguageResource Working Value}"></Label>
+                <Label Grid.Row="3" Grid.Column="0" Content="{framework:LanguageResource Current Setting}"></Label>
+                <Label Grid.Row="4" Grid.Column="0" Content="{framework:LanguageResource New Setting}"></Label>
+                <TextBox Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Margin="10,0,0,0" IsReadOnly="True" HorizontalContentAlignment="Right"
+                       Text="{Binding KvSetting2, TargetNullValue=?, Mode=OneWay, StringFormat='F'}"></TextBox>
+                <TextBox Grid.Row="3" Grid.Column="2" VerticalAlignment="Center" Margin="10,0,0,0" IsReadOnly="True" HorizontalContentAlignment="Right"
+                       Text="{Binding MaSetting2, TargetNullValue=?, Mode=OneWay, StringFormat='F'}"></TextBox>
+                <TextBox Grid.Row="4" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10,0,0,0" HorizontalContentAlignment="Right"
+                         Text="{Binding KvNew2, StringFormat='F'}"></TextBox>
+                <TextBox Grid.Row="4" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10,0,0,0" HorizontalContentAlignment="Right"
+                         Text="{Binding MaNew2, StringFormat='F'}"></TextBox>
+                <TextBox Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin="10,0,0,0" IsReadOnly="True" HorizontalContentAlignment="Right"
+                       Text="{Binding KvWorking2, TargetNullValue=?, Mode=OneWay, StringFormat='F'}"></TextBox>
+                <TextBox Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" Margin="10,0,0,0" IsReadOnly="True" HorizontalContentAlignment="Right"
+                       Text="{Binding MaWorking2, TargetNullValue=?, Mode=OneWay, StringFormat='F'}"></TextBox>
+                <Button Grid.Row="4" Grid.Column="3" MinWidth="80" Content="{framework:LanguageResource Set}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Command="{Binding SetNewSettingCommand2}" IsEnabled="{Binding IsSettingEnable}"></Button>
+            </Grid>
+
+            <Grid HorizontalAlignment="Left" Margin="0,20,0,0" Visibility="{Binding GenErrorVisibility}">
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition MinWidth="100"></ColumnDefinition>
+                    <ColumnDefinition MinWidth="100"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Row="0" Grid.Column="1" Content="{framework:LanguageResource ViewSection=Configer,Source=XrayGen1}"></Label>
+                <Label Grid.Row="0" Grid.Column="2" Content="{framework:LanguageResource ViewSection=Configer,Source=XrayGen2}"  Visibility="{Binding Gen2Visibility}"></Label>
+
+                <Label Grid.Row="1" Grid.Column="0" Content="{framework:LanguageResource  ViewSection=Diagnosis Translation,Source=Sparking}"></Label>
+                <Label Grid.Row="2" Grid.Column="0" Content="{framework:LanguageResource  ViewSection=Diagnosis Translation,Source=OverTemperature}"></Label>
+                <Label Grid.Row="3" Grid.Column="0" Content="{framework:LanguageResource  ViewSection=Diagnosis Translation,Source=OverVoltage}"></Label>
+                <Label Grid.Row="4" Grid.Column="0" Content="{framework:LanguageResource  ViewSection=Diagnosis Translation,Source=OverCurrent}"></Label>
+                <Label Grid.Row="5" Grid.Column="0" Content="{framework:LanguageResource  ViewSection=Diagnosis Translation,Source=OverloadPower}"></Label>
+                <Label Grid.Row="6" Grid.Column="0" Content="{framework:LanguageResource  ViewSection=Diagnosis Translation,Source=VAOutofControl}"></Label>
+                <Label Grid.Row="7" Grid.Column="0" Content="{framework:LanguageResource  ViewSection=Diagnosis Translation,Source=InterlockSwitchNotClosed}"></Label>
+
+                <Label Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"   HorizontalContentAlignment="Center"
+                       Content="{Binding Sparking1,Converter={StaticResource BoolTranslationConverter}, Mode=OneWay}"></Label>
+                <Label Grid.Row="1" Grid.Column="2" VerticalAlignment="Center"   HorizontalContentAlignment="Center"  Visibility="{Binding Gen2Visibility}"
+                       Content="{Binding Sparking2,Converter={StaticResource BoolTranslationConverter},Mode=OneWay}"></Label>
+                <Label Grid.Row="2" Grid.Column="1" VerticalAlignment="Center"   HorizontalContentAlignment="Center"
+                       Content="{Binding OverTemperature1,Converter={StaticResource BoolTranslationConverter},Mode=OneWay}"></Label>
+                <Label Grid.Row="2" Grid.Column="2" VerticalAlignment="Center"   HorizontalContentAlignment="Center" Visibility="{Binding Gen2Visibility}"
+                       Content="{Binding OverTemperature2,Converter={StaticResource BoolTranslationConverter},Mode=OneWay}"></Label>
+
+                <Label Grid.Row="3" Grid.Column="1" VerticalAlignment="Center"   HorizontalContentAlignment="Center"
+                       Content="{Binding OverVoltage1,Converter={StaticResource BoolTranslationConverter},Mode=OneWay}"></Label>
+                <Label Grid.Row="3" Grid.Column="2" VerticalAlignment="Center"   HorizontalContentAlignment="Center" Visibility="{Binding Gen2Visibility}"
+                       Content="{Binding OverVoltage2,Converter={StaticResource BoolTranslationConverter},Mode=OneWay}"></Label>
+
+                <Label Grid.Row="4" Grid.Column="1" VerticalAlignment="Center"   HorizontalContentAlignment="Center"
+                       Content="{Binding OverCurrent1,Converter={StaticResource BoolTranslationConverter},Mode=OneWay}"></Label>
+                <Label Grid.Row="4" Grid.Column="2" VerticalAlignment="Center"   HorizontalContentAlignment="Center" Visibility="{Binding Gen2Visibility}"
+                       Content="{Binding OverCurrent2,Converter={StaticResource BoolTranslationConverter},Mode=OneWay}"></Label>
+                <Label Grid.Row="5" Grid.Column="1" VerticalAlignment="Center"   HorizontalContentAlignment="Center"
+                       Content="{Binding OverloadPower1,Converter={StaticResource BoolTranslationConverter},Mode=OneWay}"></Label>
+                <Label Grid.Row="5" Grid.Column="2" VerticalAlignment="Center"   HorizontalContentAlignment="Center" Visibility="{Binding Gen2Visibility}"
+                       Content="{Binding OverloadPower2,Converter={StaticResource BoolTranslationConverter},Mode=OneWay}"></Label>
+
+                <Label Grid.Row="6" Grid.Column="1" VerticalAlignment="Center"   HorizontalContentAlignment="Center"
+                       Content="{Binding VAOutofControl1,Converter={StaticResource BoolTranslationConverter},Mode=OneWay}"></Label>
+                <Label Grid.Row="6" Grid.Column="2" VerticalAlignment="Center"   HorizontalContentAlignment="Center" Visibility="{Binding Gen2Visibility}"
+                       Content="{Binding VAOutofControl2,Converter={StaticResource BoolTranslationConverter},Mode=OneWay}"></Label>
+
+                <Label Grid.Row="7" Grid.Column="1" VerticalAlignment="Center"   HorizontalContentAlignment="Center"
+                       Content="{Binding InterlockSwitchNotClosed1,Converter={StaticResource BoolTranslationConverter},Mode=OneWay}"></Label>
+                <Label Grid.Row="7" Grid.Column="2" VerticalAlignment="Center"   HorizontalContentAlignment="Center" Visibility="{Binding Gen2Visibility}"
+                       Content="{Binding InterlockSwitchNotClosed2,Converter={StaticResource BoolTranslationConverter},Mode=OneWay}"></Label>
+            </Grid>
+
+            <TextBlock Text="{framework:LanguageResource XrayGen Statement}" Style="{StaticResource PageSectionHeaderTextBlockStyle}" VerticalAlignment="Center"></TextBlock>
+            <StackPanel >
+                <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
+                    <TextBlock Text="{framework:LanguageResource XRay Generator1 Total Work Hours}" VerticalAlignment="Center"></TextBlock>
+                    <TextBlock Text="{Binding Path=TotalXRayGen1WorkHours, Converter={StaticResource Hours2StringConverter}}" VerticalAlignment="Center" Margin="10,0,0,0" FontWeight="Bold" Foreground="{StaticResource AccentColorBrush}"></TextBlock>
+                    <!--<TextBlock Text="h" Margin="5,0,0,0"></TextBlock>-->
+                    <Button Margin="10,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"  Command="{Binding ResetButtonPressCommand}" 
+                            CommandParameter="Xray1WorkHours" Content="{framework:LanguageResource Reset}" Visibility="{Binding ResetButtonVisibility}"></Button>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
+                    <TextBlock Text="{framework:LanguageResource XRay Generator1 Work Hours Since Boot}" VerticalAlignment="Center"></TextBlock>
+                    <TextBlock Text="{Binding Path=XRayGenWorkHoursSinceBoot, Converter={StaticResource Hours2StringConverter}}" VerticalAlignment="Center" Margin="10,0,0,0" FontWeight="Bold" Foreground="{StaticResource AccentColorBrush}"></TextBlock>
+                    <!--<TextBlock Text="h" Margin="5,0,0,0"></TextBlock>-->
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
+                    <TextBlock Text="{framework:LanguageResource XRay Generator1 Total Usage Count}" VerticalAlignment="Center"></TextBlock>
+                    <TextBlock Text="{Binding Path=XrayGen1TotalUsageCount}" VerticalAlignment="Center" Margin="10,0,0,0" FontWeight="Bold" Foreground="{StaticResource AccentColorBrush}"></TextBlock>
+                    <!--<TextBlock Text="h" Margin="5,0,0,0"></TextBlock>-->
+                    <Button Margin="10,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding ResetButtonPressCommand}" 
+                            CommandParameter="Xray1UsageCount" Content="{framework:LanguageResource Reset}" Visibility="{Binding ResetButtonVisibility}"></Button>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
+                    <TextBlock Text="{framework:LanguageResource XRay Generator1 Usage Count Since Boot}" VerticalAlignment="Center"></TextBlock>
+                    <TextBlock Text="{Binding Path=XRayGenUsageCountSinceBoot}" Margin="10,0,0,0" VerticalAlignment="Center" FontWeight="Bold" Foreground="{StaticResource AccentColorBrush}"></TextBlock>
+                    <!--<TextBlock Text="h" Margin="5,0,0,0"></TextBlock>-->
+                </StackPanel>
+                <StackPanel Visibility="{Binding Gen2Visibility}" Margin="0,5,0,5">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{framework:LanguageResource XRay Generator2 Total Work Hours}" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock Text="{Binding Path=TotalXRayGen2WorkHours, Converter={StaticResource Hours2StringConverter}}" VerticalAlignment="Center" Margin="10,0,0,0" FontWeight="Bold" Foreground="{StaticResource AccentColorBrush}"></TextBlock>
+                        <!--<TextBlock Text="h" Margin="5,0,0,0"></TextBlock>-->
+                        <Button Margin="10,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding ResetButtonPressCommand}" 
+                            CommandParameter="Xray2WorkHours" Content="{framework:LanguageResource Reset}" Visibility="{Binding ResetButtonVisibility}"></Button>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
+                        <TextBlock Text="{framework:LanguageResource XRay Generator2 Work Hours Since Boot}" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock Text="{Binding Path=XRayGenWorkHoursSinceBoot, Converter={StaticResource Hours2StringConverter}}" VerticalAlignment="Center" Margin="10,0,0,0" FontWeight="Bold" Foreground="{StaticResource AccentColorBrush}"></TextBlock>
+                        <!--<TextBlock Text="h" Margin="5,0,0,0"></TextBlock>-->
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
+                        <TextBlock Text="{framework:LanguageResource XRay Generator2 Total Usage Count}" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock Text="{Binding Path=XrayGen2TotalUsageCount}" Margin="10,0,0,0" VerticalAlignment="Center" FontWeight="Bold" Foreground="{StaticResource AccentColorBrush}"></TextBlock>
+                        <!--<TextBlock Text="h" Margin="5,0,0,0"></TextBlock>-->
+                        <Button Margin="10,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding ResetButtonPressCommand}" 
+                            CommandParameter="Xray2UsageCount" Content="{framework:LanguageResource Reset}" Visibility="{Binding ResetButtonVisibility}"></Button>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
+                        <TextBlock Text="{framework:LanguageResource XRay Generator2 Usage Count Since Boot}" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock Text="{Binding Path=XRayGenUsageCountSinceBoot}" Margin="10,0,0,0" VerticalAlignment="Center" FontWeight="Bold" Foreground="{StaticResource AccentColorBrush}"></TextBlock>
+                        <!--<TextBlock Text="h" Margin="5,0,0,0"></TextBlock>-->
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+            
+        </StackPanel>
+    </ScrollViewer>
+</Page>

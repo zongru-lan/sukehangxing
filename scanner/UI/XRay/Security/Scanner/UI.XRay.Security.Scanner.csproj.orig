@@ -1,0 +1,821 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C7BEB2A7-B882-4280-8A60-CBA9C7B8126A}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>UI.XRay.Security.Scanner</RootNamespace>
+    <AssemblyName>UI.XRay.Security.Scanner</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>f95a4780</NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\..\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\..\bin\</OutputPath>
+    <DefineConstants>TRACE;RELEASE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>appicon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;RELEASE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\..\..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\..\..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight">
+      <HintPath>..\..\..\..\packages\MvvmLightLibs.5.2.0.0\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Extras">
+      <HintPath>..\..\..\..\packages\MvvmLightLibs.5.2.0.0\lib\net45\GalaSoft.MvvmLight.Extras.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Platform">
+      <HintPath>..\..\..\..\packages\MvvmLightLibs.5.2.0.0\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MahApps.Metro, Version=1.1.3.174, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\MahApps.Metro.1.1.3-ALPHA174\lib\net45\MahApps.Metro.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SmartX3.net">
+      <HintPath>..\..\..\..\Lib\Smart3XEncrypt_x86\SmartX3.net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.SQLite, Version=1.0.98.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\System.Data.SQLite.Core.1.0.98.1\lib\net451\System.Data.SQLite.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data.SQLite.EF6, Version=1.0.98.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\System.Data.SQLite.EF6.1.0.98.1\lib\net451\System.Data.SQLite.EF6.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data.SQLite.Linq, Version=1.0.98.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\System.Data.SQLite.Linq.1.0.98.1\lib\net451\System.Data.SQLite.Linq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Printing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity">
+      <HintPath>..\..\..\..\packages\MvvmLightLibs.5.2.0.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="UI.Common.Tracers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=78c54539843930a5, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Lib\Trace\UI.Common.Tracers.dll</HintPath>
+    </Reference>
+    <Reference Include="UI.XRay.ControlWorkflows, Version=1.0.0.0, Culture=neutral, PublicKeyToken=a0f341f57fd962c6, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Lib\UIControl_x86\UI.XRay.ControlWorkflows.dll</HintPath>
+    </Reference>
+    <Reference Include="UI.XRay.EncryptLock.Smart3XServiceLibrary">
+      <HintPath>..\..\..\..\Lib\Smart3XEncrypt_x86\UI.XRay.EncryptLock.Smart3XServiceLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="UI.XRay.ImagePlant">
+      <HintPath>..\..\..\..\Lib\RenderEngine\UI.XRay.ImagePlant.dll</HintPath>
+    </Reference>
+    <Reference Include="UI.XRay.RenderEngine">
+      <HintPath>..\..\..\..\Lib\RenderEngine\UI.XRay.RenderEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UI.XRay.ScannerControlClr, Version=1.0.5741.21091, Culture=neutral, PublicKeyToken=a0f341f57fd962c6, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Lib\UIControl_x86\UI.XRay.ScannerControlClr.dll</HintPath>
+    </Reference>
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
+    <Reference Include="Xceed.Wpf.AvalonDock, Version=3.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\Extended.Wpf.Toolkit.3.0\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=3.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\Extended.Wpf.Toolkit.3.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=3.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\Extended.Wpf.Toolkit.3.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=3.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\Extended.Wpf.Toolkit.3.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.DataGrid, Version=3.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\Extended.Wpf.Toolkit.3.0\lib\net40\Xceed.Wpf.DataGrid.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit, Version=3.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\Extended.Wpf.Toolkit.3.0\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="AddAccountWindow.xaml.cs">
+      <DependentUpon>AddAccountWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ChangeSysDateTimeWindow.xaml.cs">
+      <DependentUpon>ChangeSysDateTimeWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\Bitmap2BitmapImageConvertor.cs" />
+    <Compile Include="Converters\BoolVisibilityConvertor.cs" />
+    <Compile Include="Converters\DateFormatHelper.cs" />
+    <Compile Include="Converters\PositiveIntBoolConverter.cs" />
+    <Compile Include="ImageGeneralSetting.cs" />
+    <Compile Include="ImageRetrievalWindow.xaml.cs">
+      <DependentUpon>ImageRetrievalWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CalibrateWindow.xaml.cs">
+      <DependentUpon>CalibrateWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MetroDialogs\ImageBadChannelManual.xaml.cs">
+      <DependentUpon>ImageBadChannelManual.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MetroDialogs\ImageMetroDialog.xaml.cs">
+      <DependentUpon>ImageMetroDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MetroDialogs\InputMetroDialog.xaml.cs">
+      <DependentUpon>InputMetroDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ConveyorKeyEventsConvertor.cs" />
+    <Compile Include="MetroDialogs\PasswordMetroDialog.xaml.cs">
+      <DependentUpon>PasswordMetroDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MetroDialogs\MessageMetroDialog.xaml.cs">
+      <DependentUpon>MessageMetroDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MetroDialogs\MetroDialogExtensions.cs" />
+    <Compile Include="Converters\NotNullEmptyStringBoolConverter.cs" />
+    <Compile Include="Printing\ImagePrinter.cs" />
+    <Compile Include="RegularRemindWindow.xaml.cs">
+      <DependentUpon>RegularRemindWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ScreenImagesOperationWindow.xaml.cs">
+      <DependentUpon>ScreenImagesOperationWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ScrollViewerMonitor.cs" />
+    <Compile Include="SettingViews\About\AboutMenu.xaml.cs">
+      <DependentUpon>AboutMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\About\Pages\AboutPage.xaml.cs">
+      <DependentUpon>AboutPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Account\ChangePasswordEmptyMenuPage.xaml.cs">
+      <DependentUpon>ChangePasswordEmptyMenuPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Account\Pages\AccountPage.xaml.cs">
+      <DependentUpon>AccountPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Account\Pages\ManageOtherAccountsPage.xaml.cs">
+      <DependentUpon>ManageOtherAccountsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Device\DeviceMenu.xaml.cs">
+      <DependentUpon>DeviceMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Device\Pages\ConveyorPESensorPage.xaml.cs">
+      <DependentUpon>ConveyorPESensorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Device\Pages\DetectorsPage.xaml.cs">
+      <DependentUpon>DetectorsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Device\Pages\KeyboardPage.xaml.cs">
+      <DependentUpon>KeyboardPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\EmergencyWindow.xaml.cs">
+      <DependentUpon>EmergencyWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Image\Pages\ImsListPage.xaml.cs">
+      <DependentUpon>ImsListPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Records\Pages\ConveyorWorkLogPage.xaml.cs">
+      <DependentUpon>ConveyorWorkLogPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Records\Pages\OperationLogPage.xaml.cs">
+      <DependentUpon>OperationLogPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Setting\Pages\FunctionKeysPage.xaml.cs">
+      <DependentUpon>FunctionKeysPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Device\Pages\XRayGenPage.xaml.cs">
+      <DependentUpon>XRayGenPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Image\ImageMenu.xaml.cs">
+      <DependentUpon>ImageMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Image\Pages\ImageSettingPage.xaml.cs">
+      <DependentUpon>ImageSettingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Records\Pages\XRayGenWorkLogPage.xaml.cs">
+      <DependentUpon>XRayGenWorkLogPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Records\Pages\LoginLogPage.xaml.cs">
+      <DependentUpon>LoginLogPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Records\Pages\BootLogPage.xaml.cs">
+      <DependentUpon>BootLogPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Records\RecordsMenu.xaml.cs">
+      <DependentUpon>RecordsMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Menu\SystemMenu.xaml.cs">
+      <DependentUpon>SystemMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Setting\Pages\IntelliSensePage.xaml.cs">
+      <DependentUpon>IntelliSensePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Setting\Pages\DiskSpaceManagePage.xaml.cs">
+      <DependentUpon>DiskSpaceManagePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Setting\Pages\ObjectCounterPage.xaml.cs">
+      <DependentUpon>ObjectCounterPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Setting\SettingMenu.xaml.cs">
+      <DependentUpon>SettingMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Records\Pages\TipExamLogPage.xaml.cs">
+      <DependentUpon>TipExamLogPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Tip\Pages\TipImagesPage.xaml.cs">
+      <DependentUpon>TipImagesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Tip\Pages\TipPlansPage.xaml.cs">
+      <DependentUpon>TipPlansPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Tip\TipMenu.xaml.cs">
+      <DependentUpon>TipMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Training\Pages\TrainingImagesManagementPage.xaml.cs">
+      <DependentUpon>TrainingImagesManagementPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Training\Pages\TrainingSettingPage.xaml.cs">
+      <DependentUpon>TrainingSettingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Training\TrainingMenu.xaml.cs">
+      <DependentUpon>TrainingMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SkinPaths.cs" />
+    <Compile Include="SystemBarControl.xaml.cs">
+      <DependentUpon>SystemBarControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SystemBarControlTouch.xaml.cs">
+      <DependentUpon>SystemBarControlTouch.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TimeRangeEnumString.cs" />
+    <Compile Include="ViewModel\AddAccountViewModel.cs" />
+    <Compile Include="ViewModel\ChangeSysDateTimeWindowViewModel.cs" />
+    <Compile Include="ViewModel\ImageRetrievalViewModel.cs" />
+    <Compile Include="ViewModel\LoginViewModel.cs" />
+    <Compile Include="ViewModel\CalibrateWindowViewModel.cs" />
+    <Compile Include="ViewModel\ImageBadChannelManualViewModel.cs" />
+    <Compile Include="ViewModel\PageViewModelBase.cs" />
+    <Compile Include="ViewModel\RegularRemindViewModel.cs" />
+    <Compile Include="ViewModel\ScreenImagesOperationWindowViewModel.cs" />
+    <Compile Include="ViewModel\Setting\About\AboutPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Account\AccountPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Account\AccountMenuPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Account\AutoLoginPageViewModel.cs" />
+    <Compile Include="SettingViews\Account\AccountMenuPage.xaml.cs">
+      <DependentUpon>AccountMenuPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Account\Pages\AutoLoginSettingPage.xaml.cs">
+      <DependentUpon>AutoLoginSettingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Account\Pages\ChangePasswordSettingPage.xaml.cs">
+      <DependentUpon>ChangePasswordSettingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Image\Pages\ImsPage.xaml.cs">
+      <DependentUpon>ImsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\Setting\Account\ChangePasswordPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Account\AccountRoleStringsProvider.cs" />
+    <Compile Include="ViewModel\Setting\Account\ManageOtherAccountsViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Device\ConveyorPESensorPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Device\DetectorsPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Device\DeviceMenuViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Device\KeyboardPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Image\ImageMenuPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Image\ImsListPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Records\ConveyorWorkLogPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Records\OperationLogPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Records\TipExamLogPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Setting\DiskspaceManagePageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Setting\FunctionKeysPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Device\XRayGenPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Image\ImageSettingPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Image\ImsPageDesignTimeViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Image\ImsPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Menu\SystemMenuPageViewModel.cs" />
+    <Compile Include="ViewModel\SettingWindowViewModel.cs" />
+    <Compile Include="LoginWindow.xaml.cs">
+      <DependentUpon>LoginWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingViews\Menu\Pages\MenuPage.xaml.cs">
+      <DependentUpon>MenuPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingWindow.xaml.cs">
+      <DependentUpon>SettingWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Records\XRayGenWorkLogPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Records\RecordsMenuViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Records\LoginLogsPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Records\BootLogsPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Setting\IntelliSensePageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Setting\ObjectCounterPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Setting\SettingMenuPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Tip\TipImagesPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Tip\TipMenuViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Tip\TipPlansPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Training\TrainingImagesManagementPageViewModel.cs" />
+    <Compile Include="ViewModel\Setting\Training\TrainingMenuViewModel.cs" />
+    <Compile Include="ViewModelLocator.cs" />
+    <Compile Include="ViewModel\Setting\Training\TrainingSettingPageViewModel.cs" />
+    <Compile Include="ViewModel\SystemBarTouchViewModel.cs" />
+    <Compile Include="ViewModel\SystemBarViewModel.cs" />
+    <Compile Include="ViewModel\XRayGenWarmupWindowViewModel.cs" />
+    <Compile Include="WindowFocusHelper.cs" />
+    <Compile Include="XRayGenWarmupWindow.xaml.cs">
+      <DependentUpon>XRayGenWarmupWindow.xaml</DependentUpon>
+    </Compile>
+    <Page Include="AddAccountWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ChangeSysDateTimeWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ImageRetrievalWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CalibrateWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MetroDialogs\ImageBadChannelManual.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MetroDialogs\ImageMetroDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MetroDialogs\InputMetroDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MetroDialogs\PasswordMetroDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MetroDialogs\MessageMetroDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Printing\ImagePrintPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="RegularRemindWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ScreenImagesOperationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingViews\About\AboutMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingViews\About\Pages\AboutPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingViews\Account\AccountMenuPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingViews\Account\ChangePasswordEmptyMenuPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingViews\Account\Pages\AccountPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingViews\Account\Pages\AutoLoginSettingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingViews\Account\Pages\ChangePasswordSettingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingViews\Account\Pages\ManageOtherAccountsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingViews\Device\DeviceMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingViews\Device\Pages\ConveyorPESensorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingViews\Device\Pages\DetectorsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingViews\Device\Pages\KeyboardPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingViews\EmergencyWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingViews\Image\Pages\ImsListPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingViews\Records\Pages\ConveyorWorkLogPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingViews\Records\Pages\OperationLogPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingViews\Setting\Pages\FunctionKeysPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingViews\Device\Pages\XRayGenPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingViews\Image\ImageMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingViews\Image\Pages\ImageSettingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingViews\Image\Pages\ImsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LoginWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingViews\Records\Pages\XRayGenWorkLogPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingViews\Records\Pages\LoginLogPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingViews\Records\Pages\BootLogPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingViews\Records\RecordsMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingViews\Menu\Pages\MenuPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingViews\Menu\SystemMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingViews\Records\Pages\TipExamLogPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingViews\Setting\Pages\DiskSpaceManagePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SettingViews\Tip\Pages\TipImagesPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingViews\Tip\Pages\TipPlansPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingViews\Tip\TipMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingViews\Training\Pages\TrainingImagesManagementPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingViews\Training\Pages\TrainingSettingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingViews\Training\TrainingMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="SettingViews\Setting\Pages\IntelliSensePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingViews\Setting\Pages\ObjectCounterPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingViews\Setting\SettingMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SystemBarControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SystemBarControlTouch.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="XRayGenWarmupWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="app.manifest" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Account.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\About.png" />
+    <Resource Include="Icons\Device.png" />
+    <Resource Include="Icons\Image.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Setting.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Bag.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Records.png" />
+    <Resource Include="Icons\Shutdown.png" />
+    <Resource Include="Icons\System.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\CloseWindow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Business\DataAccess\UI.XRay.Business.DataAccess.csproj">
+      <Project>{7042e2b9-a05e-4a94-9d67-3e27693fb770}</Project>
+      <Name>UI.XRay.Business.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Business\Entities\UI.XRay.Business.Entities.csproj">
+      <Project>{f86ffdd2-6658-466c-b9c8-b8c45f8ec48c}</Project>
+      <Name>UI.XRay.Business.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\Utilities\UI.XRay.Common.Utilities.csproj">
+      <Project>{018f1171-500a-436e-affe-2c27fc7d0373}</Project>
+      <Name>UI.XRay.Common.Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Flows\Controllers\UI.XRay.Flows.Controllers.csproj">
+      <Project>{7be8e8f6-0a3f-4ccf-bf7a-f26968344d33}</Project>
+      <Name>UI.XRay.Flows.Controllers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Flows\Services\UI.XRay.Flows.Services.csproj">
+      <Project>{eab046cc-8fdd-4735-a403-946154efb6e8}</Project>
+      <Name>UI.XRay.Flows.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Gui\Framework\UI.XRay.Gui.Framework.csproj">
+      <Project>{84e722d4-99d8-408d-b8aa-3551cd65e758}</Project>
+      <Name>UI.XRay.Gui.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Gui\Widgets\UI.XRay.Gui.Widgets.csproj">
+      <Project>{6f351d43-1d65-4608-96ca-163cf89daa18}</Project>
+      <Name>UI.XRay.Gui.Widgets</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Parts\Keyboard\UI.XRay.Parts.Keyboard.csproj">
+      <Project>{4caec812-cd4b-48c2-b42a-ddbc0deb90cd}</Project>
+      <Name>UI.XRay.Parts.Keyboard</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Return.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\MoveLeft.png" />
+    <Resource Include="Icons\MoveRight.png" />
+    <Resource Include="Icons\Stop.png" />
+    <Resource Include="Icons\XRayOff.png" />
+    <Resource Include="Icons\XRayOn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\shiftoff.png" />
+    <Resource Include="Icons\shiftOn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\SystemStateOk.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\SystemStateAlert.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="appicon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Error.png" />
+    <Resource Include="Icons\Info.png" />
+    <Resource Include="Icons\Warning.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\imagelock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\clock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Calibration.png" />
+    <Resource Include="Icons\Exit.png" />
+    <Resource Include="Icons\Logout.png" />
+    <Resource Include="Icons\TIP.png" />
+    <Resource Include="Icons\Training.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\MovingLeft.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\MovingRight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="TouchIcons\1-1.png" />
+    <Resource Include="TouchIcons\1-10.png" />
+    <Resource Include="TouchIcons\1-11.png" />
+    <Resource Include="TouchIcons\1-2.png" />
+    <Resource Include="TouchIcons\1-3.png" />
+    <Resource Include="TouchIcons\1-4.png" />
+    <Resource Include="TouchIcons\1-6.png" />
+    <Resource Include="TouchIcons\1-7.png" />
+    <Resource Include="TouchIcons\1-8.png" />
+    <Resource Include="TouchIcons\1-9.png" />
+    <Resource Include="TouchIcons\2-1.png" />
+    <Resource Include="TouchIcons\2-2.png" />
+    <Resource Include="TouchIcons\2-3.png" />
+    <Resource Include="TouchIcons\2-4.png" />
+    <Resource Include="TouchIcons\2-5.png" />
+    <Resource Include="TouchIcons\2-6.png" />
+    <Resource Include="TouchIcons\2-7.png" />
+    <Resource Include="TouchIcons\2-8.png" />
+    <Resource Include="TouchIcons\2-9.png" />
+    <Resource Include="TouchIcons\3-1.png" />
+    <Resource Include="TouchIcons\3-2.png" />
+    <Resource Include="TouchIcons\3-3.png" />
+    <Resource Include="TouchIcons\you.png" />
+    <Resource Include="TouchIcons\zuo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="TouchIcons\keypad.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\..\..\..\packages\System.Data.SQLite.Core.1.0.98.1\build\net451\System.Data.SQLite.Core.targets" Condition="Exists('..\..\..\..\packages\System.Data.SQLite.Core.1.0.98.1\build\net451\System.Data.SQLite.Core.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\..\..\packages\System.Data.SQLite.Core.1.0.98.1\build\net451\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\packages\System.Data.SQLite.Core.1.0.98.1\build\net451\System.Data.SQLite.Core.targets'))" />
+  </Target>
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /r /y "$(SolutionDir)lib\DTCapture_x86\*" "$(SolutionDir)\bin"
+xcopy /r /y "$(SolutionDir)lib\UIControl_x86\*" "$(SolutionDir)\bin"
+xcopy /r /y "$(SolutionDir)lib\Trace\*" "$(SolutionDir)\bin"
+xcopy /r /y "$(SolutionDir)Installation\Class\*" "$(SolutionDir)\bin"
+</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

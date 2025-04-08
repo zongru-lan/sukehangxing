@@ -1,0 +1,608 @@
+﻿using GalaSoft.MvvmLight;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using UI.Common.Tracers;
+using UI.XRay.Business.DataAccess.Config;
+using UI.XRay.Business.Entities;
+using UI.XRay.ImagePlant;
+
+namespace UI.XRay.Security.Configer.ViewModel
+{
+    /// <summary>
+    /// 图像设置界面的ViewModel
+    /// </summary>
+    public class ImagesSettingsViewModel : ViewModelBase, IViewModel
+    {
+        private int _imagesCount = 1;
+        /// <summary>
+        /// 图像数量，用于UI绑定
+        /// </summary>
+        public int ImagesCount
+        {
+            get { return _imagesCount; }
+            set
+            {
+                _imagesCount = value;
+                if(_imagesCount == 1)
+                {
+                    ShowImage2Settings = Visibility.Collapsed;
+                }
+                else
+                {
+                    ShowImage2Settings = Visibility.Visible;
+                }
+                RaisePropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// 图像数量列表，用于UI绑定
+        /// </summary>
+        public List<int> ImagesCountSource { get; set; }
+
+        private bool _removeBlankSpaceBetBags;
+        /// <summary>
+        /// 是否隐藏包裹图像间的空白区域
+        /// </summary>
+        public bool RemoveBlankSpaceBetBags
+        {
+            get { return _removeBlankSpaceBetBags; }
+            set
+            {
+                _removeBlankSpaceBetBags = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private int _defaultAbsorbIndex;
+        /// <summary>
+        /// 默认的吸收率值，范围为-25~25，用于UI绑定
+        /// </summary>
+        public int DefaultAbsorbIndex
+        {
+            get { return _defaultAbsorbIndex; }
+            set
+            {
+                _defaultAbsorbIndex = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private bool _showUnpenetratableRed;
+        /// <summary>
+        /// 是否将穿不透区域显示为红色，true代表显示为红色，false代表不处理，用于UI绑定
+        /// </summary>
+        public bool ShowUnpenetratableRed
+        {
+            get { return _showUnpenetratableRed; }
+            set
+            {
+                _showUnpenetratableRed = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private float _maxZoominTimes;
+        /// <summary>
+        /// 图像最大放大倍数，用于UI绑定
+        /// </summary>
+        public float MaxZoominTimes
+        {
+            get { return _maxZoominTimes; }
+            set
+            {
+                _maxZoominTimes = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// 图像最大放大倍数列表，用于UI显示
+        /// </summary>
+        public List<float> MaxZoominTimesSource { get; set; }
+
+        private float _zoominStep;
+        /// <summary>
+        /// 图像缩放步长，用于UI显示
+        /// </summary>
+        public float ZoominStep
+        {
+            get { return _zoominStep; }
+            set
+            {
+                _zoominStep = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// 图像缩放步长列表，用于UI显示
+        /// </summary>
+        public List<float> ZoominSteps { get; set; }
+
+        private bool _image1VerticalFlip;
+        /// <summary>
+        /// 图像1是否进行垂直翻转，true代表进行垂直翻转，false代表不处理，用于UI绑定
+        /// </summary>
+        public bool Image1VerticalFlip
+        {
+            get { return _image1VerticalFlip; }
+            set
+            {
+                _image1VerticalFlip = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private bool _image2VerticalFlip;
+        /// <summary>
+        /// 图像2是否进行垂直翻转，true代表进行垂直翻转，false代表不处理，用于UI绑定
+        /// </summary>
+        public bool Image2VerticalFlip
+        {
+            get { return _image2VerticalFlip; }
+            set
+            {
+                _image2VerticalFlip = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private DetectViewIndex _image1ShowingDetView = DetectViewIndex.View1;
+        /// <summary>
+        /// 图像1显示的视角
+        /// </summary>
+        public DetectViewIndex Image1ShowingDetView
+        {
+            get { return _image1ShowingDetView; }
+            set
+            {
+                _image1ShowingDetView = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private DetectViewIndex _image2ShowingDetView = DetectViewIndex.View2;
+        /// <summary>
+        /// 图像2显示的视角
+        /// </summary>
+        public DetectViewIndex Image2ShowingDetView
+        {
+            get { return _image2ShowingDetView; }
+            set
+            {
+                _image2ShowingDetView = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// 图像显示视角列表
+        /// </summary>
+        public List<DetectViewIndex> ImageShowingDetViews { get; set; }
+
+        private bool _image1RightToLeft = true;
+
+        /// <summary>
+        /// 图像1移动方向
+        /// </summary>
+        public bool Image1RightToLeft
+        {
+            get { return _image1RightToLeft; }
+            set
+            {
+                _image1RightToLeft = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private bool _image2RightToLeft = true;
+        /// <summary>
+        /// 图像2移动方向
+        /// </summary>
+        public bool Image2RightToLeft
+        {
+            get { return _image2RightToLeft; }
+            set
+            {
+                _image2RightToLeft = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private DisplayColorMode _image1ColorMode = DisplayColorMode.MaterialColor;
+
+        /// <summary>
+        /// 图像1的颜色类型
+        /// </summary>
+        public DisplayColorMode Image1ColorMode
+        {
+            get { return _image1ColorMode; }
+            set
+            {
+                _image1ColorMode = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private DisplayColorMode _image2ColorMode = DisplayColorMode.MaterialColor;
+        /// <summary>
+        /// 图像2的颜色类型
+        /// </summary>
+        public DisplayColorMode Image2ColorMode
+        {
+            get { return _image2ColorMode; }
+            set
+            {
+                _image2ColorMode = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// 图像颜色列表
+        /// </summary>
+        public List<DisplayColorMode> ImageColorModes { get; set; }
+
+        private bool _image1EnableEdgeEnhance;
+        /// <summary>
+        /// 图像1是否使能边缘增强模式
+        /// </summary>
+        public bool Image1EnableEdgeEnhance
+        {
+            get { return _image1EnableEdgeEnhance; }
+            set
+            {
+                _image1EnableEdgeEnhance = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private bool _image2EnableEdgeEnhance;
+        /// <summary>
+        /// 图像2是否使能边缘增强模式
+        /// </summary>
+        public bool Image2EnableEdgeEnhance
+        {
+            get { return _image2EnableEdgeEnhance; }
+            set
+            {
+                _image2EnableEdgeEnhance = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private bool _image1EnableSuperEnhance;
+        /// <summary>
+        /// 图像1是否使能超级增强模式
+        /// </summary>
+        public bool Image1EnableSuperEnhance
+        {
+            get { return _image1EnableSuperEnhance; }
+            set
+            {
+                _image1EnableSuperEnhance = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private bool _image2EnableSuperEnhance;
+        /// <summary>
+        /// 图像2是否使能超级增强模式
+        /// </summary>
+        public bool Image2EnableSuperEnhance
+        {
+            get { return _image2EnableSuperEnhance; }
+            set
+            {
+                _image2EnableSuperEnhance = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private bool _image1Inversed;
+        /// <summary>
+        /// 图像1是否进行反色
+        /// </summary>
+        public bool Image1Inversed
+        {
+            get { return _image1Inversed; }
+            set
+            {
+                _image1Inversed = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private bool _image2Inversed;
+        /// <summary>
+        /// 图像2是否进行反色
+        /// </summary>
+        public bool Image2Inversed
+        {
+            get { return _image2Inversed; }
+            set
+            {
+                _image2Inversed = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private PenetrationMode _image1Penetration = PenetrationMode.Standard;
+        /// <summary>
+        /// 图像1的穿透模式
+        /// </summary>
+        public PenetrationMode Image1Penetration
+        {
+            get { return _image1Penetration; }
+            set
+            {
+                _image1Penetration = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private PenetrationMode _image2Penetration = PenetrationMode.Standard;
+        /// <summary>
+        /// 图像2的穿透模式
+        /// </summary>
+        public PenetrationMode Image2Penetration
+        {
+            get { return _image2Penetration; }
+            set
+            {
+                _image2Penetration = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// 图像穿透模式列表
+        /// </summary>
+        public List<PenetrationMode> ImagePenetrationModes { get; set; }
+
+        private Visibility _showImage2Settings = Visibility.Collapsed;
+        /// <summary>
+        /// 是否显示图像2的设置，当选中图像数量为2时，显示图像2的设置，否则不显示
+        /// </summary>
+        public Visibility ShowImage2Settings
+        {
+            get { return _showImage2Settings; }
+            set
+            {
+                _showImage2Settings = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        public ImagesSettingsViewModel()
+        {
+            Tracer.TraceEnterFunc("ImagesSettingsViewModel Constructor.");
+
+            ImagesCountSource = new List<int> { 1, 2 };
+
+            MaxZoominTimesSource = new List<float> { 64, 32, 16 };
+
+            ZoominSteps = new List<float> { 2, 4 };
+
+            ImageShowingDetViews = new List<DetectViewIndex> { DetectViewIndex.View1, DetectViewIndex.View2 };
+
+            ImageColorModes = new List<DisplayColorMode>
+            {
+                DisplayColorMode.Grey, DisplayColorMode.MaterialColor,
+                DisplayColorMode.PseudoColor1,DisplayColorMode.PseudoColor2,
+                DisplayColorMode.PseudoColor3, DisplayColorMode.PseudoColor4,
+                DisplayColorMode.PseudoColor5, DisplayColorMode.PseudoColor6
+            };
+
+            ImagePenetrationModes = new List<PenetrationMode> 
+            {
+                //PenetrationMode.HighPenetrate, 
+                //PenetrationMode.LowPenetrate, 
+                PenetrationMode.SlicePenetrate, 
+                PenetrationMode.Standard, 
+                //PenetrationMode.SuperPenetrate 
+            };
+
+            try
+            {
+                LoadSettings();
+            }
+            catch (Exception e)
+            {
+                Tracer.TraceException(e);
+            }
+
+            Tracer.TraceExitFunc("ImagesSettingsViewModel Constructor.");
+        }
+
+        public void SaveSettings()
+        {
+            Tracer.TraceEnterFunc("ImagesSettingsViewModel.SaveSettings.");
+
+            ScannerConfig.Write(ConfigPath.ImagesCount, _imagesCount);
+
+            //ScannerConfig.Write(ConfigPath.ImagesShowUnpenetratableRed, _showUnpenetratableRed);
+
+            //ScannerConfig.Write(ConfigPath.ImagesDefaultAbsorbIndex, _defaultAbsorbIndex);
+
+            //ScannerConfig.Write(ConfigPath.ImagesShowUnpenetratableRed, _showUnpenetratableRed);
+
+            //ScannerConfig.Write(ConfigPath.ImagesMaxZoominTimes, _maxZoominTimes);
+
+            //ScannerConfig.Write(ConfigPath.ImagesZoominStep, _zoominStep);
+
+            ScannerConfig.Write(ConfigPath.ImagesImage1VerticalFlip, _image1VerticalFlip);
+
+            ScannerConfig.Write<DetectViewIndex>(ConfigPath.ImagesImage1ShowingDetView, _image1ShowingDetView);
+
+            ScannerConfig.Write(ConfigPath.Image1MoveRightToLeft, _image1RightToLeft);
+
+            ScannerConfig.Write<DisplayColorMode>(ConfigPath.ImagesImage1ColorMode, _image1ColorMode);
+
+            ScannerConfig.Write(ConfigPath.ImagesImage1EnableEdgeEnhance, _image1EnableEdgeEnhance);
+
+            ScannerConfig.Write(ConfigPath.ImagesImage1EnableSuperEnhance, _image1EnableSuperEnhance);
+
+            ScannerConfig.Write(ConfigPath.ImagesImage1Inversed, _image1Inversed);
+
+            ScannerConfig.Write<PenetrationMode>(ConfigPath.ImagesImage1Penetration, _image1Penetration);
+
+            if (_imagesCount == 2)
+            {
+                // 图像2的设置
+                ScannerConfig.Write(ConfigPath.ImagesImage2VerticalFlip, _image2VerticalFlip);
+
+                ScannerConfig.Write<DetectViewIndex>(ConfigPath.ImagesImage2ShowingDetView, _image2ShowingDetView);
+
+                ScannerConfig.Write(ConfigPath.Image2MoveRightToLeft, _image2RightToLeft);
+
+                ScannerConfig.Write<DisplayColorMode>(ConfigPath.ImagesImage2ColorMode, _image2ColorMode);
+
+                ScannerConfig.Write(ConfigPath.ImagesImage2EnableEdgeEnhance, _image2EnableEdgeEnhance);
+
+                ScannerConfig.Write(ConfigPath.ImagesImage2EnableSuperEnhance, _image2EnableSuperEnhance);
+
+                ScannerConfig.Write(ConfigPath.ImagesImage2Inversed, _image2Inversed);
+
+                ScannerConfig.Write<PenetrationMode>(ConfigPath.ImagesImage2Penetration, _image2Penetration);
+            }
+
+            Tracer.TraceExitFunc("ImagesSettingsViewModel.SaveSettings.");
+        }
+
+        public void LoadSettings()
+        {
+            Tracer.TraceEnterFunc("ImagesSettingsViewModel.LoadSettings.");
+
+            if (!ScannerConfig.Read(ConfigPath.ImagesCount, out _imagesCount))
+            {
+                ImagesCount = 1;
+            }
+
+            if (!ScannerConfig.Read(ConfigPath.ImagesShowBlankSpace, out _removeBlankSpaceBetBags))
+            {
+                RemoveBlankSpaceBetBags = false;
+            }
+
+            if (!ScannerConfig.Read(ConfigPath.ImagesDefaultAbsorbIndex, out _defaultAbsorbIndex))
+            {
+                DefaultAbsorbIndex = 0;
+            }
+
+            if (!ScannerConfig.Read(ConfigPath.ImagesShowUnpenetratableRed, out _showUnpenetratableRed))
+            {
+                ShowUnpenetratableRed = false;
+            }
+
+            if (!ScannerConfig.Read(ConfigPath.ImagesMaxZoominTimes, out _maxZoominTimes))
+            {
+                MaxZoominTimes = 64;
+            }
+
+            if (!ScannerConfig.Read(ConfigPath.ImagesZoominStep, out _zoominStep))
+            {
+                ZoominStep = 1.1f;
+            }
+
+            if (!ScannerConfig.Read(ConfigPath.ImagesImage1VerticalFlip, out _image1VerticalFlip))
+            {
+                Image1VerticalFlip = false;
+            }
+
+            if (!ScannerConfig.Read<DetectViewIndex>(ConfigPath.ImagesImage1ShowingDetView, out _image1ShowingDetView))
+            {
+                Image1ShowingDetView = DetectViewIndex.View1;
+            }
+
+            if (!ScannerConfig.Read(ConfigPath.Image1MoveRightToLeft, out _image1RightToLeft))
+            {
+                Image1RightToLeft = false;
+            }
+
+            if (!ScannerConfig.Read<DisplayColorMode>(ConfigPath.ImagesImage1ColorMode, out _image1ColorMode))
+            {
+                Image1ColorMode = DisplayColorMode.MaterialColor;
+            }
+
+            if (!ScannerConfig.Read(ConfigPath.ImagesImage1EnableEdgeEnhance, out _image1EnableEdgeEnhance))
+            {
+                Image1EnableEdgeEnhance = true;
+            }
+
+            if (!ScannerConfig.Read(ConfigPath.ImagesImage1EnableSuperEnhance, out _image1EnableSuperEnhance))
+            {
+                Image1EnableSuperEnhance = false;
+            }
+
+            if (!ScannerConfig.Read(ConfigPath.ImagesImage1Inversed, out _image1Inversed))
+            {
+                Image1Inversed = false;
+            }
+
+            if (!ScannerConfig.Read<PenetrationMode>(ConfigPath.ImagesImage1Penetration, out _image1Penetration))
+            {
+                Image1Penetration = PenetrationMode.Standard;
+            }
+
+            if (_imagesCount >= 2)
+            {
+                ShowImage2Settings = Visibility.Visible;
+
+                if (!ScannerConfig.Read(ConfigPath.ImagesImage2VerticalFlip, out _image2VerticalFlip))
+                {
+                    Image2VerticalFlip = false;
+                }
+
+                if (!ScannerConfig.Read<DetectViewIndex>(ConfigPath.ImagesImage2ShowingDetView, out _image2ShowingDetView))
+                {
+                    Image2ShowingDetView = DetectViewIndex.View2;
+                }
+
+                if (!ScannerConfig.Read(ConfigPath.Image2MoveRightToLeft, out _image2RightToLeft))
+                {
+                    Image2RightToLeft = false;
+                }
+
+                if (!ScannerConfig.Read<DisplayColorMode>(ConfigPath.ImagesImage2ColorMode, out _image2ColorMode))
+                {
+                    Image2ColorMode = DisplayColorMode.MaterialColor;
+                }
+
+                if (!ScannerConfig.Read(ConfigPath.ImagesImage2EnableEdgeEnhance, out _image2EnableEdgeEnhance))
+                {
+                    Image2EnableEdgeEnhance = true;
+                }
+
+                if (!ScannerConfig.Read(ConfigPath.ImagesImage2EnableSuperEnhance, out _image2EnableSuperEnhance))
+                {
+                    Image2EnableSuperEnhance = false;
+                }
+
+                if (!ScannerConfig.Read(ConfigPath.ImagesImage2Inversed, out _image2Inversed))
+                {
+                    Image2Inversed = false;
+                }
+
+                if (!ScannerConfig.Read<PenetrationMode>(ConfigPath.ImagesImage2Penetration,
+                    out _image2Penetration))
+                {
+                    Image2Penetration = PenetrationMode.Standard;
+                }
+            }
+            else
+            {
+                ShowImage2Settings = Visibility.Collapsed;
+            }
+
+            Tracer.TraceExitFunc("ImagesSettingsViewModel.LoadSettings.");
+        }
+    }
+}

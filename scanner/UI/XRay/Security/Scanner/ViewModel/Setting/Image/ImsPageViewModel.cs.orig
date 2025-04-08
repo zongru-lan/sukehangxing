@@ -1,0 +1,767 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Drawing.Imaging;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media.Imaging;
+using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
+using UI.Common.Tracers;
+using UI.XRay.Business.DataAccess;
+using UI.XRay.Business.Entities;
+using UI.XRay.Common.Utilities;
+using UI.XRay.Flows.Controllers;
+using UI.XRay.Gui.Framework;
+using UI.XRay.Security.Scanner.Printing;
+using UI.XRay.Security.Scanner.ViewModel.Setting.Account;
+
+namespace UI.XRay.Security.Scanner.ViewModel.Setting.Image
+{
+    public class ImsPageViewModel : PageViewModelBase
+    {
+        private ObservableCollection<BindableImage> _currentImages;
+
+        /// <summary>
+        /// 当前显示的所有图像
+        /// </summary>
+        public ObservableCollection<BindableImage> CurrentImages
+        {
+            get { return _currentImages; }
+            set
+            {
+                _currentImages = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private int _showingImageMinIndex = 0;
+
+        /// <summary>
+        /// 当前显示的图像，在整个检索到的图像中的索引中的最小编号，起始编号为1
+        /// </summary>
+        public int ShowingImageMinIndex
+        {
+            get { return _showingImageMinIndex; }
+            set { _showingImageMinIndex = value; RaisePropertyChanged(); }
+        }
+
+        private int _showingImageMaxIndex = 0;
+
+        /// <summary>
+        /// 当前显示的图像，在整个检索到的图像中的索引中的最大编号，最大值为所有检索到的图像之和
+        /// </summary>
+        public int ShowingImageMaxIndex
+        {
+            get { return _showingImageMaxIndex; }
+            set
+            {
+                _showingImageMaxIndex = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// 当前图像检索记录总数
+        /// </summary>
+        private int _totalImagesCount;
+
+        public int TotalImagesCount
+        {
+            get { return _totalImagesCount; }
+            set
+            {
+                _totalImagesCount = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private bool _isDeleteButtonEnabled;
+
+        private bool _isOpenButtonEnabled;
+
+        private bool _isPlaybackButtonEnabled;
+
+        public bool IsDeleteButtonEnabled
+        {
+            get { return _isDeleteButtonEnabled; }
+            set { _isDeleteButtonEnabled = value; RaisePropertyChanged(); }
+        }
+
+        public bool IsOpenButtonEnabled
+        {
+            get { return _isOpenButtonEnabled; }
+            set
+            {
+                _isOpenButtonEnabled = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool IsPlaybackButtonEnabled
+        {
+            get { return _isPlaybackButtonEnabled; }
+            set
+            {
+                _isPlaybackButtonEnabled = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public RelayCommand RetrieveImagesCommand { get; set; }
+
+        public RelayCommand SelectAllCommand { get; set; }
+
+        public RelayCommand AntiSelectAllCommand { get; set; }
+
+        public RelayCommand ReplayCommand { get; set; }
+
+        public RelayCommand OpenCommand { get; set; }
+
+        public RelayCommand OpenRemoveBadChannelCommand { get; set; }
+
+        public RelayCommand DeleteCommand { get; set; }
+
+        public RelayCommand PrintCommand { get; set; }
+
+        public RelayCommand DumpCommand { get; set; }
+
+        public RelayCommand LockCommand { get; set; }
+
+        public RelayCommand UnlockCommand { get; set; }
+
+        public RelayCommand MoveToNextPageCommand { get; set; }
+
+        public RelayCommand MoveToPreviousCommand { get; set; }
+
+        public RelayCommand ToListViewCommand { get; set; }
+
+        public RelayCommand<SelectionChangedEventArgs> SelectionChangedEventCommand { get; private set; }
+
+        /// <summary>
+        /// 当前的图像检索条件
+        /// </summary>
+        private ImageRetrievalConditions _conditions;
+
+        /// <summary>
+        /// 当前的图像检索条件
+        /// </summary>
+        public ImageRetrievalConditions Conditions
+        {
+            get { return _conditions; }
+            set
+            {
+                _conditions = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// 选中的图像导出格式索引：0为bmp，1为原始数据
+        /// </summary>
+        private int _selectedDumpFormatIndex = 0;
+
+        /// <summary>
+        /// 选中的图像导出格式
+        /// </summary>
+        public int SelectedDumpFormat
+        {
+            get { return _selectedDumpFormatIndex; }
+            set { _selectedDumpFormatIndex = value; RaisePropertyChanged(); }
+        }
+
+        private ImageRetrievalController _controller;
+
+        public ImsPageViewModel()
+        {
+            RetrieveImagesCommand = new RelayCommand(RetrieveImagesCommandExecute);
+            SelectAllCommand = new RelayCommand(SelectAllCommandExecute);
+            AntiSelectAllCommand = new RelayCommand(AntiSelectAllCommandExecute);
+            ReplayCommand = new RelayCommand(ReplayCommandExecute);
+            OpenCommand = new RelayCommand(OpenCommandExecute);
+            OpenRemoveBadChannelCommand = new RelayCommand(OpenRemoveBadChannelCommandExecute);
+            DeleteCommand = new RelayCommand(DeleteCommandExecute);
+            DumpCommand = new RelayCommand(DumpCommandExecute);
+            PrintCommand = new RelayCommand(PrintCommandExecute);
+            MoveToPreviousCommand = new RelayCommand(MoveToPreviousPageCommandExecute);
+            MoveToNextPageCommand = new RelayCommand(MoveToNextPageCommmandExecute);
+            SelectionChangedEventCommand = new RelayCommand<SelectionChangedEventArgs>(SelectionChangedEventCommandExecute);
+            LockCommand = new RelayCommand(LockCommandExecute);
+            UnlockCommand = new RelayCommand(UnlockCommandExecute);
+
+            ToListViewCommand = new RelayCommand(ToListViewCommandExe);
+
+            CurrentImages = new ObservableCollection<BindableImage>();
+
+            ShowingImageMinIndex = 1;
+            ShowingImageMaxIndex = CurrentImages.Count;
+
+            UpdateDeleteButtonState();
+
+            if (IsInDesignMode)
+            {
+                var imgUri = new Uri("../../../Icons/Image.png", UriKind.Relative);
+                CurrentImages.Add(new BindableImage() { ImageGuid = "12", Thumbnail = new BitmapImage(imgUri), ScanTime = DateTime.Now, IsLocked = true });
+                CurrentImages.Add(new BindableImage() { ImageGuid = "34", Thumbnail = new BitmapImage(imgUri) });
+                CurrentImages.Add(new BindableImage() { ImageGuid = "12", Thumbnail = new BitmapImage(imgUri), ScanTime = DateTime.Now });
+                CurrentImages.Add(new BindableImage() { ImageGuid = "34", Thumbnail = new BitmapImage(imgUri) });
+                CurrentImages.Add(new BindableImage() { ImageGuid = "12", Thumbnail = new BitmapImage(imgUri), ScanTime = DateTime.Now });
+                CurrentImages.Add(new BindableImage() { ImageGuid = "34", Thumbnail = new BitmapImage(imgUri) });
+                CurrentImages.Add(new BindableImage() { ImageGuid = "12", Thumbnail = new BitmapImage(imgUri), ScanTime = DateTime.Now });
+                CurrentImages.Add(new BindableImage() { ImageGuid = "34", Thumbnail = new BitmapImage(imgUri), IsLocked = true });
+            }
+            else
+            {
+                try
+                {
+                    _controller = new ImageRetrievalController(20);
+
+                    TotalImagesCount = _controller.ReLoadRecords();
+                    CurrentImages = _controller.MoveToFirstPage();
+                    UpdateIndices();
+                }
+                catch (Exception exception)
+                {
+                    Tracer.TraceException(exception);
+                }
+            }
+        }
+
+        private void ToListViewCommandExe()
+        {
+            MessengerInstance.Send(new NotificationMessage(this,"ImsListPage"));
+        }
+
+        /// <summary>
+        /// 当前是否有选中某个图像
+        /// </summary>
+        private bool HasSelectedImage
+        {
+            get
+            {
+                if (CurrentImages != null)
+                {
+                    if (CurrentImages.Any(image => image.IsSelected))
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 锁定当前选中的图像
+        /// </summary>
+        private void LockCommandExecute()
+        {
+            if (CurrentImages != null)
+            {
+                foreach (var image in CurrentImages.Where(image => image.IsSelected == true))
+                {
+                    image.IsLocked = true;
+                }
+
+                List<ImageRecord> selected = CurrentImages.Where(image => image.IsSelected == true).Select(image => image.Record).ToList();
+                if (selected.Count > 0)
+                {
+                    // 锁定所有选中图像
+                    _controller.Update(selected);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 对当前选中图像解除锁定
+        /// </summary>
+        private void UnlockCommandExecute()
+        {
+            if (CurrentImages != null)
+            {
+                foreach (var image in CurrentImages.Where(image => image.IsSelected == true))
+                {
+                    image.IsLocked = false;
+                }
+
+                List<ImageRecord> selected = CurrentImages.Where(image => image.IsSelected == true).Select(image => image.Record).ToList();
+                if (selected.Count > 0)
+                {
+                    // 锁定所有选中图像
+                    _controller.Update(selected);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 当图像列表的选择发生变化时，更新几个按钮的使能状态
+        /// </summary>
+        /// <param name="args"></param>
+        private void SelectionChangedEventCommandExecute(SelectionChangedEventArgs args)
+        {
+            IsOpenButtonEnabled = HasSelectedImage;
+            IsPlaybackButtonEnabled = HasSelectedImage;
+            UpdateDeleteButtonState();
+        }
+
+        private void UpdateDeleteButtonState()
+        {
+            if (LoginAccountManager.CurrentAccount != null)
+            {
+                if (LoginAccountManager.CurrentAccount.Role == AccountRole.Operator)
+                {
+                    IsDeleteButtonEnabled = false;
+                }
+                else
+                {
+                    IsDeleteButtonEnabled = HasSelectedImage;
+                }
+            }
+            else
+            {
+                IsDeleteButtonEnabled = false;
+            }
+        }
+
+        private void RetrieveImagesCommandExecute()
+        {
+            var msg = new ShowImageRetrievalWindowAction("SettingWindow", conditions =>
+            {
+                try
+                {
+                    Conditions = conditions;
+                    if (conditions != null)
+                    {
+                        _controller.ResetConditions(conditions);
+                        TotalImagesCount = _controller.ReLoadRecords();
+                        CurrentImages = _controller.MoveToFirstPage();
+                    }
+                }
+                catch (Exception exception)
+                {
+                    Tracer.TraceException(exception);
+                }
+            });
+
+            // 在显示图像检索窗口之前，先缓存当前的检索条件，这样在图像检索窗口显示时，将初始化为当前的检索条件
+            ViewModelLocator.Locator.Cache["ImageRetrievalConditions"] = Conditions;
+            Messenger.Default.Send(msg);
+        }
+
+        private void PrintCommandExecute()
+        {
+            if (CurrentImages != null)
+            {
+                var images = CurrentImages.Where(image => image.IsSelected);
+
+                foreach (var image in images)
+                {
+                    try
+                    {
+                        var fileName = Path.GetFileName(image.ImagePath);
+                        if (!string.IsNullOrEmpty(fileName))
+                        {
+                            var ip = new XRayImageProcessor();
+                            var img = XRayScanlinesImage.LoadFromDiskFile(image.ImagePath);
+
+                            ip.AttachImageData(img.View1Data);
+                            var bmp = ip.GetBitmap();
+                            if (bmp != null)
+                            {
+                                ImagePrinter.PrintBitmapAsync(bmp, image.Record.MachineNumber, image.ScanTime, image.Record.AccountId);
+                            }
+                        }
+                    }
+                    catch (Exception exception)
+                    {
+                        Tracer.TraceException(exception, "Failed to print image file: " + image.ImagePath);
+                    }
+                }
+            }
+        }
+
+        private void DumpCommandExecute()
+        {
+            WindowFocusHelper.Pause();
+            var msg = new ShowFolderBrowserDialogMessageAction("SettingWindow", s =>
+            {
+                if (!string.IsNullOrWhiteSpace(s))
+                {
+                    ExportSelectedImagesToFolder(s);
+                }
+                WindowFocusHelper.Continue();
+            });
+
+            MessengerInstance.Send(msg);
+        }
+
+        /// <summary>
+        /// 将当前选中的图像导出到指定的文件夹中
+        /// </summary>
+        /// <param name="folderPath">文件夹路径</param>
+        private void ExportSelectedImagesToFolder(string folderPath)
+        {
+            if (CurrentImages != null)
+            {
+                var srcImageFilePath = CurrentImages.Where(image => image.IsSelected).Select(image => image.ImagePath);
+
+                Task.Run(() =>
+                {
+                    var destPath = folderPath;
+                    try
+                    {
+                        destPath = Path.Combine(folderPath, DateTime.Now.ToString(@"yyyyMMdd-HHmmss") + "_Export");
+                        Directory.CreateDirectory(destPath);
+                    }
+                    catch (Exception exception)
+                    {
+                        Tracer.TraceException(exception, "Failed to create directory for dumping images.");
+                    }
+
+                    foreach (var path in srcImageFilePath)
+                    {
+                        try
+                        {
+                            var fileName = Path.GetFileName(path);
+                            var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(path);
+                            if (!string.IsNullOrEmpty(fileName))
+                            {
+                                if (SelectedDumpFormat == 4)
+                                {
+                                    // 导出原始数据
+                                    File.Copy(path, Path.Combine(destPath, fileName), true);
+                                }
+                                else
+                                {
+                                    // 导出图像
+                                    var ip = new XRayImageProcessor();
+                                    var img = XRayScanlinesImage.LoadFromDiskFile(path);
+
+                                    ip.AttachImageData(img.View1Data);
+                                    var bmp = ip.GetBitmap();
+                                    if (bmp != null)
+                                    {
+                                        var format = ImageFormat.Bmp;
+                                        var ext = ".bmp";
+                                        switch (SelectedDumpFormat)
+                                        {
+                                            case 0:
+                                                format = ImageFormat.Bmp;
+                                                ext = ".bmp";
+                                                break;
+                                            case 1:
+                                                format = ImageFormat.Jpeg;
+                                                ext = ".jpg";
+                                                break;
+                                            case 2:
+                                                format = ImageFormat.Png;
+                                                ext = ".png";
+                                                break;
+                                            case 3:
+                                                format = ImageFormat.Tiff;
+                                                ext = ".tiff";
+                                                break;
+                                        }
+
+                                        bmp.Save(Path.Combine(destPath, fileNameWithoutExtension + "_V1" + ext), format);
+                                    }
+
+                                    if (img.View2Data != null)
+                                    {
+                                        ip.AttachImageData(img.View2Data);
+                                        bmp = ip.GetBitmap();
+                                        if (bmp != null)
+                                        {
+                                            var format = ImageFormat.Bmp;
+                                            var ext = ".bmp";
+                                            switch (SelectedDumpFormat)
+                                            {
+                                                case 0:
+                                                    format = ImageFormat.Bmp;
+                                                    ext = ".bmp";
+                                                    break;
+                                                case 1:
+                                                    format = ImageFormat.Jpeg;
+                                                    ext = ".jpg";
+                                                    break;
+                                                case 2:
+                                                    format = ImageFormat.Png;
+                                                    ext = ".png";
+                                                    break;
+                                                case 3:
+                                                    format = ImageFormat.Tiff;
+                                                    ext = ".tiff";
+                                                    break;
+                                            }
+
+                                            bmp.Save(Path.Combine(destPath, fileNameWithoutExtension + "_V2" + ext), format);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        catch (Exception exception)
+                        {
+                            Tracer.TraceException(exception, "Failed to copy file to dest folder: " + path);
+                        }
+                    }
+
+                    Application.Current.Dispatcher.InvokeAsync(() =>
+                    {
+                        MessengerInstance.Send(new ShowDialogMessageAction("SettingWindow", 
+                            "", TranslationService.FindTranslation("Images dump completed"), MetroDialogButtons.Ok,
+                            result =>
+                            {
+                                
+                            }));
+                    });
+                });
+            }
+        }
+
+        private void DeleteCommandExecute()
+        {
+            if (CurrentImages != null && IsDeleteButtonEnabled)
+            {
+                var message = new ShowDialogMessageAction("SettingWindow", TranslationService.FindTranslation("Warning"),
+                    TranslationService.FindTranslation("Delete the selected images permanently?"), MetroDialogButtons.OkCancel,
+                    result =>
+                    {
+                        if (result == MetroDialogResult.Ok)
+                        {
+                            DeleteSelectedImages();
+                        }
+                    });
+
+                this.MessengerInstance.Send(message);              
+            }
+        }
+
+        private void DeleteSelectedImages()
+        {
+            var selectedRecords = new List<ImageRecord>(10);
+            var selectedImages = new List<BindableImage>(10);
+
+            foreach (var image in CurrentImages)
+            {
+                if (image.IsSelected)
+                {
+                    selectedRecords.Add(image.Record);
+                    selectedImages.Add(image);
+                }
+            }
+
+            // 从数据库及磁盘中删除
+            _controller.RemoveRecords(selectedRecords);
+
+            // 从缓存及视图中删除
+            foreach (var image in selectedImages)
+            {
+                CurrentImages.Remove(image);
+            }
+
+            // 更新当前页信息
+            TotalImagesCount = _controller.ResultRecordsCount;
+            CurrentImages = _controller.UpdateCurrentPage();
+            UpdateIndices();
+        }
+
+        /// <summary>
+        /// 在当前窗口中打开查看图像
+        /// </summary>
+        private void OpenCommandExecute()
+        {
+            if (CurrentImages != null)
+            {
+                foreach (var image in CurrentImages)
+                {
+                    // 打开第一个选中的图像
+                    if (image.IsSelected)
+                    {
+                        var bmpSource = _controller.GenerateImage(image.Record);
+                        if (bmpSource != null)
+                            Messenger.Default.Send(new ShowXRayImageMessage(image.Record, bmpSource));
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 在当前窗口中打开坏点手动剔除界面
+        /// </summary>
+        private void OpenRemoveBadChannelCommandExecute()
+        {
+            if (CurrentImages != null)
+            {
+                foreach (var image in CurrentImages)
+                {
+                    // 打开第一个选中的图像
+                    if (image.IsSelected)
+                    {
+                        var bmpSource = _controller.GenerateImage(image.Record);
+                        if (bmpSource != null)
+                            Messenger.Default.Send(new ShowBadChannelImageMessage(image.Record));
+                    }
+                }
+            }
+        }
+
+        private void ReplayCommandExecute()
+        {
+            if (CurrentImages != null)
+            {
+                List<ImageRecord> selected = CurrentImages.Where(image => image.IsSelected == true).Select(image => image.Record).ToList();
+                if (selected.Count > 0)
+                {
+                    // 先关闭设置窗口
+                    Messenger.Default.Send(new CloseWindowMessage("SettingWindow"));
+
+                    // 发送消息，启动图像回放
+                    Messenger.Default.Send(new PlaybackImageRecordsMessage(selected));
+                }
+            }
+        }
+
+        private void SelectAllCommandExecute()
+        {
+            if (CurrentImages != null)
+            {
+                foreach (var image in CurrentImages)
+                {
+                    image.IsSelected = true;
+                }
+            }
+        }
+
+        private void AntiSelectAllCommandExecute()
+        {
+            if (CurrentImages != null)
+            {
+                foreach (var image in CurrentImages)
+                {
+                    image.IsSelected = !image.IsSelected;
+                }
+            }
+        }
+
+        private void MoveToNextPageCommmandExecute()
+        {
+            var images = _controller.MoveToNextPage();
+            if (images != null && images.Count > 0)
+            {
+                CurrentImages = images;
+                UpdateIndices();
+            }
+        }
+
+        private void MoveToPreviousPageCommandExecute()
+        {
+            var images = _controller.MoveToPreviousPage();
+            if (images != null && images.Count > 0)
+            {
+                CurrentImages = images;
+                UpdateIndices();
+            }
+        }
+
+        private void UpdateIndices()
+        {
+            ShowingImageMinIndex = _controller.ShowingMinIndex + 1;
+            ShowingImageMaxIndex = _controller.ShowingMaxIndex + 1;
+        }
+
+        public override void OnKeyDown(System.Windows.Input.KeyEventArgs args)
+        {
+            switch (args.Key)
+            {
+                case Key.D1:
+                    SelectAllCommandExecute();
+                    args.Handled = true;
+                    break;
+
+                case Key.D2:
+                    AntiSelectAllCommandExecute();
+                    args.Handled = true;
+                    break;
+
+                case Key.D3:
+                    if (IsPlaybackButtonEnabled)
+                    {
+                        ReplayCommandExecute();
+                    }
+                    args.Handled = true;
+                    break;
+
+                case Key.D4:
+                    if (IsOpenButtonEnabled)
+                    {
+                        OpenCommandExecute();
+                    }
+                    args.Handled = true;
+                    break;
+
+                case Key.D5:
+                    if (IsDeleteButtonEnabled)
+                    {
+                        DeleteCommandExecute();
+                    }
+                    args.Handled = true;
+                    break;
+
+                case Key.D6:
+                    DumpCommandExecute();
+                    args.Handled = true;
+                    break;
+
+                case Key.D7:
+                    LockCommandExecute();
+                    args.Handled = true;
+                    break;
+
+                case Key.D8:
+                    PrintCommandExecute();
+                    args.Handled = true;
+                    break;
+
+                case Key.D9:
+                    DumpCommandExecute();
+                    args.Handled = true;
+                    break;
+
+                case Key.F1:
+                    RetrieveImagesCommandExecute();
+                    args.Handled = true;
+                    break;
+
+                case Key.F2:
+                    ToListViewCommandExe();
+                    args.Handled = true;
+                    break;
+
+                case Key.OemPlus:
+                    MoveToNextPageCommmandExecute();
+                    args.Handled = true;
+                    break;
+
+                case Key.OemMinus:
+                    MoveToPreviousPageCommandExecute();
+                    args.Handled = true;
+                    break;
+            }
+        }
+
+        public override void Cleanup()
+        {
+            base.Cleanup();
+
+            // ViewModel清理时，从cache中移除
+            ViewModelLocator.Locator.Cache.Remove("ImageRetrievalConditions");
+        }
+    }
+}

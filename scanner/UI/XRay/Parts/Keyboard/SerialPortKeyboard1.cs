@@ -1,0 +1,954 @@
+﻿//////////////////////////////////////////////////////////////////////////////////////////
+//
+// 键盘输出端口为串口，经过转接板后以USB口连接至计算机。
+// CS模式：以键盘为Server，计算机为Client。键盘主动把按键事件发送到计算机，计算机只需要接收
+// 这些按键事件，不需要回复；同时，键盘还会周期性的向计算机发送请求更新键盘指示灯状态的消息，
+// 计算机需要及时将指示灯状态回复给键盘 
+// 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.IO.Ports;
+using System.Linq;
+using System.Management;
+using System.Text;
+using System.Threading;
+using UI.Common.Tracers;
+
+namespace UI.XRay.Parts.Keyboard
+{
+    /// <summary>
+    /// UImaging SerialPort keyboard key events args.
+    /// </summary>
+    public class UIKeyEventArgs : EventArgs
+    {
+        public UIKeyEventArgs(byte keyValue, bool isDown, bool isUp)
+        {
+            KeyValue = keyValue;
+            IsKeyDown = isDown;
+            IsKeyUp = isUp;
+        }
+
+        /// <summary>
+        /// 发生事件的按键值
+        /// </summary>
+        public byte KeyValue { get; private set; }
+
+        /// <summary>
+        /// 按键被按键
+        /// </summary>
+        public bool IsKeyDown { get; private set; }
+
+        /// <summary>
+        /// 按键被弹起
+        /// </summary>
+        public bool IsKeyUp { get; private set; }
+    }
+
+    public class SerialPortKeyboard1 : IDisposable
+    {
+        /// <summary>
+        /// Fired when some key is pressed down.
+        /// </summary>
+        public event EventHandler<UIKeyEventArgs> KeyDown;
+
+        /// <summary>
+        /// 数字2-9转换
+        /// </summary>
+        Dictionary<byte, List<byte>> _convertWithNumber = new Dictionary<byte, List<byte>>();
+
+        /// <summary>
+        /// Fired when some key is released up.
+        /// </summary>
+        public event EventHandler<UIKeyEventArgs> KeyUp;
+
+        /// <summary>
+        /// 检测按键从按下到弹起的最长时间间隔，单位为ms。
+        /// 由于键盘只会发送按键被摁下的消息，没有up消息，因此软件需要定时检测，以模拟出KeyUp事假
+        /// </summary>
+        private const double KeyUpCheckTimeSpan = 350;
+
+        /// <summary>
+        /// 串口通信的端口，用于与串口键盘进行通信。
+        /// </summary>
+        private SerialPort _sport;
+
+        /// <summary>
+        /// 用于周期性检测按键弹起的定时器，每隔80ms做一次检查。
+        /// </summary>
+        private Timer _keyUpCheckingTimer;
+
+        /// <summary>
+        /// 键盘是否存活。每隔约1秒更新一次状态
+        /// </summary>
+        public bool IsAlive { get; private set; }
+
+        public bool IsSwitchInputEnable { get; set; }
+
+        /// <summary>
+        /// 键盘上一次与计算机通信的时刻
+        /// </summary>
+        private DateTime _lastSessionTime = DateTime.Now;
+
+        /// <summary>
+        /// 当前缓存的处于摁下状态的按键的值的字典，包含上一次被摁下的时刻
+        /// </summary>
+        private ConcurrentDictionary<byte, DateTime> _keydownTimeStamps = new ConcurrentDictionary<byte, DateTime>();
+
+        /// <summary>
+        /// 缓存从串口中接收到的字节流
+        /// </summary>
+        private List<byte> _rcvBytes = new List<byte>(100);
+
+        #region 与键盘之间通信的消息码
+
+        public const byte MsgCodeIndicatorStateRequest = 0x01;
+
+        public const byte MsgCodeIndicatorStateReply = 0x10;
+
+        public const byte MsgCodeKeyEvent = 0x02;
+
+        #endregion
+
+        /// <summary>
+        /// 键盘发送给上位机的命令的最小长度
+        /// </summary>
+        private const int KbMsgMinLength = 8;
+
+        private int _index = 1;
+
+        #region 与键盘的上下行消息的同步和结束字符
+
+        /// <summary>
+        /// 上下行命令的头部标志位1
+        /// </summary>
+        private const byte HeadFlag1 = 0xfd;
+
+        private const byte HeadFlag2 = 0xf4;
+
+        /// <summary>
+        /// 上下行命令的尾部标志位1
+        /// </summary>
+        private const byte Tail1 = 0x4f;
+
+        private const byte Tail2 = 0xdf;
+
+        #endregion
+
+        #region Led state operation
+
+        /// <summary>
+        /// 键盘上面的指示灯字节，每一位表示一种指示灯
+        /// </summary>
+        private byte _ledStateByte1;
+
+        /// <summary>
+        /// 第二个用于表示键盘指示灯状态的字节，用于扩展，暂时未使用
+        /// </summary>
+        private byte _ledStateByte2 = 0;
+
+        /// <summary>
+        /// Get or set buzzing state. If true, the keyboard will buzz.
+        /// </summary>
+        public bool IsBuzzing { get; set; }
+
+        /// <summary>
+        /// Get or set key switch indicator state.
+        /// </summary>
+        public bool IsKeySwitchIndicatorOn
+        {
+            get { return (_ledStateByte1 & 0x01) != 0; }
+            set
+            {
+                if (value)
+                {
+                    _ledStateByte1 |= 0x01;
+                }
+                else
+                {
+                    _ledStateByte1 = (byte)(_ledStateByte1 & (~0x01));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get or set system power indicator state.
+        /// </summary>
+        public bool IsSysPowerIndicatorOn
+        {
+            get { return (_ledStateByte1 & 0x02) != 0; }
+            set
+            {
+                if (value)
+                {
+                    _ledStateByte1 |= 0x02;
+                }
+                else
+                {
+                    _ledStateByte1 = (byte)(_ledStateByte1 & (~0x02));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get or set x-ray 1 indicator state.
+        /// </summary>
+        public bool IsXRayIndicator1On
+        {
+            get { return (_ledStateByte1 & 0x04) != 0; }
+            set
+            {
+                if (value)
+                {
+                    _ledStateByte1 |= 0x04;
+                }
+                else
+                {
+                    _ledStateByte1 = (byte)(_ledStateByte1 & (~0x04));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets x-ray 2 indicator state.
+        /// </summary>
+        public bool IsXRayIndicator2On
+        {
+            get { return (_ledStateByte1 & 0x08) != 0; }
+            set
+            {
+                if (value)
+                {
+                    _ledStateByte1 |= 0x08;
+                }
+                else
+                {
+                    _ledStateByte1 = (byte)(_ledStateByte1 & (~0x08));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get or set indicator state of move-left button.
+        /// </summary>
+        public bool IsMoveLeftIndicatorOn
+        {
+            get { return (_ledStateByte1 & 0x20) != 0; }
+            set
+            {
+                if (value)
+                {
+                    _ledStateByte1 |= 0x20;
+                }
+                else
+                {
+                    _ledStateByte1 = (byte)(_ledStateByte1 & (~0x20));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get or set indicator state of move-right button.
+        /// </summary>
+        public bool IsMoveRightIndicatorOn
+        {
+            get { return (_ledStateByte1 & 0x40) != 0; }
+            set
+            {
+                if (value)
+                {
+                    _ledStateByte1 |= 0x40;
+                }
+                else
+                {
+                    _ledStateByte1 = (byte)(_ledStateByte1 & (~0x40));
+                }
+            }
+        }
+
+        #endregion
+
+        public SerialPortKeyboard1(string portName)
+        {
+            //GetSerialPorts();
+            _sport = new SerialPort(portName);
+            _initConvertWithNumber();
+            _sport.DataReceived += SportOnDataReceived;
+            _sport.ErrorReceived += SportOnErrorReceived;
+            IsSwitchInputEnable = true;
+            _keyUpCheckingTimer = new Timer(KeyUpCheckingTimerCallback, null, 25, Timeout.Infinite);
+        }
+
+        private void _initConvertWithNumber()
+        {
+            _convertWithNumber.Add(0x62, new List<byte> { 0x62, 0x41, 0x42, 0x43 });
+            _convertWithNumber.Add(0x63, new List<byte> { 0x63, 0x44, 0x45, 0x46 });
+            _convertWithNumber.Add(0x64, new List<byte> { 0x64, 0x47, 0x48, 0x49 });
+            _convertWithNumber.Add(0x65, new List<byte> { 0x65, 0x4A, 0x4B, 0x4C });
+            _convertWithNumber.Add(0x66, new List<byte> { 0x66, 0x4D, 0x4E, 0x4F });
+            _convertWithNumber.Add(0x67, new List<byte> { 0x67, 0x50, 0x51, 0x52, 0x53 });
+            _convertWithNumber.Add(0x68, new List<byte> { 0x68, 0x54, 0x55, 0x56 });
+            _convertWithNumber.Add(0x69, new List<byte> { 0x69, 0x57, 0x58, 0x59, 0x5A });
+        }
+
+        private void SportOnErrorReceived(object sender, SerialErrorReceivedEventArgs serialErrorReceivedEventArgs)
+        {
+            Tracer.TraceError("SerialPort Error Received: " + serialErrorReceivedEventArgs.EventType);
+        }
+
+        /// <summary>
+        /// Open serial port keyboard to receive key events.
+        /// </summary>
+        /// <returns></returns>
+        public bool Open()
+        {
+            try
+            {
+                if (_sport.IsOpen)
+                {
+                    _sport.Close();
+                }
+
+                _sport.BaudRate = 19200;
+                _sport.Parity = Parity.None;
+                _sport.StopBits = StopBits.One;
+                _sport.DataBits = 8;
+
+                _sport.Open();
+
+                Tracer.TraceInfo("SerialPort keyboard is opened, the port setting is: ",
+                    _sport.PortName, _sport.BaudRate, _sport.Parity, _sport.StopBits, _sport.DataBits);
+
+                return true;
+            }
+            catch (Exception exception)
+            {
+                Tracer.TraceException(exception, "Exception happened in UI.XRay.SerialPortKeyboard.Open");
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Close serial port, and will not get key board event.
+        /// </summary>
+        public void Close()
+        {
+            try
+            {
+                _sport.Close();
+                Tracer.TraceWarning("Keyboard is closed.");
+            }
+            catch (Exception exception)
+            {
+                Tracer.TraceException(exception, "Exception happened in UI.XRay.SerialPortKeyboard.Close");
+            }
+        }
+
+        private void KeyUpCheckingTimerCallback(object state)
+        {
+            lock (this)
+            {
+                // lock this to avoid calling after disposed.
+                if (_keyUpCheckingTimer != null)
+                {
+                    if (IsSwitchInputEnable)
+                        SwitchPeriodCheckKeyUpStates();
+                    else
+                        PeriodCheckKeyUpStates();
+
+                    // 超过1秒钟未收到键盘板信息，则认为超时，已经断开
+                    if (DateTime.Now - _lastSessionTime >= TimeSpan.FromSeconds(1))
+                    {
+                        if(IsAlive)
+                        {
+                            Tracer.TraceError("Keyboard information has not been received for more than 1 second..");
+                        }
+                        IsAlive = false;                        
+                    }
+                    _keyUpCheckingTimer.Change(30, Timeout.Infinite);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 检查已经接收到的字节，并从中提取出键盘发来的消息
+        /// </summary>
+        private void CheckRcvBytes()
+        {
+            // 检查已接收字节序列的头部，保证头部为消息起始标志字节
+            TrimInvalidBytesFromHead();
+
+            while (_rcvBytes.Count >= KbMsgMinLength)
+            {
+                // 第一个和第二个字节必定是HeadFlag1 和 HeadFlag2
+
+                // 获取数据内容长度
+                var n = _rcvBytes[3];
+
+                // 已接收字节数，超过实际的报文长度 = n+8，表明一条报文已经接收完毕 
+                if (_rcvBytes.Count >= n + 8)
+                {
+                    // 如果结束字符正确，则表明可能解析到一条正确的指令，则进一步验证校验码
+                    if (_rcvBytes[n + 6] == Tail1 && _rcvBytes[n + 7] == Tail2)
+                    {
+                        var checkSum = CalculateCheckSum(_rcvBytes, 0, n + 4);
+                        var rcvCheckSum = (ushort)(_rcvBytes[n + 4] + (_rcvBytes[n + 5] << 8));
+
+                        if (checkSum == rcvCheckSum)
+                        {
+                            // 校验码正确，则处理此消息
+                            HandleKeyboardMessage(_rcvBytes, n + 8);
+
+                            // 处理完毕后，将此消息从序列中移除
+                            _rcvBytes.RemoveRange(0, n + 8);
+                            TrimInvalidBytesFromHead();
+                        }
+                        else
+                        {
+                            // 校验码错误
+                            Tracer.TraceError("Checksum of received message from SerialPort keyboard is error: " + FormatMessageBytes(_rcvBytes, 0, n + 8));
+
+                            // 由于以当前第一个字节开始的消息不正确，移除头部同步字节并放弃处理，重新搜索同步字节
+                            _rcvBytes.RemoveRange(0, 2);
+                            TrimInvalidBytesFromHead();
+                        }
+                    }
+                    else
+                    {
+                        // 根据同步字符和数据长度计算出来的结束字符不正确，则认为此消息不正确，放弃处理
+                        Tracer.TraceError("Could not find tail position of received message from SerialPort keyboard: " + FormatMessageBytes(_rcvBytes, 0, n + 8));
+
+                        // 由于以当前第一个字节开始的消息不正确，移除头部同步字节并放弃处理，重新搜索同步字节
+                        _rcvBytes.RemoveRange(0, 2);
+                        TrimInvalidBytesFromHead();
+                    }
+                }
+                else
+                {
+                    // 这里必须加break，否则可能进行while死循环
+                    break;
+                }
+            } // if (_rcvBytes.Count >= n + 8)
+        }
+
+        /// <summary>
+        /// 处理一条完整的键盘消息：按键事件或请求指示灯状态
+        /// </summary>
+        /// <param name="bytes">包含键盘消息的缓冲区</param>
+        /// <param name="bytesCount">从头开始的实际的有效的字节数</param>
+        private void HandleKeyboardMessage(List<byte> bytes, int bytesCount)
+        {
+            var msgCode = _rcvBytes[2];
+            var dataLength = _rcvBytes[3];
+
+            // 键盘板按键事件
+            if (msgCode == MsgCodeKeyEvent)
+            {
+                var keys = new List<byte>(1);
+
+                byte keyCode;
+                if (!_rcvBytes.Contains(0x11))
+                {
+                    keyCode = _rcvBytes[4];
+                    if (keyCode != 0)
+                    {
+                        keys.Add(keyCode);
+                    }
+                }
+                // 允许Ctrl组合键输入
+                else
+                {
+                    // 从第4个位置开始，共6个按键位，可以同时处理6个按键。当取值不为0时，表示有按键被按下
+                    for (int i = 4; i < 10; i++)
+                    {
+                        keyCode = _rcvBytes[i];
+                        if (keyCode != 0)
+                        {
+                            keys.Add(keyCode);
+                        }
+                    }
+                }
+
+                if (keys.Count > 0)
+                {
+                    if (IsSwitchInputEnable)
+                        SwitchHandleKeysEventMessage(keys);
+                    else
+                        HandleKeysEventMessage(keys);
+                }
+            }
+            // 键盘板请求更新指示灯
+            else if (msgCode == MsgCodeIndicatorStateRequest && dataLength == 0)
+            {
+                HandleIndicatorStateRequest();
+            }
+            else
+            {
+                Tracer.TraceWarning("Unknown code of message is received from SerialPort keyboard: " + FormatMessageBytes(_rcvBytes, 0, bytesCount));
+            }
+        }
+
+        /// <summary>
+        /// 处理键盘指示灯状态请求：回复键盘指示灯状态
+        /// </summary>
+        private void HandleIndicatorStateRequest()
+        {
+            IsAlive = true;
+            _lastSessionTime = DateTime.Now;
+
+            var reply = new byte[15];
+            reply[0] = HeadFlag1;
+            reply[1] = HeadFlag2;
+            reply[2] = MsgCodeIndicatorStateReply;
+            reply[3] = 0x07;
+            reply[4] = _ledStateByte1;
+            reply[5] = _ledStateByte2;
+
+            // attention: 其它四个表示指示灯状态的字节暂时未使用
+            reply[6] = 0;
+            reply[7] = 0;
+            reply[8] = 0;
+            reply[9] = 0;
+
+            reply[10] = (byte)(IsBuzzing ? 0x01 : 0x0);
+
+            // 计算校验码
+            var checksum = CalculateCheckSum(reply, 0, 11);
+            reply[11] = (byte)(checksum & 0xff);
+            reply[12] = (byte)((checksum >> 8) & 0xff);
+
+            reply[13] = Tail1;
+            reply[14] = Tail2;
+
+            try
+            {
+                _sport.Write(reply, 0, reply.Length);
+            }
+            catch (Exception exception)
+            {
+                Tracer.TraceException(exception, "Exception caught when write indicator states reply to SerialPort keyboard.");
+            }
+        }
+
+        /// <summary>
+        /// 检查是否有按键被弹起,如果有，则触发弹起事件
+        /// </summary>
+        private void PeriodCheckKeyUpStates()
+        {
+            try
+            {
+                lock (this)
+                {
+                    if (_keydownTimeStamps.Count > 0)
+                    {
+                        // 先检索出一段时间内没有被键盘消息更新的键值
+                        var upKeys = new List<byte>(10);
+                        foreach (var downTime in _keydownTimeStamps)
+                        {
+                            if (DateTime.Now - downTime.Value >= TimeSpan.FromMilliseconds(KeyUpCheckTimeSpan))
+                            {
+                                upKeys.Add(downTime.Key);
+                            }
+                        }
+
+                        // 将超时的键值从字典中移除，并同时激发KeyUp事件。
+                        foreach (var upKey in upKeys)
+                        {
+                            DateTime time;
+                            _keydownTimeStamps.TryRemove(upKey, out time);
+
+                            if (KeyUp != null)
+                            {
+                                KeyUp(this, new UIKeyEventArgs(upKey, false, true));
+                                Tracer.TraceInfo("KeyUP" + upKey.ToString());
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                Tracer.TraceException(exception);
+            }
+        }
+        private void SwitchPeriodCheckKeyUpStates()
+        {
+            try
+            {
+                lock (this)
+                {
+                    if (_keydownTimeStamps.Count > 0)
+                    {
+                        // 先检索出一段时间内没有被键盘消息更新的键值
+                        var upKeys = new List<byte>(10);
+                        if (_convertWithNumber.ContainsKey(_keydownTimeStamps.Keys.First()))
+                        {
+                            if (DateTime.Now - _keydownTimeStamps.Values.Last() >= TimeSpan.FromMilliseconds(KeyUpCheckTimeSpan))
+                            {
+                                List<byte> convertList = new List<byte>();
+                                _convertWithNumber.TryGetValue(_keydownTimeStamps.Keys.First(), out convertList);
+                                if (KeyDown != null)
+                                {
+                                    if (_index % convertList.Count == 0)
+                                        KeyDown(this, new UIKeyEventArgs(convertList[convertList.Count - 1], true, false));
+                                    else
+                                        KeyDown(this, new UIKeyEventArgs(convertList[_index % convertList.Count - 1], true, false));
+                                }
+                                _index = 1;
+                            }
+
+                        }
+                        foreach (var downTime in _keydownTimeStamps)
+                        {
+                            if (DateTime.Now - downTime.Value >= TimeSpan.FromMilliseconds(KeyUpCheckTimeSpan))
+                            {
+                                upKeys.Add(downTime.Key);
+                            }
+                        }
+
+                        // 将超时的键值从字典中移除，并同时激发KeyUp事件。
+                        foreach (var upKey in upKeys)
+                        {
+                            DateTime time;
+                            _keydownTimeStamps.TryRemove(upKey, out time);
+                            if (KeyUp != null)
+                            {
+                                KeyUp(this, new UIKeyEventArgs(upKey, false, true));
+                                Tracer.TraceInfo("KeyUP" + upKey.ToString());
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                Tracer.TraceException(exception);
+            }
+        }
+
+        /// <summary>
+        /// 处理键盘板上传的按键消息。
+        /// </summary>
+        /// <param name="curDownKeys">当前所有被按下的键值</param>
+        private void HandleKeysEventMessage(List<byte> curDownKeys)
+        {
+            try
+            {
+                lock (this)
+                {
+                    // 先检查字典中已经缓存的键值是否在curDownKeys中，如果不在，则针对这些键值发出KeyUp事件，并从字典中移除
+                    var keysUp = _keydownTimeStamps.Where(pair => !curDownKeys.Contains(pair.Key)).ToList();
+
+                    foreach (var up in keysUp)
+                    {
+                        DateTime time;
+                        _keydownTimeStamps.TryRemove(up.Key, out time);
+
+                        if (KeyUp != null)
+                        {
+                            KeyUp(this, new UIKeyEventArgs(up.Key, false, true));
+                        }
+                    }
+                }
+
+                // 将当前按键值添加到字典中，并记录摁下的时刻，待与下次按键消息中的键值进行比较，以确定哪些按键被释放
+                // 针对当前被摁下的按键，激发KeyDown事件
+                foreach (var down in curDownKeys)
+                {
+                    _keydownTimeStamps[down] = DateTime.Now;
+
+                    if (KeyDown != null)
+                    {
+                        KeyDown(this, new UIKeyEventArgs(down, true, false));
+                        Tracer.TraceInfo("KeyDown" + down.ToString());
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                Tracer.TraceException(exception);
+            }
+        }
+        private void SwitchHandleKeysEventMessage(List<byte> curDownKeys)
+        {
+            try
+            {
+                lock (this)
+                {
+                    //先检查字典中已经缓存的键值是否在curDownKeys中，如果不在，则针对这些键值发出KeyUp事件，并从字典中移除
+                    //按下不同的键，此时应该把上一个键的值发出去    
+                    var keysUp = _keydownTimeStamps.Where(pair => !curDownKeys.Contains(pair.Key)).ToList();
+                    if (_keydownTimeStamps.Count > 0)
+                    {
+                        if (!_convertWithNumber.ContainsKey(_keydownTimeStamps.Keys.First()))
+                        {
+                            //DateTime time;
+                            //if (KeyUp != null)
+                            //    KeyUp(this, new UIKeyEventArgs(_keydownTimeStamps.Keys.First(), false, true));
+                            //_keydownTimeStamps.TryRemove(_keydownTimeStamps.Keys.First(), out time);
+                            foreach (var up in keysUp)
+                            {
+                                DateTime time;
+                                _keydownTimeStamps.TryRemove(up.Key, out time);
+
+                                if (KeyUp != null)
+                                {
+                                    KeyUp(this, new UIKeyEventArgs(up.Key, false, true));
+                                }                               
+                            }
+                        }
+
+
+                        else
+                        {
+                            if (keysUp.Count > 0 || DateTime.Now - _keydownTimeStamps.Values.First() >= TimeSpan.FromMilliseconds(400))
+                            {
+                                List<byte> convertList = new List<byte>();
+                                _convertWithNumber.TryGetValue(_keydownTimeStamps.Keys.First(), out convertList);
+                                if (KeyDown != null)
+                                {
+                                    if (_index % convertList.Count == 0)
+                                        KeyDown(this, new UIKeyEventArgs(convertList[convertList.Count - 1], true, false));
+                                    else
+                                        KeyDown(this, new UIKeyEventArgs(convertList[_index % convertList.Count - 1], true, false));
+                                }
+                                foreach (var up in _keydownTimeStamps)
+                                {
+                                    DateTime time;
+                                    _keydownTimeStamps.TryRemove(up.Key, out time);
+                                    if (KeyUp != null)
+                                    {
+                                        KeyUp(this, new UIKeyEventArgs(up.Key, false, true));
+                                    }
+                                }
+                                _index = 1;
+                            }
+                            else
+                            {
+                                _index++;
+                            }
+                        }
+                    }
+                }
+
+                //将当前按键值添加到字典中，并记录摁下的时刻               
+                foreach (var down in curDownKeys)
+                {
+                    _keydownTimeStamps[down] = DateTime.Now;
+
+                    if (!_convertWithNumber.ContainsKey(down))
+                    {
+                        if (KeyDown != null)
+                        {
+                            KeyDown(this, new UIKeyEventArgs(down, true, false));
+                            Tracer.TraceInfo("KeyDown" + down.ToString());
+                        }
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                Tracer.TraceException(exception);
+            }
+        }
+
+        /// <summary>
+        /// 计算校验码
+        /// </summary>
+        /// <param name="bytes">存放待计算校验码的数据缓冲区</param>
+        /// <param name="startIndex">要计算校验码的起始位置</param>
+        /// <param name="count">要计算校验码的字节的数量</param>
+        /// <returns>校验码</returns>
+        private ushort CalculateCheckSum(IList<byte> bytes, int startIndex, int count)
+        {
+            ushort checksum = 0;
+            for (var i = startIndex; i < startIndex + count; i++)
+            {
+                checksum += bytes[i];
+            }
+
+            return checksum;
+        }
+
+        /// <summary>
+        /// 修剪头部，保证接收到的字节序列的头部是消息的头部标志位字节
+        /// </summary>
+        private void TrimInvalidBytesFromHead()
+        {
+            while (_rcvBytes.Count >= 2)
+            {
+                if (_rcvBytes[0] == HeadFlag1 && _rcvBytes[1] == HeadFlag2)
+                {
+                    break;
+                }
+
+                // 如果起始的两个字节不是同步字节，则移除第一个字节，并重新判断，直至找到同步字节
+                _rcvBytes.RemoveRange(0, 1);
+            }
+        }
+
+        /// <summary>
+        /// 事件响应函数：接收到串口键盘发送来的数据
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        private void SportOnDataReceived(object sender, SerialDataReceivedEventArgs args)
+        {
+            if (args.EventType == SerialData.Chars)
+            {
+                try
+                {
+                    while (_sport.BytesToRead > 0)
+                    {
+                        var b = _sport.ReadByte();
+                        if (b != -1)
+                        {
+                            _rcvBytes.Add((byte)b);
+                            continue;
+                        }
+
+                        break;
+                    }
+                }
+                catch (Exception exception)
+                {
+                    Tracer.TraceException(exception);
+                }
+
+                // 如果已经接收到的字节数达到一定规模，则尝试解析
+                if (_rcvBytes.Count >= KbMsgMinLength)
+                {
+                    CheckRcvBytes();
+                }
+            }
+            else if (args.EventType == SerialData.Eof)
+            {
+                Tracer.TraceError("Serial Port Keyboard Received SerialData.Eof");
+            }
+        }
+
+        /// <summary>
+        /// 将字节序列格式化为字符串：fd f4 ...
+        /// </summary>
+        /// <param name="bytes">包含将被格式化的字节序列</param>
+        /// <param name="startIndex">要格式化的起始字节的位置</param>
+        /// <param name="count">要格式化的字节的数量</param>
+        /// <returns></returns>
+        private static string FormatMessageBytes(List<byte> bytes, int startIndex, int count)
+        {
+            var end = Math.Min(bytes.Count, startIndex + count);
+            var builder = new StringBuilder(count * 3 + 5);
+            for (int i = startIndex; i < end; i++)
+            {
+                builder.Append(bytes[i].ToString("X2"));
+                builder.Append(' ');
+            }
+
+            return builder.ToString();
+        }
+
+        /// <summary>
+        /// 使用WMI方法，获取系统中所有的串口（包括USB虚拟化出来的串口）
+        /// </summary>
+        /// <returns></returns>
+        public static string[] EnumAllCOMPortNames()
+        {
+            var strs = new List<string>();
+            try
+            {
+                using (var searcher = new ManagementObjectSearcher("select * from Win32_PnPEntity"))
+                {
+                    var hardInfos = searcher.Get();
+                    foreach (var hardInfo in hardInfos)
+                    {
+                        try
+                        {
+                            var name = hardInfo.Properties["Name"];
+                            if (name.Value != null)
+                            {
+                                var str = name.Value.ToString();
+                                if (str.Contains("COM"))
+                                {
+                                    strs.Add(str);
+                                }
+                            }
+                        }
+                        catch (Exception exception)
+                        {
+                            Tracer.TraceException(exception);
+                        }
+                    }
+                    searcher.Dispose();
+                }
+
+                return strs.ToArray();
+            }
+            catch (Exception exception)
+            {
+                Tracer.TraceException(exception);
+                return strs.ToArray();
+            }
+        }
+
+        #region dispose
+
+        private bool _disposed = false;
+
+        protected void Dispose(bool disposing)
+        {
+            if (_disposed)
+            {
+                return;
+            }
+
+            try
+            {
+                if (disposing)
+                {
+                    if (_sport != null)
+                    {
+                        _sport.DataReceived -= SportOnDataReceived;
+                        _sport.ErrorReceived -= SportOnErrorReceived;
+                        _sport.Dispose();
+                        _sport = null;
+                    }
+
+                    lock (this)
+                    {
+                        if (_keyUpCheckingTimer != null)
+                        {
+                            _keyUpCheckingTimer.Dispose();
+                            _keyUpCheckingTimer = null;
+                        }
+                    }
+                }
+
+            }
+            catch (Exception exception)
+            {
+                Tracer.TraceException(exception);
+            }
+
+            _disposed = true;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        ~SerialPortKeyboard1()
+        {
+            Dispose(false);
+        }
+
+        #endregion
+    }
+}
+
+
+

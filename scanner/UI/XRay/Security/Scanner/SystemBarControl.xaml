@@ -1,0 +1,419 @@
+﻿<UserControl x:Class="UI.XRay.Security.Scanner.SystemBarControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewModel="clr-namespace:UI.XRay.Security.Scanner.ViewModel"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:framework="clr-namespace:UI.XRay.Gui.Framework;assembly=UI.XRay.Gui.Framework"
+             xmlns:converters="clr-namespace:UI.XRay.Security.Scanner.Converters"
+             xmlns:command="http://www.galasoft.ch/mvvmlight"
+             xmlns:widgets="clr-namespace:UI.XRay.Gui.Widgets;assembly=UI.XRay.Gui.Widgets"
+             mc:Ignorable="d" 
+             MinHeight="96" MaxHeight="96" 
+             d:DesignHeight="96" d:DesignWidth="3840"
+             d:DataContext="{d:DesignInstance Type=viewModel:SystemBarViewModel, IsDesignTimeCreatable=True}"
+             FontSize="20" 
+             Background="#3f3f3f"
+             Foreground="GhostWhite"
+             DataContext="{Binding Source={StaticResource Locator}, Path=SystemBar}" >
+    <UserControl.Resources>
+        <system:Double x:Key="SmallLabelFontSize">13</system:Double>
+        <system:Double x:Key="BigLabelFontSize">24</system:Double>
+        <converters:Hours2StringConverter x:Key="Hours2StringConverter"/>
+        <converters:Date3StringConverter x:Key="Date3StringConverter"/>
+        
+        <Style x:Key="LeaveHarborStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="Aqua"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="MinWidth" Value="20"/>
+            <Setter Property="MaxWidth" Value="300"/>
+            <Setter Property="TextWrapping" Value="NoWrap"/>
+            <Setter Property="TextTrimming" Value="WordEllipsis"/>
+        </Style>
+        <Style x:Key="LeaveHarborLableStyle" TargetType="Label">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="MinWidth" Value="100"/>
+            <Setter Property="MaxWidth" Value="300"/>
+            
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid Margin="0,11,0,11" Grid.Column="0" Name="ContentGrid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition ></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+
+            </Grid.ColumnDefinitions>
+            <UserControl Name="AccountControl" Margin="0,0,0,0" Grid.Column="0" Background="#0176D6" Padding="4,0"  MinWidth="140">
+                <Grid HorizontalAlignment="Stretch">
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Image Margin="10,0,0,0" Source="Icons/Account.png" Width="40" HorizontalAlignment="Left"></Image>
+                        <TextBlock Grid.Column="1" Text="{Binding AccountId}" VerticalAlignment="Center" FontSize="{StaticResource BigLabelFontSize}" 
+                                   HorizontalAlignment="Center" TextWrapping="Wrap" TextTrimming="CharacterEllipsis"></TextBlock>
+                    </Grid>
+                    <TextBlock Grid.Row="1" Text="{Binding AccountRole}" HorizontalAlignment="Right"  FontSize="{StaticResource SmallLabelFontSize}"></TextBlock>
+                </Grid>
+            </UserControl>
+
+            <UserControl Name="CounterControl" Grid.Column="1" Margin="10,0,0,0" Padding="4,0" Background="#0176D6" MinWidth="150">
+                <Grid Margin="0,0,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <TextBlock Text="{framework:LanguageResource WorkTiming}" FontSize="{StaticResource SmallLabelFontSize}" HorizontalAlignment="Left"></TextBlock>
+                        <TextBlock Margin="5,0,0,0" Text="{Binding Path=WorkTime, Converter={StaticResource Hours2StringConverter}}" HorizontalAlignment="Right" FontSize="{StaticResource SmallLabelFontSize}"></TextBlock>
+                    </StackPanel>
+                    <Grid Grid.Row="0" Grid.RowSpan="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Image Source="Icons/Bag.png" Width="40" Margin="10,0,0,0"></Image>
+                        <TextBlock Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" FontSize="{StaticResource BigLabelFontSize}" Text="{Binding SessionBagCount}" VerticalAlignment="Center"></TextBlock>
+                    </Grid>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <TextBlock Text="{framework:LanguageResource Total}" FontSize="{StaticResource SmallLabelFontSize}" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock Margin="5,0,0,0" Text="{Binding TotalBagCount}" HorizontalAlignment="Right" FontSize="{StaticResource SmallLabelFontSize}"></TextBlock>
+                    </StackPanel>
+                </Grid>
+            </UserControl>
+
+            <UserControl Name="EffectsControl" Grid.Column="2" Margin="10,0,0,0" Padding="4,0" Background="#00a0EC" Width="270">
+                <Grid Margin="0,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Image Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Source="Icons/Image.png" Width="40" Margin="10,0,0,0"></Image>
+                    <TextBlock Grid.Row="1" Grid.Column="0" Margin="10,0,0,0" Text="{Binding ZoomFactorString, StringFormat='##.0 X'}" FontSize="{StaticResource SmallLabelFontSize}" HorizontalAlignment="Center"></TextBlock>
+                    <TextBlock Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" HorizontalAlignment="Center" Margin="5,5" FontSize="16" 
+                               TextWrapping="Wrap" TextTrimming="CharacterEllipsis"
+                               TextAlignment="Left" 
+                               Text="{Binding ImageEffectsString}" 
+                               VerticalAlignment="Center"></TextBlock>
+                </Grid>
+            </UserControl>
+            <UserControl Name="XrayGenState" Grid.Column="3" Margin="10,0,0,0" Padding="4,0"  Background="#0076cb" HorizontalAlignment="Left" Visibility="{Binding XrayStateVisibility}">
+                <Grid Name="XrayGenPanel" Margin="0,0,0,0" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"></ColumnDefinition>
+                        <ColumnDefinition Width="auto"></ColumnDefinition>
+                        <ColumnDefinition Width="auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <TextBlock Margin="10,0,0,0" Grid.Row="0" Grid.Column="0" Text="{framework:LanguageResource ViewSection=Configer,Source=XrayGen1}" HorizontalAlignment="Left" VerticalAlignment="Center"
+                               FontSize="{StaticResource SmallLabelFontSize}"/>
+                    <TextBlock Margin="10,0,0,0" Grid.Row="0" Grid.Column="1" Text="{Binding XrayGen1kV}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                               FontSize="{StaticResource SmallLabelFontSize}"/>
+                    <TextBlock Margin="10,0,0,0" Grid.Row="0" Grid.Column="2" Text="{Binding XrayGen1mA}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                               FontSize="{StaticResource SmallLabelFontSize}"/>
+
+                    <TextBlock Margin="10,0,0,0" Visibility="{Binding Gen2Visibility}" Grid.Row="1" Grid.Column="0" Text="{framework:LanguageResource ViewSection=Configer,Source=XrayGen2}" HorizontalAlignment="Left" VerticalAlignment="Center"
+                               FontSize="{StaticResource SmallLabelFontSize}"/>
+                    <TextBlock Margin="10,0,0,0" Visibility="{Binding Gen2Visibility}" Grid.Row="1" Grid.Column="1" Text="{Binding XrayGen2kV}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                               FontSize="{StaticResource SmallLabelFontSize}"/>
+                    <TextBlock Margin="10,0,0,0" Visibility="{Binding Gen2Visibility}" Grid.Row="1" Grid.Column="2" Text="{Binding XrayGen2mA}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                               FontSize="{StaticResource SmallLabelFontSize}"/>
+                </Grid>
+            </UserControl>
+
+            <UserControl Grid.Column="4" Margin="10,0,0,0" Padding="0,0" Background="#00a0EC" Visibility="{Binding LockInputVisibility}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Image Grid.Row="0" Grid.Column="0" Source="{Binding LockInputIconSource}" Width="40" Margin="0,0,0,0"></Image>
+                    <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,0,0,0" Text="{Binding LockInputStateStr}" FontSize="{StaticResource SmallLabelFontSize}" HorizontalAlignment="Center"></TextBlock>
+                </Grid>
+            </UserControl>
+
+            <UserControl Name="Indicators" Grid.Column="5" Margin="10,0,0,0" Padding="4,0" Background="#00a0EC" >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <TextBlock Margin="10,0,0,0"  Grid.Row="0" Grid.Column="0" Text="{framework:LanguageResource Source=Diagnosing}" HorizontalAlignment="Left" VerticalAlignment="Center"  FontSize="{StaticResource SmallLabelFontSize}"></TextBlock>
+                    <widgets:IndicatorLightWidget  Grid.Row="0" Grid.Column="1" LightOnBrush="Red" LightOffBrush="Black" IsLightOn="{Binding IsInDiagnose}" HorizontalAlignment="Center" Width="20" Height="20"></widgets:IndicatorLightWidget>
+
+                    <TextBlock Margin="10,0,0,0"  Grid.Row="1" Grid.Column="0" Text="{framework:LanguageResource Source=Network State}" HorizontalAlignment="Left" VerticalAlignment="Center"  FontSize="{StaticResource SmallLabelFontSize}"></TextBlock>
+                    <widgets:IndicatorLightWidget  Grid.Row="1" Grid.Column="1" LightOnBrush="Green" LightOffBrush="Black" IsLightOn="{Binding IsNetworkConnected}" HorizontalAlignment="Center"  Width="20" Height="20"></widgets:IndicatorLightWidget>
+                </Grid>
+            </UserControl>
+
+            <UserControl Name="StateControl" Grid.Column="6" Margin="10,0,0,0" Padding="4,0" Background="#ff26273e" HorizontalAlignment="Stretch">
+                <Grid Margin="10,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Image Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Source="{Binding SystemStateBmpSource}" Width="40"></Image>
+                    <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock  Text="{Binding Temperature}" FontSize="{StaticResource SmallLabelFontSize}"></TextBlock>
+                        <TextBlock  Text="℃" FontSize="{StaticResource SmallLabelFontSize}"></TextBlock>
+                    </StackPanel>
+                    <TextBlock Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" HorizontalAlignment="Center" Margin="10,5" FontSize="16" 
+                               TextWrapping="Wrap" TextTrimming="CharacterEllipsis"
+                               TextAlignment="Left" 
+                               Text="{Binding SystemStatesString}" LineHeight="26"
+                               VerticalAlignment="Center"></TextBlock>
+                </Grid>
+            </UserControl>
+
+
+            <UserControl Name="ConveyorControl" Grid.Column="7" Margin="0,0,0,0" Padding="4,0" Width="150" Background="#ff26273e" HorizontalAlignment="Stretch">
+                <Grid Name="ConveyorPanel" Margin="0,0,0,0" Width="130">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Image Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center"
+                   Source="{Binding XrayBmpSource}" Width="28">
+                    </Image>
+                    <Image Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center"
+                   Source="{Binding ShiftKeyBmpSource}" Width="28">
+                    </Image>
+
+                    <Button Grid.Row="0" Grid.Column="0" Padding="0" Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Command="{Binding MoveLeftCommand}">
+                        <Button.Content>
+                            <Image Source="{Binding MoveLeftIconSource}" Width="32"></Image>
+                        </Button.Content>
+                    </Button>
+                    <Button Grid.Row="0" Grid.Column="1" Padding="0" Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Command="{Binding StopCommand}">
+                        <Button.Content>
+                            <Image Source="Icons/Stop.png" Width="32"></Image>
+                        </Button.Content>
+                    </Button>
+                    <Button Grid.Row="0" Grid.Column="2" Padding="0" Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Command="{Binding MoveRightCommand}">
+                        <Button.Content>
+                            <Image Source="{Binding MoveRightIconSource}" Width="32"></Image>
+                        </Button.Content>
+                    </Button>
+                </Grid>
+            </UserControl>
+
+            <UserControl Name="TimeControl" Grid.Column="8" Margin="0,0,0,0" Padding="4,0" Background="#666666" HorizontalAlignment="Stretch" Width="150">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseDoubleClick">
+                        <command:EventToCommand Command="{Binding TimeControlMouseDoubleClick}" PassEventArgsToCommand="True"></command:EventToCommand>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <Grid Name="TimePanel">
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Grid.RowSpan="1" Text="{Binding CurrentTime, StringFormat='HH:mm:ss'}" VerticalAlignment="Center" HorizontalAlignment="Center"
+                           FontSize="{StaticResource BigLabelFontSize}"></TextBlock>
+                    <TextBlock Grid.Row="1" Text="{Binding CurrentDateStr}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20"></TextBlock>
+                </Grid>
+            </UserControl>
+        </Grid>
+
+        <StackPanel Grid.Column="1" Orientation="Horizontal" Visibility="{Binding LeaveHarborVisibility}">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="航班号：" Style="{StaticResource LeaveHarborLableStyle}"/>
+                    <TextBlock Text="{Binding DcsBagInfo.FlightNo}" Style="{StaticResource LeaveHarborStyle}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="离港日期：" Style="{StaticResource LeaveHarborLableStyle}"/>
+                    <TextBlock Text="{Binding DcsBagInfo.DepartDate}" Style="{StaticResource LeaveHarborStyle}"/>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="始发站：" Style="{StaticResource LeaveHarborLableStyle}"/>
+                    <TextBlock Text="{Binding DcsBagInfo.DepartAirPort}" Style="{StaticResource LeaveHarborStyle}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="目的站：" Style="{StaticResource LeaveHarborLableStyle}"/>
+                    <TextBlock Text="{Binding DcsBagInfo.DestAirPort}" Style="{StaticResource LeaveHarborStyle}"/>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="旅客姓名：" Style="{StaticResource LeaveHarborLableStyle}"/>
+                    <TextBlock Text="{Binding DcsBagInfo.PsgNameEn}" Style="{StaticResource LeaveHarborStyle}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="登机号：" Style="{StaticResource LeaveHarborLableStyle}"/>
+                    <TextBlock Text="{Binding DcsBagInfo.PsgBoardNo}" Style="{StaticResource LeaveHarborStyle}"/>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="座位号：" Style="{StaticResource LeaveHarborLableStyle}"/>
+                    <TextBlock Text="{Binding DcsBagInfo.PsgSeatNo}" Style="{StaticResource LeaveHarborStyle}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="值机柜台号：" Style="{StaticResource LeaveHarborLableStyle}"/>
+                    <TextBlock Text="{Binding DcsBagInfo.CounterNo}" Style="{StaticResource LeaveHarborStyle}"/>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="行李件数：" Style="{StaticResource LeaveHarborLableStyle}"/>
+                    <TextBlock Text="{Binding DcsBagInfo.BagCount}" Style="{StaticResource LeaveHarborStyle}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="行李重量：" Style="{StaticResource LeaveHarborLableStyle}"/>
+                    <TextBlock Text="{Binding DcsBagInfo.BagWeight}" Style="{StaticResource LeaveHarborStyle}"/>
+                    <Label Content="KG" Style="{StaticResource LeaveHarborLableStyle}"/>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="行李牌号：" Style="{StaticResource LeaveHarborLableStyle}"/>
+                    <TextBlock Text="{Binding DcsBagInfo.IataCode}" Style="{StaticResource LeaveHarborStyle}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="值机时间：" Style="{StaticResource LeaveHarborLableStyle}"/>
+                    <TextBlock Text="{Binding DcsBagInfo.CheckinTime}" Style="{StaticResource LeaveHarborStyle}"/>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+        <!--<Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="350"/>
+                <ColumnDefinition Width="300"/>
+                <ColumnDefinition Width="280"/>
+                <ColumnDefinition Width="210"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            --><!--旅客姓名--><!--
+            <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Height="36" Width="172" Visibility="{Binding LeaveHarborVisibility}">
+                <Label Content="旅客姓名:" Foreground="White"/>
+                <TextBlock Text="{Binding PassengerName}" TextTrimming="WordEllipsis" Foreground="Aqua" TextWrapping="NoWrap" VerticalAlignment="Center">
+                    <TextBlock.ToolTip>
+                        <ToolTip Content="{Binding PassengerName}"/>
+                    </TextBlock.ToolTip>
+                </TextBlock>
+            </StackPanel>
+            --><!--离港日期--><!--
+            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center"  Visibility="{Binding LeaveHarborVisibility}">
+                <Label Content="离港日期:" Foreground="White"/>
+                <TextBlock  Text="{Binding LeaveHarborTime,Converter={StaticResource Date3StringConverter}}" TextTrimming="WordEllipsis" Foreground="Aqua" TextWrapping="NoWrap" VerticalAlignment="Center">
+                    <TextBlock.ToolTip>
+                        <ToolTip Content="{Binding LeaveHarborTime}"/>
+                    </TextBlock.ToolTip>
+                </TextBlock>
+            </StackPanel>
+
+            --><!--航班号--><!--
+            <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center"  Visibility="{Binding LeaveHarborVisibility}">
+                <Label Content="航班号:" Foreground="White"/>
+                <TextBlock Text="{Binding FlightNumber}" TextTrimming="WordEllipsis" Foreground="Aqua" TextWrapping="NoWrap" VerticalAlignment="Center">
+                    <TextBlock.ToolTip>
+                        <ToolTip Content="{Binding FlightNum}"/>
+                    </TextBlock.ToolTip>
+                </TextBlock>
+            </StackPanel>
+            
+            --><!--行李条码--><!--
+            <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center"  Visibility="{Binding LeaveHarborVisibility}">
+                <Label Content="行李条码:" Foreground="White"/>
+                <TextBlock Text="{Binding BaggageNumber}" TextTrimming="WordEllipsis" Foreground="Aqua" TextWrapping="NoWrap" VerticalAlignment="Center">
+                    <TextBlock.ToolTip>
+                        <ToolTip Content="{Binding BaggageNumber}"/>
+                    </TextBlock.ToolTip>
+                </TextBlock>
+            </StackPanel>
+            
+            --><!--始发站--><!--
+            <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center"  Visibility="{Binding LeaveHarborVisibility}">
+                <Label Content="始发站:" Foreground="White"/>
+                <TextBlock  Text="{Binding DepartureStation}" TextTrimming="WordEllipsis" Foreground="c" TextWrapping="NoWrap" VerticalAlignment="Center">
+                    <TextBlock.ToolTip>
+                        <ToolTip Content="{Binding DepartureStation}"/>
+                    </TextBlock.ToolTip>
+                </TextBlock>
+            </StackPanel>
+            
+            --><!--目的站--><!--
+            <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center"  Visibility="{Binding LeaveHarborVisibility}">
+                <Label Content="目的站:" Foreground="White"/>
+                <TextBlock Text="{Binding DestinationStation}" TextTrimming="WordEllipsis" Foreground="Aqua" TextWrapping="NoWrap" VerticalAlignment="Center">
+                    <TextBlock.ToolTip>
+                        <ToolTip Content="{Binding DestinationStation}"/>
+                    </TextBlock.ToolTip>
+                </TextBlock>
+            </StackPanel>
+            
+            --><!--登记序号--><!--
+            <StackPanel Grid.Row="0" Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center"  Visibility="{Binding LeaveHarborVisibility}">
+                <Label Content="登记序号:" Foreground="White"/>
+                <TextBlock Text="{Binding RegisterNumber}" TextTrimming="WordEllipsis" Foreground="Aqua" TextWrapping="NoWrap" VerticalAlignment="Center">
+                    <TextBlock.ToolTip>
+                        <ToolTip Content="{Binding RegisterNumber}"/>
+                    </TextBlock.ToolTip>
+                </TextBlock>
+            </StackPanel>
+            
+            --><!--座位号--><!--
+            <StackPanel Grid.Row="1" Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center"  Visibility="{Binding LeaveHarborVisibility}">
+                <Label Content="座位号:" Foreground="White"/>
+                <TextBlock Text="{Binding SeatNumber}" TextTrimming="WordEllipsis" Foreground="Aqua" TextWrapping="NoWrap" VerticalAlignment="Center">
+                    <TextBlock.ToolTip>
+                        <ToolTip Content="{Binding SeatNumber}"/>
+                    </TextBlock.ToolTip>
+                </TextBlock>
+            </StackPanel>
+            
+        </Grid>-->
+    </Grid>
+</UserControl>
